@@ -5,7 +5,7 @@ const villas = [
   {
     id: 1,
     name: "Ocean Breeze Villa",
-    description: "Beachfront luxury with direct ocean access",
+    description: "Luxury villa less than 5 minutes (1.6km) from the beach",
     image: "/luxury-beachfront-villa-tropical.jpg",
     price: "$350/night",
   },

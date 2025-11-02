@@ -23,8 +23,8 @@ export default function ContactInfo() {
         <div className={styles.infoCard}>
           <div className={styles.icon}>✉️</div>
           <h3>Email</h3>
-          <p>info@blessedhouse.com</p>
-          <p>bookings@blessedhouse.com</p>
+          <p>info@blessedhouse.info</p>
+          <p>bookings@blessedhouse.info</p>
         </div>
 
         <div className={styles.infoCard}>

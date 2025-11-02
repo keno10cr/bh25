@@ -5,13 +5,13 @@ const villas = [
   {
     id: 1,
     name: "Ocean Breeze Villa",
-    category: "Beachfront",
+    category: "Near Beach",
     price: "$350",
     bedrooms: 3,
     bathrooms: 2,
     description:
-      "Luxurious beachfront villa with direct ocean access and private beach area. Stunning sunrise views and modern amenities.",
-    features: ["Private Beach", "Ocean View", "Hot Tub", "BBQ Area", "WiFi", "AC"],
+      "Luxurious villa located less than 5 minutes (1.6km) from the beach. Stunning sunrise views and modern amenities.",
+    features: ["Near Beach", "Ocean View", "Hot Tub", "BBQ Area", "WiFi", "AC"],
     image: "/luxury-beachfront-villa-tropical.jpg",
   },
   {
@@ -41,7 +41,7 @@ const villas = [
   {
     id: 4,
     name: "Coconut Palms Villa",
-    category: "Beachfront",
+    category: "Near Beach",
     price: "$380",
     bedrooms: 4,
     bathrooms: 3,
@@ -72,12 +72,12 @@ const villas = [
   {
     id: 6,
     name: "Moonlight Escape",
-    category: "Beachfront",
+    category: "Near Beach",
     price: "$320",
     bedrooms: 3,
     bathrooms: 2,
     description:
-      "Experience tropical nights under the stars. Beachfront location with spacious layout and modern luxury.",
+      "Experience tropical nights under the stars. Located less than 5 minutes (1.6km) from the beach with spacious layout and modern luxury.",
     features: ["Beach View", "Deck", "Outdoor Lounge", "WiFi", "AC", "Coffee Bar"],
     image: "/tropical-beach-bungalow-resort.jpg",
   },

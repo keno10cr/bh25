@@ -59,7 +59,7 @@ const activities = [
     name: "Beach Yoga & Meditation",
     description: "Practice yoga on pristine beach while listening to ocean waves.",
     fullDescription:
-      "Rejuvenate your mind and body with beachfront yoga sessions. Our certified instructors guide you through relaxing poses while overlooking the Caribbean Sea. Mats and props provided.",
+      "Rejuvenate your mind and body with yoga sessions near the beach. Our certified instructors guide you through relaxing poses while overlooking the Caribbean Sea. Mats and props provided.",
     duration: "1.5 hours",
     price: "$30 per person",
     difficulty: "Easy",

@@ -6,7 +6,7 @@ import styles from "./gallery.module.css";
 const galleryImages = [
   {
     id: 1,
-    alt: "Beachfront bungalow with ocean view",
+    alt: "Bungalow near the beach with ocean view",
     category: "villas",
     src: "/luxury-beachfront-villa-tropical.jpg",
   },
