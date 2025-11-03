@@ -118,6 +118,10 @@
     width: 100%;
     text-align: center;
   }
+
+  .imageContainer {
+    top: -100px;
+  }
 }
 
 .ctaButton {
