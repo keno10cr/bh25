@@ -1,0 +1,22 @@
+{
+  "name": "Blessed House Resort - Puerto Viejo",
+  "short_name": "Blessed House",
+  "description": "Caribbean style villas in Puerto Viejo, Limón",
+  "icons": [
+    {
+      "src": "/favicon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0a4c3a",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/"
+}

@@ -7,6 +7,24 @@ import styles from "./navigation.module.css";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleToggle = () => {
+    if (isOpen) {
+      setIsClosing(true);
+      setTimeout(() => {
+        setIsOpen(false);
+        setIsClosing(false);
+      }, 400); // Match the close animation duration
+    } else {
+      setIsOpen(true);
+      setIsClosing(false);
+    }
+  };
+
+  const handleLinkClick = () => {
+    handleToggle();
+  };
 
   return (
     <nav className={styles.navbar}>
@@ -14,7 +32,7 @@ export default function Navigation() {
         <Link href="/" className={styles.logoLink}>
           <div className={styles.logo}>
             <Image
-              src="/blessedhouse_logo25.png"
+              src="/favicon.png"
               alt="Blessed House Logo"
               width={80}
               height={80}
@@ -26,8 +44,8 @@ export default function Navigation() {
         </Link>
 
         <button
-          className={styles.hamburger}
-          onClick={() => setIsOpen(!isOpen)}
+          className={`${styles.hamburger} ${isOpen ? styles.active : ""}`}
+          onClick={handleToggle}
           aria-label="Toggle menu"
         >
           <span></span>
@@ -35,29 +53,24 @@ export default function Navigation() {
           <span></span>
         </button>
 
-        <ul className={`${styles.navLinks} ${isOpen ? styles.active : ""}`}>
+        <ul className={`${styles.navLinks} ${isOpen && !isClosing ? styles.active : isClosing ? styles.closing : ""}`}>
           <li>
-            <Link href="/" onClick={() => setIsOpen(false)}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/gallery" onClick={() => setIsOpen(false)}>
+            <Link href="/gallery" onClick={handleLinkClick}>
               Gallery
             </Link>
           </li>
           <li>
-            <Link href="/villas" onClick={() => setIsOpen(false)}>
+            <Link href="/villas" onClick={handleLinkClick}>
               Villas
             </Link>
           </li>
           <li>
-            <Link href="/activities" onClick={() => setIsOpen(false)}>
+            <Link href="/activities" onClick={handleLinkClick}>
               Activities
             </Link>
           </li>
           <li>
-            <Link href="/contact" onClick={() => setIsOpen(false)}>
+            <Link href="/contact" onClick={handleLinkClick}>
               Contact
             </Link>
           </li>

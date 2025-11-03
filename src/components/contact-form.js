@@ -14,6 +14,7 @@ export default function ContactForm() {
 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   // Check if subject or villa is in URL params (from activity link or villa link)
   useEffect(() => {
@@ -43,16 +44,68 @@ export default function ContactForm() {
       ...prev,
       [name]: value,
     }));
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    }
+  };
+
+  const validateEmail = (email) => {
+    // Check for @ symbol - basic validation
+    return email.includes("@") && email.split("@").length === 2;
+  };
+
+  const validatePhone = (phone) => {
+    // Remove all non-digit characters and check if at least 8 digits
+    const digitsOnly = phone.replace(/\D/g, "");
+    return digitsOnly.length === 0 || digitsOnly.length >= 8;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate form
+    const newErrors = {};
+    
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    
+    if (formData.phone && !validatePhone(formData.phone)) {
+      newErrors.phone = "Phone number must contain at least 8 digits";
+    }
+    
+    if (!formData.subject) {
+      newErrors.subject = "Please select a subject";
+    }
+    
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    }
+    
+    setErrors(newErrors);
+    
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+    
     setLoading(true);
 
     // Simulate form submission
     setTimeout(() => {
       setSubmitted(true);
       setLoading(false);
+      setErrors({});
       setFormData({
         name: "",
         email: "",
@@ -78,29 +131,35 @@ export default function ContactForm() {
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
-          <label htmlFor="name">Full Name</label>
+          <label htmlFor="name">
+            Full Name <span className={styles.required}>*</span>
+          </label>
           <input
             type="text"
             id="name"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            required
             placeholder="John Doe"
+            className={errors.name ? styles.inputError : ""}
           />
+          {errors.name && <span className={styles.errorText}>{errors.name}</span>}
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="email">Email Address</label>
+          <label htmlFor="email">
+            Email Address <span className={styles.required}>*</span>
+          </label>
           <input
-            type="email"
+            type="text"
             id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            required
             placeholder="john@example.com"
+            className={errors.email ? styles.inputError : ""}
           />
+          {errors.email && <span className={styles.errorText}>{errors.email}</span>}
         </div>
 
         <div className={styles.formGroup}>
@@ -111,18 +170,22 @@ export default function ContactForm() {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            placeholder="+1 (555) 123-4567"
+            placeholder="########"
+            className={errors.phone ? styles.inputError : ""}
           />
+          {errors.phone && <span className={styles.errorText}>{errors.phone}</span>}
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="subject">Subject</label>
+          <label htmlFor="subject">
+            Subject <span className={styles.required}>*</span>
+          </label>
           <select
             id="subject"
             name="subject"
             value={formData.subject}
             onChange={handleChange}
-            required
+            className={errors.subject ? styles.inputError : ""}
           >
             <option value="">Select a subject</option>
             <option value="booking">Villa Booking</option>
@@ -131,19 +194,23 @@ export default function ContactForm() {
             <option value="feedback">Feedback</option>
             <option value="other">Other</option>
           </select>
+          {errors.subject && <span className={styles.errorText}>{errors.subject}</span>}
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="message">Message</label>
+          <label htmlFor="message">
+            Message <span className={styles.required}>*</span>
+          </label>
           <textarea
             id="message"
             name="message"
             value={formData.message}
             onChange={handleChange}
-            required
             placeholder="Your message here..."
             rows={6}
+            className={errors.message ? styles.inputError : ""}
           />
+          {errors.message && <span className={styles.errorText}>{errors.message}</span>}
         </div>
 
         <button type="submit" className={styles.submitBtn} disabled={loading}>
@@ -160,7 +227,6 @@ export default function ContactForm() {
             height="100%"
             frameBorder="0"
             allow="autoplay; fullscreen; picture-in-picture"
-            allowFullScreen
             title="Welcome to Blessed House"
           ></iframe>
         </div>

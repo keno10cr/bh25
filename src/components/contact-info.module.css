@@ -41,6 +41,32 @@
   margin: 0.25rem 0;
 }
 
+.contactLink {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contactLink:hover {
+  color: var(--color-primary-light);
+  text-decoration: underline;
+}
+
+.addressLink {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.addressLink:hover {
+  color: var(--color-primary-light);
+  text-decoration: underline;
+}
+
 .directionsContainer {
   margin-bottom: 2.5rem;
   padding: 1.5rem;
@@ -75,6 +101,16 @@
   background-color: var(--color-primary-light);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(10, 76, 58, 0.3);
+}
+
+.coordinates {
+  color: #535353;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  text-align: right;
+  font-family: monospace;
 }
 
 .mapContainer {
@@ -130,11 +166,12 @@
   .infoContainer h2,
   .infoContainer h3 {
     font-size: 1.2rem;
+    text-align: center;
   }
 
   .infoGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .directionsContainer {

@@ -36,7 +36,7 @@ const villas = [
   {
     id: 3,
     name: "Villa #3 Baula Turtle",
-    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends!",
+    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends! Spacious outdoor areas, beautiful gardens, pool, wifi, friendly service and security at all times! 3 mins away from Playa Negra and 5 mins away from Puerto Viejo.",
     bedrooms: 2,
     bathrooms: 1,
     maxPeople: 3,
@@ -47,7 +47,7 @@ const villas = [
   {
     id: 4,
     name: "Villa #4 Colibri",
-    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends!",
+    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends! Spacious outdoor areas, beautiful gardens, pool, wifi, friendly service and security at all times! 3 mins away from Playa Negra and 5 mins away from Puerto Viejo.",
     bedrooms: 2,
     bathrooms: 1,
     maxPeople: 4,
@@ -58,7 +58,7 @@ const villas = [
   {
     id: 5,
     name: "Villa #5 Jaguar",
-    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends!",
+    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends! Spacious outdoor areas, beautiful gardens, pool, wifi, friendly service and security at all times! 3 mins away from Playa Negra and 5 mins away from Puerto Viejo.",
     bedrooms: 1,
     bathrooms: 1,
     maxPeople: 2,
@@ -69,7 +69,7 @@ const villas = [
   {
     id: 6,
     name: "Villa #6 Rana Roja",
-    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends!",
+    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends! Spacious outdoor areas, beautiful gardens, pool, wifi, friendly service and security at all times! 3 mins away from Playa Negra and 5 mins away from Puerto Viejo.",
     bedrooms: 2,
     bathrooms: 1,
     maxPeople: 2,
@@ -80,7 +80,7 @@ const villas = [
   {
     id: 7,
     name: "Villa #7 Rana Verde",
-    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends!",
+    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends! Spacious outdoor areas, beautiful gardens, pool, wifi, friendly service and security at all times! 3 mins away from Playa Negra and 5 mins away from Puerto Viejo.",
     bedrooms: 3,
     bathrooms: 2,
     maxPeople: 6,
@@ -91,7 +91,7 @@ const villas = [
   {
     id: 8,
     name: "Villa #8 Oso Perezoso",
-    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends!",
+    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends! Spacious outdoor areas, beautiful gardens, pool, wifi, friendly service and security at all times! 3 mins away from Playa Negra and 5 mins away from Puerto Viejo.",
     bedrooms: 3,
     bathrooms: 2,
     maxPeople: 6,
@@ -102,7 +102,7 @@ const villas = [
   {
     id: 9,
     name: "Villa #9 Mono Cariblanco",
-    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends!",
+    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends! Spacious outdoor areas, beautiful gardens, pool, wifi, friendly service and security at all times! 3 mins away from Playa Negra and 5 mins away from Puerto Viejo.",
     bedrooms: 2,
     bathrooms: 1,
     maxPeople: 4,
@@ -113,7 +113,7 @@ const villas = [
   {
     id: 10,
     name: "Villa #10 Mono Ardilla",
-    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends!",
+    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends! Spacious outdoor areas, beautiful gardens, pool, wifi, friendly service and security at all times! 3 mins away from Playa Negra and 5 mins away from Puerto Viejo.",
     bedrooms: 3,
     bathrooms: 2,
     maxPeople: 4,
@@ -124,7 +124,7 @@ const villas = [
   {
     id: 11,
     name: "Villa #11 Lapa Roja",
-    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends!",
+    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends! Spacious outdoor areas, beautiful gardens, pool, wifi, friendly service and security at all times! 3 mins away from Playa Negra and 5 mins away from Puerto Viejo.",
     bedrooms: 4,
     bathrooms: 2,
     maxPeople: 8,
@@ -135,7 +135,7 @@ const villas = [
   {
     id: 12,
     name: "Villa #12 Mariposa Morpho",
-    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends!",
+    description: "Caribbean Style! Blessed House is a Caribbean local family property. Come forget about reality and relax with your family and friends! Spacious outdoor areas, beautiful gardens, pool, wifi, friendly service and security at all times! 3 mins away from Playa Negra and 5 mins away from Puerto Viejo.",
     bedrooms: 4,
     bathrooms: 3,
     maxPeople: 8,
@@ -245,3 +245,4 @@ export default function VillasPage() {
     </div>
   );
 }
+

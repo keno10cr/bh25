@@ -11,27 +11,41 @@ export default function ContactInfo() {
                     <h3>Address</h3>
                     <p>Puerto Viejo de Limón</p>
                     <p>Limón Province, Costa Rica</p>
+                    <a
+                        href="https://maps.app.goo.gl/fVczYNsY2TwfF23d6"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.addressLink}
+                    >
+                        View on Google Maps →
+                    </a>
                 </div>
 
                 <div className={styles.infoCard}>
                     <div className={styles.icon}>📞</div>
                     <h3>Phone</h3>
-                    <p>Main: +506 2750-0000</p>
-                    <p>Reservations: +506 2750-0001</p>
+                    <p>
+                        <a href="tel:+50683013705" className={styles.contactLink}>
+                            +50683013705
+                        </a>
+                    </p>
                 </div>
 
                 <div className={styles.infoCard}>
                     <div className={styles.icon}>✉️</div>
                     <h3>Email</h3>
-                    <p>info@blessedhouse.info</p>
-                    <p>bookings@blessedhouse.info</p>
+                    <p>
+                        <a href="mailto:blessedhousecr@gmail.com" className={styles.contactLink}>
+                            blessedhousecr@gmail.com
+                        </a>
+                    </p>
                 </div>
 
                 <div className={styles.infoCard}>
                     <div className={styles.icon}>⏰</div>
                     <h3>Hours</h3>
                     <p>Mon - Sun: 8:00 AM - 10:00 PM</p>
-                    <p>Available 24/7 for emergencies</p>
+                    <p>Feel free to contact us</p>
                 </div>
             </div>
 
@@ -51,6 +65,9 @@ export default function ContactInfo() {
                 >
                     Get directions from Google Maps →
                 </a>
+                <p className={styles.coordinates}>
+                <br/>Coordinates: <br/> 9.647346, -82.776973
+                </p>
             </div>
 
             <div className={styles.mapContainer}>

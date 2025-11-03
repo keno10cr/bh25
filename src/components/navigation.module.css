@@ -77,6 +77,11 @@
   cursor: pointer;
   padding: 0;
   gap: 0.4rem;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  position: relative;
 }
 
 .hamburger span {
@@ -85,6 +90,34 @@
   background-color: var(--color-accent);
   transition: all 0.3s ease;
   border-radius: 2px;
+  position: absolute;
+}
+
+.hamburger span:nth-child(1) {
+  top: 7px;
+}
+
+.hamburger span:nth-child(2) {
+  top: 13.5px;
+}
+
+.hamburger span:nth-child(3) {
+  top: 20px;
+}
+
+.hamburger.active span:nth-child(1) {
+  top: 13.5px;
+  transform: rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.hamburger.active span:nth-child(3) {
+  top: 13.5px;
+  transform: rotate(-45deg);
 }
 
 @media (max-width: 768px) {
@@ -107,15 +140,121 @@
     gap: 0;
     padding: 1rem 2rem;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
   }
 
   .navLinks.active {
     display: flex;
+    animation: menuBounce 0.5s ease forwards;
+  }
+
+  .navLinks.closing {
+    display: flex;
+    animation: menuClose 0.4s ease forwards;
+  }
+
+  @keyframes menuBounce {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.95);
+    }
+    50% {
+      transform: translateY(5px) scale(1.02);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes menuClose {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-10px) scale(0.98);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.95);
+    }
   }
 
   .navLinks li {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding: 0.75rem 0;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  .navLinks.active li {
+    animation: menuItemExpand 0.4s ease forwards;
+  }
+
+  .navLinks.closing li {
+    animation: menuItemShrink 0.3s ease forwards;
+  }
+
+  .navLinks.active li:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+
+  .navLinks.active li:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .navLinks.active li:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+
+  .navLinks.active li:nth-child(4) {
+    animation-delay: 0.25s;
+  }
+
+  .navLinks.closing li:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  .navLinks.closing li:nth-child(2) {
+    animation-delay: 0.05s;
+  }
+
+  .navLinks.closing li:nth-child(3) {
+    animation-delay: 0.1s;
+  }
+
+  .navLinks.closing li:nth-child(4) {
+    animation-delay: 0.15s;
+  }
+
+  @keyframes menuItemExpand {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes menuItemShrink {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.9);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
   }
 
   .navLinks li:last-child {
@@ -135,7 +274,7 @@
   }
 
   .logoImage {
-    max-width: 35px;
-    max-height: 35px;
+    max-width: 55px;
+    max-height: 55px;
   }
 }

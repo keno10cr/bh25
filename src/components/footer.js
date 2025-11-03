@@ -47,15 +47,21 @@ export default function Footer() {
 
         <div className={styles.section}>
           <h4>Contact Info</h4>
-          <p>Email: info@blessedhouse.info</p>
-          <p>Phone: +506 2750-0000</p>
+          <p>Email: blessedhousecr@gmail.com</p>
+          <p>Phone: +50683013705</p>
           <p>Puerto Viejo, Limón, Costa Rica</p>
         </div>
 
         <div className={styles.section}>
           <h4>Social Media</h4>
           <div className={styles.socialRow}>
-            <a href="#" aria-label="Instagram" className={styles.socialIcon}>
+            <a
+              href="https://www.instagram.com/blessedhouse"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className={styles.socialIcon}
+            >
               <Image
                 src="/social/instagram.png"
                 alt="Instagram"
@@ -63,15 +69,13 @@ export default function Footer() {
                 height={50}
               />
             </a>
-            <a href="#" aria-label="Facebook" className={styles.socialIcon}>
-              <Image
-                src="/social/facebook.png"
-                alt="Facebook"
-                width={50}
-                height={50}
-              />
-            </a>
-            <a href="#" aria-label="Airbnb" className={styles.socialIcon}>
+            <a
+              href="https://www.airbnb.com/users/show/549621434"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Airbnb"
+              className={styles.socialIcon}
+            >
               <Image
                 src="/social/airbnb.png"
                 alt="Airbnb"
@@ -79,7 +83,13 @@ export default function Footer() {
                 height={50}
               />
             </a>
-            <a href="#" aria-label="YouTube" className={styles.socialIcon}>
+            <a
+              href="https://www.youtube.com/@blessedhouse3354"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+              className={styles.socialIcon}
+            >
               <Image
                 src="/social/youtube.png"
                 alt="YouTube"
