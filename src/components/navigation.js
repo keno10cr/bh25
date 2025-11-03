@@ -2,69 +2,27 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { useState } from "react";
 import styles from "./navigation.module.css";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const pathname = usePathname();
-  const isHomePage = pathname === "/";
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isHomePage) {
-        setIsScrolled(window.scrollY > 100);
-      } else {
-        setIsScrolled(true);
-      }
-    };
-
-    if (isHomePage) {
-      window.addEventListener("scroll", handleScroll);
-      handleScroll(); // Check initial state
-    } else {
-      setIsScrolled(true);
-    }
-
-    return () => {
-      if (isHomePage) {
-        window.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, [isHomePage]);
-
-  const showLargeLogo = isHomePage && !isScrolled;
 
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
         <Link href="/" className={styles.logoLink}>
-          {showLargeLogo ? (
-            <div className={styles.largeLogo}>
-              <Image
-                src="/blessedhouse_logo25.png"
-                alt="Blessed House Logo"
-                width={80}
-                height={80}
-                className={styles.logoImage}
-                priority
-              />
-              <span className={styles.logoText}>Blessed House</span>
-            </div>
-          ) : (
-            <div className={styles.smallLogo}>
-              <Image
-                src="/blessedhouse_logo25.png"
-                alt="Blessed House Logo"
-                width={40}
-                height={40}
-                className={styles.logoImage}
-              />
-              <span className={styles.logoText}>Blessed House</span>
-            </div>
-          )}
+          <div className={styles.logo}>
+            <Image
+              src="/blessedhouse_logo25.png"
+              alt="Blessed House Logo"
+              width={80}
+              height={80}
+              className={styles.logoImage}
+              priority
+            />
+            <span className={styles.logoText}>Blessed House</span>
+          </div>
         </Link>
 
         <button

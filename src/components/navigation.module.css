@@ -29,20 +29,14 @@
   opacity: 0.9;
 }
 
-.largeLogo {
+.logo {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.smallLogo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
 .logoImage {
-  width: auto;
+  width: 70px;
   height: auto;
   object-fit: contain;
   flex-shrink: 0;
@@ -53,10 +47,6 @@
   font-weight: 600;
   color: var(--color-accent);
   letter-spacing: 0.5px;
-}
-
-.smallLogo .logoText {
-  font-size: 1.2rem;
 }
 
 .navLinks {
@@ -140,12 +130,8 @@
     padding: 0 1.5rem;
   }
 
-  .largeLogo .logoText {
+  .logoText {
     font-size: 1.2rem;
-  }
-
-  .smallLogo .logoText {
-    font-size: 1rem;
   }
 
   .logoImage {
