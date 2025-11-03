@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./contact-form.module.css";
 
 export default function ContactForm() {
@@ -14,6 +14,28 @@ export default function ContactForm() {
 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // Check if subject or villa is in URL params (from activity link or villa link)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const subjectParam = params.get("subject");
+      const villaParam = params.get("villa");
+      
+      if (subjectParam === "activities") {
+        setFormData((prev) => ({
+          ...prev,
+          subject: "activities",
+        }));
+      } else if (villaParam) {
+        setFormData((prev) => ({
+          ...prev,
+          subject: "booking",
+          message: `I'm interested in Villa #${villaParam}. Please provide more information.`,
+        }));
+      }
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -128,7 +150,32 @@ export default function ContactForm() {
           {loading ? "Sending..." : "Send Message"}
         </button>
       </form>
+
+      <div className={styles.videoContainer}>
+        <h3>Our Blessed House</h3>
+        <div className={styles.videoWrapper}>
+          <iframe
+            src="https://player.vimeo.com/video/228500255?h=7c3b5c0e9f"
+            width="100%"
+            height="100%"
+            frameBorder="0"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+            title="Welcome to Blessed House"
+          ></iframe>
+        </div>
+        <p className={styles.videoCredit}>
+          Video by{" "}
+          <a
+            href="https://vimeo.com/ensofilmscr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.videoLink}
+          >
+            ENSO Films
+          </a>
+        </p>
+      </div>
     </div>
   );
 }
-

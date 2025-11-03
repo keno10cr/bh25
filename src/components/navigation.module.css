@@ -6,6 +6,7 @@
   top: 0;
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: padding 0.3s ease;
 }
 
 .container {
@@ -17,16 +18,45 @@
   align-items: center;
 }
 
-.logo {
+.logoLink {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.logoLink:hover {
+  opacity: 0.9;
+}
+
+.largeLogo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.smallLogo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logoImage {
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.logoText {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--color-accent);
-  text-decoration: none;
   letter-spacing: 0.5px;
 }
 
-.logo:hover {
-  opacity: 0.9;
+.smallLogo .logoText {
+  font-size: 1.2rem;
 }
 
 .navLinks {
@@ -68,6 +98,10 @@
 }
 
 @media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 0;
+  }
+
   .hamburger {
     display: flex;
   }
@@ -105,5 +139,17 @@
   .container {
     padding: 0 1.5rem;
   }
-}
 
+  .largeLogo .logoText {
+    font-size: 1.2rem;
+  }
+
+  .smallLogo .logoText {
+    font-size: 1rem;
+  }
+
+  .logoImage {
+    max-width: 35px;
+    max-height: 35px;
+  }
+}

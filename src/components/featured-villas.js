@@ -3,25 +3,22 @@ import styles from "./featured-villas.module.css";
 
 const villas = [
   {
-    id: 1,
-    name: "Ocean Breeze Villa",
-    description: "Luxury villa less than 5 minutes (1.6km) from the beach",
-    image: "/luxury-beachfront-villa-tropical.jpg",
-    price: "$350/night",
+    id: 4,
+    name: "Villa #4 Colibri",
+    description: "Caribbean style villa with spacious outdoor areas",
+    image: "/villas/4/4a.png",
   },
   {
-    id: 2,
-    name: "Jungle Retreat",
-    description: "Secluded bungalow surrounded by lush greenery",
-    image: "/jungle-bungalow-surrounded-by-trees.jpg",
-    price: "$250/night",
+    id: 9,
+    name: "Villa #9 Mono Cariblanco",
+    description: "Caribbean style villa perfect for families",
+    image: "/villas/9/9a.png",
   },
   {
-    id: 3,
-    name: "Sunset View Bungalow",
-    description: "Perfect vantage point for Caribbean sunsets",
-    image: "/tropical-bungalow-sunset-view.jpg",
-    price: "$300/night",
+    id: 12,
+    name: "Villa #12 Mariposa Morpho",
+    description: "Caribbean style villa with beautiful gardens",
+    image: "/villas/12/12a.png",
   },
 ];
 
@@ -31,7 +28,7 @@ export default function FeaturedVillas() {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2>Featured Villas</h2>
-          <p>Experience luxury in our handpicked selection of bungalows</p>
+          <p>Experience Caribbean style in our handpicked selection of villas</p>
         </div>
 
         <div className={styles.grid}>
@@ -44,8 +41,7 @@ export default function FeaturedVillas() {
                 <h3>{villa.name}</h3>
                 <p>{villa.description}</p>
                 <div className={styles.footer}>
-                  <span className={styles.price}>{villa.price}</span>
-                  <Link href={`/villas#${villa.id}`} className={styles.link}>
+                  <Link href={`/villas#villa-${villa.id}`} className={styles.link}>
                     Learn More →
                   </Link>
                 </div>
@@ -63,4 +59,3 @@ export default function FeaturedVillas() {
     </section>
   );
 }
-

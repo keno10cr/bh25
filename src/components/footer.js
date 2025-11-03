@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./footer.module.css";
 
 export default function Footer() {
@@ -6,21 +7,21 @@ export default function Footer() {
 
   return (
     <footer className={styles.footer}>
+      <div className={styles.logoSection}>
+        <Image
+          src="/blessedhouse_logo25.png"
+          alt="Blessed House Logo"
+          width={150}
+          height={150}
+          className={styles.logo}
+        />
+        <p className={styles.location}>Puerto Viejo - Costa Rica</p>
+      </div>
+
       <div className={styles.container}>
         <div className={styles.section}>
           <h3>Blessed House</h3>
-          <p>Luxury bungalows and villas in the heart of Puerto Viejo, Limón.</p>
-          <div className={styles.social}>
-            <a href="#" aria-label="Instagram">
-              Instagram
-            </a>
-            <a href="#" aria-label="Facebook">
-              Facebook
-            </a>
-            <a href="#" aria-label="Twitter">
-              Twitter
-            </a>
-          </div>
+          <p>Southern Caribbean Living: Close to the Coast, Close to Everything.</p>
         </div>
 
         <div className={styles.section}>
@@ -52,12 +53,41 @@ export default function Footer() {
         </div>
 
         <div className={styles.section}>
-          <h4>Newsletter</h4>
-          <p>Subscribe for updates and special offers</p>
-          <form className={styles.emailForm}>
-            <input type="email" placeholder="Your email" required />
-            <button type="submit">Subscribe</button>
-          </form>
+          <h4>Social Media</h4>
+          <div className={styles.socialRow}>
+            <a href="#" aria-label="Instagram" className={styles.socialIcon}>
+              <Image
+                src="/social/instagram.png"
+                alt="Instagram"
+                width={50}
+                height={50}
+              />
+            </a>
+            <a href="#" aria-label="Facebook" className={styles.socialIcon}>
+              <Image
+                src="/social/facebook.png"
+                alt="Facebook"
+                width={50}
+                height={50}
+              />
+            </a>
+            <a href="#" aria-label="Airbnb" className={styles.socialIcon}>
+              <Image
+                src="/social/airbnb.png"
+                alt="Airbnb"
+                width={50}
+                height={50}
+              />
+            </a>
+            <a href="#" aria-label="YouTube" className={styles.socialIcon}>
+              <Image
+                src="/social/youtube.png"
+                alt="YouTube"
+                width={50}
+                height={50}
+              />
+            </a>
+          </div>
         </div>
       </div>
 
@@ -67,4 +97,3 @@ export default function Footer() {
     </footer>
   );
 }
-

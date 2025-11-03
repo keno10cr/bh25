@@ -21,7 +21,7 @@
 
 .header p {
   font-size: 1.1rem;
-  color: #666;
+  color: #535353;
 }
 
 .grid {
@@ -74,7 +74,7 @@
 }
 
 .content p {
-  color: #666;
+  color: #535353;
   font-size: 0.95rem;
   margin-bottom: 1rem;
   flex-grow: 1;
@@ -82,16 +82,10 @@
 
 .footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   border-top: 1px solid #eee;
   padding-top: 1rem;
-}
-
-.price {
-  font-size: 1.1rem;
-  color: var(--color-accent);
-  font-weight: 600;
 }
 
 .link {
@@ -140,4 +134,3 @@
     gap: 1.5rem;
   }
 }
-
