@@ -26,6 +26,10 @@ export default function VillaCard({ villa }) {
           <h3>{villa.name}</h3>
           <p className={styles.description}>{villa.description}</p>
 
+          {villa.informativeFact && (
+            <p className={styles.informativeFact}>{villa.informativeFact}</p>
+          )}
+
           <div className={styles.details}>
             <div className={styles.detailRow}>
               <div className={styles.detailItem}>

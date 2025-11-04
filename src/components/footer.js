@@ -47,8 +47,14 @@ export default function Footer() {
 
         <div className={styles.section}>
           <h4>Contact Info</h4>
-          <p>Email: blessedhousecr@gmail.com</p>
-          <p>Phone: +50683013705</p>
+          <p>
+            Email:{" "}
+            <a href="mailto:blessedhousecr@gmail.com">blessedhousecr@gmail.com</a>
+          </p>
+          <p>
+            Phone:{" "}
+            <a href="tel:+17546104710">+1 (754) 610-4710</a>
+          </p>
           <p>Puerto Viejo, Limón, Costa Rica</p>
         </div>
 

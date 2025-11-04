@@ -6,25 +6,6 @@ import styles from "./activities.module.css";
 
 const activities = [
   {
-    id: 0,
-    name: "Sample Activity",
-    description: "This is a sample activity showcasing all available features",
-    fullDescription:
-      "This sample activity demonstrates all the features available in our activity cards. You can see how duration, group size, price, difficulty level, and highlights are displayed. This helps visitors understand what information is available for each activity.",
-    duration: "3-4 hours",
-    price: "$65 per person",
-    difficulty: "Moderate",
-    groupSize: "Up to 10 people",
-    image: "/tropical-beach-bungalow-resort.jpg",
-    highlights: [
-      "Professional Guide",
-      "All Equipment Included",
-      "Refreshments Provided",
-      "Photo Opportunities",
-      "Suitable for All Levels",
-    ],
-  },
-  {
     id: 1,
     name: "Family Reunions",
     description: "Perfect setting for family gatherings",
@@ -32,9 +13,9 @@ const activities = [
       "Blessed House provides the perfect setting for family gatherings, accommodating groups of up to 45 people. Each family can enjoy their own private cabin, while coming together for shared meals and moments of relaxation around the pool. The onsite BBQ area and communal dining space foster a warm and welcoming atmosphere.",
     duration: "Full day",
     price: "Contact for pricing",
-    difficulty: "Easy",
+    difficulty: "N/A",
     groupSize: "Up to 45 people",
-    image: "/tropical-beach-bungalow-resort.jpg",
+    image: "/activities/all/familyReunion.jpg",
     highlights: [
       "Private Cabins",
       "Communal Dining Space",
@@ -51,9 +32,9 @@ const activities = [
       "Blessed House also serves as an idyllic venue for weddings, with a maximum capacity of 50 guests. Couples have the flexibility to choose from catering services or prepare their own meals in the fully equipped kitchen. The private and family-oriented ambiance ensures a truly special celebration.",
     duration: "Full day",
     price: "Contact for pricing",
-    difficulty: "Easy",
+    difficulty: "N/A",
     groupSize: "Up to 50 guests",
-    image: "/luxury-beachfront-villa-tropical.jpg",
+    image: "/activities/all/weddings.jpg",
     highlights: [
       "Beautiful Venue",
       "Catering Services Available",
@@ -72,7 +53,7 @@ const activities = [
     price: "Contact for pricing",
     difficulty: "Moderate",
     groupSize: "Up to 15 people",
-    image: "/tropical-beach-bungalow-resort.jpg",
+    image: "/activities/all/aerobics.jpg",
     highlights: [
       "Daily Sessions",
       "All Fitness Levels",
@@ -86,13 +67,13 @@ const activities = [
     name: "Manzanillo",
     description: "Less than 30 minutes away from Blessed House",
     fullDescription:
-      "Trip from Blessed House to Manzanillo, Limón, Costa Rica. A beautiful destination perfect for exploring the National Park and enjoying the pristine beaches.",
+      "Trip from Blessed House to Manzanillo, Limón, Costa Rica. A beautiful destination perfect for exploring the National Wildlife Refuge and enjoying the pristine beaches.",
     duration: "Half day",
     price: "Contact for pricing",
     difficulty: "Challenging",
     groupSize: "Up to 8 people",
-    image: "/tropical-beach-bungalow-resort.jpg",
-    highlights: ["National Park", "Pristine Beaches", "Wildlife Spotting", "Scenic Views"],
+    image: "/activities/all/manzanilloHike.jpg",
+    highlights: ["National Wildlife Refuge", "Pristine Beaches", "Wildlife Spotting", "Scenic Views"],
   },
   {
     id: 5,
@@ -104,20 +85,20 @@ const activities = [
     price: "Free",
     difficulty: "Moderate",
     groupSize: "Up to 6 people",
-    image: "/tropical-bungalow-sunset-view.jpg",
+    image: "/activities/all/elMirador.jpg",
     highlights: ["Panoramic Views", "Property Views", "Flora & Fauna", "Beach Views"],
   },
   {
     id: 6,
-    name: "Common Area",
-    description: "Its located right next to the beach we have plenty of space, chairs and a TV.",
+    name: "Social Area",
+    description: "A dedicated space for relaxing and enjoying the Caribbean atmosphere.",
     fullDescription:
-      "This is a common area so please keep it clean. Here are some of the rules of the 'Rancho': This space is perfect for gatherings, relaxing, and enjoying the Caribbean atmosphere.",
+      "This open-air space is perfectly crafted for relaxation, socializing, and enjoying the Caribbean atmosphere right next to the pool. Featuring comfortable seating and a TV, it is the ideal spot for your group to gather, share moments, or simply unwind. Please help us keep this space tidy for all our guests to enjoy.",
     duration: "All day",
     price: "Included",
-    difficulty: "Easy",
-    groupSize: "Up to 20 people",
-    image: "/luxury-beachfront-villa-tropical.jpg",
+    difficulty: "N/A",
+    groupSize: "Up to 30 people",
+    image: "/activities/all/socialArea.jpg",
     highlights: ["TV Available", "Comfortable Seating", "Beach Access", "Group Friendly"],
   },
   {
@@ -125,26 +106,26 @@ const activities = [
     name: "Pool",
     description: "Come on down!",
     fullDescription:
-      "This pool is available for all our guests. Please read the rules of usage and enjoy it. Perfect for cooling off after a day of exploring Puerto Viejo.",
+      "This pool is available for all our guests. Please read the rules of usage and enjoy it. Perfect for cooling off after a day of exploring Puerto Viejo. Open until 10pm, deepest point 1.80.",
     duration: "All day",
     price: "Included",
     difficulty: "Easy",
-    groupSize: "Unlimited",
-    image: "/tropical-beach-bungalow-resort.jpg",
+    groupSize: "10",
+    image: "/activities/all/poolArea.jpg",
     highlights: ["Pool Access", "Refreshment", "Relaxation", "For All Guests"],
   },
   {
     id: 8,
-    name: "Sauna",
-    description: "Relax & Enjoy",
+    name: "Fishing Tours",
+    description: "Fish the Caribbean Coast",
     fullDescription:
-      "Treat yourself with warm and relaxing sauna. If you want to use it let us know first and we will help you out.",
-    duration: "30-60 minutes",
+      "Experience a true Caribbean fishing adventure! Join local experts for a trip out on a traditional boat to catch fresh local species. Whether you are an experienced angler or a first-timer, this tour offers an authentic look at coastal life.",
+    duration: "4-6 hours",
     price: "Contact for pricing",
-    difficulty: "Easy",
-    groupSize: "Up to 4 people",
-    image: "/jungle-bungalow-surrounded-by-trees.jpg",
-    highlights: ["Relaxation", "Wellness", "Warm Therapy", "Booking Required"],
+    difficulty: "Moderate",
+    groupSize: "Up to 6 people per boat",
+    image: "/activities/all/fishingTours.jpg",
+    highlights: ["Local Captains", "Authentic Boat Experience", "Catch Fresh Fish", "Caribbean Views", "Booking Required"],
   },
   {
     id: 9,
@@ -154,9 +135,9 @@ const activities = [
       "Learn with one of the locals at Cocles, Salsa Brava or any of the spots we have around. It will be either mornings or evenings.",
     duration: "2-3 hours",
     price: "Contact for pricing",
-    difficulty: "Easy",
+    difficulty: "Challenging",
     groupSize: "Up to 4 people",
-    image: "/tropical-beach-bungalow-resort.jpg",
+    image: "/activities/all/surfLessons.jpg",
     highlights: ["Local Instructors", "Multiple Locations", "Morning/Evening Sessions", "All Levels Welcome"],
   },
   {
@@ -164,12 +145,12 @@ const activities = [
     name: "Bribri Cacao Tour",
     description: "Make your own chocolate with the locals",
     fullDescription:
-      "Around Puerto Viejo you will find a lot of cacao trees and the locals know their ways with this plant and other plants. Get to know some of their recipes and techniques.",
+      "Around Puerto Viejo you will find a lot of cacao trees and the locals know their ways with this plant and other plants. Get to know some of their recipes and techniques. There's also a museum on the way to Cahuita.",
     duration: "3-4 hours",
     price: "Contact for pricing",
     difficulty: "Easy",
     groupSize: "Up to 12 people",
-    image: "/jungle-bungalow-surrounded-by-trees.jpg",
+    image: "/activities/all/cacaoTours.jpg",
     highlights: ["Chocolate Making", "Local Culture", "Traditional Recipes", "Interactive Experience"],
   },
   {
@@ -177,17 +158,17 @@ const activities = [
     name: "Kayaking",
     description: "Another point of view",
     fullDescription:
-      "You can either rent them at the beach or rent ours. You will be able to enjoy another point of view from the beaches around Blessed House. Kayaking is the use of a kayak for moving across water. It is distinguished from canoeing by the sitting position of the paddler and the number of blades on the paddle. Let us know if you are interested in renting one.",
+      "Another point of view. You will be able to enjoy another point of view from the beaches around Blessed House. You can do it in places like Puerto Viejo, Punta Uva, Playa Chiquita or Manzanillo.. Or even take it to the next level and get a tour to explore the water of the national park at Cahuita with a group and a guide.",
     duration: "2-4 hours",
     price: "Contact for pricing",
     difficulty: "Moderate",
     groupSize: "Up to 6 people",
-    image: "/tropical-beach-bungalow-resort.jpg",
+    image: "/activities/all/kayaking.jpg",
     highlights: ["Beach Views", "Water Activity", "Equipment Rental", "Scenic Experience"],
   },
   {
     id: 12,
-    name: "Bri Bri Waterfalls",
+    name: "Volio Waterfalls",
     description: "Several waterfalls in one place",
     fullDescription:
       "It's a 10 minutes ride from Blessed House, you should really take the time to enjoy the rainforest and immerse yourself in these waterfalls.",
@@ -195,7 +176,7 @@ const activities = [
     price: "Contact for pricing",
     difficulty: "Moderate",
     groupSize: "Up to 8 people",
-    image: "/jungle-bungalow-surrounded-by-trees.jpg",
+    image: "/activities/all/valioWaterfall.jpg",
     highlights: ["Multiple Waterfalls", "Rainforest Experience", "Close to Property", "Swimming Spots"],
   },
   {
@@ -208,7 +189,7 @@ const activities = [
     price: "Free",
     difficulty: "Easy",
     groupSize: "Unlimited",
-    image: "/tropical-bungalow-sunset-view.jpg",
+    image: "/activities/all/puntaUva.jpg",
     highlights: ["Reef Views", "River Access", "Walking Trails", "Beach Exploration"],
   },
   {
@@ -221,11 +202,24 @@ const activities = [
     price: "Contact for pricing",
     difficulty: "Easy",
     groupSize: "2-4 people",
-    image: "/tropical-beach-bungalow-resort.jpg",
+    image: "/activities/all/sakiKetos.jpg",
     highlights: ["Couples Activity", "Beach Game", "Fun & Active", "Social Activity"],
   },
   {
     id: 15,
+    name: "Cahuita National Park",
+    description: "Less than 30 minutes away from Blessed House",
+    fullDescription:
+      "Trip from Blessed House to Cahuita. A beautiful destination perfect for exploring the National Park and enjoying the pristine beaches with amazing trails that go deep in the jungle.",
+    duration: "Half day",
+    price: "Contact for pricing",
+    difficulty: "Moderate",
+    groupSize: "Up to 8 people",
+    image: "/activities/all/cahuitaNP.jpg",
+    highlights: ["National Wildlife Refuge", "Pristine Beaches", "Wildlife Spotting", "Scenic Views"],
+  },
+  {
+    id: 16,
     name: "E-Bike Rental",
     description: "Explore Puerto Viejo with ease",
     fullDescription:
@@ -235,7 +229,7 @@ const activities = [
     difficulty: "Easy",
     groupSize: "Unlimited",
     externalLink: "https://puertoviejobikerentals.com/",
-    image: "/tropical-beach-bungalow-resort.jpg",
+    image: "/activities/all/puertoviejobikerental.jpg",
     highlights: ["Eco-Friendly", "Easy Exploration", "Quality Bikes", "Local Rental Service"],
   },
 ];
@@ -277,7 +271,7 @@ export default function ActivitiesPage() {
 
   const filteredActivities = activities.filter((activity) => {
     if (selectedDifficulty === "All") return true;
-    if (!activity.difficulty) return false;
+    if (!activity.difficulty || activity.difficulty === "N/A") return false;
     return activity.difficulty.toLowerCase() === selectedDifficulty.toLowerCase();
   });
 

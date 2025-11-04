@@ -15,7 +15,7 @@ export default function ActivityDetail({ activity }) {
     <div className={styles.card}>
       <div className={styles.imageContainer}>
         <img src={activity.image || "/placeholder.svg"} alt={activity.name} />
-        {activity.difficulty && (
+        {activity.difficulty && activity.difficulty !== "N/A" && (
           <span
             className={styles.difficulty}
             data-level={activity.difficulty.toLowerCase()}
