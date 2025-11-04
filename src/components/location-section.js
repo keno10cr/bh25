@@ -21,6 +21,13 @@ export default function LocationSection() {
 
   useEffect(() => {
     const handleScroll = () => {
+      // Only apply parallax on desktop (above 768px)
+      if (window.innerWidth <= 768) {
+        setImageOffset(0);
+        setContentOffset(0);
+        return;
+      }
+
       if (sectionRef.current && imageRef.current) {
         const rect = sectionRef.current.getBoundingClientRect();
         const sectionTop = rect.top + window.scrollY;
@@ -36,7 +43,7 @@ export default function LocationSection() {
           
           // Content appears from the right and moves left as we scroll down
           // Start with positive offset (off to the right), then move left
-          const initialOffset = 100; // Start 200px to the right
+          const initialOffset = 100; // Start 100px to the right
           const contentRate = initialOffset - (scrolled * 0.5);
           setContentOffset(contentRate);
         } else {
@@ -47,9 +54,22 @@ export default function LocationSection() {
       }
     };
 
+    const handleResize = () => {
+      // Reset offsets on resize if mobile
+      if (window.innerWidth <= 768) {
+        setImageOffset(0);
+        setContentOffset(0);
+      }
+      handleScroll();
+    };
+
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
     handleScroll(); // Call once on mount
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => {
