@@ -1,7 +1,8 @@
 .container {
-  max-width: 1200px;
+  max-width: 1820px;
   margin: 0 auto;
   padding: 3rem 2rem;
+  width: 100%;
 }
 
 .header {
@@ -23,45 +24,11 @@
   margin: 0 auto;
 }
 
-.filterContainer {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 3rem;
-}
-
-.filters {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.filterBtn {
-  padding: 0.75rem 1.5rem;
-  border: 2px solid var(--color-primary);
-  background-color: transparent;
-  color: var(--color-primary);
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.filterBtn:hover {
-  background-color: var(--color-primary);
-  color: var(--color-neutral-light);
-}
-
-.filterBtn.active {
-  background-color: var(--color-primary);
-  color: var(--color-neutral-light);
-}
-
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
+  width: 100%;
 }
 
 .galleryItem {
@@ -148,15 +115,6 @@
   .gallery {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 1rem;
-  }
-
-  .filters {
-    gap: 0.5rem;
-  }
-
-  .filterBtn {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
   }
 }
 

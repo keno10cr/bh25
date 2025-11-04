@@ -159,7 +159,7 @@ const villas = [
     bathrooms: 3,
     maxPeople: 8,
     amenities: ["AC", "Wifi", "BBQ Area", "Kitchen", "Parking", "Hot water"],
-    image: "/villas/12/12f.png",
+    image: "/villas/12/12i.png",
     galleryImages: getGalleryImages(12),
   },
 ];

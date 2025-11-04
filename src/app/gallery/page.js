@@ -7,62 +7,107 @@ import styles from "./gallery.module.css";
 const galleryImages = [
   {
     id: 1,
-    alt: "Bungalow near the beach with ocean view",
-    category: "villas",
-    src: "/luxury-beachfront-villa-tropical.jpg",
+    alt: "Aguacates",
+    src: "/gallery/Aguacates.png",
   },
   {
     id: 2,
-    alt: "Jungle surrounded bungalow",
-    category: "villas",
-    src: "/jungle-bungalow-surrounded-by-trees.jpg",
+    alt: "Beach View",
+    src: "/gallery/BeachView.png",
   },
   {
     id: 3,
-    alt: "Sunset view from villa",
-    category: "views",
-    src: "/tropical-bungalow-sunset-view.jpg",
+    alt: "Blessed House Map",
+    src: "/gallery/BHmap.png",
   },
   {
     id: 4,
-    alt: "Pool and garden area",
-    category: "amenities",
-    src: "/luxury-beachfront-villa-tropical.jpg",
+    alt: "Blessed House Pool",
+    src: "/gallery/BHPool.png",
   },
   {
     id: 5,
-    alt: "Beach with palm trees",
-    category: "views",
-    src: "/tropical-beach-bungalow-resort.jpg",
+    alt: "Blessed House Views",
+    src: "/gallery/BHViews.png",
   },
   {
     id: 6,
-    alt: "Indoor villa living space",
-    category: "villas",
-    src: "/luxury-beachfront-villa-tropical.jpg",
+    alt: "Boat at Puerto Viejo",
+    src: "/gallery/BoatAtPuertViejo.png",
   },
   {
     id: 7,
-    alt: "Outdoor dining area",
-    category: "amenities",
-    src: "/jungle-bungalow-surrounded-by-trees.jpg",
+    alt: "Cocles River",
+    src: "/gallery/CoclesRiver.png",
   },
   {
     id: 8,
-    alt: "Tropical garden pathway",
-    category: "amenities",
-    src: "/tropical-bungalow-sunset-view.jpg",
+    alt: "Mejenga at Punta Uva",
+    src: "/gallery/mejengaAtPuntaUva.png",
   },
   {
     id: 9,
-    alt: "Beach at sunrise",
-    category: "views",
-    src: "/tropical-beach-bungalow-resort.jpg",
+    alt: "Mirador View",
+    src: "/gallery/miradorView.png",
+  },
+  {
+    id: 10,
+    alt: "Old Harbour",
+    src: "/gallery/oldHarbour.png",
+  },
+  {
+    id: 11,
+    alt: "Playa Cocles",
+    src: "/gallery/playaCocles.png",
+  },
+  {
+    id: 12,
+    alt: "Playa Grande",
+    src: "/gallery/PlayaGrande.png",
+  },
+  {
+    id: 13,
+    alt: "Protect Bees",
+    src: "/gallery/protectBees.png",
+  },
+  {
+    id: 14,
+    alt: "Puerto Viejo Spots",
+    src: "/gallery/PuertoViejoSpots.png",
+  },
+  {
+    id: 15,
+    alt: "Social Area",
+    src: "/gallery/SocialArea.png",
+  },
+  {
+    id: 16,
+    alt: "Sunrise AM",
+    src: "/gallery/SunriseAM.png",
+  },
+  {
+    id: 17,
+    alt: "Sunrise Views",
+    src: "/gallery/sunriseViews.png",
+  },
+  {
+    id: 18,
+    alt: "Sunset at Punta Uva",
+    src: "/gallery/sunsetPuntaUva.png",
+  },
+  {
+    id: 19,
+    alt: "Tortuguero Canals",
+    src: "/gallery/TortugueroCanals.png",
+  },
+  {
+    id: 20,
+    alt: "Villa 4",
+    src: "/gallery/Villa4.png",
   },
 ];
 
 export default function GalleryPage() {
-  const [selectedCategory, setSelectedCategory] = useState("all");
   const [visibleItems, setVisibleItems] = useState(new Set());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -73,18 +118,6 @@ export default function GalleryPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const filteredImages =
-    selectedCategory === "all"
-      ? galleryImages
-      : galleryImages.filter((img) => img.category === selectedCategory);
-
-  const categories = [
-    { value: "all", label: "All" },
-    { value: "villas", label: "Villas" },
-    { value: "views", label: "Views" },
-    { value: "amenities", label: "Amenities" },
-  ];
 
   const openModal = (imageIndex) => {
     setCurrentImageIndex(imageIndex);
@@ -100,7 +133,7 @@ export default function GalleryPage() {
   const goToPrevious = () => {
     setCurrentImageIndex((prevIndex) => {
       if (prevIndex === 0) {
-        return filteredImages.length - 1;
+        return galleryImages.length - 1;
       }
       return prevIndex - 1;
     });
@@ -108,7 +141,7 @@ export default function GalleryPage() {
 
   const goToNext = () => {
     setCurrentImageIndex((prevIndex) => {
-      if (prevIndex === filteredImages.length - 1) {
+      if (prevIndex === galleryImages.length - 1) {
         return 0;
       }
       return prevIndex + 1;
@@ -131,14 +164,14 @@ export default function GalleryPage() {
         e.preventDefault();
         setCurrentImageIndex((prevIndex) => {
           if (prevIndex === 0) {
-            return filteredImages.length - 1;
+            return galleryImages.length - 1;
           }
           return prevIndex - 1;
         });
       } else if (e.key === "ArrowRight") {
         e.preventDefault();
         setCurrentImageIndex((prevIndex) => {
-          if (prevIndex === filteredImages.length - 1) {
+          if (prevIndex === galleryImages.length - 1) {
             return 0;
           }
           return prevIndex + 1;
@@ -152,7 +185,7 @@ export default function GalleryPage() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isModalOpen, filteredImages.length]);
+  }, [isModalOpen]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -175,7 +208,7 @@ export default function GalleryPage() {
     return () => {
       items?.forEach((item) => observer.unobserve(item));
     };
-  }, [filteredImages]);
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -186,24 +219,8 @@ export default function GalleryPage() {
         </p>
       </div>
 
-      <div className={styles.filterContainer}>
-        <div className={styles.filters}>
-          {categories.map((cat) => (
-            <button
-              key={cat.value}
-              className={`${styles.filterBtn} ${
-                selectedCategory === cat.value ? styles.active : ""
-              }`}
-              onClick={() => setSelectedCategory(cat.value)}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
       <div className={styles.gallery} ref={galleryRef}>
-        {filteredImages.map((image, index) => (
+        {galleryImages.map((image, index) => (
           <div
             key={image.id}
             data-gallery-item
@@ -223,7 +240,7 @@ export default function GalleryPage() {
       </div>
 
       {/* Gallery Modal */}
-      {isModalOpen && filteredImages.length > 0 && mounted && createPortal(
+      {isModalOpen && galleryImages.length > 0 && mounted && createPortal(
         <div className={styles.modalOverlay} onClick={handleOverlayClick}>
           <div className={styles.modal} ref={modalRef} onClick={(e) => e.stopPropagation()}>
             <button className={styles.modalCloseButton} onClick={() => {
@@ -233,9 +250,9 @@ export default function GalleryPage() {
               ×
             </button>
             <div className={styles.modalHeader}>
-              <h2>{filteredImages[currentImageIndex]?.alt}</h2>
+              <h2>{galleryImages[currentImageIndex]?.alt}</h2>
               <p className={styles.modalCounter}>
-                {currentImageIndex + 1} / {filteredImages.length}
+                {currentImageIndex + 1} / {galleryImages.length}
               </p>
             </div>
             <div className={styles.modalSliderContainer}>
@@ -248,8 +265,8 @@ export default function GalleryPage() {
               </button>
               <div className={styles.modalSlide}>
                 <img
-                  src={filteredImages[currentImageIndex]?.src || "/placeholder.svg"}
-                  alt={filteredImages[currentImageIndex]?.alt}
+                  src={galleryImages[currentImageIndex]?.src || "/placeholder.svg"}
+                  alt={galleryImages[currentImageIndex]?.alt}
                   className={styles.modalSlideImage}
                 />
               </div>
@@ -261,9 +278,9 @@ export default function GalleryPage() {
                 ›
               </button>
             </div>
-            {filteredImages.length > 1 && (
+            {galleryImages.length > 1 && (
               <div className={styles.modalThumbnails}>
-                {filteredImages.map((image, index) => (
+                {galleryImages.map((image, index) => (
                   <button
                     key={image.id}
                     className={`${styles.modalThumbnail} ${
