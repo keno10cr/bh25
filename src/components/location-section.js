@@ -36,7 +36,7 @@ export default function LocationSection() {
           
           // Content appears from the right and moves left as we scroll down
           // Start with positive offset (off to the right), then move left
-          const initialOffset = 200; // Start 200px to the right
+          const initialOffset = 100; // Start 200px to the right
           const contentRate = initialOffset - (scrolled * 0.5);
           setContentOffset(contentRate);
         } else {
