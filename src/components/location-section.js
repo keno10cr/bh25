@@ -8,10 +8,12 @@ export default function LocationSection() {
   const imageRef = useRef(null);
   const sectionRef = useRef(null);
   const textRef = useRef(null);
+  const textContentRef = useRef(null);
   const intervalRef = useRef(null);
   const observerRef = useRef(null);
   const hasAnimatedRef = useRef(false);
   const [imageOffset, setImageOffset] = useState(0);
+  const [contentOffset, setContentOffset] = useState(0);
   const [visibleChars, setVisibleChars] = useState(0);
 
   const fullText = '"Blessed House Puerto Viejo de Talamanca"';
@@ -27,8 +29,20 @@ export default function LocationSection() {
         // Only apply parallax when section is in viewport
         if (rect.top < window.innerHeight && rect.bottom > 0) {
           const scrolled = scrollPosition - sectionTop;
-          const rate = scrolled * 0.3; // Move image down as we scroll down
+          
+          // Image moves down as we scroll down
+          const rate = scrolled * 0.3;
           setImageOffset(rate);
+          
+          // Content appears from the right and moves left as we scroll down
+          // Start with positive offset (off to the right), then move left
+          const initialOffset = 200; // Start 200px to the right
+          const contentRate = initialOffset - (scrolled * 0.5);
+          setContentOffset(contentRate);
+        } else {
+          // Reset when out of viewport
+          setImageOffset(0);
+          setContentOffset(0);
         }
       }
     };
@@ -125,7 +139,11 @@ export default function LocationSection() {
         </div>
       </div>
       <div className={styles.content}>
-        <div className={styles.textContent}>
+        <div 
+          className={styles.textContent}
+          ref={textContentRef}
+          style={{ transform: `translateX(${contentOffset}px)` }}
+        >
           <h2>Location</h2>
           <p>
             From the crossroad at Hone Creek, keep on straight towards Puerto Viejo for 2.5kms, our entrance is on the right side of the road.
