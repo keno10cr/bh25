@@ -1,5 +1,3 @@
-"use server";
-
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
@@ -50,7 +48,7 @@ export async function POST(request) {
 
   try {
     await resend.emails.send({
-      from: "Blessed House <onboarding@resend.dev>",
+      from: "Blessed House Villas <noreply@blessedhouse.info>",
       to: [
         "blessedhousecr@gmail.com",
         "kervinbb95@gmail.com",

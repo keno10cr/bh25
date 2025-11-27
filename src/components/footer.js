@@ -108,7 +108,7 @@ export default function Footer() {
       </div>
 
       <div className={styles.copyright}>
-        <p>&copy; {currentYear} Blessed House Resort. All rights reserved.</p>
+        <p>&copy; {currentYear} Blessed House Villas. All rights reserved.</p>
       </div>
     </footer>
   );

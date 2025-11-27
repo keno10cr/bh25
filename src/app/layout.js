@@ -3,7 +3,7 @@ import Footer from "@/components/footer";
 import "./globals.css";
 
 export const metadata = {
-  title: "Blessed House Resort - Puerto Viejo",
+  title: "Blessed House Villas - Puerto Viejo",
   description:
     "Caribbean style villas in Puerto Viejo, Limón. Experience tropical adventures and beachside relaxation.",
   icons: {
