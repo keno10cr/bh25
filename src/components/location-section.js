@@ -2,9 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./location-section.module.css";
 
 export default function LocationSection() {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const imageRef = useRef(null);
   const sectionRef = useRef(null);
   const textRef = useRef(null);
@@ -164,12 +168,12 @@ export default function LocationSection() {
           ref={textContentRef}
           style={{ transform: `translateX(${contentOffset}px)` }}
         >
-          <h2>Location</h2>
+          <h2>{t("location.title")}</h2>
           <p>
-            From the crossroad at Hone Creek, keep on straight towards Puerto Viejo for 2.5kms, our entrance is on the right side of the road.
+            {t("location.description")}
           </p>
           <p className={styles.mapsInfo}>
-            You can find us Google Maps:
+            {t("location.mapsInfo")}
           </p>
           <p className={styles.mapsQuery} ref={textRef}>
             {fullText.split("").map((char, index) => (
@@ -186,7 +190,7 @@ export default function LocationSection() {
             ))}
           </p>
           <Link href="/contact" className={styles.ctaButton}>
-            Contact Us
+            {t("location.contactUs")}
           </Link>
         </div>
       </div>

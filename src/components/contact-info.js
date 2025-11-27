@@ -1,29 +1,34 @@
+"use client";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./contact-info.module.css";
 
 export default function ContactInfo() {
+    const { language } = useLanguage();
+    const t = useTranslation(language);
     return (
         <div className={styles.infoContainer}>
-            <h2>Contact Information</h2>
+            <h2>{t("contactPage.contactInfo.title")}</h2>
 
             <div className={styles.infoGrid}>
                 <div className={styles.infoCard}>
                     <div className={styles.icon}>📍</div>
-                    <h3>Address</h3>
-                    <p>Puerto Viejo de Limón</p>
-                    <p>Limón Province, Costa Rica</p>
+                    <h3>{t("contactPage.contactInfo.address")}</h3>
+                    <p>{t("contactPage.contactInfo.addressLine1")}</p>
+                    <p>{t("contactPage.contactInfo.addressLine2")}</p>
                     <a
                         href="https://maps.app.goo.gl/fVczYNsY2TwfF23d6"
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles.addressLink}
                     >
-                        View on Google Maps →
+                        {t("contactPage.contactInfo.viewOnMaps")}
                     </a>
                 </div>
 
                 <div className={styles.infoCard}>
                     <div className={styles.icon}>📞</div>
-                    <h3>Phone</h3>
+                    <h3>{t("contactPage.contactInfo.phone")}</h3>
                     <p>
                         <a href="tel:+17546104710" className={styles.contactLink}>
                             +1 (754) 610-4710
@@ -33,7 +38,7 @@ export default function ContactInfo() {
 
                 <div className={styles.infoCard}>
                     <div className={styles.icon}>✉️</div>
-                    <h3>Email</h3>
+                    <h3>{t("contactPage.contactInfo.email")}</h3>
                     <p>
                         <a href="mailto:blessedhousecr@gmail.com" className={styles.contactLink}>
                             blessedhousecr@gmail.com
@@ -43,19 +48,19 @@ export default function ContactInfo() {
 
                 <div className={styles.infoCard}>
                     <div className={styles.icon}>⏰</div>
-                    <h3>Hours</h3>
-                    <p>Mon - Sun: 8:00 AM - 10:00 PM</p>
-                    <p>Feel free to contact us</p>
+                    <h3>{t("contactPage.contactInfo.hours")}</h3>
+                    <p>{t("contactPage.contactInfo.hoursLine1")}</p>
+                    <p>{t("contactPage.contactInfo.hoursLine2")}</p>
                 </div>
             </div>
 
             <div className={styles.directionsContainer}>
-                <h3>How to get here</h3>
+                <h3>{t("contactPage.contactInfo.howToGetHere")}</h3>
                 <p>
-                    From the crossroad at Hone Creek, keep on straight towards Puerto Viejo for 2.5kms, our entrance is on the right side of the road.
+                    {t("contactPage.contactInfo.directions")}
                 </p>
                 <p>
-                    You can find us on Google Maps: <strong>"Blessed House Puerto Viejo de Talamanca"</strong>
+                    {t("contactPage.contactInfo.findOnMaps")} <strong>{t("contactPage.contactInfo.mapSearch")}</strong>
                 </p>
                 <a
                     href="https://maps.app.goo.gl/fVczYNsY2TwfF23d6"
@@ -63,15 +68,23 @@ export default function ContactInfo() {
                     rel="noopener noreferrer"
                     className={styles.mapLink}
                 >
-                    Get directions from Google Maps →
+                    {t("contactPage.contactInfo.getDirections")}
                 </a>
-                <p className={styles.coordinates}>
-                <br/>Coordinates: <br/> 9.647346, -82.776973
-                </p>
+                <div className={styles.coordinatesContainer}>
+                    <h4 className={styles.coordinatesTitle}>{t("contactPage.contactInfo.coordinatesTitle")}</h4>
+                    <a
+                        href="https://www.google.com/maps/place/9%C2%B038'50.5%22N+82%C2%B046'37.1%22W/@9.647346,-82.7795479,1066m/data=!3m2!1e3!4b1!4m4!3m3!8m2!3d9.647346!4d-82.776973?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.coordinatesLink}
+                    >
+                        9.647346, -82.776973
+                    </a>
+                </div>
             </div>
 
             <div className={styles.mapContainer}>
-                <h3>Find Us Here</h3>
+                <h3>{t("contactPage.contactInfo.findUsHere")}</h3>
 
                 {/* <iframe src="" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
 

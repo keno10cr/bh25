@@ -1,9 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./contact-form.module.css";
 
 export default function ContactForm() {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -74,25 +78,25 @@ export default function ContactForm() {
     setFormError("");
     
     if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
+      newErrors.name = `${t("contact.name")} ${t("contact.required")}`;
     }
     
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = `${t("contact.email")} ${t("contact.required")}`;
     } else if (!validateEmail(formData.email)) {
-      newErrors.email = "Please enter a valid email address";
+      newErrors.email = t("contact.validEmail");
     }
     
     if (formData.phone && !validatePhone(formData.phone)) {
-      newErrors.phone = "Phone number must contain at least 8 digits";
+      newErrors.phone = t("contact.phoneDigits");
     }
     
     if (!formData.subject) {
-      newErrors.subject = "Please select a subject";
+      newErrors.subject = t("contact.selectSubjectError");
     }
     
     if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
+      newErrors.message = `${t("contact.message")} ${t("contact.required")}`;
     }
     
     setErrors(newErrors);
@@ -130,7 +134,7 @@ export default function ContactForm() {
       setTimeout(() => setSubmitted(false), 5000);
     } catch (error) {
       console.error("Contact form submission failed:", error);
-      setFormError("We couldn't send your message right now. Please try again.");
+      setFormError(t("contactPage.errorMessage"));
       setSubmitted(false);
     } finally {
       setLoading(false);
@@ -139,11 +143,11 @@ export default function ContactForm() {
 
   return (
     <div className={styles.formContainer}>
-      <h2>Send us a Message</h2>
+      <h2>{t("contactPage.formTitle")}</h2>
 
       {submitted && (
         <div className={styles.successMessage}>
-          <p>Thank you for your message! We'll get back to you soon.</p>
+          <p>{t("contactPage.successMessage")}</p>
         </div>
       )}
 
@@ -156,7 +160,7 @@ export default function ContactForm() {
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="name">
-            Full Name <span className={styles.required}>*</span>
+            {t("contact.name")} <span className={styles.required}>*</span>
           </label>
           <input
             type="text"
@@ -164,7 +168,7 @@ export default function ContactForm() {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="John Doe"
+            placeholder={t("contact.name")}
             className={errors.name ? styles.inputError : ""}
           />
           {errors.name && <span className={styles.errorText}>{errors.name}</span>}
@@ -172,7 +176,7 @@ export default function ContactForm() {
 
         <div className={styles.formGroup}>
           <label htmlFor="email">
-            Email Address <span className={styles.required}>*</span>
+            {t("contact.email")} <span className={styles.required}>*</span>
           </label>
           <input
             type="text"
@@ -180,21 +184,21 @@ export default function ContactForm() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="john@example.com"
+            placeholder={t("contact.email")}
             className={errors.email ? styles.inputError : ""}
           />
           {errors.email && <span className={styles.errorText}>{errors.email}</span>}
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="phone">Phone Number</label>
+          <label htmlFor="phone">{t("contact.phone")}</label>
           <input
             type="tel"
             id="phone"
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            placeholder="########"
+            placeholder={t("contact.phone")}
             className={errors.phone ? styles.inputError : ""}
           />
           {errors.phone && <span className={styles.errorText}>{errors.phone}</span>}
@@ -202,7 +206,7 @@ export default function ContactForm() {
 
         <div className={styles.formGroup}>
           <label htmlFor="subject">
-            Subject <span className={styles.required}>*</span>
+            {t("contact.subject")} <span className={styles.required}>*</span>
           </label>
           <select
             id="subject"
@@ -211,26 +215,26 @@ export default function ContactForm() {
             onChange={handleChange}
             className={errors.subject ? styles.inputError : ""}
           >
-            <option value="">Select a subject</option>
-            <option value="booking">Villa Booking</option>
-            <option value="activities">Activity Inquiry</option>
-            <option value="general">General Inquiry</option>
-            <option value="feedback">Feedback</option>
-            <option value="other">Other</option>
+            <option value="">{t("contact.selectSubject")}</option>
+            <option value="booking">{t("contact.booking")}</option>
+            <option value="activities">{t("contact.activityInquiry")}</option>
+            <option value="general">{t("contact.generalInquiry")}</option>
+            <option value="feedback">{t("contact.feedback")}</option>
+            <option value="other">{t("contact.other")}</option>
           </select>
           {errors.subject && <span className={styles.errorText}>{errors.subject}</span>}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="message">
-            Message <span className={styles.required}>*</span>
+            {t("contact.message")} <span className={styles.required}>*</span>
           </label>
           <textarea
             id="message"
             name="message"
             value={formData.message}
             onChange={handleChange}
-            placeholder="Your message here..."
+            placeholder={t("contact.message")}
             rows={6}
             className={errors.message ? styles.inputError : ""}
           />
@@ -239,12 +243,12 @@ export default function ContactForm() {
 
         {formError && <p className={styles.errorText}>{formError}</p>}
         <button type="submit" className={styles.submitBtn} disabled={loading}>
-          {loading ? "Sending..." : "Send Message"}
+          {loading ? t("contact.sending") : t("contact.send")}
         </button>
       </form>
 
       <div className={styles.videoContainer}>
-        <h3>Our Blessed House</h3>
+        <h3>{t("contact.videoTitle")}</h3>
         <div className={styles.videoWrapper}>
           <iframe
             src="https://player.vimeo.com/video/228500255?h=7c3b5c0e9f"
@@ -252,11 +256,11 @@ export default function ContactForm() {
             height="100%"
             frameBorder="0"
             allow="autoplay; fullscreen; picture-in-picture"
-            title="Welcome to Blessed House"
+            title={t("contact.videoTitle")}
           ></iframe>
         </div>
         <p className={styles.videoCredit}>
-          Video by{" "}
+          {t("contact.videoCredit")}{" "}
           <a
             href="https://vimeo.com/ensofilmscr"
             target="_blank"

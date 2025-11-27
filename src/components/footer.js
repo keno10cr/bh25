@@ -1,8 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./footer.module.css";
 
 export default function Footer() {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const currentYear = new Date().getFullYear();
 
   return (
@@ -15,51 +21,51 @@ export default function Footer() {
           height={150}
           className={styles.logo}
         />
-        <p className={styles.location}>Puerto Viejo - Costa Rica</p>
+        <p className={styles.location}>{t("footer.location")}</p>
       </div>
 
       <div className={styles.container}>
         <div className={styles.section}>
           <h3>Blessed House</h3>
-          <p>Southern Caribbean Living: Close to the Coast, Close to Everything.</p>
+          <p>{t("footer.tagline")}</p>
         </div>
 
         <div className={styles.section}>
-          <h4>Quick Links</h4>
+          <h4>{t("footer.quickLinks")}</h4>
           <ul>
             <li>
-              <Link href="/">Home</Link>
+              <Link href="/">{t("common.home")}</Link>
             </li>
             <li>
-              <Link href="/gallery">Gallery</Link>
+              <Link href="/gallery">{t("nav.gallery")}</Link>
             </li>
             <li>
-              <Link href="/villas">Villas</Link>
+              <Link href="/villas">{t("nav.villas")}</Link>
             </li>
             <li>
-              <Link href="/activities">Activities</Link>
+              <Link href="/activities">{t("nav.activities")}</Link>
             </li>
             <li>
-              <Link href="/contact">Contact</Link>
+              <Link href="/contact">{t("nav.contact")}</Link>
             </li>
           </ul>
         </div>
 
         <div className={styles.section}>
-          <h4>Contact Info</h4>
+          <h4>{t("footer.contactInfo")}</h4>
           <p>
-            Email:{" "}
+            {t("common.email")}:{" "}
             <a href="mailto:blessedhousecr@gmail.com">blessedhousecr@gmail.com</a>
           </p>
           <p>
-            Phone:{" "}
+            {t("common.phone")}:{" "}
             <a href="tel:+17546104710">+1 (754) 610-4710</a>
           </p>
           <p>Puerto Viejo, Limón, Costa Rica</p>
         </div>
 
         <div className={styles.section}>
-          <h4>Social Media</h4>
+          <h4>{t("footer.socialMedia")}</h4>
           <div className={styles.socialRow}>
             <a
               href="https://www.instagram.com/blessedhouse"
@@ -108,7 +114,7 @@ export default function Footer() {
       </div>
 
       <div className={styles.copyright}>
-        <p>&copy; {currentYear} Blessed House Villas. All rights reserved.</p>
+        <p>&copy; {currentYear} Blessed House Villas. {t("footer.copyright")}</p>
       </div>
     </footer>
   );

@@ -2,9 +2,13 @@
 import { useEffect, useRef, useState } from "react";
 import ContactForm from "@/components/contact-form";
 import ContactInfo from "@/components/contact-info";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./contact.module.css";
 
 export default function ContactPage() {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const bannerRef = useRef(null);
   const imageRef = useRef(null);
   const [imageOffset, setImageOffset] = useState(0);
@@ -44,7 +48,7 @@ export default function ContactPage() {
           >
             <img
               src="/info/miradorBHContact.jpg"
-              alt="Contact banner"
+              alt={t("contact.bannerAlt")}
               className={styles.bannerImage}
             />
           </div>
@@ -53,8 +57,8 @@ export default function ContactPage() {
 
       <div className={styles.container}>
         <div className={styles.header}>
-          <h1>Get in Touch</h1>
-          <p>Have questions? We'd love to hear from you. Contact us anytime.</p>
+          <h1>{t("contactPage.title")}</h1>
+          <p>{t("contactPage.subtitle")}</p>
         </div>
 
         <div className={styles.content}>

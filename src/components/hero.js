@@ -2,9 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./hero.module.css";
 
 export default function Hero() {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const heroRef = useRef(null);
   const imageRef = useRef(null);
   const contentRef = useRef(null);
@@ -64,16 +68,16 @@ export default function Hero() {
             ref={contentRef}
             style={{ transform: `translateX(${contentOffset}px)` }}
           >
-            <h1 className={styles.title}>Blessed House Awaits</h1>
+            <h1 className={styles.title}>{t("hero.title")}</h1>
             <p className={styles.subtitle}>
-            For guests seeking peace, quiet, and a touch of authentic charm, you have found your haven. Our ideal location ensures effortless exploration of the best of Costa Rica's Southern Caribbean coast.
+              {t("hero.subtitle")}
             </p>
             <div className={styles.cta}>
               <Link href="/villas" className={styles.btnPrimary}>
-                Explore Villas
+                {t("hero.exploreVillas")}
               </Link>
               <Link href="/contact" className={styles.btnSecondary}>
-                Get in Touch
+                {t("hero.getInTouch")}
               </Link>
             </div>
           </div>

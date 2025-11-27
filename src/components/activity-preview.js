@@ -2,42 +2,41 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./activity-preview.module.css";
 
 const activities = [
   {
     id: 1,
-    name: "Snorkeling",
-    description: "Explore vibrant coral reefs and tropical fish",
+    translationKey: "snorkeling",
     icon: "🤿",
   },
   {
     id: 2,
-    name: "Jungle Hike",
-    description: "Trek through pristine rainforest trails",
+    translationKey: "jungleHike",
     icon: "🥾",
   },
   {
     id: 3,
-    name: "Boat Tour",
-    description: "Cruise along the Caribbean coastline",
+    translationKey: "boatTour",
     icon: "⛵",
   },
   {
     id: 4,
-    name: "Bribri Wonders",
-    description: "Discover cacao traditions and local culture",
+    translationKey: "bribriWonders",
     icon: "🍫",
   },
   {
     id: 5,
-    name: "Wildlife Watching",
-    description: "Spot sloths, monkeys, and exotic birds",
+    translationKey: "wildlifeWatching",
     icon: "🦥",
   },
 ];
 
 export default function ActivityPreview() {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [visibleItems, setVisibleItems] = useState(new Set());
   const sectionRef = useRef(null);
 
@@ -74,8 +73,8 @@ export default function ActivityPreview() {
     <section className={styles.section} ref={sectionRef}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2>Things to Do</h2>
-          <p>Unforgettable experiences in paradise</p>
+          <h2>{t("activities.title")}</h2>
+          <p>{t("activities.subtitle")}</p>
         </div>
 
         <div className={styles.grid}>
@@ -90,15 +89,15 @@ export default function ActivityPreview() {
               style={{ animationDelay: `${index * 0.15}s` }}
             >
               <div className={styles.icon}>{activity.icon}</div>
-              <h3>{activity.name}</h3>
-              <p>{activity.description}</p>
+              <h3>{t(`activities.${activity.translationKey}.name`)}</h3>
+              <p>{t(`activities.${activity.translationKey}.description`)}</p>
             </div>
           ))}
         </div>
 
         <div className={styles.cta}>
           <Link href="/activities" className={styles.btn}>
-            Explore All Activities
+            {t("activities.exploreAll")}
           </Link>
         </div>
       </div>

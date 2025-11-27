@@ -3,9 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./our-place.module.css";
 
 export default function OurPlace() {
+    const { language } = useLanguage();
+    const t = useTranslation(language);
     const imageRef = useRef(null);
     const sectionRef = useRef(null);
     const [imageOffset, setImageOffset] = useState(0);
@@ -49,12 +53,12 @@ export default function OurPlace() {
                         </div>
                     </div>
                     <div className={styles.textContent}>
-                        <h2>Our Place</h2>
+                        <h2>{t("ourPlace.title")}</h2>
                         <p>
-                            Welcome to Blessed House, a tranquil and spacious property nestled in the rich mountains near Puerto Viejo. We offer an authentic Caribbean experience surrounded by incredible nature and just a short distance from the beaches. Here, you'll enjoy a healthy, eco-friendly environment where wildlife, from sloths to hummingbirds, is part of the scenery. Our comfortable villas and shared pool area are designed for your complete relaxation and enjoyment.
+                            {t("ourPlace.description")}
                         </p>
                         <Link href="/contact" className={styles.ctaButton}>
-                            Contact Us
+                            {t("ourPlace.contactUs")}
                         </Link>
                     </div>
 

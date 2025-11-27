@@ -2,112 +2,116 @@
 
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./gallery.module.css";
 
 const galleryImages = [
   {
     id: 1,
-    alt: "Aguacates",
+    translationKey: "aguacates",
     src: "/gallery/Aguacates.jpg",
   },
   {
     id: 2,
-    alt: "Beach View",
+    translationKey: "beachView",
     src: "/gallery/BeachView.jpg",
   },
   {
     id: 3,
-    alt: "Blessed House Map",
+    translationKey: "blessedHouseMap",
     src: "/gallery/BHmap.jpg",
   },
   {
     id: 4,
-    alt: "Blessed House Pool",
+    translationKey: "blessedHousePool",
     src: "/gallery/BHPool.jpg",
   },
   {
     id: 5,
-    alt: "Blessed House Views",
+    translationKey: "blessedHouseViews",
     src: "/gallery/BHViews.jpg",
   },
   {
     id: 6,
-    alt: "Boat at Puerto Viejo",
+    translationKey: "boatAtPuertoViejo",
     src: "/gallery/BoatAtPuertViejo.jpg",
   },
   {
     id: 7,
-    alt: "Cocles River",
+    translationKey: "coclesRiver",
     src: "/gallery/CoclesRiver.jpg",
   },
   {
     id: 8,
-    alt: "Mejenga at Punta Uva",
+    translationKey: "mejengaAtPuntaUva",
     src: "/gallery/mejengaAtPuntaUva.jpg",
   },
   {
     id: 9,
-    alt: "Mirador View",
+    translationKey: "miradorView",
     src: "/gallery/miradorView.jpg",
   },
   {
     id: 10,
-    alt: "Old Harbour",
+    translationKey: "oldHarbour",
     src: "/gallery/oldHarbour.jpg",
   },
   {
     id: 11,
-    alt: "Playa Cocles",
+    translationKey: "playaCocles",
     src: "/gallery/playaCocles.jpg",
   },
   {
     id: 12,
-    alt: "Playa Grande",
+    translationKey: "playaGrande",
     src: "/gallery/PlayaGrande.jpg",
   },
   {
     id: 13,
-    alt: "Protect Bees",
+    translationKey: "protectBees",
     src: "/gallery/protectBees.jpg",
   },
   {
     id: 14,
-    alt: "Puerto Viejo Spots",
+    translationKey: "puertoViejoSpots",
     src: "/gallery/PuertoViejoSpots.jpg",
   },
   {
     id: 15,
-    alt: "Social Area",
+    translationKey: "socialArea",
     src: "/gallery/SocialArea.jpg",
   },
   {
     id: 16,
-    alt: "Sunrise AM",
+    translationKey: "sunriseAM",
     src: "/gallery/SunriseAM.jpg",
   },
   {
     id: 17,
-    alt: "Sunrise Views",
+    translationKey: "sunriseViews",
     src: "/gallery/sunriseViews.jpg",
   },
   {
     id: 18,
-    alt: "Sunset at Punta Uva",
+    translationKey: "sunsetAtPuntaUva",
     src: "/gallery/sunsetPuntaUva.jpg",
   },
   {
     id: 19,
-    alt: "Tortuguero Canals",
+    translationKey: "tortugueroCanals",
     src: "/gallery/TortugueroCanals.jpg",
   },
   {
     id: 20,
-    alt: "Villa 4",
+    translationKey: "villa4",
     src: "/gallery/Villa4.jpg",
   },
 ];
 
 export default function GalleryPage() {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [visibleItems, setVisibleItems] = useState(new Set());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -213,9 +217,9 @@ export default function GalleryPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1>Discover Paradise at Blessed House</h1>
+        <h1>{t("gallery.title")}</h1>
         <p>
-          Immerse yourself in peace and charm at Blessed House. Nestled amidst lush greenery, our Puerto Viejo haven offers relaxation, wildlife encounters, and easy access to the area's beauty. Explore, unwind, and experience the Caribbean's warm embrace.
+          {t("gallery.description")}
         </p>
       </div>
 
@@ -231,9 +235,9 @@ export default function GalleryPage() {
             style={{ animationDelay: `${index * 0.1}s` }}
             onClick={() => openModal(index)}
           >
-            <img src={image.src || "/placeholder.svg"} alt={image.alt} loading="lazy" />
+            <img src={image.src || "/placeholder.svg"} alt={t(`gallery.images.${image.translationKey}`)} loading="lazy" />
             <div className={styles.overlay}>
-              <p>{image.alt}</p>
+              <p>{t(`gallery.images.${image.translationKey}`)}</p>
             </div>
           </div>
         ))}
@@ -246,11 +250,11 @@ export default function GalleryPage() {
             <button className={styles.modalCloseButton} onClick={() => {
               setIsModalOpen(false);
               document.body.style.overflow = "unset";
-            }} aria-label="Close">
+            }} aria-label={t("gallery.close")}>
               ×
             </button>
             <div className={styles.modalHeader}>
-              <h2>{galleryImages[currentImageIndex]?.alt}</h2>
+              <h2>{galleryImages[currentImageIndex] ? t(`gallery.images.${galleryImages[currentImageIndex].translationKey}`) : ""}</h2>
               <p className={styles.modalCounter}>
                 {currentImageIndex + 1} / {galleryImages.length}
               </p>
@@ -259,21 +263,21 @@ export default function GalleryPage() {
               <button
                 className={styles.modalNavButton}
                 onClick={goToPrevious}
-                aria-label="Previous image"
+                aria-label={t("gallery.previousImage")}
               >
                 ‹
               </button>
               <div className={styles.modalSlide}>
                 <img
                   src={galleryImages[currentImageIndex]?.src || "/placeholder.svg"}
-                  alt={galleryImages[currentImageIndex]?.alt}
+                  alt={galleryImages[currentImageIndex] ? t(`gallery.images.${galleryImages[currentImageIndex].translationKey}`) : ""}
                   className={styles.modalSlideImage}
                 />
               </div>
               <button
                 className={styles.modalNavButton}
                 onClick={goToNext}
-                aria-label="Next image"
+                aria-label={t("gallery.nextImage")}
               >
                 ›
               </button>
@@ -287,9 +291,9 @@ export default function GalleryPage() {
                       index === currentImageIndex ? styles.modalThumbnailActive : ""
                     }`}
                     onClick={() => setCurrentImageIndex(index)}
-                    aria-label={`Go to image ${index + 1}`}
+                    aria-label={`${t("gallery.goToImage")} ${index + 1}`}
                   >
-                    <img src={image.src} alt={image.alt} />
+                    <img src={image.src} alt={t(`gallery.images.${image.translationKey}`)} />
                   </button>
                 ))}
               </div>

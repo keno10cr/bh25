@@ -103,14 +103,31 @@
   box-shadow: 0 4px 12px rgba(10, 76, 58, 0.3);
 }
 
-.coordinates {
+.coordinatesContainer {
+  margin-top: 1.5rem;
+  text-align: right;
+}
+
+.coordinatesTitle {
   color: #535353;
   font-size: 0.9rem;
-  line-height: 1.8;
-  margin-top: 1rem;
-  margin-bottom: 0;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
   text-align: right;
+}
+
+.coordinatesLink {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
   font-family: monospace;
+  transition: color 0.3s ease;
+  display: inline-block;
+}
+
+.coordinatesLink:hover {
+  color: var(--color-primary-light);
+  text-decoration: underline;
 }
 
 .mapContainer {

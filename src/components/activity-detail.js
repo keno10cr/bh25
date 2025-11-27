@@ -2,9 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./activity-detail.module.css";
 
 export default function ActivityDetail({ activity }) {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleLearnMore = () => {
@@ -20,7 +24,7 @@ export default function ActivityDetail({ activity }) {
             className={styles.difficulty}
             data-level={activity.difficulty.toLowerCase()}
           >
-            {activity.difficulty}
+            {t(`activitiesPage.difficulty.${activity.difficulty.toLowerCase()}`)}
           </span>
         )}
       </div>
@@ -33,19 +37,19 @@ export default function ActivityDetail({ activity }) {
           <div className={styles.info}>
             {activity.duration && (
               <div className={styles.infoItem}>
-                <span className={styles.label}>Duration</span>
+                <span className={styles.label}>{t("activitiesPage.labels.duration")}</span>
                 <span className={styles.value}>{activity.duration}</span>
               </div>
             )}
             {activity.groupSize && (
               <div className={styles.infoItem}>
-                <span className={styles.label}>Group Size</span>
+                <span className={styles.label}>{t("activitiesPage.labels.groupSize")}</span>
                 <span className={styles.value}>{activity.groupSize}</span>
               </div>
             )}
             {activity.price && (
               <div className={styles.infoItem}>
-                <span className={styles.label}>Price</span>
+                <span className={styles.label}>{t("activitiesPage.labels.price")}</span>
                 <span className={styles.value}>{activity.price}</span>
               </div>
             )}
@@ -62,7 +66,7 @@ export default function ActivityDetail({ activity }) {
 
             {activity.highlights && activity.highlights.length > 0 && (
               <div className={styles.highlights}>
-                <h4>What's Included</h4>
+                <h4>{t("activitiesPage.labels.whatsIncluded")}</h4>
                 <ul>
                   {activity.highlights.map((item, idx) => (
                     <li key={idx}>
@@ -81,26 +85,26 @@ export default function ActivityDetail({ activity }) {
                 rel="noopener noreferrer"
                 className={styles.contactLink}
               >
-                Visit Website
+                {t("activitiesPage.labels.visitWebsite")}
               </a>
             ) : (
               <Link
                 href="/contact?subject=activities"
                 className={styles.contactLink}
               >
-                Contact Us About This Activity
+                {t("activitiesPage.labels.contactUs")}
               </Link>
             )}
 
             <button className={styles.showLessBtn} onClick={() => setIsExpanded(false)}>
-              Show Less
+              {t("activitiesPage.labels.showLess")}
             </button>
           </>
         )}
 
         {!isExpanded && (
           <button className={styles.learnMoreBtn} onClick={handleLearnMore}>
-            Read More
+            {t("activitiesPage.labels.readMore")}
           </button>
         )}
       </div>

@@ -1,12 +1,18 @@
+"use client";
+
 import Image from "next/image";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./welcome-section.module.css";
 
 export default function WelcomeSection() {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   return (
     <section className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2>Welcome to the<br/>Southern Caribbean Paradise</h2>
+          <h2>{t("welcome.title")}</h2>
           <div className={styles.logoContainer}>
             <Image
               src="/blessedhouse_logo25.png"
@@ -17,7 +23,7 @@ export default function WelcomeSection() {
             />
           </div>
           <p>
-            Blessed House is the right choice for visitors who are searching for a combination of charm, peace and quiet. Also we are in a convenient position to explore Puerto Viejo and the beautiful places around.
+            {t("welcome.description")}
           </p>
           <div className={styles.videoContainer}>
             <div className={styles.videoWrapper}>
@@ -30,7 +36,7 @@ export default function WelcomeSection() {
               ></iframe>
             </div>
             <p className={styles.videoCredit}>
-              Video by{" "}
+              {t("welcome.videoBy")}{" "}
               <a
                 href="https://www.instagram.com/dazelg/"
                 target="_blank"

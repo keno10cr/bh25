@@ -1,34 +1,41 @@
+"use client";
+
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./featured-villas.module.css";
 
 const villas = [
   {
     id: 4,
     name: "Villa #4 Colibri",
-    description: "Caribbean style villa with spacious outdoor areas",
+    translationKey: "villa4",
     image: "/villas/4/4a.jpg",
   },
   {
     id: 9,
     name: "Villa #9 Mono Cariblanco",
-    description: "Caribbean style villa perfect for families",
+    translationKey: "villa9",
     image: "/villas/9/9a.jpg",
   },
   {
     id: 12,
     name: "Villa #12 Mariposa Morpho",
-    description: "Caribbean style villa with beautiful gardens",
+    translationKey: "villa12",
     image: "/villas/12/12a.jpg",
   },
 ];
 
 export default function FeaturedVillas() {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
+  
   return (
     <section className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2>Featured Villas</h2>
-          <p>Experience Caribbean style in our handpicked selection of villas</p>
+          <h2>{t("featuredVillas.title")}</h2>
+          <p>{t("featuredVillas.subtitle")}</p>
         </div>
 
         <div className={styles.grid}>
@@ -39,10 +46,10 @@ export default function FeaturedVillas() {
               </div>
               <div className={styles.content}>
                 <h3>{villa.name}</h3>
-                <p>{villa.description}</p>
+                <p>{t(`featuredVillas.${villa.translationKey}.description`)}</p>
                 <div className={styles.footer}>
                   <Link href={`/villas#villa-${villa.id}`} className={styles.link}>
-                    Learn More →
+                    {t("common.learnMore")} →
                   </Link>
                 </div>
               </div>
@@ -52,7 +59,7 @@ export default function FeaturedVillas() {
 
         <div className={styles.viewAll}>
           <Link href="/villas" className={styles.btnLink}>
-            View All Villas
+            {t("featuredVillas.viewAll")}
           </Link>
         </div>
       </div>
