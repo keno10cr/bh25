@@ -27,15 +27,15 @@ const getGalleryImages = (villaNumber) => {
   
   // Add villa-specific images
   for (let i = 0; i < count; i++) {
-    images.push(folder + `${villaNumber}${letters[i]}.png`);
+    images.push(folder + `${villaNumber}${letters[i]}.jpg`);
   }
   
   // Add the 4 general images at the end
   images.push(
-    "/villas/general/charger.png",
-    "/villas/general/junglepool.png",
-    "/villas/general/map.png",
-    "/villas/general/pool.png"
+    "/villas/general/charger.jpg",
+    "/villas/general/junglepool.jpg",
+    "/villas/general/map.jpg",
+    "/villas/general/pool.jpg"
   );
   
   return images;
@@ -51,7 +51,7 @@ const villas = [
     bathrooms: 4,
     maxPeople: 10,
     amenities: ["Wifi", "Kitchen", "Parking", "Hot water"],
-    image: "/villas/3/3a.png",
+    image: "/villas/3/3a.jpg",
     galleryImages: getGalleryImages(3),
   },
   {
@@ -63,7 +63,7 @@ const villas = [
     bathrooms: 1,
     maxPeople: 2,
     amenities: ["Wifi", "Kitchen", "Parking", "Hot water"],
-    image: "/villas/4/4a.png",
+    image: "/villas/4/4a.jpg",
     galleryImages: getGalleryImages(4),
   },
   {
@@ -75,7 +75,7 @@ const villas = [
     bathrooms: 1,
     maxPeople: 4,
     amenities: ["AC", "Wifi", "Kitchen", "Parking", "Hot water"],
-    image: "/villas/5/5c.png",
+    image: "/villas/5/5c.jpg",
     galleryImages: getGalleryImages(5),
   },
   {
@@ -87,7 +87,7 @@ const villas = [
     bathrooms: 1,
     maxPeople: 2,
     amenities: ["Wifi", "Kitchen", "Parking", "Hot water"],
-    image: "/villas/6/6f.png",
+    image: "/villas/6/6f.jpg",
     galleryImages: getGalleryImages(6),
   },
   {
@@ -99,7 +99,7 @@ const villas = [
     bathrooms: 2,
     maxPeople: 6,
     amenities: ["AC", "Wifi", "BBQ Area", "Kitchen", "Parking", "Hot water"],
-    image: "/villas/7/7d.png",
+    image: "/villas/7/7d.jpg",
     galleryImages: getGalleryImages(7),
   },
   {
@@ -111,7 +111,7 @@ const villas = [
     bathrooms: 1,
     maxPeople: 6,
     amenities: ["AC", "Wifi", "BBQ Area", "Kitchen", "Parking", "Hot water"],
-    image: "/villas/8/8a.png",
+    image: "/villas/8/8a.jpg",
     galleryImages: getGalleryImages(8),
   },
   {
@@ -123,7 +123,7 @@ const villas = [
     bathrooms: 1,
     maxPeople: 4,
     amenities: ["Wifi", "Kitchen", "Parking", "Hot water"],
-    image: "/villas/9/9a.png",
+    image: "/villas/9/9a.jpg",
     galleryImages: getGalleryImages(9),
   },
   {
@@ -135,7 +135,7 @@ const villas = [
     bathrooms: 1,
     maxPeople: 4,
     amenities: ["Wifi", "BBQ Area", "Kitchen", "Parking", "Hot water"],
-    image: "/villas/10/10d.png",
+    image: "/villas/10/10d.jpg",
     galleryImages: getGalleryImages(10),
   },
   {
@@ -147,7 +147,7 @@ const villas = [
     bathrooms: 2,
     maxPeople: 7,
     amenities: ["AC", "Wifi", "BBQ Area", "Kitchen", "Parking", "Hot water"],
-    image: "/villas/11/11g.png",
+    image: "/villas/11/11g.jpg",
     galleryImages: getGalleryImages(11),
   },
   {
@@ -159,7 +159,7 @@ const villas = [
     bathrooms: 3,
     maxPeople: 8,
     amenities: ["AC", "Wifi", "BBQ Area", "Kitchen", "Parking", "Hot water"],
-    image: "/villas/12/12i.png",
+    image: "/villas/12/12i.jpg",
     galleryImages: getGalleryImages(12),
   },
 ];

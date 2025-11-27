@@ -15,6 +15,7 @@ export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [formError, setFormError] = useState("");
 
   // Check if subject or villa is in URL params (from activity link or villa link)
   useEffect(() => {
@@ -70,6 +71,7 @@ export default function ContactForm() {
     
     // Validate form
     const newErrors = {};
+    setFormError("");
     
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
@@ -100,11 +102,21 @@ export default function ContactForm() {
     }
     
     setLoading(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // Simulate form submission
-    setTimeout(() => {
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data?.error || "Failed to send message");
+      }
+
       setSubmitted(true);
-      setLoading(false);
       setErrors({});
       setFormData({
         name: "",
@@ -116,7 +128,13 @@ export default function ContactForm() {
 
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitted(false), 5000);
-    }, 1000);
+    } catch (error) {
+      console.error("Contact form submission failed:", error);
+      setFormError("We couldn't send your message right now. Please try again.");
+      setSubmitted(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -129,6 +147,12 @@ export default function ContactForm() {
         </div>
       )}
 
+      {formError && (
+        <div className={styles.errorBanner}>
+          <p>{formError}</p>
+        </div>
+      )}
+ 
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="name">
@@ -213,6 +237,7 @@ export default function ContactForm() {
           {errors.message && <span className={styles.errorText}>{errors.message}</span>}
         </div>
 
+        {formError && <p className={styles.errorText}>{formError}</p>}
         <button type="submit" className={styles.submitBtn} disabled={loading}>
           {loading ? "Sending..." : "Send Message"}
         </button>

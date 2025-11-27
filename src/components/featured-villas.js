@@ -6,19 +6,19 @@ const villas = [
     id: 4,
     name: "Villa #4 Colibri",
     description: "Caribbean style villa with spacious outdoor areas",
-    image: "/villas/4/4a.png",
+    image: "/villas/4/4a.jpg",
   },
   {
     id: 9,
     name: "Villa #9 Mono Cariblanco",
     description: "Caribbean style villa perfect for families",
-    image: "/villas/9/9a.png",
+    image: "/villas/9/9a.jpg",
   },
   {
     id: 12,
     name: "Villa #12 Mariposa Morpho",
     description: "Caribbean style villa with beautiful gardens",
-    image: "/villas/12/12a.png",
+    image: "/villas/12/12a.jpg",
   },
 ];
 

@@ -51,7 +51,7 @@ export default function Hero() {
           style={{ transform: `translateX(${imageOffset}px)` }}
         >
           <img
-            src="/BannerVilla4.png"
+            src="/BannerVilla4.jpg"
             alt="Caribbean style villa with jungle view"
             className={styles.backgroundImage}
           />

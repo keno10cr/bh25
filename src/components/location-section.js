@@ -152,7 +152,7 @@ export default function LocationSection() {
           style={{ transform: `translateY(${imageOffset}px)` }}
         >
           <img
-            src="/info/locationBHmap.png"
+            src="/info/locationBHmap.jpg"
             alt="Location map"
             className={styles.image}
           />

@@ -42,7 +42,7 @@ export default function OurPlace() {
                             style={{ transform: `translateY(${imageOffset}px)` }}
                         >
                             <img
-                                src="/villas/general/junglepool.png"
+                                src="/villas/general/junglepool.jpg"
                                 alt="Blessed House pool area"
                                 className={styles.image}
                             />

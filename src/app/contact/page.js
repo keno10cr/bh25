@@ -43,7 +43,7 @@ export default function ContactPage() {
             style={{ transform: `translateY(${imageOffset}px)` }}
           >
             <img
-              src="/info/miradorBHContact.png"
+              src="/info/miradorBHContact.jpg"
               alt="Contact banner"
               className={styles.bannerImage}
             />

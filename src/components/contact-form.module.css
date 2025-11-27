@@ -25,6 +25,20 @@
   font-weight: 500;
 }
 
+.errorBanner {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #f5c6cb;
+}
+
+.errorBanner p {
+  margin: 0;
+  font-weight: 500;
+}
+
 .form {
   display: flex;
   flex-direction: column;
