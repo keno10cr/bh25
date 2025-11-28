@@ -37,62 +37,81 @@ export default function PaymentsPage() {
         <h1>{t_display("payments.title")}</h1>
       </div>
 
-      <div className={styles.accountInfo}>
-        <p className={styles.subtitle}>{t_display("payments.accountName")}</p>
-        <p className={styles.subtitle}>{t_display("payments.cedulaJuridica")}</p>
-      </div>
-
       <div className={styles.bankSection}>
-        <h2 className={styles.bankName}>{t_display("payments.bankNacional.title")}</h2>
+        <h2 className={styles.bankName}>{t_display("payments.bankBAC.title")}</h2>
         <table className={styles.accountTable}>
-          <thead>
-            <tr>
-              <th>{t_display("payments.table.currency")}</th>
-              <th>{t_display("payments.table.accountNumber")}</th>
-              <th>{t_display("payments.table.iban")}</th>
-              <th>{t_display("payments.table.type")}</th>
-            </tr>
-          </thead>
           <tbody>
             <tr>
-              <td>{t_display("payments.bankNacional.colones.currency")}</td>
-              <td>{t_display("payments.bankNacional.colones.accountNumber")}</td>
-              <td>{t_display("payments.bankNacional.colones.iban")}</td>
-              <td>{t_display("payments.bankNacional.colones.type")}</td>
+              <td>{t_display("payments.labels.nombre")}</td>
+              <td>{t_display("payments.bankBAC.nombre")}</td>
             </tr>
             <tr>
-              <td>{t_display("payments.bankNacional.dolares.currency")}</td>
-              <td>{t_display("payments.bankNacional.dolares.accountNumber")}</td>
-              <td>{t_display("payments.bankNacional.dolares.iban")}</td>
-              <td>{t_display("payments.bankNacional.dolares.type")}</td>
+              <td>{t_display("payments.labels.cedulaJuridica")}</td>
+              <td>{t_display("payments.bankBAC.cedulaJuridica")}</td>
+            </tr>
+            <tr>
+              <td>{t_display("payments.labels.sinpe")}</td>
+              <td>{t_display("payments.bankBAC.sinpe")}</td>
+            </tr>
+            <tr>
+              <td>{t_display("payments.labels.ibanColones")}</td>
+              <td>{t_display("payments.bankBAC.ibanColones")}</td>
+            </tr>
+            <tr>
+              <td>{t_display("payments.labels.ibanDolares")}</td>
+              <td>{t_display("payments.bankBAC.ibanDolares")}</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div className={styles.bankSection}>
-        <h2 className={styles.bankName}>{t_display("payments.bankBAC.title")}</h2>
+        <h2 className={styles.bankName}>{t_display("payments.bankNacional.title")}</h2>
         <table className={styles.accountTable}>
-          <thead>
-            <tr>
-              <th>{t_display("payments.table.currency")}</th>
-              <th>{t_display("payments.table.accountNumber")}</th>
-              <th>{t_display("payments.table.iban")}</th>
-              <th>{t_display("payments.table.type")}</th>
-            </tr>
-          </thead>
           <tbody>
             <tr>
-              <td>{t_display("payments.bankBAC.colones.currency")}</td>
-              <td>{t_display("payments.bankBAC.colones.accountNumber")}</td>
-              <td>{t_display("payments.bankBAC.colones.iban")}</td>
-              <td>{t_display("payments.bankBAC.colones.type")}</td>
+              <td>{t_display("payments.labels.nombre")}</td>
+              <td>{t_display("payments.bankNacional.nombre")}</td>
             </tr>
             <tr>
-              <td>{t_display("payments.bankBAC.dolares.currency")}</td>
-              <td>{t_display("payments.bankBAC.dolares.accountNumber")}</td>
-              <td>{t_display("payments.bankBAC.dolares.iban")}</td>
-              <td>{t_display("payments.bankBAC.dolares.type")}</td>
+              <td>{t_display("payments.labels.cedulaJuridica")}</td>
+              <td>{t_display("payments.bankNacional.cedulaJuridica")}</td>
+            </tr>
+            <tr>
+              <td>{t_display("payments.labels.sinpe")}</td>
+              <td>{t_display("payments.bankNacional.sinpe")}</td>
+            </tr>
+            <tr>
+              <td>{t_display("payments.labels.ibanColones")}</td>
+              <td>{t_display("payments.bankNacional.ibanColones")}</td>
+            </tr>
+            <tr>
+              <td>{t_display("payments.labels.ibanDolares")}</td>
+              <td>{t_display("payments.bankNacional.ibanDolares")}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div className={styles.bankSection}>
+        <h2 className={styles.bankName}>{t_display("payments.bankBCR.title")}</h2>
+        <table className={styles.accountTable}>
+          <tbody>
+            <tr>
+              <td>{t_display("payments.labels.nombre")}</td>
+              <td>{t_display("payments.bankBCR.nombre")}</td>
+            </tr>
+            <tr>
+              <td>{t_display("payments.labels.cedulaJuridica")}</td>
+              <td>{t_display("payments.bankBCR.cedulaJuridica")}</td>
+            </tr>
+            <tr>
+              <td>{t_display("payments.labels.ibanColones")}</td>
+              <td>{t_display("payments.bankBCR.ibanColones")}</td>
+            </tr>
+            <tr>
+              <td>{t_display("payments.labels.ibanDolares")}</td>
+              <td>{t_display("payments.bankBCR.ibanDolares")}</td>
             </tr>
           </tbody>
         </table>
@@ -111,9 +130,57 @@ export default function PaymentsPage() {
       </div>
 
       <div className={styles.contactInfo}>
-        <p className={styles.tel}>{t_display("payments.tel")}</p>
-        <p className={styles.contactSubtitle}>{t_display("payments.contactSubtitle")}</p>
-        <p className={styles.contactText}>{t_display("payments.contactText")}</p>
+        <p className={styles.contactText}>
+          {(() => {
+            const text = t_display("payments.contactText");
+            const phonePattern = /\+1\s?\(?\d{3}\)?\s?\d{3}[-.]?\d{4}/g;
+            const emailPattern = /[\w.-]+@[\w.-]+\.\w+/g;
+            
+            // Find all matches with their positions
+            const allMatches = [];
+            let match;
+            
+            while ((match = phonePattern.exec(text)) !== null) {
+              allMatches.push({
+                start: match.index,
+                end: match.index + match[0].length,
+                text: match[0]
+              });
+            }
+            
+            while ((match = emailPattern.exec(text)) !== null) {
+              allMatches.push({
+                start: match.index,
+                end: match.index + match[0].length,
+                text: match[0]
+              });
+            }
+            
+            // Sort by position
+            allMatches.sort((a, b) => a.start - b.start);
+            
+            // Build JSX elements
+            const result = [];
+            let lastIndex = 0;
+            
+            allMatches.forEach((match, index) => {
+              // Add text before this match
+              if (match.start > lastIndex) {
+                result.push(text.substring(lastIndex, match.start));
+              }
+              // Add bold match
+              result.push(<strong key={`bold-${index}`}>{match.text}</strong>);
+              lastIndex = match.end;
+            });
+            
+            // Add remaining text
+            if (lastIndex < text.length) {
+              result.push(text.substring(lastIndex));
+            }
+            
+            return result.length > 0 ? result : text;
+          })()}
+        </p>
       </div>
 
       <footer className={styles.footer}>

@@ -14,7 +14,7 @@ export default function Navigation() {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const pathname = usePathname();
-  const isPaymentsPage = pathname === "/payments";
+  const isPaymentsPage = pathname === "/payments" || pathname === "/p" || pathname === "/payment" || pathname === "/pagos";
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -89,7 +89,7 @@ export default function Navigation() {
               {t("nav.contact")}
             </Link>
           </li>
-          {pathname === "/payments" && (language === "en" || language === "es") && (
+          {(pathname === "/payments" || pathname === "/p" || pathname === "/payment" || pathname === "/pagos") && (language === "en" || language === "es") && (
             <li>
               <Link 
                 href="/payments" 
