@@ -102,6 +102,13 @@
     gap: 1.5rem;
   }
 
+  /* Disable centering of last item on mobile */
+  .villaWrapper:last-child:nth-child(odd) {
+    grid-column: 1;
+    justify-self: stretch;
+    max-width: 100%;
+  }
+
   .filters {
     gap: 0.5rem;
   }

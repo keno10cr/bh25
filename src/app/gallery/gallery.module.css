@@ -123,6 +123,13 @@
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 1rem;
   }
+
+  /* Disable centering of last item on mobile */
+  .galleryItem:last-child:nth-child(odd) {
+    grid-column: auto;
+    justify-self: stretch;
+    max-width: 100%;
+  }
 }
 
 /* Gallery Modal Styles */
