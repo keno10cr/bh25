@@ -179,6 +179,8 @@ export default function ActivitiesPage() {
     fullDescription: t(`activitiesPage.${activity.translationKey}.fullDescription`),
     highlights: t(`activitiesPage.${activity.translationKey}.highlights`),
     price: t(`activitiesPage.prices.${activity.priceKey}`),
+    duration: activity.duration ? t(`activitiesPage.durations.${activity.duration}`) || activity.duration : activity.duration,
+    groupSize: activity.groupSize ? t(`activitiesPage.groupSizes.${activity.groupSize}`) || activity.groupSize : activity.groupSize,
   }));
 
   useEffect(() => {
