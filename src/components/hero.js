@@ -68,7 +68,21 @@ export default function Hero() {
             ref={contentRef}
             style={{ transform: `translateX(${contentOffset}px)` }}
           >
-            <h1 className={styles.title}>{t("hero.title")}</h1>
+            <h1 className={styles.title}>
+              {(() => {
+                const title = t("hero.title");
+                if (title.includes("Blessed House")) {
+                  const parts = title.split("Blessed House");
+                  return (
+                    <>
+                      Blessed House<br />
+                      {parts[1]}
+                    </>
+                  );
+                }
+                return title;
+              })()}
+            </h1>
             <p className={styles.subtitle}>
               {t("hero.subtitle")}
             </p>
