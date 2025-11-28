@@ -110,6 +110,17 @@ export default function ActivityDetail({ activity }) {
               </Link>
             )}
 
+            {activity.translationKey === "ketos" && (
+              <a
+                href="https://www.stickoscr.com/designs/ketos/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.playKetosBtn}
+              >
+                Play Ketos Online
+              </a>
+            )}
+
             <button className={styles.showLessBtn} onClick={() => setIsExpanded(false)}>
               {t("activitiesPage.labels.showLess")}
             </button>

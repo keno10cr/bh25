@@ -255,6 +255,26 @@
   box-shadow: 0 4px 12px rgba(10, 76, 58, 0.3);
 }
 
+.playKetosBtn {
+  display: inline-block;
+  background-color: #35ae79;
+  color: white;
+  padding: 0.875rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.playKetosBtn:hover {
+  background-color: #2a8d63;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(53, 174, 121, 0.3);
+}
+
 .showLessBtn {
   background-color: #f79d1f;
   color: #2a2a2a;
