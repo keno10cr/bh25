@@ -119,6 +119,26 @@
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.amenityTag:hover {
+  background-color: var(--color-primary);
+  color: var(--color-neutral-light);
+  transform: scale(1.1);
+}
+
+.asterisk {
+  color: var(--color-primary);
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.amenityTag:hover .asterisk {
+  color: var(--color-neutral-light);
 }
 
 .footer {

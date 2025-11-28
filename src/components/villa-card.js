@@ -54,11 +54,23 @@ export default function VillaCard({ villa }) {
               <div className={styles.amenities}>
                 <span className={styles.amenitiesLabel}>{t("villas.details.amenities")}</span>
                 <div className={styles.amenitiesList}>
-                  {villa.amenities.map((amenity, index) => (
-                    <span key={index} className={styles.amenityTag}>
-                      {amenity}
-                    </span>
-                  ))}
+                  {villa.amenities.map((amenity, index) => {
+                    // Check if this amenity is parking in any language
+                    // Translations: Parking (EN/FR), Estacionamiento (ES/PT), Parkplatz (DE), Parkeren (NL), 駐車場 (JP)
+                    const parkingTranslations = [
+                      "parking", "estacionamiento", "parkplatz", "parkeren", "駐車場"
+                    ];
+                    const amenityLower = amenity.toLowerCase().trim();
+                    const isParking = parkingTranslations.some(translation => 
+                      amenityLower === translation.toLowerCase()
+                    );
+                    return (
+                      <span key={index} className={styles.amenityTag}>
+                        {amenity}
+                        {isParking && <span className={styles.asterisk}> *</span>}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             )}

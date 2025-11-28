@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
@@ -10,27 +11,27 @@ const activities = [
   {
     id: 1,
     translationKey: "snorkeling",
-    icon: "🤿",
+    image: "/info/snorkeling.png",
   },
   {
     id: 2,
     translationKey: "jungleHike",
-    icon: "🥾",
+    image: "/info/hike.png",
   },
   {
     id: 3,
     translationKey: "boatTour",
-    icon: "⛵",
+    image: "/info/boat.png",
   },
   {
     id: 4,
     translationKey: "bribriWonders",
-    icon: "🍫",
+    image: "/info/bribri.png",
   },
   {
     id: 5,
     translationKey: "wildlifeWatching",
-    icon: "🦥",
+    image: "/info/wildLife.png",
   },
 ];
 
@@ -88,7 +89,14 @@ export default function ActivityPreview() {
               }`}
               style={{ animationDelay: `${index * 0.15}s` }}
             >
-              <div className={styles.icon}>{activity.icon}</div>
+              <div className={styles.icon}>
+                <Image 
+                  src={activity.image} 
+                  alt={t(`activities.${activity.translationKey}.name`)} 
+                  width={120}
+                  height={120}
+                />
+              </div>
               <h3>{t(`activities.${activity.translationKey}.name`)}</h3>
               <p>{t(`activities.${activity.translationKey}.description`)}</p>
             </div>

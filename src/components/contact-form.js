@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import styles from "./contact-form.module.css";
@@ -246,6 +247,19 @@ export default function ContactForm() {
           {loading ? t("contact.sending") : t("contact.send")}
         </button>
       </form>
+
+      <div className={styles.chargingNote}>
+        <div className={styles.chargingIconWrapper}>
+          <Image 
+            src="/info/ChargingStation.jpg" 
+            alt="Charging Station" 
+            width={40}
+            height={40}
+            className={styles.chargingIcon}
+          />
+        </div>
+        <p>{t("footer.parkingFee")}</p>
+      </div>
 
       <div className={styles.videoContainer}>
         <h3>{t("contact.videoTitle")}</h3>

@@ -8,38 +8,44 @@ export const languages = {
   en: {
     code: "en",
     name: "English",
-    flag: "🇺🇸",
+    flag: "/info/flag-usa-sm.png",
     nativeName: "English",
   },
   es: {
     code: "es",
     name: "Español",
-    flag: "🇨🇷",
+    flag: "/info/flag-tico-sm.png",
     nativeName: "Español",
   },
   de: {
     code: "de",
     name: "German",
-    flag: "🇩🇪",
+    flag: "/info/flag-germany-sm.png",
     nativeName: "Deutsch",
   },
   nl: {
     code: "nl",
     name: "Dutch",
-    flag: "🇳🇱",
+    flag: "/info/flag-netherlands-sm.png",
     nativeName: "Nederlands",
   },
   fr: {
     code: "fr",
     name: "French",
-    flag: "🇫🇷",
+    flag: "/info/flag-france-sm.png",
     nativeName: "Français",
   },
   ja: {
     code: "ja",
     name: "Japanese",
-    flag: "🇯🇵",
+    flag: "/info/flag-japan-sm.png",
     nativeName: "日本語",
+  },
+  pt: {
+    code: "pt",
+    name: "Portuguese",
+    flag: "/info/flag-brazil-sm.png",
+    nativeName: "Português",
   },
 };
 

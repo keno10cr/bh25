@@ -2,11 +2,26 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { useLanguage, languages } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import styles from "./language-switcher.module.css";
 
-export default function LanguageSwitcher() {
+const paymentsLanguages = {
+  en: {
+    code: "en",
+    name: "English",
+    flag: "/info/flag-usa-sm.png",
+    nativeName: "English",
+  },
+  es: {
+    code: "es",
+    name: "Español",
+    flag: "/info/flag-tico-sm.png",
+    nativeName: "Español",
+  },
+};
+
+export default function LanguageSwitcherPayments() {
   const { language, changeLanguage } = useLanguage();
   const t = useTranslation(language);
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +29,9 @@ export default function LanguageSwitcher() {
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const currentLanguage = languages[language];
+  // Only use English or Spanish, default to English if other language is selected
+  const currentLangCode = language === "en" || language === "es" ? language : "en";
+  const currentLanguage = paymentsLanguages[currentLangCode];
 
   const handleToggle = () => {
     if (isOpen) {
@@ -83,6 +100,13 @@ export default function LanguageSwitcher() {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen]);
 
+  // If language is not English or Spanish, switch to English
+  useEffect(() => {
+    if (language !== "en" && language !== "es") {
+      changeLanguage("en");
+    }
+  }, [language, changeLanguage]);
+
   return (
     <>
       <button
@@ -131,11 +155,11 @@ export default function LanguageSwitcher() {
               </button>
             </div>
             <div className={styles.languageList}>
-              {Object.values(languages).map((lang) => (
+              {Object.values(paymentsLanguages).map((lang) => (
                 <button
                   key={lang.code}
                   className={`${styles.languageOption} ${
-                    language === lang.code ? styles.active : ""
+                    currentLangCode === lang.code ? styles.active : ""
                   }`}
                   onClick={() => handleLanguageSelect(lang.code)}
                 >
@@ -150,7 +174,7 @@ export default function LanguageSwitcher() {
                     <span className={styles.languageName}>{lang.nativeName}</span>
                     <span className={styles.languageEnglish}>{lang.name}</span>
                   </div>
-                  {language === lang.code && (
+                  {currentLangCode === lang.code && (
                     <span className={styles.checkmark}>✓</span>
                   )}
                 </button>

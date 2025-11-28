@@ -31,6 +31,13 @@
   width: 100%;
 }
 
+/* Center the last item if there are an odd number of items (hanging item) */
+.galleryItem:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  justify-self: center;
+  max-width: 300px;
+}
+
 .galleryItem {
   position: relative;
   overflow: hidden;

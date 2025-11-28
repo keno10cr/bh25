@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import VillaCard from "@/components/villa-card";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
@@ -49,10 +50,11 @@ const villasBase = [
     id: 3,
     name: "Villa #3 Baula Turtle",
     translationKey: "villa3",
-    bedrooms: 2,
-    bathrooms: 4,
+    bedrooms: 4,
+    bathrooms: 2,
     maxPeople: 10,
     amenities: ["wifi", "kitchen", "parking", "hotWater"],
+    bedInfo: null, // Will be added to translations
     image: "/villas/3/3a.jpg",
     getGalleryImages: () => getGalleryImages(3),
   },
@@ -62,8 +64,9 @@ const villasBase = [
     translationKey: "villa4",
     bedrooms: 1,
     bathrooms: 1,
-    maxPeople: 2,
+    maxPeople: 3,
     amenities: ["wifi", "kitchen", "parking", "hotWater"],
+    bedInfo: "bedInfo1", // 1 Queen Bed, 1 Individual Bed
     image: "/villas/4/4a.jpg",
     getGalleryImages: () => getGalleryImages(4),
   },
@@ -71,10 +74,11 @@ const villasBase = [
     id: 5,
     name: "Villa #5 Jaguar",
     translationKey: "villa5",
-    bedrooms: 2,
+    bedrooms: 3,
     bathrooms: 1,
-    maxPeople: 4,
+    maxPeople: 2,
     amenities: ["ac", "wifi", "kitchen", "parking", "hotWater"],
+    bedInfo: "bedInfo2", // 1 double bed
     image: "/villas/5/5c.jpg",
     getGalleryImages: () => getGalleryImages(5),
   },
@@ -86,6 +90,7 @@ const villasBase = [
     bathrooms: 1,
     maxPeople: 2,
     amenities: ["wifi", "kitchen", "parking", "hotWater"],
+    bedInfo: "bedInfo2", // 1 double bed
     image: "/villas/6/6f.jpg",
     getGalleryImages: () => getGalleryImages(6),
   },
@@ -93,10 +98,11 @@ const villasBase = [
     id: 7,
     name: "Villa #7 Rana Verde",
     translationKey: "villa7",
-    bedrooms: 3,
+    bedrooms: 2,
     bathrooms: 2,
     maxPeople: 6,
     amenities: ["ac", "wifi", "bbqArea", "kitchen", "parking", "hotWater"],
+    bedInfo: null,
     image: "/villas/7/7d.jpg",
     getGalleryImages: () => getGalleryImages(7),
   },
@@ -104,10 +110,11 @@ const villasBase = [
     id: 8,
     name: "Villa #8 Oso peresozo",
     translationKey: "villa8",
-    bedrooms: 2,
+    bedrooms: 1,
     bathrooms: 1,
-    maxPeople: 6,
+    maxPeople: 5,
     amenities: ["ac", "wifi", "bbqArea", "kitchen", "parking", "hotWater"],
+    bedInfo: "bedInfo3", // 1 king + 3 singles beds
     image: "/villas/8/8a.jpg",
     getGalleryImages: () => getGalleryImages(8),
   },
@@ -117,8 +124,9 @@ const villasBase = [
     translationKey: "villa9",
     bedrooms: 1,
     bathrooms: 1,
-    maxPeople: 4,
+    maxPeople: 3,
     amenities: ["wifi", "kitchen", "parking", "hotWater"],
+    bedInfo: "bedInfo4", // 1 queen + 1 single
     image: "/villas/9/9a.jpg",
     getGalleryImages: () => getGalleryImages(9),
   },
@@ -130,6 +138,7 @@ const villasBase = [
     bathrooms: 1,
     maxPeople: 4,
     amenities: ["wifi", "bbqArea", "kitchen", "parking", "hotWater"],
+    bedInfo: "bedInfo5", // 1 queen + 1 bunk bed
     image: "/villas/10/10d.jpg",
     getGalleryImages: () => getGalleryImages(10),
   },
@@ -138,9 +147,10 @@ const villasBase = [
     name: "Villa #11 Lapa Roja",
     translationKey: "villa11",
     bedrooms: 2,
-    bathrooms: 2,
-    maxPeople: 7,
+    bathrooms: 1,
+    maxPeople: 6,
     amenities: ["ac", "wifi", "bbqArea", "kitchen", "parking", "hotWater"],
+    bedInfo: "bedInfo6", // 1 queen + 1 double bed + 1 bunk bed
     image: "/villas/11/11g.jpg",
     getGalleryImages: () => getGalleryImages(11),
   },
@@ -148,10 +158,11 @@ const villasBase = [
     id: 12,
     name: "Villa #12 Mariposa Morpho",
     translationKey: "villa12",
-    bedrooms: 3,
-    bathrooms: 3,
+    bedrooms: 2,
+    bathrooms: 2,
     maxPeople: 8,
     amenities: ["ac", "wifi", "bbqArea", "kitchen", "parking", "hotWater"],
+    bedInfo: null,
     image: "/villas/12/12i.jpg",
     getGalleryImages: () => getGalleryImages(12),
   },
@@ -165,13 +176,20 @@ export default function VillasPage() {
   const villasRef = useRef(null);
 
   // Create villas with translated content
-  const villas = villasBase.map((villa) => ({
-    ...villa,
-    description: t(`villas.${villa.translationKey}.description`),
-    informativeFact: t(`villas.${villa.translationKey}.informativeFact`),
-    amenities: villa.amenities.map((amenity) => t(`villas.amenities.${amenity}`)),
-    galleryImages: villa.getGalleryImages(),
-  }));
+  const villas = villasBase.map((villa) => {
+    const baseAmenities = villa.amenities.filter(a => !a.startsWith("bedInfo"));
+    const translatedAmenities = baseAmenities.map((amenity) => t(`villas.amenities.${amenity}`));
+    if (villa.bedInfo) {
+      translatedAmenities.push(t(`villas.bedInfo.${villa.bedInfo}`));
+    }
+    return {
+      ...villa,
+      description: t(`villas.${villa.translationKey}.description`),
+      informativeFact: t(`villas.${villa.translationKey}.informativeFact`),
+      amenities: translatedAmenities,
+      galleryImages: villa.getGalleryImages(),
+    };
+  });
 
   const filterOptions = [
     { value: "all", label: t("villas.filters.all") },
@@ -264,6 +282,17 @@ export default function VillasPage() {
             <VillaCard villa={villa} />
           </div>
         ))}
+      </div>
+
+      <div className={styles.chargingNote}>
+        <Image 
+          src="/info/ChargingStation.jpg" 
+          alt="Charging Station" 
+          width={40}
+          height={40}
+          className={styles.chargingIcon}
+        />
+        <p>{t("footer.parkingFee")} <span className={styles.asterisk}>*</span></p>
       </div>
     </div>
   );

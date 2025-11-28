@@ -8,6 +8,7 @@ export const translations = {
       villas: "Villas",
       activities: "Activities",
       contact: "Contact",
+      payments: "Payments",
     },
     // Hero
     hero: {
@@ -281,7 +282,8 @@ export const translations = {
         phone: "Phone",
         email: "Email",
         hours: "Hours",
-        hoursLine1: "Mon - Sun: 8:00 AM - 10:00 PM",
+        hoursDays: "Mon - Sun",
+        hoursTime: "8:00 AM - 10:00 PM",
         hoursLine2: "Feel free to contact us",
         howToGetHere: "How to get here",
         directions: "From the crossroad at Hone Creek, keep on straight towards Puerto Viejo for 2.5kms, our entrance is on the right side of the road.",
@@ -300,6 +302,53 @@ export const translations = {
       contactInfo: "Contact Info",
       socialMedia: "Social Media",
       copyright: "All rights reserved.",
+      parkingFee: "Additional cost for vehicle charging. Please inquire.",
+    },
+    // Payments Page
+    payments: {
+      title: "Bank Accounts",
+      accountName: "Account Name: Blessed House S.A.",
+      cedulaJuridica: "Legal ID: #-###-#####",
+      table: {
+        currency: "Currency",
+        accountNumber: "Account Number",
+        iban: "IBAN Account",
+        type: "Type",
+      },
+      bankNacional: {
+        title: "Banco Nacional de Costa Rica",
+        colones: {
+          currency: "Colones",
+          accountNumber: "###-##-#########-#",
+          iban: "CR##############",
+          type: "Current",
+        },
+        dolares: {
+          currency: "Dollars",
+          accountNumber: "###-##-#########-#",
+          iban: "CR##############",
+          type: "Current",
+        },
+      },
+      bankBAC: {
+        title: "BAC San José",
+        colones: {
+          currency: "Colones",
+          accountNumber: "###-##-#########-#",
+          iban: "CR##############",
+          type: "Current",
+        },
+        dolares: {
+          currency: "Dollars",
+          accountNumber: "###-##-#########-#",
+          iban: "CR##############",
+          type: "Current",
+        },
+      },
+      tel: "TEL: ####-####",
+      contactSubtitle: "Blessed House S.A.",
+      contactText: "Please send proof of deposit to WhatsApp +1 (754) 610-4710 or email blessedhousecr@gmail.com",
+      footer: "Tel. +1 (754) 610-4710 - www.blessedhouse.info - Puerto Viejo, Talamanca, Costa Rica",
     },
     // Gallery
     gallery: {
@@ -360,6 +409,14 @@ export const translations = {
         hotWater: "Hot water",
         ac: "AC",
         bbqArea: "BBQ Area",
+      },
+      bedInfo: {
+        bedInfo1: "1 Queen Bed, 1 Individual Bed",
+        bedInfo2: "1 double bed",
+        bedInfo3: "1 king + 3 singles beds",
+        bedInfo4: "1 queen + 1 single",
+        bedInfo5: "1 queen + 1 bunk bed",
+        bedInfo6: "1 queen + 1 double bed + 1 bunk bed",
       },
       villa3: {
         description:
@@ -429,6 +486,7 @@ export const translations = {
       phone: "Phone",
       learnMore: "Learn More",
       viewAll: "View All",
+      selectLanguage: "Select Language",
     },
   },
   es: {
@@ -437,6 +495,7 @@ export const translations = {
       villas: "Villas",
       activities: "Actividades",
       contact: "Contacto",
+      payments: "Pagos",
     },
     hero: {
       title: "Blessed House Te Espera",
@@ -701,7 +760,8 @@ export const translations = {
         phone: "Teléfono",
         email: "Correo",
         hours: "Horarios",
-        hoursLine1: "Lun - Dom: 8:00 AM - 10:00 PM",
+        hoursDays: "Lun - Dom",
+        hoursTime: "8:00 AM - 10:00 PM",
         hoursLine2: "No dudes en contactarnos",
         howToGetHere: "Cómo llegar",
         directions: "Desde el cruce en Hone Creek, continúa recto hacia Puerto Viejo por 2.5 km, nuestra entrada está en el lado derecho de la carretera.",
@@ -719,6 +779,53 @@ export const translations = {
       contactInfo: "Información de Contacto",
       socialMedia: "Redes Sociales",
       copyright: "Todos los derechos reservados.",
+      parkingFee: "Costo adicional p/carga vehicular. Consultas por favor.",
+    },
+    // Payments Page
+    payments: {
+      title: "Cuentas Bancarias",
+      accountName: "A nombre de: Blessed House S.A.",
+      cedulaJuridica: "Cédula Jurídica: #-###-#####",
+      table: {
+        currency: "Moneda",
+        accountNumber: "Cuenta Número",
+        iban: "Cuenta IBAN",
+        type: "Tipo",
+      },
+      bankNacional: {
+        title: "Banco Nacional de Costa Rica",
+        colones: {
+          currency: "Colones",
+          accountNumber: "###-##-#########-#",
+          iban: "CR##############",
+          type: "Corriente",
+        },
+        dolares: {
+          currency: "Dólares",
+          accountNumber: "###-##-#########-#",
+          iban: "CR##############",
+          type: "Corriente",
+        },
+      },
+      bankBAC: {
+        title: "BAC San José",
+        colones: {
+          currency: "Colones",
+          accountNumber: "###-##-#########-#",
+          iban: "CR##############",
+          type: "Corriente",
+        },
+        dolares: {
+          currency: "Dólares",
+          accountNumber: "###-##-#########-#",
+          iban: "CR##############",
+          type: "Corriente",
+        },
+      },
+      tel: "TEL: ####-####",
+      contactSubtitle: "Blessed House S.A.",
+      contactText: "Por favor enviar comprobante de depósito al whatsapp +1 (754) 610-4710 o al correo blessedhousecr@gmail.com",
+      footer: "Tel. +1 (754) 610-4710 - www.blessedhouse.info - Puerto Viejo, Talamanca, Costa Rica",
     },
     gallery: {
       title: "Descubre el Paraíso en Blessed House",
@@ -777,6 +884,14 @@ export const translations = {
         hotWater: "Agua caliente",
         ac: "Aire acondicionado",
         bbqArea: "Área de BBQ",
+      },
+      bedInfo: {
+        bedInfo1: "1 Cama Queen, 1 Cama Individual",
+        bedInfo2: "1 cama doble",
+        bedInfo3: "1 cama king + 3 camas individuales",
+        bedInfo4: "1 queen + 1 individual",
+        bedInfo5: "1 queen + 1 litera",
+        bedInfo6: "1 queen + 1 cama doble + 1 litera",
       },
       villa3: {
         description:
@@ -845,6 +960,7 @@ export const translations = {
       phone: "Teléfono",
       learnMore: "Saber Más",
       viewAll: "Ver Todo",
+      selectLanguage: "Seleccionar Idioma",
     },
   },
   de: {
@@ -967,7 +1083,7 @@ export const translations = {
         description: "Weniger als 30 Minuten von Blessed House entfernt",
         fullDescription:
           "Reise von Blessed House nach Manzanillo, Limón, Costa Rica. Ein wunderschönes Reiseziel, perfekt zum Erkunden des National Wildlife Refuge und zum Genießen der unberührten Strände.",
-        highlights: ["National Wildlife Refuge", "Unberührte Strände", "Wildtierbeobachtung", "Aussichtsreiche Aussichten"],
+        highlights: ["National Wildlife Refuge", "Unberührte Strände", "Wildlife", "Aussichtsreiche Aussichten"],
       },
       elMirador: {
         name: "El Mirador",
@@ -1044,7 +1160,7 @@ export const translations = {
         description: "Weniger als 30 Minuten von Blessed House entfernt",
         fullDescription:
           "Reise von Blessed House nach Cahuita. Ein wunderschönes Reiseziel, perfekt zum Erkunden des Nationalparks und zum Genießen der unberührten Strände mit erstaunlichen Pfaden, die tief in den Dschungel führen.",
-        highlights: ["National Wildlife Refuge", "Unberührte Strände", "Wildtierbeobachtung", "Aussichtsreiche Aussichten"],
+        highlights: ["National Wildlife Refuge", "Unberührte Strände", "Wildlife", "Aussichtsreiche Aussichten"],
       },
       eBikeRental: {
         name: "E-Bike Vermietung",
@@ -1063,7 +1179,7 @@ export const translations = {
         description: "Erkunden Sie lebendige Korallenriffe und tropische Fische",
       },
       jungleHike: {
-        name: "Dschungelwanderung",
+        name: "Jungle",
         description: "Wandern Sie durch unberührte Regenwaldpfade",
       },
       boatTour: {
@@ -1075,7 +1191,7 @@ export const translations = {
         description: "Entdecken Sie Kakaotraditionen und lokale Kultur",
       },
       wildlifeWatching: {
-        name: "Wildtierbeobachtung",
+        name: "Wildlife",
         description: "Beobachten Sie Faultiere, Affen und exotische Vögel",
       },
     },
@@ -1117,7 +1233,8 @@ export const translations = {
         phone: "Telefon",
         email: "E-Mail",
         hours: "Öffnungszeiten",
-        hoursLine1: "Mo - So: 8:00 - 22:00 Uhr",
+        hoursDays: "Mo - So",
+        hoursTime: "8:00 - 22:00 Uhr",
         hoursLine2: "Kontaktieren Sie uns gerne",
         howToGetHere: "So kommen Sie hierher",
         directions: "Von der Kreuzung in Hone Creek fahren Sie geradeaus in Richtung Puerto Viejo für 2,5 km, unser Eingang befindet sich auf der rechten Straßenseite.",
@@ -1135,6 +1252,7 @@ export const translations = {
       contactInfo: "Kontaktinformationen",
       socialMedia: "Soziale Medien",
       copyright: "Alle Rechte vorbehalten.",
+      parkingFee: "Zusätzliche Kosten für Fahrzeugaufladung. Bitte anfragen.",
     },
     gallery: {
       title: "Entdecken Sie das Paradies in Blessed House",
@@ -1193,6 +1311,14 @@ export const translations = {
         hotWater: "Heißes Wasser",
         ac: "Klimaanlage",
         bbqArea: "Grillbereich",
+      },
+      bedInfo: {
+        bedInfo1: "1 Queen-Bett, 1 Einzelbett",
+        bedInfo2: "1 Doppelbett",
+        bedInfo3: "1 King + 3 Einzelbetten",
+        bedInfo4: "1 Queen + 1 Einzelbett",
+        bedInfo5: "1 Queen + 1 Etagenbett",
+        bedInfo6: "1 Queen + 1 Doppelbett + 1 Etagenbett",
       },
       villa3: {
         description:
@@ -1261,6 +1387,7 @@ export const translations = {
       phone: "Telefon",
       learnMore: "Mehr Erfahren",
       viewAll: "Alle Anzeigen",
+      selectLanguage: "Sprache Auswählen",
     },
   },
   nl: {
@@ -1533,7 +1660,8 @@ export const translations = {
         phone: "Telefoon",
         email: "E-mail",
         hours: "Openingstijden",
-        hoursLine1: "Ma - Zo: 8:00 - 22:00",
+        hoursDays: "Ma - Zo",
+        hoursTime: "8:00 - 22:00",
         hoursLine2: "Neem gerust contact met ons op",
         howToGetHere: "Hoe hier te komen",
         directions: "Vanaf de kruising bij Hone Creek, blijf rechtdoor richting Puerto Viejo voor 2,5 km, onze ingang is aan de rechterkant van de weg.",
@@ -1551,6 +1679,7 @@ export const translations = {
       contactInfo: "Contactgegevens",
       socialMedia: "Sociale Media",
       copyright: "Alle rechten voorbehouden.",
+      parkingFee: "Extra kosten voor voertuigopladen. Vraag alstublieft.",
     },
     gallery: {
       title: "Ontdek het Paradijs bij Blessed House",
@@ -1609,6 +1738,14 @@ export const translations = {
         hotWater: "Warm water",
         ac: "Airconditioning",
         bbqArea: "BBQ Gebied",
+      },
+      bedInfo: {
+        bedInfo1: "1 Queenbed, 1 Eenpersoonsbed",
+        bedInfo2: "1 tweepersoonsbed",
+        bedInfo3: "1 king + 3 eenpersoonsbedden",
+        bedInfo4: "1 queen + 1 eenpersoonsbed",
+        bedInfo5: "1 queen + 1 stapelbed",
+        bedInfo6: "1 queen + 1 tweepersoonsbed + 1 stapelbed",
       },
       villa3: {
         description:
@@ -1677,6 +1814,7 @@ export const translations = {
       phone: "Telefoon",
       learnMore: "Meer Weten",
       viewAll: "Alles Bekijken",
+      selectLanguage: "Taal Selecteren",
     },
   },
   fr: {
@@ -1949,7 +2087,8 @@ export const translations = {
         phone: "Téléphone",
         email: "E-mail",
         hours: "Heures",
-        hoursLine1: "Lun - Dim: 8h00 - 22h00",
+        hoursDays: "Lun - Dim",
+        hoursTime: "8h00 - 22h00",
         hoursLine2: "N'hésitez pas à nous contacter",
         howToGetHere: "Comment venir ici",
         directions: "Depuis le carrefour à Hone Creek, continuez tout droit vers Puerto Viejo sur 2,5 km, notre entrée est sur le côté droit de la route.",
@@ -1967,6 +2106,7 @@ export const translations = {
       contactInfo: "Informations de Contact",
       socialMedia: "Réseaux Sociaux",
       copyright: "Tous droits réservés.",
+      parkingFee: "Coût supplémentaire pour la recharge des véhicules. Veuillez vous renseigner.",
     },
     gallery: {
       title: "Découvrez le Paradis à Blessed House",
@@ -2025,6 +2165,14 @@ export const translations = {
         hotWater: "Eau chaude",
         ac: "Climatisation",
         bbqArea: "Zone BBQ",
+      },
+      bedInfo: {
+        bedInfo1: "1 lit Queen, 1 lit simple",
+        bedInfo2: "1 lit double",
+        bedInfo3: "1 lit king + 3 lits simples",
+        bedInfo4: "1 queen + 1 simple",
+        bedInfo5: "1 queen + 1 lit superposé",
+        bedInfo6: "1 queen + 1 lit double + 1 lit superposé",
       },
       villa3: {
         description:
@@ -2093,6 +2241,7 @@ export const translations = {
       phone: "Téléphone",
       learnMore: "En Savoir Plus",
       viewAll: "Voir Tout",
+      selectLanguage: "Sélectionner la Langue",
     },
   },
   ja: {
@@ -2365,7 +2514,8 @@ export const translations = {
         phone: "電話",
         email: "メール",
         hours: "営業時間",
-        hoursLine1: "月 - 日: 8:00 - 22:00",
+        hoursDays: "月 - 日",
+        hoursTime: "8:00 - 22:00",
         hoursLine2: "お気軽にお問い合わせください",
         howToGetHere: "アクセス方法",
         directions: "ホンクリークの交差点からプエルトビエホ方面へ2.5km直進すると、右側に当ホテルの入り口があります。",
@@ -2383,6 +2533,7 @@ export const translations = {
       contactInfo: "連絡先情報",
       socialMedia: "ソーシャルメディア",
       copyright: "全著作権所有。",
+      parkingFee: "車両充電の追加費用。お問い合わせください。",
     },
     gallery: {
       title: "ブレッセッドハウスで楽園を発見",
@@ -2441,6 +2592,14 @@ export const translations = {
         hotWater: "お湯",
         ac: "エアコン",
         bbqArea: "BBQエリア",
+      },
+      bedInfo: {
+        bedInfo1: "クイーンベッド1台、シングルベッド1台",
+        bedInfo2: "ダブルベッド1台",
+        bedInfo3: "キング1台 + シングル3台",
+        bedInfo4: "クイーン1台 + シングル1台",
+        bedInfo5: "クイーン1台 + 二段ベッド1台",
+        bedInfo6: "クイーン1台 + ダブル1台 + 二段ベッド1台",
       },
       villa3: {
         description:
@@ -2509,6 +2668,438 @@ export const translations = {
       phone: "電話",
       learnMore: "詳細を見る",
       viewAll: "すべて表示",
+      selectLanguage: "言語を選択",
+    },
+  },
+  pt: {
+    // Navigation
+    nav: {
+      gallery: "Galeria",
+      villas: "Vilas",
+      activities: "Atividades",
+      contact: "Contato",
+    },
+    // Hero
+    hero: {
+      title: "Blessed House Aguarda",
+      subtitle:
+        "Para hóspedes que buscam paz, tranquilidade e um toque de charme autêntico, você encontrou seu refúgio. Nossa localização ideal garante exploração sem esforço do melhor da costa caribenha sul da Costa Rica.",
+      exploreVillas: "Explorar Vilas",
+      getInTouch: "Entre em Contato",
+    },
+    // Welcome Section
+    welcome: {
+      title: "Bem-vindo ao Paraíso do Caribe Sul",
+      description:
+        "Blessed House é a escolha certa para visitantes que buscam uma combinação de charme, paz e tranquilidade. Também estamos em uma posição conveniente para explorar Puerto Viejo e os lugares bonitos ao redor.",
+      videoBy: "Vídeo por",
+    },
+    // Our Place
+    ourPlace: {
+      title: "Nosso Lugar",
+      description:
+        "Bem-vindo ao Blessed House, uma propriedade tranquila e espaçosa aninhada nas montanhas ricas perto de Puerto Viejo. Oferecemos uma experiência caribenha autêntica cercada por natureza incrível e apenas uma curta distância das praias. Aqui, você desfrutará de um ambiente saudável e ecológico onde a vida selvagem, de preguiças a beija-flores, faz parte da paisagem. Nossas vilas confortáveis e área de piscina compartilhada são projetadas para seu relaxamento completo e prazer.",
+      contactUs: "Entre em Contato",
+    },
+    // Location
+    location: {
+      title: "Localização",
+      description:
+        "Do cruzamento em Hone Creek, continue reto em direção a Puerto Viejo por 2,5 km, nossa entrada está no lado direito da estrada.",
+      mapsInfo: "Você pode nos encontrar no Google Maps:",
+      contactUs: "Entre em Contato",
+    },
+    // Featured Villas
+    featuredVillas: {
+      title: "Vilas em Destaque",
+      subtitle: "Experimente o estilo caribenho na nossa seleção cuidadosa de vilas",
+      viewAll: "Ver Todas as Vilas",
+      villa4: {
+        description: "Vila estilo caribenho com áreas externas espaçosas",
+      },
+      villa9: {
+        description: "Vila espaçosa perfeita para famílias e grupos",
+      },
+    },
+    // Villas Page
+    villas: {
+      title: "Nossas Vilas",
+      subtitle: "Descubra o seu refúgio perfeito no paraíso caribenho",
+      filters: {
+        all: "Todas",
+        twoPeople: "2 Pessoas",
+        fourPeople: "4 Pessoas",
+        sixPlusPeople: "6+ Pessoas",
+      },
+      details: {
+        bedrooms: "Quartos",
+        bathrooms: "Banheiros",
+        maxPeople: "Máx. Pessoas",
+        amenities: "Comodidades",
+      },
+      buttons: {
+        viewGallery: "Ver Galeria",
+        bookNow: "Reservar Agora",
+      },
+      amenities: {
+        wifi: "Wi-Fi",
+        kitchen: "Cozinha",
+        parking: "Estacionamento",
+        hotWater: "Água quente",
+        ac: "Ar condicionado",
+        bbqArea: "Área de Churrasqueira",
+      },
+      bedInfo: {
+        bedInfo1: "1 Cama Queen, 1 Cama Individual",
+        bedInfo2: "1 cama de casal",
+        bedInfo3: "1 king + 3 camas individuais",
+        bedInfo4: "1 queen + 1 individual",
+        bedInfo5: "1 queen + 1 beliche",
+        bedInfo6: "1 queen + 1 cama de casal + 1 beliche",
+      },
+      villa3: {
+        description:
+          "Esta é a vila perfeita para sua família. Feita com estilo local e espaçosa para até 10 pessoas, inclui estacionamento privado, dois banheiros e uma cozinha totalmente equipada. Desfrute do acesso à piscina compartilhada, imersa em nossos jardins tropicais exuberantes perto das melhores praias do Caribe Sul.",
+        informativeFact:
+          "A Baula (Tartaruga-de-couro) é a maior tartaruga marinha da Terra. Elas são conhecidas por nidificar em praias caribenhas, especialmente perto do Parque Nacional Cahuita, principalmente entre março e julho de cada ano.",
+      },
+      villa4: {
+        description:
+          "Localizada a apenas 5 minutos de Puerto Viejo, este espaço é projetado para casais que querem uma estadia bonita, privada e tranquila, ou uma pequena família de três. Desfrute de vistas incríveis das copas das árvores e da costa, com acesso à piscina compartilhada e área de churrasqueira.",
+        informativeFact:
+          "A Costa Rica abriga mais de 50 espécies de Colibri (Beija-flores). Eles devem se alimentar de néctar a cada 10-15 minutos, e suas asas batem tão rápido que podem pairar perfeitamente para saborear néctar.",
+      },
+      villa5: {
+        description:
+          "Venha esquecer a realidade e relaxar com sua família e amigos nesta vila encantadora. Desfrute das áreas externas espaçosas, jardins bem cuidados, piscina e Wi-Fi. Estamos localizados a apenas 3 minutos de Playa Negra e 5 minutos de Puerto Viejo.",
+        informativeFact:
+          "A Onça-pintada é o maior felino das Américas. Na Costa Rica, suas populações são frequentemente rastreadas em áreas costeiras protegidas onde usam suas poderosas habilidades de natação para caçar.",
+      },
+      villa6: {
+        description:
+          "Esta vila aconchegante é ideal para um retiro familiar pequeno, oferecendo fácil acesso à área de piscina central e estacionamento dedicado. Captura perfeitamente o espírito da selva e da costa em um ambiente confortável.",
+        informativeFact:
+          "A Rana Roja (Sapo-venenoso-de-morango) é frequentemente vista forrageando na serapilheira baixa das florestas úmidas de terras baixas, tornando-as uma visão comum no ecossistema do Caribe Sul.",
+      },
+      villa7: {
+        description:
+          "Um espaço tranquilo projetado para casais que buscam relaxamento genuíno. Esta vila inspirada no estilo local conta com uma área de assentos confortável e acesso conveniente às trilhas do jardim e comodidades compartilhadas.",
+        informativeFact:
+          "A Rana Verde (Sapo-arborícola-de-olhos-vermelhos) é noturna e passa seus dias perfeitamente camuflada na parte inferior das folhas verdes, o que ajuda a evitar a detecção de predadores.",
+      },
+      villa8: {
+        description:
+          "Abrace o estilo de vida Pura Vida nesta vila generosamente espaçosa e belamente projetada. Oferece acesso direto e pacífico aos jardins para observar a vida selvagem local.",
+        informativeFact:
+          "O Oso Perezoso (Bicho-preguiça) come principalmente folhas, uma dieta baixa em energia que torna seu metabolismo extremamente lento, às vezes levando até um mês para digerir uma refeição.",
+      },
+      villa9: {
+        description:
+          "Uma maravilhosa opção para famílias ou grupos, esta vila oferece amplo espaço para socializar ao ar livre, com fácil acesso à cozinha externa compartilhada para preparar refeições.",
+        informativeFact:
+          "O Mono Cariblanco (Macaco-prego-de-cara-branca) é considerado um dos macacos do Novo Mundo mais inteligentes e frequentemente usa pedras como ferramentas para abrir alimentos de casca dura.",
+      },
+      villa10: {
+        description:
+          "Esta vila compacta e altamente eficiente está perfeitamente configurada para aventureiros e casais, com Wi-Fi confiável e proximidade da área principal da piscina e lounge.",
+        informativeFact:
+          "O Mono Ardilla (Macaco-esquilo-centro-americano) possui o maior cérebro em relação ao tamanho do corpo de qualquer primata, tornando-os pensadores rápidos no dossel.",
+      },
+      villa11: {
+        description:
+          "Desfrute de belas vistas sobre as copas das árvores desta unidade encantadora. Esta vila está bem equipada e tem fácil acesso à área central de churrasqueira para jantares inesquecíveis.",
+        informativeFact:
+          "A Lapa Roja (Arara-vermelha) acasala para a vida toda, e sua plumagem vibrante vermelha, azul e amarela é uma característica essencial para a comunicação dentro de suas grandes bandos.",
+      },
+      villa12: {
+        description:
+          "Um espaço sereno e privado projetado para o descanso e conforto definitivos. Esta vila inspirada no estilo local está perfeitamente posicionada para um retiro tranquilo após explorar a costa.",
+        informativeFact:
+          "A cor azul impressionante da Mariposa Morpho (Borboleta-morpho-azul) não é pigmento; é uma ilusão óptica criada por microestruturas nas escamas que refletem a luz.",
+      },
+    },
+    // Footer
+    footer: {
+      location: "Puerto Viejo - Costa Rica",
+      tagline: "Vida Caribenha do Sul: Perto da Costa, Perto de Tudo.",
+      quickLinks: "Links Rápidos",
+      contactInfo: "Informações de Contato",
+      socialMedia: "Redes Sociais",
+      copyright: "Todos os direitos reservados.",
+      parkingFee: "Custo adicional para carga de veículos. Por favor, consulte.",
+    },
+    activitiesPage: {
+      title: "Atividades na Blessed House",
+      subtitle: "Explore nossa propriedade e atrações próximas",
+      filters: {
+        all: "Todas",
+        easy: "Fácil",
+        moderate: "Moderado",
+        challenging: "Desafiador",
+      },
+      difficulty: {
+        easy: "Fácil",
+        moderate: "Moderado",
+        challenging: "Desafiador",
+      },
+      labels: {
+        duration: "Duração",
+        groupSize: "Tamanho do Grupo",
+        price: "Preço",
+        whatsIncluded: "O que está Incluído",
+        readMore: "Ler Mais",
+        showLess: "Mostrar Menos",
+        contactUs: "Entre em Contato Sobre Esta Atividade",
+        visitWebsite: "Visitar Site",
+      },
+      prices: {
+        contactUs: "Entre em Contato",
+        free: "Grátis",
+        included: "Incluído",
+      },
+      familyReunions: {
+        name: "Reuniões de Família",
+        description: "Ambiente perfeito para reuniões familiares",
+        fullDescription:
+          "Blessed House oferece o ambiente perfeito para reuniões familiares, acomodando grupos de até 45 pessoas. Cada família pode desfrutar de sua própria cabana privada, enquanto se reúnem para refeições compartilhadas e momentos de relaxamento ao redor da piscina. A área de churrasqueira no local e o espaço de jantar comunitário promovem uma atmosfera calorosa e acolhedora.",
+        highlights: [
+          "Cabanas Privadas",
+          "Espaço de Jantar Comunitário",
+          "Área de Churrasqueira no Local",
+          "Acesso à Piscina",
+          "Acomodações Espaçosas",
+        ],
+      },
+      weddings: {
+        name: "Casamentos",
+        description: "Local idílico para sua celebração especial",
+        fullDescription:
+          "Blessed House também serve como um local idílico para casamentos, com capacidade máxima de 50 convidados. Os casais têm a flexibilidade de escolher entre serviços de catering ou preparar suas próprias refeições na cozinha totalmente equipada. O ambiente privado e voltado para a família garante uma celebração verdadeiramente especial.",
+        highlights: [
+          "Local Bonito",
+          "Serviços de Catering Disponíveis",
+          "Cozinha Totalmente Equipada",
+          "Ambiente Privado",
+          "Cenário Caribenho",
+        ],
+      },
+      aerobics: {
+        name: "Aeróbica",
+        description: "Mantenha-se ativo durante sua estadia",
+        fullDescription:
+          "Junte-se às nossas sessões de aeróbica para se manter ativo e energizado durante sua estadia na Blessed House. Perfeito para começar o dia com energia ou relaxar à noite. Todos os níveis de condicionamento físico são bem-vindos.",
+        highlights: [
+          "Sessões Diárias",
+          "Todos os Níveis de Condicionamento Físico",
+          "Sessões ao Ar Livre Disponíveis",
+          "Treinos Energizantes",
+          "Atividade de Grupo Divertida",
+        ],
+      },
+      manzanillo: {
+        name: "Manzanillo",
+        description: "A menos de 30 minutos da Blessed House",
+        fullDescription:
+          "Viagem da Blessed House para Manzanillo, Limón, Costa Rica. Um destino bonito perfeito para explorar o Refúgio Nacional de Vida Silvestre e desfrutar das praias intocadas.",
+        highlights: ["Refúgio Nacional de Vida Silvestre", "Praias Intocadas", "Observação de Vida Silvestre", "Vistas Cênicas"],
+      },
+      elMirador: {
+        name: "El Mirador",
+        description: "Aproveite a Vista!",
+        fullDescription:
+          "Será uma trilha íngreme para chegar lá, mas uma vez que você estiver lá, você vai perceber que valeu a pena com uma vista incrível da propriedade, flora, fauna e praia. Recomendamos que você pergunte primeiro antes de ir até lá e apenas como informação, você deve usar sapatos, não deve subir lá de sandálias ou descalço.",
+        highlights: ["Vistas Panorâmicas", "Vistas da Propriedade", "Flora e Fauna", "Vistas da Praia"],
+      },
+      socialArea: {
+        name: "Área Social",
+        description: "Um espaço dedicado para relaxar e desfrutar da atmosfera caribenha.",
+        fullDescription:
+          "Este espaço ao ar livre é perfeitamente projetado para relaxamento, socialização e desfrutar da atmosfera caribenha logo ao lado da piscina. Com assentos confortáveis e uma TV, é o local ideal para seu grupo se reunir, compartilhar momentos ou simplesmente relaxar. Por favor, nos ajude a manter este espaço organizado para que todos os nossos hóspedes possam desfrutar.",
+        highlights: ["TV Disponível", "Assentos Confortáveis", "Acesso à Praia", "Adequado para Grupos"],
+      },
+      pool: {
+        name: "Piscina",
+        description: "Venha!",
+        fullDescription:
+          "Esta piscina está disponível para todos os nossos hóspedes. Por favor, leia as regras de uso e aproveite. Perfeita para se refrescar após um dia explorando Puerto Viejo. Aberta até 22h, ponto mais profundo 1,80.",
+        highlights: ["Acesso à Piscina", "Refrescante", "Relaxamento", "Para Todos os Hóspedes"],
+      },
+      fishingTours: {
+        name: "Tours de Pesca",
+        description: "Pesque a Costa Caribenha",
+        fullDescription:
+          "Experimente uma verdadeira aventura de pesca caribenha! Junte-se a especialistas locais para uma viagem em um barco tradicional para pegar espécies locais frescas. Seja você um pescador experiente ou iniciante, este tour oferece um vislumbre autêntico da vida costeira.",
+        highlights: ["Capitães Locais", "Experiência de Barco Autêntica", "Pegue Peixe Fresco", "Vistas Caribenhas", "Reserva Necessária"],
+      },
+      surfLessons: {
+        name: "Aulas de Surfe",
+        description: "Aprenda com um dos locais",
+        fullDescription:
+          "Aprenda com um dos locais em Cocles, Salsa Brava ou qualquer um dos locais que temos por aí. Será de manhã ou à noite.",
+        highlights: ["Instrutores Locais", "Múltiplos Locais", "Sessões Matutinas/Noturnas", "Todos os Níveis Bem-vindos"],
+      },
+      bribriCacaoTour: {
+        name: "Tour de Cacau Bribri",
+        description: "Faça seu próprio chocolate com os locais",
+        fullDescription:
+          "Ao redor de Puerto Viejo você encontrará muitas árvores de cacau e os locais conhecem suas formas com esta planta e outras plantas. Conheça algumas de suas receitas e técnicas. Há também um museu no caminho para Cahuita.",
+        highlights: ["Fabricação de Chocolate", "Cultura Local", "Receitas Tradicionais", "Experiência Interativa"],
+      },
+      kayaking: {
+        name: "Canoagem",
+        description: "Outro ponto de vista",
+        fullDescription:
+          "Outro ponto de vista. Você poderá desfrutar de outro ponto de vista das praias ao redor da Blessed House. Você pode fazer isso em locais como Puerto Viejo, Punta Uva, Playa Chiquita ou Manzanillo... Ou até mesmo levar ao próximo nível e fazer um tour para explorar a água do parque nacional em Cahuita com um grupo e um guia.",
+        highlights: ["Vistas da Praia", "Atividade Aquática", "Aluguel de Equipamentos", "Experiência Cênica"],
+      },
+      volioWaterfalls: {
+        name: "Cachoeiras de Volio",
+        description: "Várias cachoeiras em um lugar",
+        fullDescription:
+          "São 10 minutos de carro da Blessed House, você deve realmente reservar um tempo para desfrutar da floresta tropical e se mergulhar nessas cachoeiras.",
+        highlights: ["Múltiplas Cachoeiras", "Experiência de Floresta Tropical", "Perto da Propriedade", "Locais para Natação"],
+      },
+      puntaUva: {
+        name: "Punta Uva",
+        description: "Explore Punta Uva",
+        fullDescription:
+          "A praia de Punta Uva tem uma bela vista para um pico de recife, também há um rio logo ao lado e finalmente você pode pegar uma das trilhas para caminhar para explorar ainda mais o pico.",
+        highlights: ["Vistas do Recife", "Acesso ao Rio", "Trilhas para Caminhar", "Exploração da Praia"],
+      },
+      ketos: {
+        name: "Ketos",
+        description: "Um jogo de pá para casais, super divertido na praia",
+        fullDescription:
+          "Ketos é um emocionante jogo de pá perfeito para casais que procuram diversão na praia. Desfrute desta atividade envolvente enquanto aproveita o sol caribenho.",
+        highlights: ["Atividade para Casais", "Jogo de Praia", "Divertido e Ativo", "Atividade Social"],
+      },
+      cahuitaNationalPark: {
+        name: "Parque Nacional Cahuita",
+        description: "A menos de 30 minutos da Blessed House",
+        fullDescription:
+          "Viagem da Blessed House para Cahuita. Um destino bonito perfeito para explorar o Parque Nacional e desfrutar das praias intocadas com trilhas incríveis que se aprofundam na selva.",
+        highlights: ["Refúgio Nacional de Vida Silvestre", "Praias Intocadas", "Observação de Vida Silvestre", "Vistas Cênicas"],
+      },
+      eBikeRental: {
+        name: "Aluguel de Bicicleta Elétrica",
+        description: "Explore Puerto Viejo com facilidade",
+        fullDescription:
+          "Alugue bicicletas elétricas da Puerto Viejo Bike Rentals para uma forma ecológica de explorar a área. Perfeito para descobrir praias, parques nacionais e atrações locais no seu próprio ritmo.",
+        highlights: ["Ecológico", "Exploração Fácil", "Bicicletas de Qualidade", "Serviço de Aluguel Local"],
+      },
+    },
+    contact: {
+      name: "Nome Completo",
+      email: "Endereço de E-mail",
+      phone: "Número de Telefone",
+      subject: "Assunto",
+      message: "Mensagem",
+      selectSubject: "Selecione um assunto",
+      booking: "Reserva de Vila",
+      activityInquiry: "Consulta de Atividade",
+      generalInquiry: "Consulta Geral",
+      feedback: "Feedback",
+      other: "Outro",
+      send: "Enviar Mensagem",
+      sending: "Enviando...",
+      videoTitle: "Nossa Blessed House",
+      videoCredit: "Vídeo por",
+      required: "é obrigatório",
+      validEmail: "Por favor, insira um endereço de e-mail válido",
+      phoneDigits: "O número de telefone deve conter pelo menos 8 dígitos",
+      selectSubjectError: "Por favor, selecione um assunto",
+      bannerAlt: "Banner de contato",
+    },
+    contactPage: {
+      title: "Entre em Contato",
+      subtitle: "Tem perguntas? Adoraríamos ouvir de você. Entre em contato a qualquer momento.",
+      formTitle: "Envie-nos uma Mensagem",
+      successMessage: "Obrigado pela sua mensagem! Entraremos em contato em breve.",
+      errorMessage: "Não foi possível enviar sua mensagem no momento. Por favor, tente novamente.",
+      contactInfo: {
+        title: "Informações de Contato",
+        address: "Endereço",
+        addressLine1: "Puerto Viejo de Limón",
+        addressLine2: "Província de Limón, Costa Rica",
+        viewOnMaps: "Ver no Google Maps →",
+        phone: "Telefone",
+        email: "E-mail",
+        hours: "Horários",
+        hoursDays: "Seg - Dom",
+        hoursTime: "8:00 - 22:00",
+        hoursLine2: "Sinta-se à vontade para nos contatar",
+        howToGetHere: "Como chegar",
+        directions: "Do cruzamento em Hone Creek, continue reto em direção a Puerto Viejo por 2,5 km, nossa entrada está no lado direito da estrada.",
+        findOnMaps: "Você pode nos encontrar no Google Maps:",
+        mapSearch: "Blessed House Puerto Viejo de Talamanca",
+        getDirections: "Obter direções do Google Maps →",
+        coordinatesTitle: "Coordenadas",
+        findUsHere: "Encontre-nos Aqui",
+      },
+    },
+    activities: {
+      title: "Coisas para Fazer",
+      subtitle: "Experiências inesquecíveis no paraíso",
+      exploreAll: "Explorar Todas as Atividades",
+      snorkeling: {
+        name: "Snorkeling",
+        description: "Explore recifes de coral vibrantes e peixes tropicais",
+      },
+      jungleHike: {
+        name: "Trilha na Selva",
+        description: "Caminhe por trilhas intocadas de floresta tropical",
+      },
+      boatTour: {
+        name: "Tour de Barco",
+        description: "Cruze ao longo da costa caribenha",
+      },
+      bribriWonders: {
+        name: "Maravilhas Bribri",
+        description: "Descubra tradições de cacau e cultura local",
+      },
+      wildlifeWatching: {
+        name: "Observação de Vida Silvestre",
+        description: "Observe preguiças, macacos e aves exóticas",
+      },
+    },
+    gallery: {
+      title: "Descubra o Paraíso na Blessed House",
+      description:
+        "Mergulhe na paz e no charme da Blessed House. Aninhado em meio à vegetação luxuriante, nosso refúgio em Puerto Viejo oferece relaxamento, encontros com a vida selvagem e fácil acesso à beleza da área. Explore, relaxe e experimente o abraço caloroso do Caribe.",
+      close: "Fechar",
+      previousImage: "Imagem anterior",
+      nextImage: "Próxima imagem",
+      goToImage: "Ir para a imagem",
+      images: {
+        aguacates: "Abacates",
+        beachView: "Vista da Praia",
+        blessedHouseMap: "Mapa da Blessed House",
+        blessedHousePool: "Piscina da Blessed House",
+        blessedHouseViews: "Vistas da Blessed House",
+        boatAtPuertoViejo: "Barco em Puerto Viejo",
+        coclesRiver: "Rio Cocles",
+        mejengaAtPuntaUva: "Mejenga em Punta Uva",
+        miradorView: "Vista do Mirador",
+        oldHarbour: "Puerto Viejo",
+        playaCocles: "Playa Cocles",
+        playaGrande: "Playa Grande",
+        protectBees: "Proteger Abelhas",
+        puertoViejoSpots: "Locais de Puerto Viejo",
+        socialArea: "Área Social",
+        sunriseAM: "Nascer do Sol AM",
+        sunriseViews: "Vistas do Nascer do Sol",
+        sunsetPuntaUva: "Pôr do Sol em Punta Uva",
+        tortugueroCanals: "Canais de Tortuguero",
+        villa4: "Vila 4",
+      },
+    },
+    common: {
+      home: "Início",
+      email: "E-mail",
+      phone: "Telefone",
+      learnMore: "Saber Mais",
+      viewAll: "Ver Tudo",
+      selectLanguage: "Selecionar Idioma",
     },
   },
 };

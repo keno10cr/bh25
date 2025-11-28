@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import LanguageSwitcher from "./language-switcher";
+import LanguageSwitcherPayments from "./language-switcher-payments";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import styles from "./navigation.module.css";
@@ -13,6 +14,7 @@ export default function Navigation() {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const pathname = usePathname();
+  const isPaymentsPage = pathname === "/payments";
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -87,10 +89,21 @@ export default function Navigation() {
               {t("nav.contact")}
             </Link>
           </li>
+          {pathname === "/payments" && (language === "en" || language === "es") && (
+            <li>
+              <Link 
+                href="/payments" 
+                onClick={handleLinkClick}
+                className={styles.active}
+              >
+                {language === "en" ? "Payments" : "Pagos"}
+              </Link>
+            </li>
+          )}
         </ul>
 
         <div className={styles.rightSection}>
-          <LanguageSwitcher />
+          {isPaymentsPage ? <LanguageSwitcherPayments /> : <LanguageSwitcher />}
           <button
             className={`${styles.hamburger} ${isOpen ? styles.active : ""}`}
             onClick={handleToggle}

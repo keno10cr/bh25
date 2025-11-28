@@ -61,6 +61,13 @@
   gap: 2rem;
 }
 
+/* Center the last item if it's odd (3rd item when there are 3, etc.) */
+.villaWrapper:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  justify-self: center;
+  max-width: calc(50% - 1rem);
+}
+
 .villaWrapper {
   opacity: 0;
   transform: translateY(30px);
@@ -102,5 +109,70 @@
   .filterBtn {
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
+  }
+}
+
+.chargingNote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chargingNote:hover {
+  background-color: var(--color-primary);
+  transform: scale(1.05);
+}
+
+.chargingNote:hover p {
+  color: var(--color-neutral-light);
+}
+
+.chargingNote:hover .chargingIcon {
+  filter: invert(1);
+}
+
+.chargingIcon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.chargingNote p {
+  font-size: 0.9rem;
+  color: #535353;
+  margin: 0;
+  font-style: italic;
+  transition: all 0.3s ease;
+}
+
+.chargingNote .asterisk {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.chargingNote:hover .asterisk {
+  color: var(--color-neutral-light);
+}
+
+@media (max-width: 768px) {
+  .chargingNote {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+
+  .chargingIcon {
+    width: 35px;
+    height: 35px;
   }
 }

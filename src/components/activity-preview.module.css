@@ -63,8 +63,16 @@
 }
 
 .icon {
-  font-size: 3rem;
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
 }
 
 .activityCard h3 {

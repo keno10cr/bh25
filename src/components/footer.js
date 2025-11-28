@@ -48,6 +48,11 @@ export default function Footer() {
             <li>
               <Link href="/contact">{t("nav.contact")}</Link>
             </li>
+            {(language === "en" || language === "es") && (
+              <li>
+                <Link href="/payments">{language === "en" ? "Payments" : "Pagos"}</Link>
+              </li>
+            )}
           </ul>
         </div>
 
@@ -119,3 +124,4 @@ export default function Footer() {
     </footer>
   );
 }
+

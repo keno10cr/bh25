@@ -13,6 +13,20 @@ export default function ActivityDetail({ activity }) {
 
   const handleLearnMore = () => {
     setIsExpanded(true);
+    
+    // Track activity click
+    fetch("/api/track-activity", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        activityName: activity.name,
+        activityId: activity.id,
+        language: language,
+        timestamp: new Date().toISOString(),
+      }),
+    }).catch((err) => console.error("Failed to track activity click:", err));
   };
 
   return (

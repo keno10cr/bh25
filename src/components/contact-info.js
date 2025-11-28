@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import styles from "./contact-info.module.css";
@@ -12,7 +13,14 @@ export default function ContactInfo() {
 
             <div className={styles.infoGrid}>
                 <div className={styles.infoCard}>
-                    <div className={styles.icon}>📍</div>
+                    <div className={styles.icon}>
+                        <Image 
+                            src="/info/address.png" 
+                            alt="Address" 
+                            width={80}
+                            height={80}
+                        />
+                    </div>
                     <h3>{t("contactPage.contactInfo.address")}</h3>
                     <p>{t("contactPage.contactInfo.addressLine1")}</p>
                     <p>{t("contactPage.contactInfo.addressLine2")}</p>
@@ -27,17 +35,29 @@ export default function ContactInfo() {
                 </div>
 
                 <div className={styles.infoCard}>
-                    <div className={styles.icon}>📞</div>
-                    <h3>{t("contactPage.contactInfo.phone")}</h3>
-                    <p>
-                        <a href="tel:+17546104710" className={styles.contactLink}>
-                            +1 (754) 610-4710
-                        </a>
-                    </p>
+                    <div className={styles.icon}>
+                        <Image 
+                            src="/info/hours.png" 
+                            alt="Hours" 
+                            width={80}
+                            height={80}
+                        />
+                    </div>
+                    <h3>{t("contactPage.contactInfo.hours")}</h3>
+                    <p className={styles.hoursDays}>{t("contactPage.contactInfo.hoursDays")}</p>
+                    <p className={styles.hoursTime}>{t("contactPage.contactInfo.hoursTime")}</p>
+                    <p>{t("contactPage.contactInfo.hoursLine2")}</p>
                 </div>
 
                 <div className={styles.infoCard}>
-                    <div className={styles.icon}>✉️</div>
+                    <div className={styles.icon}>
+                        <Image 
+                            src="/info/email.png" 
+                            alt="Email" 
+                            width={80}
+                            height={80}
+                        />
+                    </div>
                     <h3>{t("contactPage.contactInfo.email")}</h3>
                     <p>
                         <a href="mailto:blessedhousecr@gmail.com" className={styles.contactLink}>
@@ -47,10 +67,20 @@ export default function ContactInfo() {
                 </div>
 
                 <div className={styles.infoCard}>
-                    <div className={styles.icon}>⏰</div>
-                    <h3>{t("contactPage.contactInfo.hours")}</h3>
-                    <p>{t("contactPage.contactInfo.hoursLine1")}</p>
-                    <p>{t("contactPage.contactInfo.hoursLine2")}</p>
+                    <div className={styles.icon}>
+                        <Image 
+                            src="/info/phone.png" 
+                            alt="Phone" 
+                            width={80}
+                            height={80}
+                        />
+                    </div>
+                    <h3>{t("contactPage.contactInfo.phone")}</h3>
+                    <p>
+                        <a href="tel:+17546104710" className={styles.contactLink}>
+                            +1 (754) 610-4710
+                        </a>
+                    </p>
                 </div>
             </div>
 
