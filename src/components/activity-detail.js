@@ -82,12 +82,27 @@ export default function ActivityDetail({ activity }) {
               <div className={styles.highlights}>
                 <h4>{t("activitiesPage.labels.whatsIncluded")}</h4>
                 <ul>
-                  {activity.highlights.map((item, idx) => (
-                    <li key={idx}>
-                      <span className={styles.checkmark}>✓</span>
-                      {item}
-                    </li>
-                  ))}
+                  {activity.highlights.map((item, idx) => {
+                    const highlightText = typeof item === 'object' ? item.text : item;
+                    const highlightLink = typeof item === 'object' ? item.link : null;
+                    return (
+                      <li key={idx}>
+                        <span className={styles.checkmark}>✓</span>
+                        {highlightLink ? (
+                          <a
+                            href={highlightLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.highlightLink}
+                          >
+                            {highlightText}
+                          </a>
+                        ) : (
+                          highlightText
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}
@@ -118,6 +133,17 @@ export default function ActivityDetail({ activity }) {
                 className={styles.playKetosBtn}
               >
                 Play Ketos Online
+              </a>
+            )}
+
+            {activity.translationKey === "practiceWasteSorting" && (
+              <a
+                href="https://www.toprrr.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.playKetosBtn}
+              >
+                Play Top Recycler Online
               </a>
             )}
 

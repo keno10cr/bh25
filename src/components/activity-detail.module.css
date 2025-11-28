@@ -209,6 +209,17 @@
   color: #535353;
 }
 
+.highlightLink {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.highlightLink:hover {
+  color: var(--color-primary-light);
+  text-decoration: underline;
+}
+
 .checkmark {
   color: var(--color-accent);
   font-weight: 700;
@@ -277,7 +288,7 @@
 
 .showLessBtn {
   background-color: #f79d1f;
-  color: #2a2a2a;
+  color: #382407;
   padding: 0.875rem 1.5rem;
   border: none;
   border-radius: 8px;

@@ -101,9 +101,9 @@ export const translations = {
       },
       weddings: {
         name: "Weddings",
-        description: "Idyllic venue for your special celebration",
+        description: "Where your beautiful Caribbean wedding comes to life",
         fullDescription:
-          "Blessed House also serves as an idyllic venue for weddings, with a maximum capacity of 50 guests. Couples have the flexibility to choose from catering services or prepare their own meals in the fully equipped kitchen. The private and family-oriented ambiance ensures a truly special celebration.",
+          "Blessed House also serves as a beautiful venue for weddings, with a maximum capacity of 50 guests. Couples have the flexibility to choose from catering services or prepare their own meals in the fully equipped kitchen. The private and family-oriented ambiance ensures a truly special celebration.",
         highlights: [
           "Beautiful Venue",
           "Catering Services Available",
@@ -197,10 +197,22 @@ export const translations = {
       },
       ketos: {
         name: "Ketos",
-        description: "A paddle game for couples, super fun at the beach",
+        description: "A paddle game for anyone at the beach, play in team or individual",
         fullDescription:
-          "Ketos is an exciting paddle game perfect for couples looking for fun at the beach. Enjoy this engaging activity while soaking up the Caribbean sun.",
+          "Ketos is an exciting paddle game perfect for anyone looking for fun at the beach. Check out the mobile version of the game and try your best to keep the ball up.",
         highlights: ["Couples Activity", "Beach Game", "Fun & Active", "Social Activity"],
+      },
+      practiceWasteSorting: {
+        name: "Practice Waste Sorting",
+        description: "Play and practice with the waste sorting rules of Costa Rica.",
+        fullDescription:
+          "Practice is the best way to learn. Let's put our waste in the correct place. Can be played in any browser like Google Chrome, in tablets or computers. Play it with swipes or with the arrows, use the space bar to collect coins, empty bins to win time and become the #1 Top Recycler in Costa Rica.",
+        highlights: [
+          "Recycling Rules of Costa Rica",
+          "10 Languages",
+          "Play Anywhere",
+          "Win Real Prizes"
+        ],
       },
       cahuitaNationalPark: {
         name: "Cahuita National Park",
@@ -581,9 +593,9 @@ export const translations = {
       },
       weddings: {
         name: "Bodas",
-        description: "Lugar idílico para tu celebración especial",
+        description: "Donde tu hermosa boda caribeña cobra vida",
         fullDescription:
-          "Blessed House también sirve como un lugar idílico para bodas, con una capacidad máxima de 50 invitados. Las parejas tienen la flexibilidad de elegir entre servicios de catering o preparar sus propias comidas en la cocina totalmente equipada. El ambiente privado y orientado a la familia asegura una celebración verdaderamente especial.",
+          "Blessed House también sirve como un hermoso lugar para bodas, con una capacidad máxima de 50 invitados. Las parejas tienen la flexibilidad de elegir entre servicios de catering o preparar sus propias comidas en la cocina totalmente equipada. El ambiente privado y orientado a la familia asegura una celebración verdaderamente especial.",
         highlights: [
           "Hermoso Lugar",
           "Servicios de Catering Disponibles",
@@ -677,10 +689,22 @@ export const translations = {
       },
       ketos: {
         name: "Ketos",
-        description: "Un juego de paletas para parejas, súper divertido en la playa",
+        description: "Un juego de paletas para cualquiera en la playa, juega en equipo o individual",
         fullDescription:
-          "Ketos es un emocionante juego de paletas perfecto para parejas que buscan diversión en la playa. Disfruta de esta actividad atractiva mientras te empapas del sol caribeño.",
+          "Ketos es un emocionante juego de paletas perfecto para cualquiera que busque diversión en la playa. Consulta la versión móvil del juego y haz tu mejor esfuerzo para mantener la pelota arriba.",
         highlights: ["Actividad para Parejas", "Juego de Playa", "Divertido y Activo", "Actividad Social"],
+      },
+      practiceWasteSorting: {
+        name: "Practicar Clasificación de Residuos",
+        description: "Juega y practica con las reglas de clasificación de residuos de Costa Rica.",
+        fullDescription:
+          "La práctica es la mejor manera de aprender. Pongamos nuestros residuos en el lugar correcto. Se puede jugar en cualquier navegador como Google Chrome, en tabletas o computadoras. Juega con deslizamientos o con las flechas, usa la barra espaciadora para recolectar monedas, vacía los contenedores para ganar tiempo y conviértete en el #1 Top Reciclador en Costa Rica.",
+        highlights: [
+          "Reglas de Reciclaje de Costa Rica",
+          "10 Idiomas",
+          "Juega en Cualquier Lugar",
+          "Gana Premios Reales"
+        ],
       },
       cahuitaNationalPark: {
         name: "Parque Nacional Cahuita",
@@ -1054,9 +1078,9 @@ export const translations = {
       },
       weddings: {
         name: "Hochzeiten",
-        description: "Idyllischer Ort für Ihre besondere Feier",
+        description: "Wo Ihre wunderschöne karibische Hochzeit zum Leben erweckt wird",
         fullDescription:
-          "Blessed House dient auch als idyllischer Ort für Hochzeiten mit einer maximalen Kapazität von 50 Gästen. Paare haben die Flexibilität, zwischen Catering-Services zu wählen oder ihre eigenen Mahlzeiten in der voll ausgestatteten Küche zuzubereiten. Die private und familienorientierte Atmosphäre sorgt für eine wirklich besondere Feier.",
+          "Blessed House dient auch als wunderschöner Ort für Hochzeiten mit einer maximalen Kapazität von 50 Gästen. Paare haben die Flexibilität, zwischen Catering-Services zu wählen oder ihre eigenen Mahlzeiten in der voll ausgestatteten Küche zuzubereiten. Die private und familienorientierte Atmosphäre sorgt für eine wirklich besondere Feier.",
         highlights: [
           "Schöner Ort",
           "Catering-Services Verfügbar",
@@ -1150,10 +1174,22 @@ export const translations = {
       },
       ketos: {
         name: "Ketos",
-        description: "Ein Paddelspiel für Paare, super lustig am Strand",
+        description: "Ein Paddelspiel für jeden am Strand, spielen Sie im Team oder einzeln",
         fullDescription:
-          "Ketos ist ein aufregendes Paddelspiel, perfekt für Paare, die Spaß am Strand suchen. Genießen Sie diese ansprechende Aktivität, während Sie die karibische Sonne genießen.",
+          "Ketos ist ein aufregendes Paddelspiel, perfekt für jeden, der Spaß am Strand sucht. Schauen Sie sich die mobile Version des Spiels an und versuchen Sie Ihr Bestes, um den Ball oben zu halten.",
         highlights: ["Paaraktivität", "Strandspiel", "Spaßig & Aktiv", "Soziale Aktivität"],
+      },
+      practiceWasteSorting: {
+        name: "Abfalltrennung Üben",
+        description: "Spielen und üben Sie mit den Abfalltrennungsregeln von Costa Rica.",
+        fullDescription:
+          "Übung ist der beste Weg zum Lernen. Lassen Sie uns unseren Abfall an den richtigen Ort bringen. Kann in jedem Browser wie Google Chrome, auf Tablets oder Computern gespielt werden. Spielen Sie es mit Wischgesten oder mit den Pfeiltasten, verwenden Sie die Leertaste, um Münzen zu sammeln, leeren Sie Behälter, um Zeit zu gewinnen und werden Sie der #1 Top-Recycler in Costa Rica.",
+        highlights: [
+          "Recycling-Regeln von Costa Rica",
+          "10 Sprachen",
+          "Überall spielen",
+          "Gewinnen Sie echte Preise"
+        ],
       },
       cahuitaNationalPark: {
         name: "Cahuita Nationalpark",
@@ -1481,9 +1517,9 @@ export const translations = {
       },
       weddings: {
         name: "Bruiloften",
-        description: "Idyllische locatie voor uw speciale viering",
+        description: "Waar uw prachtige Caribische bruiloft tot leven komt",
         fullDescription:
-          "Blessed House dient ook als idyllische locatie voor bruiloften, met een maximale capaciteit van 50 gasten. Paren hebben de flexibiliteit om te kiezen uit cateringdiensten of hun eigen maaltijden te bereiden in de volledig uitgeruste keuken. De privé en gezinsgerichte sfeer zorgt voor een werkelijk speciale viering.",
+          "Blessed House dient ook als prachtige locatie voor bruiloften, met een maximale capaciteit van 50 gasten. Paren hebben de flexibiliteit om te kiezen uit cateringdiensten of hun eigen maaltijden te bereiden in de volledig uitgeruste keuken. De privé en gezinsgerichte sfeer zorgt voor een werkelijk speciale viering.",
         highlights: [
           "Mooie Locatie",
           "Cateringdiensten Beschikbaar",
@@ -1577,10 +1613,22 @@ export const translations = {
       },
       ketos: {
         name: "Ketos",
-        description: "Een peddelspel voor koppels, super leuk op het strand",
+        description: "Een peddelspel voor iedereen op het strand, speel in team of individueel",
         fullDescription:
-          "Ketos is een spannend peddelspel perfect voor koppels die op zoek zijn naar plezier op het strand. Geniet van deze boeiende activiteit terwijl je de Caribische zon opneemt.",
+          "Ketos is een spannend peddelspel perfect voor iedereen die op zoek is naar plezier op het strand. Bekijk de mobiele versie van het spel en probeer je best te doen om de bal omhoog te houden.",
         highlights: ["Koppels Activiteit", "Strandspel", "Leuk & Actief", "Sociale Activiteit"],
+      },
+      practiceWasteSorting: {
+        name: "Afvalscheiding Oefenen",
+        description: "Speel en oefen met de afvalscheidingsregels van Costa Rica.",
+        fullDescription:
+          "Oefenen is de beste manier om te leren. Laten we ons afval op de juiste plaats zetten. Kan worden gespeeld in elke browser zoals Google Chrome, op tablets of computers. Speel het met veegbewegingen of met de pijltjes, gebruik de spatiebalk om munten te verzamelen, leeg bakken om tijd te winnen en word de #1 Top Recycler in Costa Rica.",
+        highlights: [
+          "Recyclingregels van Costa Rica",
+          "10 Talen",
+          "Overal Spelen",
+          "Win Echte Prijzen"
+        ],
       },
       cahuitaNationalPark: {
         name: "Cahuita Nationaal Park",
@@ -1908,9 +1956,9 @@ export const translations = {
       },
       weddings: {
         name: "Mariages",
-        description: "Lieu idyllique pour votre célébration spéciale",
+        description: "Où votre magnifique mariage caribéen prend vie",
         fullDescription:
-          "Blessed House sert également de lieu idyllique pour les mariages, avec une capacité maximale de 50 invités. Les couples ont la flexibilité de choisir entre des services de restauration ou de préparer leurs propres repas dans la cuisine entièrement équipée. L'ambiance privée et orientée famille assure une célébration vraiment spéciale.",
+          "Blessed House sert également de magnifique lieu pour les mariages, avec une capacité maximale de 50 invités. Les couples ont la flexibilité de choisir entre des services de restauration ou de préparer leurs propres repas dans la cuisine entièrement équipée. L'ambiance privée et orientée famille assure une célébration vraiment spéciale.",
         highlights: [
           "Beau Lieu",
           "Services de Restauration Disponibles",
@@ -2004,10 +2052,22 @@ export const translations = {
       },
       ketos: {
         name: "Ketos",
-        description: "Un jeu de raquette pour couples, super amusant à la plage",
+        description: "Un jeu de raquette pour tous à la plage, jouez en équipe ou individuellement",
         fullDescription:
-          "Ketos est un jeu de raquette passionnant parfait pour les couples qui cherchent du plaisir à la plage. Profitez de cette activité engageante tout en profitant du soleil caribéen.",
+          "Ketos est un jeu de raquette passionnant parfait pour tous ceux qui cherchent du plaisir à la plage. Découvrez la version mobile du jeu et faites de votre mieux pour garder la balle en l'air.",
         highlights: ["Activité pour Couples", "Jeu de Plage", "Amusant & Actif", "Activité Sociale"],
+      },
+      practiceWasteSorting: {
+        name: "Pratiquer le Tri des Déchets",
+        description: "Jouez et pratiquez avec les règles de tri des déchets du Costa Rica.",
+        fullDescription:
+          "La pratique est le meilleur moyen d'apprendre. Mettons nos déchets au bon endroit. Peut être joué dans n'importe quel navigateur comme Google Chrome, sur tablettes ou ordinateurs. Jouez avec des balayages ou avec les flèches, utilisez la barre d'espace pour collecter des pièces, videz les bacs pour gagner du temps et devenez le #1 Top Recycler au Costa Rica.",
+        highlights: [
+          "Règles de Recyclage du Costa Rica",
+          "10 Langues",
+          "Jouer N'importe Où",
+          "Gagnez de Vrais Prix"
+        ],
       },
       cahuitaNationalPark: {
         name: "Parc National de Cahuita",
@@ -2335,9 +2395,9 @@ export const translations = {
       },
       weddings: {
         name: "結婚式",
-        description: "特別な祝典に理想的な場所",
+        description: "あなたの美しいカリブ海の結婚式が実現する場所",
         fullDescription:
-          "ブレッセッドハウスは、最大50名のゲストを収容できる結婚式の理想的な場所としても機能します。カップルはケータリングサービスを選択するか、完全装備のキッチンで自分たちの食事を準備する柔軟性があります。プライベートで家族向けの雰囲気が、本当に特別な祝典を保証します。",
+          "ブレッセッドハウスは、最大50名のゲストを収容できる美しい結婚式会場としても機能します。カップルはケータリングサービスを選択するか、完全装備のキッチンで自分たちの食事を準備する柔軟性があります。プライベートで家族向けの雰囲気が、本当に特別な祝典を保証します。",
         highlights: [
           "美しい会場",
           "ケータリングサービス利用可能",
@@ -2431,10 +2491,22 @@ export const translations = {
       },
       ketos: {
         name: "ケトス",
-        description: "カップル向けのパドルゲーム、ビーチで超楽しい",
+        description: "ビーチで誰でも楽しめるパドルゲーム、チームまたは個人でプレイ",
         fullDescription:
-          "ケトスは、ビーチで楽しみを求めるカップルに最適なエキサイティングなパドルゲームです。カリブ海の太陽を浴びながら、この魅力的な活動をお楽しみください。",
+          "ケトスは、ビーチで楽しみを求める誰にでも最適なエキサイティングなパドルゲームです。モバイル版のゲームをチェックして、ボールを上に保つために最善を尽くしてください。",
         highlights: ["カップル活動", "ビーチゲーム", "楽しくアクティブ", "ソーシャル活動"],
+      },
+      practiceWasteSorting: {
+        name: "廃棄物分別の練習",
+        description: "コスタリカの廃棄物分別ルールで遊び、練習しましょう。",
+        fullDescription:
+          "練習は学ぶ最良の方法です。廃棄物を正しい場所に置きましょう。Google Chromeなどの任意のブラウザ、タブレット、コンピューターでプレイできます。スワイプまたは矢印キーでプレイし、スペースバーを使用してコインを集め、ビンを空にして時間を獲得し、コスタリカの#1トップリサイクラーになりましょう。",
+        highlights: [
+          "コスタリカのリサイクルルール",
+          "10言語",
+          "どこでもプレイ",
+          "本物の賞品を獲得"
+        ],
       },
       cahuitaNationalPark: {
         name: "カウィータ国立公園",
@@ -2872,9 +2944,9 @@ export const translations = {
       },
       weddings: {
         name: "Casamentos",
-        description: "Local idílico para sua celebração especial",
+        description: "Onde seu belo casamento caribenho ganha vida",
         fullDescription:
-          "Blessed House também serve como um local idílico para casamentos, com capacidade máxima de 50 convidados. Os casais têm a flexibilidade de escolher entre serviços de catering ou preparar suas próprias refeições na cozinha totalmente equipada. O ambiente privado e voltado para a família garante uma celebração verdadeiramente especial.",
+          "Blessed House também serve como um belo local para casamentos, com capacidade máxima de 50 convidados. Os casais têm a flexibilidade de escolher entre serviços de catering ou preparar suas próprias refeições na cozinha totalmente equipada. O ambiente privado e voltado para a família garante uma celebração verdadeiramente especial.",
         highlights: [
           "Local Bonito",
           "Serviços de Catering Disponíveis",
@@ -2968,10 +3040,22 @@ export const translations = {
       },
       ketos: {
         name: "Ketos",
-        description: "Um jogo de pá para casais, super divertido na praia",
+        description: "Um jogo de pá para qualquer pessoa na praia, jogue em equipe ou individual",
         fullDescription:
-          "Ketos é um emocionante jogo de pá perfeito para casais que procuram diversão na praia. Desfrute desta atividade envolvente enquanto aproveita o sol caribenho.",
+          "Ketos é um emocionante jogo de pá perfeito para qualquer pessoa que procura diversão na praia. Confira a versão móvel do jogo e faça o seu melhor para manter a bola no alto.",
         highlights: ["Atividade para Casais", "Jogo de Praia", "Divertido e Ativo", "Atividade Social"],
+      },
+      practiceWasteSorting: {
+        name: "Praticar Classificação de Resíduos",
+        description: "Jogue e pratique com as regras de classificação de resíduos da Costa Rica.",
+        fullDescription:
+          "A prática é a melhor maneira de aprender. Vamos colocar nossos resíduos no lugar correto. Pode ser jogado em qualquer navegador como Google Chrome, em tablets ou computadores. Jogue com deslizamentos ou com as setas, use a barra de espaço para coletar moedas, esvazie as lixeiras para ganhar tempo e torne-se o #1 Top Reciclador na Costa Rica.",
+        highlights: [
+          "Regras de Reciclagem da Costa Rica",
+          "10 Idiomas",
+          "Jogue em Qualquer Lugar",
+          "Ganhe Prêmios Reais"
+        ],
       },
       cahuitaNationalPark: {
         name: "Parque Nacional Cahuita",
