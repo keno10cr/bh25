@@ -9,6 +9,47 @@ const subjectLabels = {
   other: "Other",
 };
 
+const getSpamError = (data) => {
+  const name = data.name || "";
+  const email = data.email || "";
+  const message = data.message || "";
+  const website = data.website || "";
+
+  const emailLower = email.toLowerCase().trim();
+  if (emailLower.endsWith("@gmail.com")) {
+    const parts = emailLower.split("@");
+    const local = parts[0] || "";
+    const dotCount = (local.match(/\./g) || []).length;
+    if (dotCount > 2) {
+      return "Spam detected: Too many dots.";
+    }
+  }
+
+  if (name.length > 10 && !name.includes(" ")) {
+    return "Spam detected: Invalid name format.";
+  }
+
+  if (message.length > 5 && !message.includes(" ")) {
+    return "Spam detected: Invalid message format.";
+  }
+
+  const midCaps = (str) => {
+    const rest = str.slice(1);
+    const match = rest.match(/[A-Z]/g) || [];
+    return match.length;
+  };
+
+  if (midCaps(name) > 3) {
+    return "Spam detected: High entropy string.";
+  }
+
+  if (website.trim().length > 0) {
+    return "Spam detected.";
+  }
+
+  return null;
+};
+
 export async function POST(request) {
   const apiKey = process.env.RESEND_API_KEY;
 
@@ -31,13 +72,18 @@ export async function POST(request) {
     );
   }
 
-  const { name, email, phone, subject, message } = payload || {};
+  const { name, email, phone, subject, message, website } = payload || {};
 
   if (!name || !email || !subject || !message) {
     return NextResponse.json(
       { error: "Missing required fields." },
       { status: 400 }
     );
+  }
+
+  const spamError = getSpamError({ name, email, message, website });
+  if (spamError) {
+    return NextResponse.json({ error: spamError }, { status: 400 });
   }
 
   const resend = new Resend(apiKey);
@@ -90,5 +136,4 @@ ${message}
     );
   }
 }
-
 

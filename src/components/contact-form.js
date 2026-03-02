@@ -15,6 +15,7 @@ export default function ContactForm() {
     phone: "",
     subject: "",
     message: "",
+    website: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -71,6 +72,47 @@ export default function ContactForm() {
     return digitsOnly.length === 0 || digitsOnly.length >= 8;
   };
 
+  const getSpamError = (data) => {
+    const name = data.name || "";
+    const email = data.email || "";
+    const message = data.message || "";
+    const website = data.website || "";
+
+    const emailLower = email.toLowerCase().trim();
+    if (emailLower.endsWith("@gmail.com")) {
+      const parts = emailLower.split("@");
+      const local = parts[0] || "";
+      const dotCount = (local.match(/\./g) || []).length;
+      if (dotCount > 2) {
+        return { field: "email", message: "Spam detected: Too many dots." };
+      }
+    }
+
+    if (name.length > 10 && !name.includes(" ")) {
+      return { field: "name", message: "Spam detected: Invalid name format." };
+    }
+
+    if (message.length > 5 && !message.includes(" ")) {
+      return { field: "message", message: "Spam detected: Invalid message format." };
+    }
+
+    const midCaps = (str) => {
+      const rest = str.slice(1);
+      const match = rest.match(/[A-Z]/g) || [];
+      return match.length;
+    };
+
+    if (midCaps(name) > 3) {
+      return { field: "name", message: "Spam detected: High entropy string." };
+    }
+
+    if (website.trim().length > 0) {
+      return { field: "form", message: "Spam detected." };
+    }
+
+    return null;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -98,6 +140,17 @@ export default function ContactForm() {
     
     if (!formData.message.trim()) {
       newErrors.message = `${t("contact.message")} ${t("contact.required")}`;
+    }
+
+    if (Object.keys(newErrors).length === 0) {
+      const spamResult = getSpamError(formData);
+      if (spamResult) {
+        if (spamResult.field === "form") {
+          setFormError(spamResult.message);
+        } else {
+          newErrors[spamResult.field] = spamResult.message;
+        }
+      }
     }
     
     setErrors(newErrors);
@@ -129,6 +182,7 @@ export default function ContactForm() {
         phone: "",
         subject: "",
         message: "",
+        website: "",
       });
 
       // Reset success message after 5 seconds
@@ -157,7 +211,7 @@ export default function ContactForm() {
           <p>{formError}</p>
         </div>
       )}
- 
+
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="name">
@@ -240,6 +294,19 @@ export default function ContactForm() {
             className={errors.message ? styles.inputError : ""}
           />
           {errors.message && <span className={styles.errorText}>{errors.message}</span>}
+        </div>
+
+        <div className={styles.honeypot}>
+          <label htmlFor="website">Website</label>
+          <input
+            type="text"
+            id="website"
+            name="website"
+            value={formData.website}
+            onChange={handleChange}
+            autoComplete="off"
+            tabIndex={-1}
+          />
         </div>
 
         {formError && <p className={styles.errorText}>{formError}</p>}

@@ -221,6 +221,14 @@
   text-decoration: underline;
 }
 
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 @media (max-width: 768px) {
   .formContainer {
     padding: 1.5rem;
