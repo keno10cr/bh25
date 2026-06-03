@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
+import { trackContactFormSubmitted } from "@/lib/posthog";
 import styles from "./contact-form.module.css";
 
 export default function ContactForm() {
@@ -173,6 +174,11 @@ export default function ContactForm() {
         const data = await response.json().catch(() => ({}));
         throw new Error(data?.error || "Failed to send message");
       }
+
+      trackContactFormSubmitted({
+        form_subject: formData.subject,
+        input_language: language,
+      });
 
       setSubmitted(true);
       setErrors({});

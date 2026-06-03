@@ -53,6 +53,23 @@
   flex-grow: 1;
 }
 
+.expandBtn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.expandBtn:hover {
+  color: var(--color-primary-light);
+}
+
 .informativeFact {
   color: #094c3a;
   font-size: 0.9rem;

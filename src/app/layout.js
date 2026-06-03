@@ -2,6 +2,7 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import Script from "next/script";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import PostHogProvider from "@/components/posthog-provider";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
@@ -62,9 +63,11 @@ export default function RootLayout({ children }) {
         </Script>
 
         <LanguageProvider>
-          <Navigation />
-          {children}
-          <Footer />
+          <PostHogProvider>
+            <Navigation />
+            {children}
+            <Footer />
+          </PostHogProvider>
         </LanguageProvider>
 
         <Analytics />

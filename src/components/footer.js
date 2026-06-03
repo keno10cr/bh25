@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
+import { AIRBNB_PROFILE_URL, trackAirbnbRedirectClicked } from "@/lib/posthog";
 import styles from "./footer.module.css";
 
 export default function Footer() {
@@ -82,11 +83,18 @@ export default function Footer() {
               />
             </a>
             <a
-              href="https://www.airbnb.com/users/show/549621434"
+              href={AIRBNB_PROFILE_URL}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Airbnb"
               className={styles.socialIcon}
+              onClick={() =>
+                trackAirbnbRedirectClicked({
+                  villa_id: null,
+                  villa_name: null,
+                  destination_url: AIRBNB_PROFILE_URL,
+                })
+              }
             >
               <Image
                 src="/social/airbnb.png"

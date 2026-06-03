@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
+import { trackLanguageSwitched } from "@/lib/posthog";
 
 const LanguageContext = createContext();
 
@@ -67,12 +68,24 @@ export function LanguageProvider({ children }) {
   }, []);
 
   const changeLanguage = (langCode) => {
-    if (languages[langCode]) {
-      setLanguage(langCode);
-      localStorage.setItem("blessedhouse-language", langCode);
-      // Update HTML lang attribute
-      document.documentElement.lang = langCode;
+    if (!languages[langCode]) {
+      return;
     }
+
+    setLanguage((previous) => {
+      if (previous === langCode) {
+        return previous;
+      }
+
+      localStorage.setItem("blessedhouse-language", langCode);
+      document.documentElement.lang = langCode;
+      trackLanguageSwitched({
+        previous_language: previous,
+        new_language: langCode,
+      });
+
+      return langCode;
+    });
   };
 
   return (

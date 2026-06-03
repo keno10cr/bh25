@@ -4,12 +4,40 @@ import { useState } from "react";
 import VillaGalleryModal from "./villa-gallery-modal";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
+import {
+  AIRBNB_PROFILE_URL,
+  trackAirbnbRedirectClicked,
+  trackVillaCardExpanded,
+} from "@/lib/posthog";
 import styles from "./villa-card.module.css";
 
 export default function VillaCard({ villa }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleToggleExpand = () => {
+    setIsExpanded((prev) => {
+      const next = !prev;
+      if (next) {
+        trackVillaCardExpanded({
+          villa_id: villa.id,
+          villa_name: villa.name,
+          current_language: language,
+        });
+      }
+      return next;
+    });
+  };
+
+  const handleAirbnbClick = () => {
+    trackAirbnbRedirectClicked({
+      villa_id: villa.id,
+      villa_name: villa.name,
+      destination_url: AIRBNB_PROFILE_URL,
+    });
+  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -30,6 +58,19 @@ export default function VillaCard({ villa }) {
           <h3>{villa.name}</h3>
           <p className={styles.description}>{villa.description}</p>
 
+          <button
+            type="button"
+            className={styles.expandBtn}
+            onClick={handleToggleExpand}
+            aria-expanded={isExpanded}
+          >
+            {isExpanded
+              ? t("villas.buttons.hideDetails")
+              : t("villas.buttons.showDetails")}
+          </button>
+
+          {isExpanded && (
+            <>
           {villa.informativeFact && (
             <p className={styles.informativeFact}>{villa.informativeFact}</p>
           )}
@@ -75,6 +116,8 @@ export default function VillaCard({ villa }) {
               </div>
             )}
           </div>
+            </>
+          )}
 
           <div className={styles.footer}>
             <button
@@ -85,10 +128,11 @@ export default function VillaCard({ villa }) {
               {t("villas.buttons.viewGallery")}
             </button>
             <a
-              href="https://www.airbnb.com/users/show/549621434"
+              href={AIRBNB_PROFILE_URL}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.btn}
+              onClick={handleAirbnbClick}
             >
               {t("villas.buttons.bookNow")}
             </a>

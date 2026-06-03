@@ -438,6 +438,8 @@ export const translations = {
       buttons: {
         viewGallery: "View Gallery",
         bookNow: "Book Now",
+        showDetails: "Show full details",
+        hideDetails: "Hide details",
       },
       amenities: {
         wifi: "Wifi",
@@ -950,6 +952,8 @@ export const translations = {
       buttons: {
         viewGallery: "Ver Galería",
         bookNow: "Reservar Ahora",
+        showDetails: "Ver detalles completos",
+        hideDetails: "Ocultar detalles",
       },
       amenities: {
         wifi: "Wifi",
@@ -1417,6 +1421,8 @@ export const translations = {
       buttons: {
         viewGallery: "Galerie Anzeigen",
         bookNow: "Jetzt Buchen",
+        showDetails: "Alle Details anzeigen",
+        hideDetails: "Details ausblenden",
       },
       amenities: {
         wifi: "Wifi",
@@ -1884,6 +1890,8 @@ export const translations = {
       buttons: {
         viewGallery: "Galerij Bekijken",
         bookNow: "Nu Boeken",
+        showDetails: "Volledige details tonen",
+        hideDetails: "Details verbergen",
       },
       amenities: {
         wifi: "Wifi",
@@ -2351,6 +2359,8 @@ export const translations = {
       buttons: {
         viewGallery: "Voir la Galerie",
         bookNow: "Réserver Maintenant",
+        showDetails: "Afficher tous les détails",
+        hideDetails: "Masquer les détails",
       },
       amenities: {
         wifi: "Wifi",
@@ -2818,6 +2828,8 @@ export const translations = {
       buttons: {
         viewGallery: "ギャラリーを見る",
         bookNow: "今すぐ予約",
+        showDetails: "詳細を表示",
+        hideDetails: "詳細を隠す",
       },
       amenities: {
         wifi: "Wi-Fi",
@@ -2974,6 +2986,8 @@ export const translations = {
       buttons: {
         viewGallery: "Ver Galeria",
         bookNow: "Reservar Agora",
+        showDetails: "Ver detalhes completos",
+        hideDetails: "Ocultar detalhes",
       },
       amenities: {
         wifi: "Wi-Fi",
