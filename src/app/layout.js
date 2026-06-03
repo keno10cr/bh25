@@ -1,5 +1,6 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import Script from "next/script";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
@@ -39,11 +40,33 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        {/* Google Tag Manager (noscript) Fallback */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-W68VV7M3"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+
+        {/* Main GTM Script running optimally afterInteractive */}
+        <Script id="google-tag-manager" strategy="afterInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-W68VV7M3');
+          `}
+        </Script>
+
         <LanguageProvider>
           <Navigation />
           {children}
           <Footer />
         </LanguageProvider>
+
         <Analytics />
       </body>
     </html>
