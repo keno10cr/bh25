@@ -60,6 +60,9 @@ export default function VillaCard({ villa }) {
 
           <button
             type="button"
+            data-track="villa-details-toggle"
+            data-villa-id={villa.id}
+            data-villa-name={villa.name}
             className={styles.expandBtn}
             onClick={handleToggleExpand}
             aria-expanded={isExpanded}
