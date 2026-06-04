@@ -1,47 +1,74 @@
-import posthog from "posthog-js";
-
 const AIRBNB_PROFILE_URL = "https://www.airbnb.com/users/show/549621434";
 
+let posthogClient = null;
 let initialized = false;
+let initPromise = null;
 
 export { AIRBNB_PROFILE_URL };
 
+async function loadPostHogClient() {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  if (!posthogClient) {
+    const { default: posthog } = await import("posthog-js");
+    posthogClient = posthog;
+  }
+
+  return posthogClient;
+}
+
 export function initPostHog() {
   if (typeof window === "undefined" || initialized) {
-    return;
+    return initPromise;
   }
 
   const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
   const host = process.env.NEXT_PUBLIC_POSTHOG_HOST;
 
   if (!key || !host) {
-    return;
+    return null;
   }
 
-  posthog.init(key, {
-    api_host: host,
-    person_profiles: "identified_only",
-    capture_pageview: false,
-    capture_pageleave: true,
+  initPromise = loadPostHogClient().then((posthog) => {
+    if (!posthog || initialized) {
+      return posthog;
+    }
+
+    posthog.init(key, {
+      api_host: host,
+      person_profiles: "identified_only",
+      capture_pageview: false,
+      capture_pageleave: true,
+    });
+
+    initialized = true;
+    return posthog;
   });
 
-  initialized = true;
+  return initPromise;
 }
 
 export function isPostHogReady() {
   return (
     typeof window !== "undefined" &&
     initialized &&
-    typeof posthog.capture === "function"
+    posthogClient &&
+    typeof posthogClient.capture === "function"
   );
 }
 
 export function capturePostHogEvent(eventName, properties = {}) {
-  if (!isPostHogReady()) {
+  if (typeof window === "undefined") {
     return;
   }
 
-  posthog.capture(eventName, properties);
+  initPostHog()?.then((posthog) => {
+    if (posthog && typeof posthog.capture === "function") {
+      posthog.capture(eventName, properties);
+    }
+  });
 }
 
 export function trackVillaCardExpanded({
@@ -80,4 +107,11 @@ export function trackLanguageSwitched({ previous_language, new_language }) {
     previous_language,
     new_language,
   });
+}
+
+export async function capturePostHogPageview(url) {
+  const posthog = await initPostHog();
+  if (posthog && typeof posthog.capture === "function") {
+    posthog.capture("$pageview", { $current_url: url });
+  }
 }

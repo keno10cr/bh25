@@ -2,8 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import posthog from "posthog-js";
-import { initPostHog, isPostHogReady } from "@/lib/posthog";
+import { capturePostHogPageview, initPostHog } from "@/lib/posthog";
 
 export default function PostHogProvider({ children }) {
   const pathname = usePathname();
@@ -13,13 +12,11 @@ export default function PostHogProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    if (!pathname || !isPostHogReady()) {
+    if (!pathname) {
       return;
     }
 
-    posthog.capture("$pageview", {
-      $current_url: window.location.href,
-    });
+    capturePostHogPageview(window.location.href);
   }, [pathname]);
 
   return children;

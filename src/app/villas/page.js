@@ -76,7 +76,7 @@ const villasBase = [
     translationKey: "villa5",
     bedrooms: 3,
     bathrooms: 1,
-    maxPeople: 2,
+    maxPeople: 8,
     amenities: ["ac", "wifi", "kitchen", "parking", "hotWater"],
     bedInfo: "bedInfo2", // 1 double bed
     image: "/villas/5/5c.jpg",
