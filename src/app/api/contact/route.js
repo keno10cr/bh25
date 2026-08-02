@@ -5,8 +5,6 @@ const subjectLabels = {
   booking: "Villa Booking",
   activities: "Activity Inquiry",
   general: "General Inquiry",
-  feedback: "Feedback",
-  other: "Other",
 };
 
 const getSpamError = (data) => {
@@ -50,6 +48,13 @@ const getSpamError = (data) => {
   return null;
 };
 
+const escapeHtml = (value) =>
+  String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
 export async function POST(request) {
   const apiKey = process.env.RESEND_API_KEY;
 
@@ -72,11 +77,47 @@ export async function POST(request) {
     );
   }
 
-  const { name, email, phone, subject, message, website } = payload || {};
+  const {
+    name,
+    email,
+    phone,
+    subject,
+    message,
+    website,
+    villaId,
+    villaName,
+    villaMaxPeople,
+    checkIn,
+    checkOut,
+    activityId,
+    activityName,
+    activityDate,
+  } = payload || {};
 
   if (!name || !email || !subject || !message) {
     return NextResponse.json(
       { error: "Missing required fields." },
+      { status: 400 }
+    );
+  }
+
+  if (!subjectLabels[subject]) {
+    return NextResponse.json(
+      { error: "Invalid inquiry type." },
+      { status: 400 }
+    );
+  }
+
+  if (subject === "booking" && !villaId) {
+    return NextResponse.json(
+      { error: "Please select a villa." },
+      { status: 400 }
+    );
+  }
+
+  if (subject === "activities" && !activityId) {
+    return NextResponse.json(
+      { error: "Please select an activity." },
       { status: 400 }
     );
   }
@@ -88,9 +129,50 @@ export async function POST(request) {
 
   const resend = new Resend(apiKey);
 
-  const subjectText = subjectLabels[subject] || subject;
+  const subjectText = subjectLabels[subject];
   const phoneText = phone?.trim() ? phone : "N/A";
-  const messageHtml = message.replace(/\n/g, "<br />");
+  const messageHtml = escapeHtml(message).replace(/\n/g, "<br />");
+
+  const detailRows = [];
+  const detailText = [];
+
+  if (subject === "booking") {
+    detailRows.push(
+      `<p><strong>Villa:</strong> ${escapeHtml(villaName || `Villa #${villaId}`)}</p>`
+    );
+    detailText.push(`Villa: ${villaName || `Villa #${villaId}`}`);
+    if (villaMaxPeople) {
+      detailRows.push(
+        `<p><strong>Max people:</strong> ${escapeHtml(villaMaxPeople)}</p>`
+      );
+      detailText.push(`Max people: ${villaMaxPeople}`);
+    }
+    if (checkIn || checkOut) {
+      detailRows.push(
+        `<p><strong>Possible check-in:</strong> ${escapeHtml(checkIn || "N/A")}</p>`
+      );
+      detailRows.push(
+        `<p><strong>Possible check-out:</strong> ${escapeHtml(checkOut || "N/A")}</p>`
+      );
+      detailText.push(`Possible check-in: ${checkIn || "N/A"}`);
+      detailText.push(`Possible check-out: ${checkOut || "N/A"}`);
+    }
+  }
+
+  if (subject === "activities") {
+    detailRows.push(
+      `<p><strong>Activity:</strong> ${escapeHtml(
+        activityName || `Activity #${activityId}`
+      )}</p>`
+    );
+    detailText.push(`Activity: ${activityName || `Activity #${activityId}`}`);
+    if (activityDate) {
+      detailRows.push(
+        `<p><strong>Possible date:</strong> ${escapeHtml(activityDate)}</p>`
+      );
+      detailText.push(`Possible date: ${activityDate}`);
+    }
+  }
 
   try {
     await resend.emails.send({
@@ -105,10 +187,11 @@ export async function POST(request) {
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1a1a1a;">
           <h2 style="color: #0a4c3a;">New message from Blessed House website</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phoneText}</p>
+          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+          <p><strong>Phone:</strong> ${escapeHtml(phoneText)}</p>
           <p><strong>Inquiry Type:</strong> ${subjectText}</p>
+          ${detailRows.join("\n")}
           <hr style="border: none; border-top: 1px solid #e5e5dc; margin: 20px 0;" />
           <p><strong>Message:</strong></p>
           <p>${messageHtml}</p>
@@ -121,7 +204,7 @@ Name: ${name}
 Email: ${email}
 Phone: ${phoneText}
 Inquiry Type: ${subjectText}
-
+${detailText.length ? detailText.join("\n") + "\n" : ""}
 Message:
 ${message}
       `,
@@ -136,4 +219,3 @@ ${message}
     );
   }
 }
-

@@ -5,55 +5,61 @@ import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import { trackContactFormSubmitted } from "@/lib/posthog";
+import {
+  CONTACT_VILLAS,
+  CONTACT_ACTIVITIES,
+  SUBJECT_OPTIONS,
+} from "@/lib/contact-options";
 import styles from "./contact-form.module.css";
+
+const EMPTY_FORM = {
+  name: "",
+  email: "",
+  phone: "",
+  subject: "",
+  message: "",
+  website: "",
+  villaId: "",
+  checkIn: "",
+  checkOut: "",
+  activityId: "",
+  activityDate: "",
+};
 
 export default function ContactForm() {
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-    website: "",
-  });
-
+  const [formData, setFormData] = useState(EMPTY_FORM);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
 
-  // Check if subject or villa is in URL params (from activity link or villa link)
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const subjectParam = params.get("subject");
-      const villaParam = params.get("villa");
-      
-      if (subjectParam === "activities") {
-        setFormData((prev) => ({
-          ...prev,
-          subject: "activities",
-        }));
-      } else if (villaParam) {
-        setFormData((prev) => ({
-          ...prev,
-          subject: "booking",
-          message: `I'm interested in Villa #${villaParam}. Please provide more information.`,
-        }));
-      }
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+    const subjectParam = params.get("subject");
+    const villaParam = params.get("villa");
+
+    if (subjectParam === "activities") {
+      setFormData((prev) => ({
+        ...prev,
+        subject: "activities",
+      }));
+    } else if (villaParam) {
+      const villaExists = CONTACT_VILLAS.some(
+        (villa) => String(villa.id) === String(villaParam)
+      );
+      setFormData((prev) => ({
+        ...prev,
+        subject: "booking",
+        villaId: villaExists ? String(villaParam) : "",
+      }));
     }
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    
-    // Clear error when user starts typing
+  const clearFieldError = (name) => {
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -62,13 +68,35 @@ export default function ContactForm() {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    clearFieldError(name);
+  };
+
+  const handleSubjectSelect = (subject) => {
+    setFormData((prev) => ({
+      ...prev,
+      subject,
+      villaId: "",
+      checkIn: "",
+      checkOut: "",
+      activityId: "",
+      activityDate: "",
+    }));
+    clearFieldError("subject");
+    clearFieldError("villaId");
+    clearFieldError("activityId");
+  };
+
   const validateEmail = (email) => {
-    // Check for @ symbol - basic validation
     return email.includes("@") && email.split("@").length === 2;
   };
 
   const validatePhone = (phone) => {
-    // Remove all non-digit characters and check if at least 8 digits
     const digitsOnly = phone.replace(/\D/g, "");
     return digitsOnly.length === 0 || digitsOnly.length >= 8;
   };
@@ -116,29 +144,45 @@ export default function ContactForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate form
+
     const newErrors = {};
     setFormError("");
-    
+
     if (!formData.name.trim()) {
       newErrors.name = `${t("contact.name")} ${t("contact.required")}`;
     }
-    
+
     if (!formData.email.trim()) {
       newErrors.email = `${t("contact.email")} ${t("contact.required")}`;
     } else if (!validateEmail(formData.email)) {
       newErrors.email = t("contact.validEmail");
     }
-    
+
     if (formData.phone && !validatePhone(formData.phone)) {
       newErrors.phone = t("contact.phoneDigits");
     }
-    
+
     if (!formData.subject) {
       newErrors.subject = t("contact.selectSubjectError");
     }
-    
+
+    if (formData.subject === "booking" && !formData.villaId) {
+      newErrors.villaId = t("contact.selectVillaError");
+    }
+
+    if (
+      formData.subject === "booking" &&
+      formData.checkIn &&
+      formData.checkOut &&
+      formData.checkOut < formData.checkIn
+    ) {
+      newErrors.checkOut = t("contact.dateRangeError");
+    }
+
+    if (formData.subject === "activities" && !formData.activityId) {
+      newErrors.activityId = t("contact.selectActivityError");
+    }
+
     if (!formData.message.trim()) {
       newErrors.message = `${t("contact.message")} ${t("contact.required")}`;
     }
@@ -153,13 +197,29 @@ export default function ContactForm() {
         }
       }
     }
-    
+
     setErrors(newErrors);
-    
+
     if (Object.keys(newErrors).length > 0) {
       return;
     }
-    
+
+    const selectedVilla = CONTACT_VILLAS.find(
+      (villa) => String(villa.id) === String(formData.villaId)
+    );
+    const selectedActivity = CONTACT_ACTIVITIES.find(
+      (activity) => String(activity.id) === String(formData.activityId)
+    );
+
+    const payload = {
+      ...formData,
+      villaName: selectedVilla?.name || "",
+      villaMaxPeople: selectedVilla?.maxPeople || "",
+      activityName: selectedActivity
+        ? t(`activitiesPage.${selectedActivity.translationKey}.name`)
+        : "",
+    };
+
     setLoading(true);
     try {
       const response = await fetch("/api/contact", {
@@ -167,7 +227,7 @@ export default function ContactForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -182,16 +242,8 @@ export default function ContactForm() {
 
       setSubmitted(true);
       setErrors({});
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: "",
-        website: "",
-      });
+      setFormData(EMPTY_FORM);
 
-      // Reset success message after 5 seconds
       setTimeout(() => setSubmitted(false), 5000);
     } catch (error) {
       console.error("Contact form submission failed:", error);
@@ -201,6 +253,8 @@ export default function ContactForm() {
       setLoading(false);
     }
   };
+
+  const peopleLabel = t("contact.maxPeopleShort");
 
   return (
     <div className={styles.formContainer}>
@@ -266,25 +320,159 @@ export default function ContactForm() {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="subject">
+          <span className={styles.groupLabel}>
             {t("contact.subject")} <span className={styles.required}>*</span>
-          </label>
-          <select
-            id="subject"
-            name="subject"
-            value={formData.subject}
-            onChange={handleChange}
-            className={errors.subject ? styles.inputError : ""}
+          </span>
+          <div
+            className={`${styles.subjectOptions} ${
+              errors.subject ? styles.subjectOptionsError : ""
+            }`}
+            role="radiogroup"
+            aria-label={t("contact.subject")}
           >
-            <option value="">{t("contact.selectSubject")}</option>
-            <option value="booking">{t("contact.booking")}</option>
-            <option value="activities">{t("contact.activityInquiry")}</option>
-            <option value="general">{t("contact.generalInquiry")}</option>
-            <option value="feedback">{t("contact.feedback")}</option>
-            <option value="other">{t("contact.other")}</option>
-          </select>
-          {errors.subject && <span className={styles.errorText}>{errors.subject}</span>}
+            {SUBJECT_OPTIONS.map((option) => {
+              const isSelected = formData.subject === option.value;
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={isSelected}
+                  className={`${styles.subjectOption} ${
+                    isSelected ? styles.subjectOptionSelected : ""
+                  }`}
+                  onClick={() => handleSubjectSelect(option.value)}
+                  data-track={`contact-subject-${option.value}`}
+                >
+                  <span className={styles.subjectIcon}>
+                    <img src={option.icon} alt="" width={48} height={48} />
+                  </span>
+                  <span className={styles.subjectLabel}>
+                    {t(`contact.${option.labelKey}`)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          {errors.subject && (
+            <span className={styles.errorText}>{errors.subject}</span>
+          )}
         </div>
+
+        {formData.subject === "booking" && (
+          <>
+            <div className={styles.formGroup}>
+              <label htmlFor="villaId">
+                {t("contact.selectVilla")}{" "}
+                <span className={styles.required}>*</span>
+              </label>
+              <select
+                id="villaId"
+                name="villaId"
+                value={formData.villaId}
+                onChange={handleChange}
+                className={errors.villaId ? styles.inputError : ""}
+              >
+                <option value="">{t("contact.selectVillaPlaceholder")}</option>
+                {CONTACT_VILLAS.map((villa) => (
+                  <option key={villa.id} value={villa.id}>
+                    {villa.name} ({peopleLabel}: {villa.maxPeople})
+                  </option>
+                ))}
+              </select>
+              {errors.villaId && (
+                <span className={styles.errorText}>{errors.villaId}</span>
+              )}
+            </div>
+
+            {formData.villaId && (
+              <div className={styles.formGroup}>
+                <span className={styles.groupLabel}>
+                  {t("contact.possibleDates")}{" "}
+                  <span className={styles.optional}>
+                    ({t("contact.optional")})
+                  </span>
+                </span>
+                <div className={styles.dateRow}>
+                  <div className={styles.dateField}>
+                    <label htmlFor="checkIn">{t("contact.checkIn")}</label>
+                    <input
+                      type="date"
+                      id="checkIn"
+                      name="checkIn"
+                      value={formData.checkIn}
+                      onChange={handleChange}
+                      min={new Date().toISOString().split("T")[0]}
+                    />
+                  </div>
+                  <div className={styles.dateField}>
+                    <label htmlFor="checkOut">{t("contact.checkOut")}</label>
+                    <input
+                      type="date"
+                      id="checkOut"
+                      name="checkOut"
+                      value={formData.checkOut}
+                      onChange={handleChange}
+                      min={
+                        formData.checkIn ||
+                        new Date().toISOString().split("T")[0]
+                      }
+                      className={errors.checkOut ? styles.inputError : ""}
+                    />
+                    {errors.checkOut && (
+                      <span className={styles.errorText}>{errors.checkOut}</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+
+        {formData.subject === "activities" && (
+          <>
+            <div className={styles.formGroup}>
+              <label htmlFor="activityId">
+                {t("contact.selectActivity")}{" "}
+                <span className={styles.required}>*</span>
+              </label>
+              <select
+                id="activityId"
+                name="activityId"
+                value={formData.activityId}
+                onChange={handleChange}
+                className={errors.activityId ? styles.inputError : ""}
+              >
+                <option value="">{t("contact.selectActivityPlaceholder")}</option>
+                {CONTACT_ACTIVITIES.map((activity) => (
+                  <option key={activity.id} value={activity.id}>
+                    {t(`activitiesPage.${activity.translationKey}.name`)}
+                  </option>
+                ))}
+              </select>
+              {errors.activityId && (
+                <span className={styles.errorText}>{errors.activityId}</span>
+              )}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="activityDate">
+                {t("contact.possibleActivityDate")}{" "}
+                <span className={styles.optional}>
+                  ({t("contact.optional")})
+                </span>
+              </label>
+              <input
+                type="date"
+                id="activityDate"
+                name="activityDate"
+                value={formData.activityDate}
+                onChange={handleChange}
+                min={new Date().toISOString().split("T")[0]}
+              />
+            </div>
+          </>
+        )}
 
         <div className={styles.formGroup}>
           <label htmlFor="message">
@@ -299,7 +487,9 @@ export default function ContactForm() {
             rows={6}
             className={errors.message ? styles.inputError : ""}
           />
-          {errors.message && <span className={styles.errorText}>{errors.message}</span>}
+          {errors.message && (
+            <span className={styles.errorText}>{errors.message}</span>
+          )}
         </div>
 
         <div className={styles.honeypot}>
@@ -323,9 +513,9 @@ export default function ContactForm() {
 
       <div className={styles.chargingNote}>
         <div className={styles.chargingIconWrapper}>
-          <Image 
-            src="/info/ChargingStation.jpg" 
-            alt="Charging Station" 
+          <Image
+            src="/info/ChargingStation.jpg"
+            alt="Charging Station"
             width={40}
             height={40}
             className={styles.chargingIcon}
