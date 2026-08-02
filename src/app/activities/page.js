@@ -40,7 +40,7 @@ const activitiesBase = [
     translationKey: "manzanillo",
     duration: "Half day",
     priceKey: "contactUs",
-    difficulty: "Challenging",
+    difficulty: "Moderate",
     groupSize: "Up to 8 people",
     image: "/activities/all/manzanilloHike.jpg",
   },

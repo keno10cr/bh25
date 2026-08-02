@@ -116,7 +116,7 @@ export const translations = {
       // Individual Activities
       familyReunions: {
         name: "Family Reunions",
-        description: "Perfect setting for family gatherings",
+        description: "A warm Caribbean setting for memorable family gatherings together",
         fullDescription:
           "Blessed House provides the perfect setting for family gatherings, accommodating groups of up to 45 people. Each family can enjoy their own private cabin, while coming together for shared meals and moments of relaxation around the pool. The onsite BBQ area and communal dining space foster a warm and welcoming atmosphere.",
         highlights: [
@@ -142,7 +142,7 @@ export const translations = {
       },
       aerobics: {
         name: "Aerobics",
-        description: "Stay active during your stay",
+        description: "Stay active and energized with group sessions during your stay",
         fullDescription:
           "Join our aerobics sessions to stay active and energized during your stay at Blessed House. Perfect for starting your day with energy or unwinding in the evening. All fitness levels welcome.",
         highlights: [
@@ -155,14 +155,14 @@ export const translations = {
       },
       manzanillo: {
         name: "Manzanillo",
-        description: "Less than 30 minutes away from Blessed House",
+        description: "A short trip to wildlife refuge beaches near Blessed House",
         fullDescription:
           "Trip from Blessed House to Manzanillo, Limón, Costa Rica. A beautiful destination perfect for exploring the National Wildlife Refuge and enjoying the pristine beaches.",
         highlights: ["National Wildlife Refuge", "Pristine Beaches", "Wildlife Spotting", "Scenic Views"],
       },
       elMirador: {
         name: "El Mirador",
-        description: "Enjoy the View!",
+        description: "Hike up for panoramic views of the property and beach",
         fullDescription:
           "It's going to be an uphill trail to get up there but once you are there you are going to realize it was worth it with an awesome view to the property, flora, fauna and the beach. We recommend you to ask first before heading up there and just an FYI you should use shoes you shouldn't go up there on sandals or barefoot.",
         highlights: ["Panoramic Views", "Property Views", "Flora & Fauna", "Beach Views"],
@@ -176,21 +176,21 @@ export const translations = {
       },
       pool: {
         name: "Pool",
-        description: "Come on down!",
+        description: "Cool off and relax in our shared pool after exploring",
         fullDescription:
           "This pool is available for all our guests. Please read the rules of usage and enjoy it. Perfect for cooling off after a day of exploring Puerto Viejo. Open until 10pm, deepest point 1.80.",
         highlights: ["Pool Access", "Refreshment", "Relaxation", "For All Guests"],
       },
       fishingTours: {
         name: "Fishing Tours",
-        description: "Fish the Caribbean Coast",
+        description: "Join local captains for fishing along the Caribbean coast",
         fullDescription:
           "Experience a true Caribbean fishing adventure! Join local experts for a trip out on a traditional boat to catch fresh local species. Whether you are an experienced angler or a first-timer, this tour offers an authentic look at coastal life.",
         highlights: ["Local Captains", "Authentic Boat Experience", "Catch Fresh Fish", "Caribbean Views", "Booking Required"],
       },
       surfLessons: {
         name: "Surf Lessons",
-        description: "Learn with one of the locals",
+        description: "Learn to surf with local instructors at nearby Caribbean spots",
         fullDescription:
           "Learn with one of the locals at Cocles, Salsa Brava or any of the spots we have around. It will be either mornings or evenings.",
         highlights: ["Local Instructors", "Multiple Locations", "Morning/Evening Sessions", "All Levels Welcome"],
@@ -204,21 +204,21 @@ export const translations = {
       },
       kayaking: {
         name: "Kayaking",
-        description: "Another point of view",
+        description: "Paddle calm Caribbean waters for a fresh shoreline view",
         fullDescription:
           "Another point of view. You will be able to enjoy another point of view from the beaches around Blessed House. You can do it in places like Puerto Viejo, Punta Uva, Playa Chiquita or Manzanillo.. Or even take it to the next level and get a tour to explore the water of the national park at Cahuita with a group and a guide.",
         highlights: ["Beach Views", "Water Activity", "Equipment Rental", "Scenic Experience"],
       },
       volioWaterfalls: {
         name: "Volio Waterfalls",
-        description: "Several waterfalls in one place",
+        description: "Visit several rainforest waterfalls just minutes from the property",
         fullDescription:
           "It's a 10 minutes ride from Blessed House, you should really take the time to enjoy the rainforest and immerse yourself in these waterfalls.",
         highlights: ["Multiple Waterfalls", "Rainforest Experience", "Close to Property", "Swimming Spots"],
       },
       puntaUva: {
         name: "Punta Uva",
-        description: "Explore Punta Uva",
+        description: "Explore reef views, a nearby river, and scenic walking trails",
         fullDescription:
           "Punta Uva's beach has a nice view to a reef peak, also there's a river right next to it and finally you can take one of the walking trails to explore even more the peak.",
         highlights: ["Reef Views", "River Access", "Walking Trails", "Beach Exploration"],
@@ -244,14 +244,14 @@ export const translations = {
       },
       cahuitaNationalPark: {
         name: "Cahuita National Park",
-        description: "Less than 30 minutes away from Blessed House",
+        description: "Explore jungle trails and pristine beaches less than thirty minutes away",
         fullDescription:
           "Trip from Blessed House to Cahuita. A beautiful destination perfect for exploring the National Park and enjoying the pristine beaches with amazing trails that go deep in the jungle.",
         highlights: ["National Wildlife Refuge", "Pristine Beaches", "Wildlife Spotting", "Scenic Views"],
       },
       eBikeRental: {
         name: "E-Bike Rental",
-        description: "Explore Puerto Viejo with ease",
+        description: "Explore beaches and local spots around Puerto Viejo with ease",
         fullDescription:
           "Rent e-bikes from Puerto Viejo Bike Rentals for an eco-friendly way to explore the area. Perfect for discovering beaches, national parks, and local attractions at your own pace.",
         highlights: ["Eco-Friendly", "Easy Exploration", "Quality Bikes", "Local Rental Service"],
@@ -646,7 +646,7 @@ export const translations = {
       },
       familyReunions: {
         name: "Reuniones Familiares",
-        description: "Ambiente perfecto para reuniones familiares",
+        description: "Un cálido ambiente caribeño para reuniones familiares inolvidables",
         fullDescription:
           "Blessed House proporciona el ambiente perfecto para reuniones familiares, albergando grupos de hasta 45 personas. Cada familia puede disfrutar de su propia cabaña privada, mientras se reúnen para comidas compartidas y momentos de relajación alrededor de la piscina. El área de BBQ en el lugar y el espacio de comedor comunal fomentan una atmósfera cálida y acogedora.",
         highlights: [
@@ -672,7 +672,7 @@ export const translations = {
       },
       aerobics: {
         name: "Aeróbicos",
-        description: "Mantente activo durante tu estadía",
+        description: "Mantente activo y con energía en sesiones grupales durante tu estadía",
         fullDescription:
           "Únete a nuestras sesiones de aeróbicos para mantenerte activo y energizado durante tu estadía en Blessed House. Perfecto para comenzar tu día con energía o relajarte por la noche. Todos los niveles de condición física son bienvenidos.",
         highlights: [
@@ -685,14 +685,14 @@ export const translations = {
       },
       manzanillo: {
         name: "Manzanillo",
-        description: "A menos de 30 minutos de Blessed House",
+        description: "Un corto viaje a playas y refugio de vida silvestre cercanos",
         fullDescription:
           "Viaje desde Blessed House a Manzanillo, Limón, Costa Rica. Un hermoso destino perfecto para explorar el Refugio Nacional de Vida Silvestre y disfrutar de las playas pristinas.",
         highlights: ["Refugio Nacional de Vida Silvestre", "Playas Pristinas", "Avistamiento de Vida Silvestre", "Vistas Escénicas"],
       },
       elMirador: {
         name: "El Mirador",
-        description: "¡Disfruta de la Vista!",
+        description: "Sube por el sendero y disfruta vistas panorámicas de la playa",
         fullDescription:
           "Será un sendero cuesta arriba para llegar allí, pero una vez que estés allí te darás cuenta de que valió la pena con una vista increíble a la propiedad, flora, fauna y la playa. Te recomendamos que preguntes primero antes de dirigirte allí y solo para tu información, debes usar zapatos, no debes subir allí con sandalias o descalzo.",
         highlights: ["Vistas Panorámicas", "Vistas de la Propiedad", "Flora y Fauna", "Vistas de la Playa"],
@@ -706,49 +706,49 @@ export const translations = {
       },
       pool: {
         name: "Piscina",
-        description: "¡Ven a bajar!",
+        description: "Refréscate y relájate en nuestra piscina compartida después de explorar",
         fullDescription:
           "Esta piscina está disponible para todos nuestros huéspedes. Por favor, lee las reglas de uso y disfrútala. Perfecta para refrescarse después de un día explorando Puerto Viejo. Abierta hasta las 10pm, punto más profundo 1.80.",
         highlights: ["Acceso a la Piscina", "Refrescante", "Relajación", "Para Todos los Huéspedes"],
       },
       fishingTours: {
         name: "Tours de Pesca",
-        description: "Pesca en la Costa Caribeña",
+        description: "Sal con capitanes locales a pescar por la costa caribeña",
         fullDescription:
           "¡Experimenta una verdadera aventura de pesca caribeña! Únete a expertos locales para un viaje en un barco tradicional para capturar especies locales frescas. Ya seas un pescador experimentado o un principiante, este tour ofrece una mirada auténtica a la vida costera.",
         highlights: ["Capitanes Locales", "Experiencia de Barco Auténtica", "Captura Pescado Fresco", "Vistas Caribeñas", "Reserva Requerida"],
       },
       surfLessons: {
         name: "Clases de Surf",
-        description: "Aprende con uno de los locales",
+        description: "Aprende a surfear con instructores locales en playas cercanas",
         fullDescription:
           "Aprende con uno de los locales en Cocles, Salsa Brava o cualquiera de los lugares que tenemos alrededor. Será por las mañanas o por las tardes.",
         highlights: ["Instructores Locales", "Múltiples Ubicaciones", "Sesiones Matutinas/Nocturnas", "Todos los Niveles Bienvenidos"],
       },
       bribriCacaoTour: {
         name: "Tour de Cacao Bribri",
-        description: "Haz tu propio chocolate con los locales",
+        description: "Haz tu propio chocolate junto a los locales de la zona",
         fullDescription:
           "Alrededor de Puerto Viejo encontrarás muchos árboles de cacao y los locales conocen sus formas con esta planta y otras plantas. Conoce algunas de sus recetas y técnicas. También hay un museo en el camino a Cahuita.",
         highlights: ["Fabricación de Chocolate", "Cultura Local", "Recetas Tradicionales", "Experiencia Interactiva"],
       },
       kayaking: {
         name: "Kayak",
-        description: "Otro punto de vista",
+        description: "Rema en aguas tranquilas y disfruta otra vista de la costa",
         fullDescription:
           "Otro punto de vista. Podrás disfrutar de otro punto de vista desde las playas alrededor de Blessed House. Puedes hacerlo en lugares como Puerto Viejo, Punta Uva, Playa Chiquita o Manzanillo... O incluso llevarlo al siguiente nivel y hacer un tour para explorar el agua del parque nacional en Cahuita con un grupo y un guía.",
         highlights: ["Vistas de la Playa", "Actividad Acuática", "Alquiler de Equipos", "Experiencia Escénica"],
       },
       volioWaterfalls: {
         name: "Cascadas de Volio",
-        description: "Varias cascadas en un lugar",
+        description: "Visita varias cascadas de selva a pocos minutos de la propiedad",
         fullDescription:
           "Está a 10 minutos en coche de Blessed House, realmente deberías tomarte el tiempo para disfrutar de la selva tropical y sumergirte en estas cascadas.",
         highlights: ["Múltiples Cascadas", "Experiencia de Selva Tropical", "Cerca de la Propiedad", "Lugares para Nadar"],
       },
       puntaUva: {
         name: "Punta Uva",
-        description: "Explora Punta Uva",
+        description: "Explora arrecife, río cercano y senderos con vistas hermosas",
         fullDescription:
           "La playa de Punta Uva tiene una bonita vista a un pico de arrecife, también hay un río justo al lado y finalmente puedes tomar uno de los senderos para caminar para explorar aún más el pico.",
         highlights: ["Vistas del Arrecife", "Acceso al Río", "Senderos para Caminar", "Exploración de la Playa"],
@@ -774,14 +774,14 @@ export const translations = {
       },
       cahuitaNationalPark: {
         name: "Parque Nacional Cahuita",
-        description: "A menos de 30 minutos de Blessed House",
+        description: "Explora senderos de selva y playas hermosas a menos de media hora",
         fullDescription:
           "Viaje desde Blessed House a Cahuita. Un hermoso destino perfecto para explorar el Parque Nacional y disfrutar de las playas pristinas con increíbles senderos que se adentran en la selva.",
         highlights: ["Refugio Nacional de Vida Silvestre", "Playas Pristinas", "Avistamiento de Vida Silvestre", "Vistas Escénicas"],
       },
       eBikeRental: {
         name: "Alquiler de E-Bicicletas",
-        description: "Explora Puerto Viejo con facilidad",
+        description: "Explora playas y lugares locales de Puerto Viejo con facilidad",
         fullDescription:
           "Alquila e-bicicletas de Puerto Viejo Bike Rentals para una forma ecológica de explorar el área. Perfecto para descubrir playas, parques nacionales y atracciones locales a tu propio ritmo.",
         highlights: ["Ecológico", "Exploración Fácil", "Bicicletas de Calidad", "Servicio de Alquiler Local"],
