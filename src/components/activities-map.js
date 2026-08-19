@@ -134,6 +134,9 @@ export default function ActivitiesMap({
         markersRef.current = [];
 
         points.forEach((activity) => {
+          const wrap = document.createElement("div");
+          wrap.className = styles.pinWrap;
+
           const el = document.createElement("button");
           el.type = "button";
           el.className = styles.pin;
@@ -145,17 +148,18 @@ export default function ActivitiesMap({
             event.stopPropagation();
             onSelectRef.current?.(activity);
           });
+          wrap.appendChild(el);
 
           if (activity.slug === selectedSlugRef.current) {
-            el.classList.add(styles.pinSelected);
-            el.style.zIndex = "20";
+            wrap.classList.add(styles.pinSelected);
+            wrap.style.zIndex = "20";
           }
 
-          const marker = new maplibre.Marker({ element: el, anchor: "center" })
+          const marker = new maplibre.Marker({ element: wrap, anchor: "center" })
             .setLngLat([activity.coordinates.lng, activity.coordinates.lat])
             .addTo(map);
           marker._bhSlug = activity.slug;
-          marker._bhEl = el;
+          marker._bhEl = wrap;
           markersRef.current.push(marker);
         });
 
