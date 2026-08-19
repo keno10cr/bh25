@@ -4,14 +4,7 @@ import { useMemo } from "react";
 import CmsText from "@/components/cms-text";
 import styles from "./reviews-marquee.module.css";
 
-const YEAR_ROWS = [2026, 2025, 2024, 2023, 2022, 2021, 2020];
-
-function reviewYear(review) {
-  if (!review?.date) return null;
-  const date = new Date(review.date);
-  if (Number.isNaN(date.getTime())) return null;
-  return date.getUTCFullYear();
-}
+const ROW_COUNT = 3;
 
 function formatReviewDate(value) {
   if (!value) return "";
@@ -53,7 +46,7 @@ function ReviewCard({ review }) {
   );
 }
 
-function YearRow({ year, reviews, reverse, duration }) {
+function ReviewRow({ reviews, reverse, duration, rowKey }) {
   const loop = useMemo(() => {
     if (!reviews.length) return [];
     const copies = reviews.length < 6 ? 4 : 2;
@@ -63,43 +56,37 @@ function YearRow({ year, reviews, reverse, duration }) {
   if (!loop.length) return null;
 
   return (
-    <div className={styles.row}>
-      <span className={styles.year}>{year}</span>
-      <div className={styles.viewport}>
-        <div
-          className={`${styles.track} ${reverse ? styles.trackReverse : ""}`}
-          style={{ animationDuration: `${duration}s` }}
-        >
-          {loop.map((review, index) => (
-            <ReviewCard key={`${year}-${review.id}-${index}`} review={review} />
-          ))}
-        </div>
+    <div className={styles.viewport}>
+      <div
+        className={`${styles.track} ${reverse ? styles.trackReverse : ""}`}
+        style={{ animationDuration: `${duration}s` }}
+      >
+        {loop.map((review, index) => (
+          <ReviewCard key={`${rowKey}-${review.id}-${index}`} review={review} />
+        ))}
       </div>
     </div>
   );
 }
 
+function splitIntoRows(reviews, rows) {
+  const sorted = [...reviews].sort(
+    (a, b) => new Date(b.date || 0) - new Date(a.date || 0)
+  );
+  const groups = Array.from({ length: rows }, () => []);
+  sorted.forEach((review, index) => {
+    groups[index % rows].push(review);
+  });
+  return groups.filter((group) => group.length > 0);
+}
+
 export default function ReviewsMarquee({
   reviews = [],
   title = "What Our Guests Say",
-  subtitle = "Seven years of stays in the southern Caribbean",
+  subtitle = "Stories from stays in the southern Caribbean",
   ariaLabel,
 }) {
-  const byYear = useMemo(() => {
-    const groups = new Map();
-    reviews.forEach((review) => {
-      const year = reviewYear(review);
-      if (!year) return;
-      if (!groups.has(year)) groups.set(year, []);
-      groups.get(year).push(review);
-    });
-    groups.forEach((list) => {
-      list.sort((a, b) => new Date(b.date) - new Date(a.date));
-    });
-    return groups;
-  }, [reviews]);
-
-  const rows = YEAR_ROWS.filter((year) => (byYear.get(year) || []).length > 0);
+  const rows = useMemo(() => splitIntoRows(reviews, ROW_COUNT), [reviews]);
   if (!rows.length) return null;
 
   return (
@@ -109,13 +96,13 @@ export default function ReviewsMarquee({
         <p>{subtitle}</p>
       </div>
       <div className={styles.rows}>
-        {rows.map((year, index) => (
-          <YearRow
-            key={year}
-            year={year}
-            reviews={byYear.get(year)}
+        {rows.map((rowReviews, index) => (
+          <ReviewRow
+            key={index}
+            rowKey={index}
+            reviews={rowReviews}
             reverse={index % 2 === 1}
-            duration={42 + index * 4}
+            duration={44 + index * 6}
           />
         ))}
       </div>

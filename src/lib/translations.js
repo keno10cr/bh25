@@ -290,7 +290,7 @@ export const translations = {
     },
     reviews: {
       title: "What Our Guests Say",
-      subtitle: "Seven years of stays in the southern Caribbean",
+      subtitle: "Stories from stays in the southern Caribbean",
     },
     blog: {
       title: "Blog",

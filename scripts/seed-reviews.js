@@ -46,7 +46,7 @@ async function seed() {
   if (home?._id) {
     transaction.patch("homePageSettings", {
       set: {
-        reviewsSubtitle: "Seven years of stays in the southern Caribbean",
+        reviewsSubtitle: "Stories from stays in the southern Caribbean",
       },
     });
   }
