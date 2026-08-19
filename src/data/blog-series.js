@@ -1,7 +1,8 @@
 import { STATIC_ACTIVITIES } from "./activities.js";
 import { STATIC_VILLAS } from "./villas.js";
 
-const ACTIVITY_START = new Date("2026-08-18T16:00:00.000Z");
+const SERIES_START = new Date("2026-08-18T16:00:00.000Z");
+const SERIES_INTERVAL_DAYS = 4;
 
 function publishedAtFrom(start, days) {
   const date = new Date(start);
@@ -259,14 +260,13 @@ const ACTIVITY_SERIES = STATIC_ACTIVITIES.map((activity, index) => {
     title: copy.title,
     slug,
     category: copy.category,
-    publishedAt: publishedAtFrom(ACTIVITY_START, index),
+    publishedAt: publishedAtFrom(SERIES_START, index * SERIES_INTERVAL_DAYS),
     excerpt: copy.excerpt,
     featuredImage: activity.image,
     content: toBlocks(copy.content, slug),
   };
 });
 
-const lastActivityDay = STATIC_ACTIVITIES.length - 1;
 const ANIMAL_SERIES = ANIMAL_POSTS.map((post, index) => {
   const slug = `journal-${post.villa.slug}`;
   return {
@@ -274,7 +274,10 @@ const ANIMAL_SERIES = ANIMAL_POSTS.map((post, index) => {
     title: post.title,
     slug,
     category: "Fauna",
-    publishedAt: publishedAtFrom(ACTIVITY_START, lastActivityDay + 3 + index * 3),
+    publishedAt: publishedAtFrom(
+      SERIES_START,
+      (STATIC_ACTIVITIES.length + index) * SERIES_INTERVAL_DAYS
+    ),
     excerpt: post.excerpt,
     featuredImage: post.villa.image,
     content: toBlocks(post.content, slug),
