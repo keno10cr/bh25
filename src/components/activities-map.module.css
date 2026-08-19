@@ -35,8 +35,19 @@
 
 .pinSelected {
   box-shadow: 0 0 0 3px #e8a838, 0 2px 10px rgba(0, 0, 0, 0.3);
-  transform: scale(1.18);
   z-index: 20;
+  transform-origin: center center;
+  animation: pinPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pinPulse {
+  0%,
+  100% {
+    transform: scale(1.12);
+  }
+  50% {
+    transform: scale(1.38);
+  }
 }
 
 .legend {

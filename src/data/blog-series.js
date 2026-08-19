@@ -1,5 +1,6 @@
 import { STATIC_ACTIVITIES } from "./activities.js";
 import { STATIC_VILLAS } from "./villas.js";
+import { PARK_POSTS } from "./blog-parks.js";
 
 const SERIES_START = new Date("2026-08-18T16:00:00.000Z");
 const SERIES_INTERVAL_DAYS = 4;
@@ -284,4 +285,23 @@ const ANIMAL_SERIES = ANIMAL_POSTS.map((post, index) => {
   };
 });
 
-export const SERIES_BLOG_POSTS = [...ACTIVITY_SERIES, ...ANIMAL_SERIES];
+const PARK_START = new Date("2027-04-01T16:00:00.000Z");
+const PARK_SERIES = PARK_POSTS.map((post, index) => {
+  const slug = post.slug;
+  return {
+    id: `series-park-${slug}`,
+    title: post.title,
+    slug,
+    category: "National Parks",
+    publishedAt: publishedAtFrom(PARK_START, index),
+    excerpt: post.excerpt,
+    featuredImage: post.featuredImage,
+    content: toBlocks(post.content, slug),
+  };
+});
+
+export const SERIES_BLOG_POSTS = [
+  ...ACTIVITY_SERIES,
+  ...ANIMAL_SERIES,
+  ...PARK_SERIES,
+];

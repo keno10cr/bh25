@@ -30,6 +30,7 @@ export const blog = defineType({
           { title: "Fauna", value: "Fauna" },
           { title: "Local Spot", value: "Local Spot" },
           { title: "Retreats", value: "Retreats" },
+          { title: "National Parks", value: "National Parks" },
         ],
         layout: "dropdown",
       },

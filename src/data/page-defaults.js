@@ -19,7 +19,7 @@ export const HOME_PAGE_DEFAULTS = {
   activitiesSubtitle: "Unforgettable experiences in paradise",
   activitiesCta: "Explore All Activities",
   reviewsTitle: "What Our Guests Say",
-  reviewsSubtitle: "Stories from stays in the southern Caribbean",
+  reviewsSubtitle: "Seven years of stays in the southern Caribbean",
 };
 
 export const HOME_THINGS_TO_DO = [

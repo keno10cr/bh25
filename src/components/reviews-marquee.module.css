@@ -7,7 +7,7 @@
 .header {
   text-align: center;
   max-width: 720px;
-  margin: 0 auto 2rem;
+  margin: 0 auto 1.75rem;
   padding: 0 1.5rem;
 }
 
@@ -22,42 +22,71 @@
   margin: 0;
 }
 
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.year {
+  flex: 0 0 3.6rem;
+  padding-left: 1rem;
+  font-weight: 800;
+  font-size: 0.92rem;
+  letter-spacing: 0.03em;
+  color: var(--color-primary);
+}
+
 .viewport {
+  flex: 1 1 auto;
+  min-width: 0;
   overflow: hidden;
   mask-image: linear-gradient(
     to right,
     transparent,
-    black 8%,
-    black 92%,
+    black 6%,
+    black 94%,
     transparent
   );
 }
 
 .track {
   display: flex;
-  gap: 1.25rem;
+  gap: 1rem;
   width: max-content;
   animation: marquee 48s linear infinite;
-  padding: 0.5rem 1.5rem 1.5rem;
+  padding: 0.2rem 0.5rem 0.35rem;
 }
 
-.track:hover {
+.trackReverse {
+  animation-name: marqueeReverse;
+}
+
+.track:hover,
+.trackReverse:hover {
   animation-play-state: paused;
 }
 
 .card {
-  width: 320px;
+  width: 300px;
   flex-shrink: 0;
   background: white;
-  border-radius: 16px;
-  padding: 1.25rem 1.4rem;
+  border-radius: 14px;
+  padding: 1rem 1.15rem 1.1rem;
   box-shadow: 0 8px 24px rgba(10, 76, 58, 0.08);
 }
 
 .stars {
   display: inline-flex;
   gap: 2px;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   letter-spacing: 1px;
 }
 
@@ -74,25 +103,29 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 0.75rem;
-  margin: 0.65rem 0 0.75rem;
+  margin: 0.45rem 0 0.55rem;
 }
 
 .meta strong {
   color: #1a1a1a;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .meta span {
   color: #888;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   white-space: nowrap;
 }
 
 .card p {
   margin: 0;
   color: #535353;
-  line-height: 1.55;
-  font-size: 0.95rem;
+  line-height: 1.5;
+  font-size: 0.88rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 @keyframes marquee {
@@ -104,9 +137,24 @@
   }
 }
 
+@keyframes marqueeReverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 @media (max-width: 768px) {
+  .year {
+    flex-basis: 2.8rem;
+    padding-left: 0.7rem;
+    font-size: 0.8rem;
+  }
+
   .card {
-    width: 260px;
+    width: 250px;
   }
 
   .header h2 {

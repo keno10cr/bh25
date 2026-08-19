@@ -9,7 +9,8 @@
     "seed:sanity": "sanity exec scripts/seed-sanity.js --with-user-token",
     "patch:sanity": "sanity exec scripts/patch-sanity-copy.js --with-user-token",
     "patch:legend": "sanity exec scripts/patch-legend-items.js --with-user-token",
-    "seed:blog": "sanity exec scripts/seed-blog-series.js --with-user-token"
+    "seed:blog": "sanity exec scripts/seed-blog-series.js --with-user-token",
+    "seed:reviews": "sanity exec scripts/seed-reviews.js --with-user-token"
   },
   "dependencies": {
     "@maptiler/sdk": "^4.1.0",
