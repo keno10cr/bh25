@@ -6,6 +6,7 @@
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
+  height: 100%;
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.6s ease forwards;
@@ -84,12 +85,30 @@
 .difficulty {
   position: absolute;
   top: 1rem;
-  left: 1rem;
+  right: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
+}
+
+.numberBadge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 1;
 }
 
 .difficulty[data-level="easy"] {
@@ -135,6 +154,11 @@
   font-size: 0.95rem;
   margin-bottom: 1rem;
   line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 4.56em;
 }
 
 .fullDesc {
@@ -153,8 +177,8 @@
 
 .info {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1rem;
   margin-bottom: 1.5rem;
   padding: 1rem;
   background-color: #f9f7f4;
@@ -164,6 +188,7 @@
 .infoItem {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .label {
@@ -178,6 +203,9 @@
   font-size: 0.95rem;
   color: var(--color-primary);
   font-weight: 600;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.35;
 }
 
 .highlights {
@@ -238,6 +266,8 @@
   transition: all 0.3s ease;
   margin-top: auto;
   text-align: center;
+  text-decoration: none;
+  display: block;
 }
 
 .learnMoreBtn:hover {

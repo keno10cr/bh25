@@ -5,11 +5,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
+import CmsText from "@/components/cms-text";
+import { resolveCopy } from "@/lib/cms-field";
 import styles from "./our-place.module.css";
 
-export default function OurPlace() {
+export default function OurPlace({ copy }) {
     const { language } = useLanguage();
     const t = useTranslation(language);
+    const title = resolveCopy(copy?.ourPlaceTitle, t("ourPlace.title"));
+    const description = resolveCopy(
+        copy?.ourPlaceDescription,
+        t("ourPlace.description")
+    );
+    const cta = resolveCopy(copy?.ourPlaceCta, t("ourPlace.contactUs"));
     const imageRef = useRef(null);
     const sectionRef = useRef(null);
     const [imageOffset, setImageOffset] = useState(0);
@@ -53,12 +61,16 @@ export default function OurPlace() {
                         </div>
                     </div>
                     <div className={styles.textContent}>
-                        <h2>{t("ourPlace.title")}</h2>
+                        <h2>
+                            <CmsText fromCms={title.fromCms}>{title.value}</CmsText>
+                        </h2>
                         <p>
-                            {t("ourPlace.description")}
+                            <CmsText fromCms={description.fromCms}>
+                                {description.value}
+                            </CmsText>
                         </p>
                         <Link href="/contact" className={styles.ctaButton}>
-                            {t("ourPlace.contactUs")}
+                            <CmsText fromCms={cta.fromCms}>{cta.value}</CmsText>
                         </Link>
                     </div>
 

@@ -1,0 +1,96 @@
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.hero {
+  height: 420px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.page h1 {
+  color: var(--color-primary);
+  font-size: 2.2rem;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.meta,
+.copy,
+.fact {
+  color: #535353;
+  line-height: 1.7;
+}
+
+.fact {
+  font-style: italic;
+  border-left: 3px solid var(--color-primary);
+  padding-left: 1rem;
+}
+
+.amenities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.amenities li {
+  background: #f0f0f0;
+  color: var(--color-primary);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.thumb {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.thumb img,
+.gallery img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
+
+.book {
+  display: inline-flex;
+  background: var(--color-primary);
+  color: white;
+  padding: 0.85rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 240px;
+  }
+}

@@ -4,9 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
+import CmsText from "@/components/cms-text";
+import { resolveCopy } from "@/lib/cms-field";
 import styles from "./hero.module.css";
 
-export default function Hero() {
+export default function Hero({ copy }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const heroRef = useRef(null);
@@ -70,28 +72,48 @@ export default function Hero() {
           >
             <h1 className={styles.title}>
               {(() => {
-                const title = t("hero.title");
-                if (title.includes("Blessed House")) {
-                  const parts = title.split("Blessed House");
+                const title = resolveCopy(copy?.heroTitle, t("hero.title"));
+                if (title.value.includes("Blessed House")) {
+                  const parts = title.value.split("Blessed House");
                   return (
-                    <>
+                    <CmsText fromCms={title.fromCms}>
                       Blessed House<br />
                       {parts[1]}
-                    </>
+                    </CmsText>
                   );
                 }
-                return title;
+                return (
+                  <CmsText fromCms={title.fromCms}>{title.value}</CmsText>
+                );
               })()}
             </h1>
             <p className={styles.subtitle}>
-              {t("hero.subtitle")}
+              <CmsText
+                fromCms={resolveCopy(copy?.heroSubtitle, t("hero.subtitle")).fromCms}
+              >
+                {resolveCopy(copy?.heroSubtitle, t("hero.subtitle")).value}
+              </CmsText>
             </p>
             <div className={styles.cta}>
               <Link href="/villas" className={styles.btnPrimary}>
-                {t("hero.exploreVillas")}
+                <CmsText
+                  fromCms={
+                    resolveCopy(copy?.heroCtaPrimary, t("hero.exploreVillas"))
+                      .fromCms
+                  }
+                >
+                  {resolveCopy(copy?.heroCtaPrimary, t("hero.exploreVillas")).value}
+                </CmsText>
               </Link>
               <Link href="/contact" className={styles.btnSecondary}>
-                {t("hero.getInTouch")}
+                <CmsText
+                  fromCms={
+                    resolveCopy(copy?.heroCtaSecondary, t("hero.getInTouch"))
+                      .fromCms
+                  }
+                >
+                  {resolveCopy(copy?.heroCtaSecondary, t("hero.getInTouch")).value}
+                </CmsText>
               </Link>
             </div>
           </div>

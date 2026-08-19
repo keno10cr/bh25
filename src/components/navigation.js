@@ -81,6 +81,15 @@ export default function Navigation() {
             </Link>
           </li>
           <li>
+            <Link
+              href="/blog"
+              onClick={handleLinkClick}
+              className={pathname?.startsWith("/blog") ? styles.active : ""}
+            >
+              {t("nav.blog")}
+            </Link>
+          </li>
+          <li>
             <Link 
               href="/contact" 
               onClick={handleLinkClick}

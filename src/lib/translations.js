@@ -7,6 +7,7 @@ export const translations = {
       gallery: "Gallery",
       villas: "Villas",
       activities: "Activities",
+      blog: "Blog",
       contact: "Contact",
       payments: "Payments",
     },
@@ -29,7 +30,7 @@ export const translations = {
     ourPlace: {
       title: "Our Place",
       description:
-        "Welcome to Blessed House, a tranquil and spacious property nestled in the rich mountains near Puerto Viejo. We offer an authentic Caribbean experience surrounded by incredible nature and just a short distance from the beaches. Here, you'll enjoy a healthy, eco-friendly environment where wildlife, from sloths to hummingbirds, is part of the scenery. Our comfortable villas and shared pool area are designed for your complete relaxation and enjoyment.",
+        "Welcome to Blessed House, a tranquil and spacious property nestled in the rich mountains near Puerto Viejo. We offer an authentic Caribbean experience surrounded by incredible nature and just a short distance from the beaches. Here, you'll enjoy a healthy, eco friendly environment where wildlife, from sloths to hummingbirds, is part of the scenery. Our comfortable villas and shared pool area are designed for your complete relaxation and enjoyment.",
       contactUs: "Contact Us",
     },
     // Location
@@ -76,6 +77,10 @@ export const translations = {
         price: "Price",
         whatsIncluded: "What's Included",
         readMore: "Read More",
+        viewActivity: "View Activity",
+        previous: "Previous",
+        next: "Next",
+        selectPin: "Select a numbered pin to see the activity.",
         showLess: "Show Less",
         contactUs: "Contact Us About This Activity",
         visitWebsite: "Visit Website",
@@ -84,14 +89,14 @@ export const translations = {
         "Full day": "Full day",
         "Half day": "Half day",
         "All day": "All day",
-        "45 minutes - 1 hour": "45 minutes - 1 hour",
-        "1-2 hours": "1-2 hours",
-        "2-3 hours": "2-3 hours",
-        "2-4 hours": "2-4 hours",
-        "3-4 hours": "3-4 hours",
-        "4-6 hours": "4-6 hours",
-        "10 - 30 minutes": "10 - 30 minutes",
-        "Half day - Full day": "Half day - Full day",
+        "45 minutes - 1 hour": "45 minutes to 1 hour",
+        "1-2 hours": "1 to 2 hours",
+        "2-3 hours": "2 to 3 hours",
+        "2-4 hours": "2 to 4 hours",
+        "3-4 hours": "3 to 4 hours",
+        "4-6 hours": "4 to 6 hours",
+        "10 - 30 minutes": "10 to 30 minutes",
+        "Half day - Full day": "Half day to Full day",
       },
       groupSizes: {
         "Up to 45 people": "Up to 45 people",
@@ -105,7 +110,7 @@ export const translations = {
         "Up to 4 people": "Up to 4 people",
         "Up to 12 people": "Up to 12 people",
         "Unlimited": "Unlimited",
-        "2-4 people": "2-4 people",
+        "2-4 people": "2 to 4 people",
         "Any": "Any",
       },
       prices: {
@@ -131,7 +136,7 @@ export const translations = {
         name: "Weddings",
         description: "Where your beautiful Caribbean wedding comes to life",
         fullDescription:
-          "Blessed House also serves as a beautiful venue for weddings, with a maximum capacity of 50 guests. Couples have the flexibility to choose from catering services or prepare their own meals in the fully equipped kitchen. The private and family-oriented ambiance ensures a truly special celebration.",
+          "Blessed House also serves as a beautiful venue for weddings, with a maximum capacity of 50 guests. Couples have the flexibility to choose from catering services or prepare their own meals in the fully equipped kitchen. The private and family oriented ambiance ensures a truly special celebration.",
         highlights: [
           "Beautiful Venue",
           "Catering Services Available",
@@ -185,7 +190,7 @@ export const translations = {
         name: "Fishing Tours",
         description: "Join local captains for fishing along the Caribbean coast",
         fullDescription:
-          "Experience a true Caribbean fishing adventure! Join local experts for a trip out on a traditional boat to catch fresh local species. Whether you are an experienced angler or a first-timer, this tour offers an authentic look at coastal life.",
+          "Experience a true Caribbean fishing adventure! Join local experts for a trip out on a traditional boat to catch fresh local species. Whether you are an experienced angler or a first timer, this tour offers an authentic look at coastal life.",
         highlights: ["Local Captains", "Authentic Boat Experience", "Catch Fresh Fish", "Caribbean Views", "Booking Required"],
       },
       surfLessons: {
@@ -250,11 +255,11 @@ export const translations = {
         highlights: ["National Wildlife Refuge", "Pristine Beaches", "Wildlife Spotting", "Scenic Views"],
       },
       eBikeRental: {
-        name: "E-Bike Rental",
+        name: "E Bike Rental",
         description: "Explore beaches and local spots around Puerto Viejo with ease",
         fullDescription:
-          "Rent e-bikes from Puerto Viejo Bike Rentals for an eco-friendly way to explore the area. Perfect for discovering beaches, national parks, and local attractions at your own pace.",
-        highlights: ["Eco-Friendly", "Easy Exploration", "Quality Bikes", "Local Rental Service"],
+          "Rent e bikes from Puerto Viejo Bike Rentals for an eco friendly way to explore the area. Perfect for discovering beaches, national parks, and local attractions at your own pace.",
+        highlights: ["Eco friendly", "Easy Exploration", "Quality Bikes", "Local Rental Service"],
       },
     },
     // Activities Preview (for home page)
@@ -283,6 +288,20 @@ export const translations = {
         description: "Spot sloths, monkeys, and exotic birds",
       },
     },
+    reviews: {
+      title: "What Our Guests Say",
+      subtitle: "Stories from stays in the southern Caribbean",
+    },
+    blog: {
+      title: "Blog",
+      subtitle:
+        "Flora, fauna, local spots, and retreat notes from Puerto Viejo and Blessed House.",
+      empty: "New stories are on the way. Check back soon.",
+      back: "Back to blog",
+      published: "Published",
+      authorLabel: "Author",
+      author: "Blessed House Team",
+    },
     // Contact Form
     contact: {
       name: "Full Name",
@@ -297,16 +316,16 @@ export const translations = {
       selectVilla: "Select a villa",
       selectVillaPlaceholder: "Choose a villa",
       selectVillaError: "Please select a villa",
-      possibleDates: "Possible check-in and check-out dates",
-      checkIn: "Check-in",
-      checkOut: "Check-out",
+      possibleDates: "Possible check in and check out dates",
+      checkIn: "Check in",
+      checkOut: "Check out",
       selectActivity: "Select an activity",
       selectActivityPlaceholder: "Choose an activity",
       selectActivityError: "Please select an activity",
       possibleActivityDate: "Possible activity date",
       optional: "optional",
       maxPeopleShort: "max",
-      dateRangeError: "Check-out must be on or after check-in",
+      dateRangeError: "Check out must be on or after check in",
       send: "Send Message",
       sending: "Sending...",
       videoTitle: "Our Blessed House",
@@ -333,8 +352,8 @@ export const translations = {
         phone: "Phone",
         email: "Email",
         hours: "Hours",
-        hoursDays: "Mon - Sun",
-        hoursTime: "8:00 AM - 10:00 PM",
+        hoursDays: "Mon to Sun",
+        hoursTime: "8:00 AM to 10:00 PM",
         hoursLine2: "Feel free to contact us",
         howToGetHere: "How to get here",
         directions: "From the crossroad at Hone Creek, keep on straight towards Puerto Viejo for 2.5kms, our entrance is on the right side of the road.",
@@ -347,7 +366,7 @@ export const translations = {
     },
     // Footer
     footer: {
-      location: "Puerto Viejo - Costa Rica",
+      location: "Puerto Viejo, Costa Rica",
       tagline: "Southern Caribbean Living: Close to the Coast, Close to Everything.",
       quickLinks: "Quick Links",
       contactInfo: "Contact Info",
@@ -448,9 +467,17 @@ export const translations = {
       },
       buttons: {
         viewGallery: "View Gallery",
+        viewVilla: "View Villa",
         bookNow: "Book Now",
         showDetails: "Show full details",
         hideDetails: "Hide details",
+      },
+      gallery: {
+        charger: "Electric vehicle charging station",
+        junglePool: "Shared jungle pool",
+        propertyMap: "Blessed House property map",
+        sharedPool: "Shared pool",
+        villaPhoto: "Inside {name}",
       },
       amenities: {
         wifi: "Wifi",
@@ -478,11 +505,11 @@ export const translations = {
         description:
           "Located just 5 minutes from Puerto Viejo, this space is designed for couples who want a beautiful, private, and quiet stay, or a small family of three. Enjoy amazing views of the treetops and the coast, with access to the shared pool and BBQ area.",
         informativeFact:
-          "Costa Rica is home to over 50 species of Colibrí (Hummingbirds). They must feed on nectar every 10–15 minutes, and their wings beat so fast they can hover perfectly to sip nectar.",
+          "Costa Rica is home to over 50 species of Colibrí (Hummingbirds). They must feed on nectar every 10 to 15 minutes, and their wings beat so fast they can hover perfectly to sip nectar.",
       },
       villa5: {
         description:
-          "Come forget about reality and relax with your family and friends in this charming villa. Enjoy the spacious outdoor areas, beautifully maintained gardens, pool, and Wi-Fi. We are located just 3 mins away from Playa Negra and 5 mins away from Puerto Viejo.",
+          "Come forget about reality and relax with your family and friends in this charming villa. Enjoy the spacious outdoor areas, beautifully maintained gardens, pool, and Wi Fi. We are located just 3 mins away from Playa Negra and 5 mins away from Puerto Viejo.",
         informativeFact:
           "The Jaguar is the largest cat in the Americas. In Costa Rica, their populations are often tracked in protected coastal areas where they use their powerful swimming skills to hunt.",
       },
@@ -490,11 +517,11 @@ export const translations = {
         description:
           "This cozy villa is ideal for a small family retreat, offering easy access to the central pool area and dedicated parking. It perfectly captures the spirit of the jungle and the coast in a comfortable setting.",
         informativeFact:
-          "The Rana Roja (Strawberry Poison Dart Frog) is often seen foraging in the low-lying leaf litter of humid lowland forests, making them a common sight in the Southern Caribbean ecosystem.",
+          "The Rana Roja (Strawberry Poison Dart Frog) is often seen foraging in the low lying leaf litter of humid lowland forests, making them a common sight in the Southern Caribbean ecosystem.",
       },
       villa7: {
         description:
-          "A tranquil space designed for couples seeking genuine relaxation. This locally-inspired villa features a comfortable seating area and convenient access to the garden paths and shared amenities.",
+          "A tranquil space designed for couples seeking genuine relaxation. This locally inspired villa features a comfortable seating area and convenient access to the garden paths and shared amenities.",
         informativeFact:
           "The Rana Verde (Red-Eyed Tree Frog) is nocturnal and spends its days perfectly camouflaged on the underside of green leaves, which helps it avoid detection from predators.",
       },
@@ -502,31 +529,31 @@ export const translations = {
         description:
           "Embrace the Pura Vida lifestyle in this generously sized, beautifully crafted villa. It offers direct, peaceful access to the gardens for spotting local wildlife.",
         informativeFact:
-          "The Oso Perezoso (Sloth) primarily eats leaves, a low-energy diet that causes its metabolism to be extremely slow, sometimes taking up to one month to digest one meal.",
+          "The Oso Perezoso (Sloth) primarily eats leaves, a low energy diet that causes its metabolism to be extremely slow, sometimes taking up to one month to digest one meal.",
       },
       villa9: {
         description:
           "A wonderful choice for families or groups, this villa offers ample space for socializing outdoors, with easy access to the shared outdoor kitchen for preparing meals.",
         informativeFact:
-          "The Mono Cariblanco (White-Faced Capuchin Monkey) is considered one of the most intelligent New World monkeys and often uses rocks as tools to crack open hard-shelled food items.",
+          "The Mono Cariblanco (White Faced Capuchin Monkey) is considered one of the most intelligent New World monkeys and often uses rocks as tools to crack open hard shelled food items.",
       },
       villa10: {
         description:
-          "This compact and highly efficient villa is set up perfectly for adventurers and couples, featuring reliable Wi-Fi and close proximity to the main pool deck and lounge area.",
+          "This compact and highly efficient villa is set up perfectly for adventurers and couples, featuring reliable Wi Fi and close proximity to the main pool deck and lounge area.",
         informativeFact:
           "The Mono Ardilla (Central American Squirrel Monkey) possesses the largest brain relative to its body size of any primate, making them quick thinkers in the canopy.",
       },
       villa11: {
         description:
-          "Enjoy beautiful views over the treetops from this lovely unit. This villa is well-equipped and has easy access to the central BBQ area for unforgettable evening meals.",
+          "Enjoy beautiful views over the treetops from this lovely unit. This villa is well equipped and has easy access to the central BBQ area for unforgettable evening meals.",
         informativeFact:
           "The Lapa Roja (Scarlet Macaw) mates for life, and their vibrant red, blue, and yellow plumage is an essential feature for communication within their large flocks.",
       },
       villa12: {
         description:
-          "A serene and private space designed for ultimate rest and comfort. This locally-inspired villa is perfectly positioned for a quiet retreat after exploring the coast.",
+          "A serene and private space designed for ultimate rest and comfort. This locally inspired villa is perfectly positioned for a quiet retreat after exploring the coast.",
         informativeFact:
-          "The striking blue color of the Mariposa Morpho (Blue Morpho Butterfly) is not pigment; it's an optical illusion created by micro-structures on the scales that reflect light.",
+          "The striking blue color of the Mariposa Morpho (Blue Morpho Butterfly) is not pigment; it's an optical illusion created by micro structures on the scales that reflect light.",
       },
     },
     // Common
@@ -544,6 +571,7 @@ export const translations = {
       gallery: "Galería",
       villas: "Villas",
       activities: "Actividades",
+      blog: "Blog",
       contact: "Contacto",
       payments: "Pagos",
     },
@@ -607,6 +635,10 @@ export const translations = {
         price: "Precio",
         whatsIncluded: "Qué está Incluido",
         readMore: "Leer Más",
+        viewActivity: "Ver Actividad",
+        previous: "Anterior",
+        next: "Siguiente",
+        selectPin: "Selecciona un pin numerado para ver la actividad.",
         showLess: "Mostrar Menos",
         contactUs: "Contáctanos Sobre Esta Actividad",
         visitWebsite: "Visitar Sitio Web",
@@ -973,6 +1005,7 @@ export const translations = {
       },
       buttons: {
         viewGallery: "Ver Galería",
+        viewVilla: "Ver Villa",
         bookNow: "Reservar Ahora",
         showDetails: "Ver detalles completos",
         hideDetails: "Ocultar detalles",
@@ -1068,6 +1101,7 @@ export const translations = {
       gallery: "Galerie",
       villas: "Villen",
       activities: "Aktivitäten",
+      blog: "Blog",
       contact: "Kontakt",
     },
     hero: {
@@ -1130,6 +1164,10 @@ export const translations = {
         price: "Preis",
         whatsIncluded: "Was ist enthalten",
         readMore: "Mehr Lesen",
+        viewActivity: "Aktivität Ansehen",
+        previous: "Zurück",
+        next: "Weiter",
+        selectPin: "Wähle eine nummerierte Markierung, um die Aktivität zu sehen.",
         showLess: "Weniger Anzeigen",
         contactUs: "Kontaktieren Sie uns zu dieser Aktivität",
         visitWebsite: "Website Besuchen",
@@ -1453,6 +1491,7 @@ export const translations = {
       },
       buttons: {
         viewGallery: "Galerie Anzeigen",
+        viewVilla: "Villa Ansehen",
         bookNow: "Jetzt Buchen",
         showDetails: "Alle Details anzeigen",
         hideDetails: "Details ausblenden",
@@ -1548,6 +1587,7 @@ export const translations = {
       gallery: "Galerij",
       villas: "Villa's",
       activities: "Activiteiten",
+      blog: "Blog",
       contact: "Contact",
     },
     hero: {
@@ -1610,6 +1650,10 @@ export const translations = {
         price: "Prijs",
         whatsIncluded: "Wat is Inbegrepen",
         readMore: "Meer Lezen",
+        viewActivity: "Activiteit Bekijken",
+        previous: "Vorige",
+        next: "Volgende",
+        selectPin: "Kies een genummerde pin om de activiteit te zien.",
         showLess: "Minder Tonen",
         contactUs: "Neem Contact Op Over Deze Activiteit",
         visitWebsite: "Bezoek Website",
@@ -1933,6 +1977,7 @@ export const translations = {
       },
       buttons: {
         viewGallery: "Galerij Bekijken",
+        viewVilla: "Villa Bekijken",
         bookNow: "Nu Boeken",
         showDetails: "Volledige details tonen",
         hideDetails: "Details verbergen",
@@ -2028,6 +2073,7 @@ export const translations = {
       gallery: "Galerie",
       villas: "Villas",
       activities: "Activités",
+      blog: "Blog",
       contact: "Contact",
     },
     hero: {
@@ -2090,6 +2136,10 @@ export const translations = {
         price: "Prix",
         whatsIncluded: "Ce qui est Inclus",
         readMore: "Lire Plus",
+        viewActivity: "Voir l'activité",
+        previous: "Précédent",
+        next: "Suivant",
+        selectPin: "Sélectionnez un pin numéroté pour voir l'activité.",
         showLess: "Afficher Moins",
         contactUs: "Nous Contacter à Propos de Cette Activité",
         visitWebsite: "Visiter le Site Web",
@@ -2413,6 +2463,7 @@ export const translations = {
       },
       buttons: {
         viewGallery: "Voir la Galerie",
+        viewVilla: "Voir la Villa",
         bookNow: "Réserver Maintenant",
         showDetails: "Afficher tous les détails",
         hideDetails: "Masquer les détails",
@@ -2508,6 +2559,7 @@ export const translations = {
       gallery: "ギャラリー",
       villas: "ヴィラ",
       activities: "アクティビティ",
+      blog: "Blog",
       contact: "お問い合わせ",
     },
     hero: {
@@ -2570,6 +2622,10 @@ export const translations = {
         price: "料金",
         whatsIncluded: "含まれるもの",
         readMore: "続きを読む",
+        viewActivity: "アクティビティを見る",
+        previous: "前へ",
+        next: "次へ",
+        selectPin: "番号付きのピンを選ぶとアクティビティが表示されます。",
         showLess: "折りたたむ",
         contactUs: "このアクティビティについてお問い合わせ",
         visitWebsite: "ウェブサイトを訪問",
@@ -2893,6 +2949,7 @@ export const translations = {
       },
       buttons: {
         viewGallery: "ギャラリーを見る",
+        viewVilla: "ヴィラを見る",
         bookNow: "今すぐ予約",
         showDetails: "詳細を表示",
         hideDetails: "詳細を隠す",
@@ -2989,6 +3046,7 @@ export const translations = {
       gallery: "Galeria",
       villas: "Vilas",
       activities: "Atividades",
+      blog: "Blog",
       contact: "Contato",
     },
     // Hero
@@ -3051,6 +3109,7 @@ export const translations = {
       },
       buttons: {
         viewGallery: "Ver Galeria",
+        viewVilla: "Ver Vila",
         bookNow: "Reservar Agora",
         showDetails: "Ver detalhes completos",
         hideDetails: "Ocultar detalhes",
@@ -3162,6 +3221,10 @@ export const translations = {
         price: "Preço",
         whatsIncluded: "O que está Incluído",
         readMore: "Ler Mais",
+        viewActivity: "Ver Atividade",
+        previous: "Anterior",
+        next: "Próximo",
+        selectPin: "Selecione um pin numerado para ver a atividade.",
         showLess: "Mostrar Menos",
         contactUs: "Entre em Contato Sobre Esta Atividade",
         visitWebsite: "Visitar Site",

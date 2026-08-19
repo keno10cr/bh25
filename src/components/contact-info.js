@@ -2,14 +2,22 @@
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
+import CmsText from "@/components/cms-text";
+import { resolveCopy } from "@/lib/cms-field";
 import styles from "./contact-info.module.css";
 
-export default function ContactInfo() {
+export default function ContactInfo({ copy }) {
     const { language } = useLanguage();
     const t = useTranslation(language);
+    const infoTitle = resolveCopy(
+        copy?.infoTitle,
+        t("contactPage.contactInfo.title")
+    );
     return (
         <div className={styles.infoContainer}>
-            <h2>{t("contactPage.contactInfo.title")}</h2>
+            <h2>
+                <CmsText fromCms={infoTitle.fromCms}>{infoTitle.value}</CmsText>
+            </h2>
 
             <div className={styles.infoGrid}>
                 <div className={styles.infoCard}>

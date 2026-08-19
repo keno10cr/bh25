@@ -4,11 +4,27 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
+import CmsText from "@/components/cms-text";
+import { resolveCopy } from "@/lib/cms-field";
 import styles from "./location-section.module.css";
 
-export default function LocationSection() {
+export default function LocationSection({ copy }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const title = resolveCopy(copy?.locationTitle, t("location.title"));
+  const description = resolveCopy(
+    copy?.locationDescription,
+    t("location.description")
+  );
+  const mapsInfo = resolveCopy(
+    copy?.locationMapsInfo,
+    t("location.mapsInfo")
+  );
+  const mapsQuery = resolveCopy(
+    copy?.locationMapsQuery,
+    "Blessed House Puerto Viejo de Talamanca"
+  );
+  const cta = resolveCopy(copy?.locationCta, t("location.contactUs"));
   const imageRef = useRef(null);
   const sectionRef = useRef(null);
   const textRef = useRef(null);
@@ -20,7 +36,7 @@ export default function LocationSection() {
   const [contentOffset, setContentOffset] = useState(0);
   const [visibleChars, setVisibleChars] = useState(0);
 
-  const fullText = '"Blessed House Puerto Viejo de Talamanca"';
+  const fullText = `"${mapsQuery.value}"`;
   const totalChars = fullText.length;
 
   useEffect(() => {
@@ -168,14 +184,21 @@ export default function LocationSection() {
           ref={textContentRef}
           style={{ transform: `translateX(${contentOffset}px)` }}
         >
-          <h2>{t("location.title")}</h2>
+          <h2>
+            <CmsText fromCms={title.fromCms}>{title.value}</CmsText>
+          </h2>
           <p>
-            {t("location.description")}
+            <CmsText fromCms={description.fromCms}>{description.value}</CmsText>
           </p>
           <p className={styles.mapsInfo}>
-            {t("location.mapsInfo")}
+            <CmsText fromCms={mapsInfo.fromCms}>{mapsInfo.value}</CmsText>
           </p>
-          <p className={styles.mapsQuery} ref={textRef}>
+          <p
+            className={`${styles.mapsQuery}${
+              mapsQuery.fromCms ? "" : " cms-fallback"
+            }`}
+            ref={textRef}
+          >
             {fullText.split("").map((char, index) => (
               <span
                 key={index}
@@ -190,7 +213,7 @@ export default function LocationSection() {
             ))}
           </p>
           <Link href="/contact" className={styles.ctaButton}>
-            {t("location.contactUs")}
+            <CmsText fromCms={cta.fromCms}>{cta.value}</CmsText>
           </Link>
         </div>
       </div>

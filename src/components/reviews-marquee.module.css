@@ -1,0 +1,115 @@
+.section {
+  padding: 4rem 0 3rem;
+  overflow: hidden;
+  background: #f9f7f4;
+}
+
+.header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 2rem;
+  padding: 0 1.5rem;
+}
+
+.header h2 {
+  color: var(--color-primary);
+  font-size: 2rem;
+  margin: 0 0 0.5rem;
+}
+
+.header p {
+  color: #535353;
+  margin: 0;
+}
+
+.viewport {
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+}
+
+.track {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  animation: marquee 48s linear infinite;
+  padding: 0.5rem 1.5rem 1.5rem;
+}
+
+.track:hover {
+  animation-play-state: paused;
+}
+
+.card {
+  width: 320px;
+  flex-shrink: 0;
+  background: white;
+  border-radius: 16px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 8px 24px rgba(10, 76, 58, 0.08);
+}
+
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+}
+
+.starOn {
+  color: #e8a838;
+}
+
+.starOff {
+  color: #d9d4cc;
+}
+
+.meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0.65rem 0 0.75rem;
+}
+
+.meta strong {
+  color: #1a1a1a;
+  font-size: 1rem;
+}
+
+.meta span {
+  color: #888;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.card p {
+  margin: 0;
+  color: #535353;
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 260px;
+  }
+
+  .header h2 {
+    font-size: 1.6rem;
+  }
+}

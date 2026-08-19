@@ -47,6 +47,9 @@ export default function Footer() {
               <Link href="/activities">{t("nav.activities")}</Link>
             </li>
             <li>
+              <Link href="/blog">{t("nav.blog")}</Link>
+            </li>
+            <li>
               <Link href="/contact">{t("nav.contact")}</Link>
             </li>
           </ul>

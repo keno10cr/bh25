@@ -1,0 +1,26 @@
+.body {
+  color: #535353;
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.body h2,
+.body h3 {
+  color: var(--color-primary);
+  margin: 1.75rem 0 0.75rem;
+}
+
+.body p {
+  margin: 0 0 1rem;
+}
+
+.body a {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.paragraph {
+  color: #535353;
+  line-height: 1.8;
+  font-size: 1.05rem;
+}

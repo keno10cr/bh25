@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import { trackContactFormSubmitted } from "@/lib/posthog";
+import CmsText from "@/components/cms-text";
+import { resolveCopy } from "@/lib/cms-field";
 import {
   CONTACT_VILLAS,
   CONTACT_ACTIVITIES,
@@ -26,9 +28,10 @@ const EMPTY_FORM = {
   activityDate: "",
 };
 
-export default function ContactForm() {
+export default function ContactForm({ copy }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const formTitle = resolveCopy(copy?.formTitle, t("contactPage.formTitle"));
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -258,7 +261,9 @@ export default function ContactForm() {
 
   return (
     <div className={styles.formContainer}>
-      <h2>{t("contactPage.formTitle")}</h2>
+      <h2>
+        <CmsText fromCms={formTitle.fromCms}>{formTitle.value}</CmsText>
+      </h2>
 
       {submitted && (
         <div className={styles.successMessage}>

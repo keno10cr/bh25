@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import CmsText from "@/components/cms-text";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import styles from "./activity-detail.module.css";
@@ -9,30 +9,14 @@ import styles from "./activity-detail.module.css";
 export default function ActivityDetail({ activity }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const handleLearnMore = () => {
-    setIsExpanded(true);
-    
-    // Track activity click
-    fetch("/api/track-activity", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        activityName: activity.name,
-        activityId: activity.id,
-        language: language,
-        timestamp: new Date().toISOString(),
-      }),
-    }).catch((err) => console.error("Failed to track activity click:", err));
-  };
 
   return (
     <div className={styles.card}>
       <div className={styles.imageContainer}>
         <img src={activity.image || "/placeholder.svg"} alt={activity.name} />
+        {activity.number ? (
+          <span className={styles.numberBadge}>{activity.number}</span>
+        ) : null}
         {activity.difficulty && activity.difficulty !== "N/A" && (
           <span
             className={styles.difficulty}
@@ -44,8 +28,14 @@ export default function ActivityDetail({ activity }) {
       </div>
 
       <div className={styles.content}>
-        <h3>{activity.name}</h3>
-        <p className={styles.description}>{activity.description}</p>
+        <h3>
+          <CmsText fromCms={activity.nameFromCms}>{activity.name}</CmsText>
+        </h3>
+        <p className={styles.description}>
+          <CmsText fromCms={activity.descriptionFromCms}>
+            {activity.description}
+          </CmsText>
+        </p>
 
         {activity.duration || activity.price || activity.groupSize ? (
           <div className={styles.info}>
@@ -70,93 +60,20 @@ export default function ActivityDetail({ activity }) {
           </div>
         ) : null}
 
-        {isExpanded && (
-          <>
-            {activity.fullDescription && (
-              <div className={styles.fullDesc}>
-                <p>{activity.fullDescription}</p>
-              </div>
-            )}
-
-            {activity.highlights && activity.highlights.length > 0 && (
-              <div className={styles.highlights}>
-                <h4>{t("activitiesPage.labels.whatsIncluded")}</h4>
-                <ul>
-                  {activity.highlights.map((item, idx) => {
-                    const highlightText = typeof item === 'object' ? item.text : item;
-                    const highlightLink = typeof item === 'object' ? item.link : null;
-                    return (
-                      <li key={idx}>
-                        <span className={styles.checkmark}>✓</span>
-                        {highlightLink ? (
-                          <a
-                            href={highlightLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={styles.highlightLink}
-                          >
-                            {highlightText}
-                          </a>
-                        ) : (
-                          highlightText
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
-
-            {activity.externalLink ? (
-              <a
-                href={activity.externalLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.contactLink}
-              >
-                {t("activitiesPage.labels.visitWebsite")}
-              </a>
-            ) : (
-              <Link
-                href="/contact?subject=activities"
-                className={styles.contactLink}
-              >
-                {t("activitiesPage.labels.contactUs")}
-              </Link>
-            )}
-
-            {activity.translationKey === "ketos" && (
-              <a
-                href="https://www.stickoscr.com/designs/ketos/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.playKetosBtn}
-              >
-                Play Ketos Online
-              </a>
-            )}
-
-            {activity.translationKey === "practiceWasteSorting" && (
-              <a
-                href="https://www.toprrr.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.playKetosBtn}
-              >
-                Play Top Recycler Online
-              </a>
-            )}
-
-            <button className={styles.showLessBtn} onClick={() => setIsExpanded(false)}>
-              {t("activitiesPage.labels.showLess")}
-            </button>
-          </>
-        )}
-
-        {!isExpanded && (
-          <button className={styles.learnMoreBtn} onClick={handleLearnMore}>
-            {t("activitiesPage.labels.readMore")}
-          </button>
+        {activity.slug ? (
+          <Link
+            href={`/activities/${activity.slug}`}
+            className={styles.learnMoreBtn}
+          >
+            {t("activitiesPage.labels.viewActivity")}
+          </Link>
+        ) : (
+          <Link
+            href="/contact?subject=activities"
+            className={styles.contactLink}
+          >
+            {t("activitiesPage.labels.contactUs")}
+          </Link>
         )}
       </div>
     </div>

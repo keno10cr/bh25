@@ -1,0 +1,160 @@
+import { defineField, defineType } from "sanity";
+import { i18nFieldset, localizedField } from "./i18n";
+
+const cardI18n = {
+  type: "object",
+  fieldsets: [i18nFieldset],
+  fields: [
+    ...localizedField({ name: "title", title: "Title", type: "string" }),
+    ...localizedField({
+      name: "description",
+      title: "Description",
+      type: "text",
+      rows: 2,
+    }),
+    defineField({
+      name: "image",
+      title: "Icon",
+      type: "image",
+      options: { hotspot: true },
+    }),
+  ],
+  preview: {
+    select: { title: "title", subtitle: "description", media: "image" },
+  },
+};
+
+const featuredI18n = {
+  type: "object",
+  fieldsets: [i18nFieldset],
+  fields: [
+    defineField({ name: "slug", title: "Villa slug", type: "string" }),
+    ...localizedField({ name: "name", title: "Name", type: "string" }),
+    ...localizedField({
+      name: "teaser",
+      title: "Short description",
+      type: "text",
+      rows: 2,
+    }),
+    defineField({
+      name: "image",
+      title: "Image",
+      type: "image",
+      options: { hotspot: true },
+    }),
+  ],
+  preview: {
+    select: { title: "name", subtitle: "teaser", media: "image" },
+  },
+};
+
+export const homePageSettings = defineType({
+  name: "homePageSettings",
+  title: "Homepage",
+  type: "document",
+  fieldsets: [i18nFieldset],
+  fields: [
+    ...localizedField({ name: "heroTitle", title: "Hero title", type: "string" }),
+    ...localizedField({
+      name: "heroSubtitle",
+      title: "Hero subtitle",
+      type: "text",
+      rows: 3,
+    }),
+    ...localizedField({
+      name: "heroCtaPrimary",
+      title: "Hero primary button",
+      type: "string",
+    }),
+    ...localizedField({
+      name: "heroCtaSecondary",
+      title: "Hero secondary button",
+      type: "string",
+    }),
+    ...localizedField({
+      name: "featuredTitle",
+      title: "Featured villas title",
+      type: "string",
+    }),
+    ...localizedField({
+      name: "featuredSubtitle",
+      title: "Featured villas subtitle",
+      type: "text",
+    }),
+    ...localizedField({
+      name: "featuredLearnMore",
+      title: "Featured learn more",
+      type: "string",
+    }),
+    ...localizedField({
+      name: "featuredCta",
+      title: "Featured view all button",
+      type: "string",
+    }),
+    defineField({
+      name: "featuredItems",
+      title: "Featured villa cards",
+      type: "array",
+      of: [featuredI18n],
+    }),
+    ...localizedField({
+      name: "locationTitle",
+      title: "Location title",
+      type: "string",
+    }),
+    ...localizedField({
+      name: "locationDescription",
+      title: "Location description",
+      type: "text",
+    }),
+    ...localizedField({
+      name: "locationMapsInfo",
+      title: "Location maps label",
+      type: "string",
+    }),
+    ...localizedField({
+      name: "locationMapsQuery",
+      title: "Location maps query",
+      type: "string",
+    }),
+    ...localizedField({
+      name: "locationCta",
+      title: "Location button",
+      type: "string",
+    }),
+    ...localizedField({
+      name: "activitiesTitle",
+      title: "Things to do title",
+      type: "string",
+    }),
+    ...localizedField({
+      name: "activitiesSubtitle",
+      title: "Things to do subtitle",
+      type: "text",
+    }),
+    ...localizedField({
+      name: "activitiesCta",
+      title: "Things to do button",
+      type: "string",
+    }),
+    defineField({
+      name: "thingsToDoItems",
+      title: "Things to do cards",
+      type: "array",
+      of: [cardI18n],
+    }),
+    ...localizedField({
+      name: "reviewsTitle",
+      title: "Reviews title",
+      type: "string",
+    }),
+    ...localizedField({
+      name: "reviewsSubtitle",
+      title: "Reviews subtitle",
+      type: "text",
+    }),
+  ],
+  preview: {
+    prepare: () => ({ title: "Homepage" }),
+  },
+});

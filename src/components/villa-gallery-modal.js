@@ -4,7 +4,14 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./villa-gallery-modal.module.css";
 
-export default function VillaGalleryModal({ villa, images, isOpen, onClose }) {
+export default function VillaGalleryModal({
+  villa,
+  images,
+  captions = [],
+  startIndex = 0,
+  isOpen,
+  onClose,
+}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
 
@@ -15,14 +22,14 @@ export default function VillaGalleryModal({ villa, images, isOpen, onClose }) {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      setCurrentIndex(0); // Reset to first image when opening
+      setCurrentIndex(startIndex || 0);
     } else {
       document.body.style.overflow = "unset";
     }
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [isOpen]);
+  }, [isOpen, startIndex]);
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) => {
@@ -91,9 +98,12 @@ export default function VillaGalleryModal({ villa, images, isOpen, onClose }) {
           <div className={styles.slide}>
             <img
               src={images[currentIndex]}
-              alt={`${villa.name} - Image ${currentIndex + 1}`}
+              alt={captions[currentIndex] || `${villa.name} photo ${currentIndex + 1}`}
               className={styles.slideImage}
             />
+            <p className={styles.caption}>
+              {captions[currentIndex] || villa.name}
+            </p>
           </div>
           <button
             className={styles.navButton}

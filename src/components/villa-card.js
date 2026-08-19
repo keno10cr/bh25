@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import ImageCarousel from "./image-carousel";
 import VillaGalleryModal from "./villa-gallery-modal";
+import CmsText from "@/components/cms-text";
+import { villaImageCaption } from "@/lib/villa-gallery";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import {
@@ -14,8 +18,13 @@ import styles from "./villa-card.module.css";
 export default function VillaCard({ villa }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalIndex, setModalIndex] = useState(0);
+  const gallery = villa.galleryImages?.length
+    ? villa.galleryImages
+    : [villa.image].filter(Boolean);
+  const captions = gallery.map((src) => villaImageCaption(src, villa, t));
 
   const handleToggleExpand = () => {
     setIsExpanded((prev) => {
@@ -35,120 +44,134 @@ export default function VillaCard({ villa }) {
     trackAirbnbRedirectClicked({
       villa_id: villa.id,
       villa_name: villa.name,
-      destination_url: AIRBNB_PROFILE_URL,
+      destination_url: villa.bookingUrl || AIRBNB_PROFILE_URL,
     });
-  };
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
   };
 
   return (
     <>
-      <div className={styles.card} id={`villa-${villa.id}`}>
-        <div className={styles.imageContainer}>
-          <img src={villa.image || "/placeholder.svg"} alt={villa.name} />
-        </div>
-
-        <div className={styles.content}>
-          <h3>{villa.name}</h3>
-          <p className={styles.description}>{villa.description}</p>
-
-          <button
-            type="button"
-            data-track="villa-details-toggle"
-            data-villa-id={villa.id}
-            data-villa-name={villa.name}
-            className={styles.expandBtn}
-            onClick={handleToggleExpand}
-            aria-expanded={isExpanded}
-          >
-            {isExpanded
-              ? t("villas.buttons.hideDetails")
-              : t("villas.buttons.showDetails")}
-          </button>
-
-          {isExpanded && (
-            <>
-          {villa.informativeFact && (
-            <p className={styles.informativeFact}>{villa.informativeFact}</p>
-          )}
-
-          <div className={styles.details}>
-            <div className={styles.detailRow}>
-              <div className={styles.detailItem}>
-                <span className={styles.detailLabel}>{t("villas.details.bedrooms")}</span>
-                <span className={styles.detailValue}>{villa.bedrooms}</span>
-              </div>
-              <div className={styles.detailItem}>
-                <span className={styles.detailLabel}>{t("villas.details.bathrooms")}</span>
-                <span className={styles.detailValue}>{villa.bathrooms}</span>
-              </div>
-              <div className={styles.detailItem}>
-                <span className={styles.detailLabel}>{t("villas.details.maxPeople")}</span>
-                <span className={styles.detailValue}>{villa.maxPeople}</span>
-              </div>
-            </div>
-
-            {villa.amenities && villa.amenities.length > 0 && (
-              <div className={styles.amenities}>
-                <span className={styles.amenitiesLabel}>{t("villas.details.amenities")}</span>
-                <div className={styles.amenitiesList}>
-                  {villa.amenities.map((amenity, index) => {
-                    // Check if this amenity is parking in any language
-                    // Translations: Parking (EN/FR), Estacionamiento (ES/PT), Parkplatz (DE), Parkeren (NL), 駐車場 (JP)
-                    const parkingTranslations = [
-                      "parking", "estacionamiento", "parkplatz", "parkeren", "駐車場"
-                    ];
-                    const amenityLower = amenity.toLowerCase().trim();
-                    const isParking = parkingTranslations.some(translation => 
-                      amenityLower === translation.toLowerCase()
-                    );
-                    return (
-                      <span key={index} className={styles.amenityTag}>
-                        {amenity}
-                        {isParking && <span className={styles.asterisk}> *</span>}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-            </>
-          )}
-
-          <div className={styles.footer}>
-            <button
-              className={styles.galleryBtn}
-              onClick={handleOpenModal}
-              aria-label={t("villas.buttons.viewGallery")}
-            >
-              {t("villas.buttons.viewGallery")}
-            </button>
-            <a
-              href={AIRBNB_PROFILE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.btn}
-              onClick={handleAirbnbClick}
-            >
-              {t("villas.buttons.bookNow")}
-            </a>
-          </div>
-        </div>
+    <div className={styles.card} id={`villa-${villa.id}`}>
+      <div className={styles.imageContainer}>
+        <ImageCarousel
+          images={gallery}
+          alt={villa.name}
+          onImageClick={(index) => {
+            setModalIndex(index);
+            setIsModalOpen(true);
+          }}
+        />
       </div>
 
-      <VillaGalleryModal
-        villa={villa}
-        images={villa.galleryImages || []}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
+      <div className={styles.content}>
+        <h3>
+          {villa.slug ? (
+            <Link href={`/villas/${villa.slug}`} className={styles.titleLink}>
+              <CmsText fromCms={villa.nameFromCms}>{villa.name}</CmsText>
+            </Link>
+          ) : (
+            <CmsText fromCms={villa.nameFromCms}>{villa.name}</CmsText>
+          )}
+        </h3>
+        <p className={styles.description}>
+          <CmsText fromCms={villa.descriptionFromCms}>
+            {villa.description}
+          </CmsText>
+        </p>
+
+        <button
+          type="button"
+          data-track="villa-details-toggle"
+          data-villa-id={villa.id}
+          data-villa-name={villa.name}
+          className={styles.expandBtn}
+          onClick={handleToggleExpand}
+          aria-expanded={isExpanded}
+        >
+          {isExpanded
+            ? t("villas.buttons.hideDetails")
+            : t("villas.buttons.showDetails")}
+        </button>
+
+        {isExpanded && (
+          <>
+            {villa.informativeFact && !villa.descriptionFromCms && (
+              <p className={styles.informativeFact}>
+                <CmsText fromCms={false}>{villa.informativeFact}</CmsText>
+              </p>
+            )}
+
+            <div className={styles.details}>
+              <div className={styles.detailRow}>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailLabel}>{t("villas.details.bedrooms")}</span>
+                  <span className={styles.detailValue}>{villa.bedrooms}</span>
+                </div>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailLabel}>{t("villas.details.bathrooms")}</span>
+                  <span className={styles.detailValue}>{villa.bathrooms}</span>
+                </div>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailLabel}>{t("villas.details.maxPeople")}</span>
+                  <span className={styles.detailValue}>{villa.maxPeople}</span>
+                </div>
+              </div>
+
+              {villa.amenities && villa.amenities.length > 0 && (
+                <div className={styles.amenities}>
+                  <span className={styles.amenitiesLabel}>{t("villas.details.amenities")}</span>
+                  <div className={styles.amenitiesList}>
+                    {villa.amenities.map((amenity, index) => {
+                      const parkingTranslations = [
+                        "parking", "estacionamiento", "parkplatz", "parkeren", "駐車場"
+                      ];
+                      const amenityLower = amenity.toLowerCase().trim();
+                      const isParking = parkingTranslations.some((translation) =>
+                        amenityLower === translation.toLowerCase()
+                      );
+                      return (
+                        <span key={index} className={styles.amenityTag}>
+                          {amenity}
+                          {isParking && <span className={styles.asterisk}> *</span>}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        <div className={styles.footer}>
+          {villa.slug ? (
+            <Link
+              href={`/villas/${villa.slug}`}
+              className={styles.galleryBtn}
+              aria-label={t("villas.buttons.viewVilla")}
+            >
+              {t("villas.buttons.viewVilla")}
+            </Link>
+          ) : null}
+          <a
+            href={villa.bookingUrl || AIRBNB_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.btn}
+            onClick={handleAirbnbClick}
+          >
+            {t("villas.buttons.bookNow")}
+          </a>
+        </div>
+      </div>
+    </div>
+    <VillaGalleryModal
+      villa={villa}
+      images={gallery}
+      captions={captions}
+      startIndex={modalIndex}
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+    />
     </>
   );
 }

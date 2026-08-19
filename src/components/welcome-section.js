@@ -3,16 +3,26 @@
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
+import CmsText from "@/components/cms-text";
+import { resolveCopy } from "@/lib/cms-field";
 import styles from "./welcome-section.module.css";
 
-export default function WelcomeSection() {
+export default function WelcomeSection({ copy }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const title = resolveCopy(copy?.welcomeTitle, t("welcome.title"));
+  const description = resolveCopy(
+    copy?.welcomeDescription,
+    t("welcome.description")
+  );
+  const videoBy = resolveCopy(copy?.welcomeVideoBy, t("welcome.videoBy"));
   return (
     <section className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2>{t("welcome.title")}</h2>
+          <h2>
+            <CmsText fromCms={title.fromCms}>{title.value}</CmsText>
+          </h2>
           <div className={styles.logoContainer}>
             <Image
               src="/blessedhouse_logo25.png"
@@ -23,7 +33,7 @@ export default function WelcomeSection() {
             />
           </div>
           <p>
-            {t("welcome.description")}
+            <CmsText fromCms={description.fromCms}>{description.value}</CmsText>
           </p>
           <div className={styles.videoContainer}>
             <div className={styles.videoWrapper}>
@@ -36,7 +46,7 @@ export default function WelcomeSection() {
               ></iframe>
             </div>
             <p className={styles.videoCredit}>
-              {t("welcome.videoBy")}{" "}
+              <CmsText fromCms={videoBy.fromCms}>{videoBy.value}</CmsText>{" "}
               <a
                 href="https://www.instagram.com/dazelg/"
                 target="_blank"

@@ -5,39 +5,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
+import CmsText from "@/components/cms-text";
+import { resolveCopy } from "@/lib/cms-field";
+import { HOME_THINGS_TO_DO } from "@/data/page-defaults";
 import styles from "./activity-preview.module.css";
 
-const activities = [
-  {
-    id: 1,
-    translationKey: "snorkeling",
-    image: "/info/snorkeling.png",
-  },
-  {
-    id: 2,
-    translationKey: "jungleHike",
-    image: "/info/hike.png",
-  },
-  {
-    id: 3,
-    translationKey: "boatTour",
-    image: "/info/boat.png",
-  },
-  {
-    id: 4,
-    translationKey: "bribriWonders",
-    image: "/info/bribri.png",
-  },
-  {
-    id: 5,
-    translationKey: "wildlifeWatching",
-    image: "/info/wildLife.png",
-  },
-];
-
-export default function ActivityPreview() {
+export default function ActivityPreview({ copy }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const title = resolveCopy(copy?.activitiesTitle, t("activities.title"));
+  const subtitle = resolveCopy(
+    copy?.activitiesSubtitle,
+    t("activities.subtitle")
+  );
+  const cta = resolveCopy(copy?.activitiesCta, t("activities.exploreAll"));
+  const activities = copy?.thingsToDoItems?.length
+    ? copy.thingsToDoItems
+    : HOME_THINGS_TO_DO.map((item) => ({
+        ...item,
+        fromCms: false,
+        titleFromCms: false,
+        descriptionFromCms: false,
+      }));
   const [visibleItems, setVisibleItems] = useState(new Set());
   const sectionRef = useRef(null);
 
@@ -68,14 +57,18 @@ export default function ActivityPreview() {
     return () => {
       items?.forEach((item) => observer.unobserve(item));
     };
-  }, []);
+  }, [activities]);
 
   return (
     <section className={styles.section} ref={sectionRef}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2>{t("activities.title")}</h2>
-          <p>{t("activities.subtitle")}</p>
+          <h2>
+            <CmsText fromCms={title.fromCms}>{title.value}</CmsText>
+          </h2>
+          <p>
+            <CmsText fromCms={subtitle.fromCms}>{subtitle.value}</CmsText>
+          </p>
         </div>
 
         <div className={styles.grid}>
@@ -90,22 +83,30 @@ export default function ActivityPreview() {
               style={{ animationDelay: `${index * 0.15}s` }}
             >
               <div className={styles.icon}>
-                <Image 
-                  src={activity.image} 
-                  alt={t(`activities.${activity.translationKey}.name`)} 
+                <Image
+                  src={activity.image}
+                  alt={activity.title}
                   width={120}
                   height={120}
                 />
               </div>
-              <h3>{t(`activities.${activity.translationKey}.name`)}</h3>
-              <p>{t(`activities.${activity.translationKey}.description`)}</p>
+              <h3>
+                <CmsText fromCms={activity.titleFromCms}>
+                  {activity.title}
+                </CmsText>
+              </h3>
+              <p>
+                <CmsText fromCms={activity.descriptionFromCms}>
+                  {activity.description}
+                </CmsText>
+              </p>
             </div>
           ))}
         </div>
 
         <div className={styles.cta}>
           <Link href="/activities" className={styles.btn}>
-            {t("activities.exploreAll")}
+            <CmsText fromCms={cta.fromCms}>{cta.value}</CmsText>
           </Link>
         </div>
       </div>

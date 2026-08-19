@@ -1,0 +1,17 @@
+---
+description: Do not use hyphens in visitor facing copy
+alwaysApply: true
+---
+
+# No hyphens in copy
+
+Never use hyphens (`-`), en dashes, or em dashes in visitor facing text: titles, descriptions, buttons, captions, reviews, blog copy, and Sanity fields.
+
+Rewrite instead of hyphenating.
+
+```text
+❌ eco-friendly, well-equipped, 1-2 hours, check-in, Puerto Viejo - Costa Rica
+✅ eco friendly, well equipped, 1 to 2 hours, check in, Puerto Viejo, Costa Rica
+```
+
+Keep hyphens only in code: URLs, slugs, CSS class names, file paths, and IDs.
