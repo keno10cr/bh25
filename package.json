@@ -12,7 +12,9 @@
     "seed:blog": "sanity exec scripts/seed-blog-series.js --with-user-token",
     "seed:reviews": "sanity exec scripts/seed-reviews.js --with-user-token",
     "translate:cms": "sanity exec scripts/fill-cms-translations.js --with-user-token",
-    "translate:blog": "sanity exec scripts/fill-blog-translations.js --with-user-token"
+    "translate:blog": "sanity exec scripts/fill-blog-translations.js --with-user-token",
+    "i18n:export": "sanity exec scripts/export-translations.js --with-user-token",
+    "i18n:import": "sanity exec scripts/import-translations.js --with-user-token"
   },
   "dependencies": {
     "@maptiler/sdk": "^4.1.0",

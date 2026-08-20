@@ -8,6 +8,12 @@ import { resolveCopy } from "@/lib/cms-field";
 import { HOME_FEATURED_ITEMS } from "@/data/page-defaults";
 import styles from "./featured-villas.module.css";
 
+const FEATURED_TEASER_KEYS = {
+  "villa-4-colibri": "featuredVillas.villa4.description",
+  "villa-9-mono-cariblanco": "featuredVillas.villa9.description",
+  "villa-12-mariposa-morpho": "featuredVillas.villa12.description",
+};
+
 export default function FeaturedVillas({ copy, villas = [] }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
@@ -39,11 +45,26 @@ export default function FeaturedVillas({ copy, villas = [] }) {
 
   const cards = source.map((featured) => {
     const cmsVilla = villas.find((villa) => villa.slug === featured.slug);
+    const teaserKey = FEATURED_TEASER_KEYS[featured.slug];
+    const translatedTeaser = teaserKey ? t(teaserKey) : "";
+    const hasTranslatedTeaser =
+      Boolean(translatedTeaser) && translatedTeaser !== teaserKey;
+    const teaserResolved = resolveCopy(
+      {
+        value: featured.teaser,
+        fromCms: Boolean(featured.teaserFromCms && featured.teaser),
+      },
+      hasTranslatedTeaser ? translatedTeaser : featured.teaser || "",
+      language
+    );
+
     return {
       ...featured,
       name: featured.name || cmsVilla?.name,
       image: featured.image || cmsVilla?.image,
       nameFromCms: featured.nameFromCms || Boolean(cmsVilla?.nameFromCms),
+      teaser: teaserResolved.value,
+      teaserFromCms: teaserResolved.fromCms,
     };
   });
 
