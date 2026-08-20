@@ -83,25 +83,72 @@ export const reviewsQuery = `*[_type == "review"] | order(date desc) {
   "villaSlug": villaRef->slug.current
 }`;
 
+export const publishedVillaCommentsQuery = `*[_type == "formSubmission" && formType == "villaComment" && status == "published" && villaRef->slug.current == $slug] | order(submittedAt desc) {
+  _id,
+  name,
+  rating,
+  message,
+  submittedAt,
+  "villaSlug": villaRef->slug.current
+}`;
+
+export const publishedGuestExperiencesQuery = `*[_type == "formSubmission" && formType == "guestExperience" && status == "published"] | order(submittedAt desc) {
+  _id,
+  name,
+  rating,
+  message,
+  submittedAt
+}`;
+
 export const blogPostsQuery = `*[_type == "blog"] | order(publishedAt desc) {
   _id,
   title,
+  titleEs,
+  titleDe,
+  titleNl,
+  titleFr,
+  titleJa,
+  titlePt,
   "slug": slug.current,
   category,
   publishedAt,
   excerpt,
+  excerptEs,
+  excerptDe,
+  excerptNl,
+  excerptFr,
+  excerptJa,
+  excerptPt,
   "featuredImage": featuredImage.asset->url
 }`;
 
 export const blogPostBySlugQuery = `*[_type == "blog" && slug.current == $slug][0] {
   _id,
   title,
+  titleEs,
+  titleDe,
+  titleNl,
+  titleFr,
+  titleJa,
+  titlePt,
   "slug": slug.current,
   category,
   publishedAt,
   excerpt,
+  excerptEs,
+  excerptDe,
+  excerptNl,
+  excerptFr,
+  excerptJa,
+  excerptPt,
   "featuredImage": featuredImage.asset->url,
-  content
+  content,
+  contentEs,
+  contentDe,
+  contentNl,
+  contentFr,
+  contentJa,
+  contentPt
 }`;
 
 export const blogSlugsQuery = `*[_type == "blog" && defined(slug.current)].slug.current`;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
@@ -9,31 +9,36 @@ import PortableBody from "@/components/portable-text";
 import CmsText from "@/components/cms-text";
 import ImageCarousel from "@/components/image-carousel";
 import VillaGalleryModal from "@/components/villa-gallery-modal";
+import FeedbackModal from "@/components/feedback-modal";
+import { AmenityIcon } from "@/components/amenity-icon";
 import { villaImageCaption } from "@/lib/villa-gallery";
 import styles from "./villa-detail.module.css";
 
-export default function VillaDetailView({ villa }) {
+export default function VillaDetailView({ villa, reviews = [] }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
   const description =
-    villa.translationKey && !villa.descriptionBlocks
+    villa.translationKey && (language !== "en" || !villa.descriptionBlocks)
       ? t(`villas.${villa.translationKey}.description`)
       : villa.description;
+  const useTranslatedBody =
+    Boolean(villa.translationKey) &&
+    (language !== "en" || !villa.descriptionFromCms);
   const fact =
     villa.translationKey && t(`villas.${villa.translationKey}.informativeFact`);
   const bookingUrl = villa.bookingUrl || AIRBNB_PROFILE_URL;
   const gallery = villa.galleryImages || villa.gallery || [];
   const captions = gallery.map((src) => villaImageCaption(src, villa, t));
-  const amenities = Array.isArray(villa.amenities)
-    ? villa.amenities.map((amenity) => {
-        const translated = t(`villas.amenities.${amenity}`);
-        return translated === `villas.amenities.${amenity}`
-          ? amenity
-          : translated;
-      })
-    : [];
+  const amenityKeys = useMemo(
+    () =>
+      (Array.isArray(villa.amenities) ? villa.amenities : []).filter(
+        (amenity) => !String(amenity).startsWith("bedInfo")
+      ),
+    [villa.amenities]
+  );
 
   const openGallery = (index) => {
     setModalIndex(index);
@@ -56,31 +61,53 @@ export default function VillaDetailView({ villa }) {
         <h1>
           <CmsText fromCms={villa.nameFromCms}>{villa.name}</CmsText>
         </h1>
-        <p className={styles.meta}>
-          {villa.bedrooms} {t("villas.details.bedrooms")} · {villa.bathrooms}{" "}
-          {t("villas.details.bathrooms")} · {t("villas.details.maxPeople")}{" "}
-          {villa.maxPeople || villa.capacity}
-        </p>
+        <div className={styles.badges}>
+          <span className={styles.badge}>
+            <AmenityIcon name="bedrooms" />
+            <strong>{villa.bedrooms}</strong>
+            <em>{t("villas.details.bedrooms")}</em>
+          </span>
+          <span className={styles.badge}>
+            <AmenityIcon name="bathrooms" />
+            <strong>{villa.bathrooms}</strong>
+            <em>{t("villas.details.bathrooms")}</em>
+          </span>
+          <span className={styles.badge}>
+            <AmenityIcon name="people" />
+            <strong>{villa.maxPeople || villa.capacity}</strong>
+            <em>{t("villas.details.maxPeople")}</em>
+          </span>
+        </div>
       </header>
-      {villa.descriptionBlocks ? (
+      {villa.descriptionBlocks && language === "en" ? (
         <PortableBody value={villa.descriptionBlocks} />
       ) : (
         <p className={styles.copy}>
-          <CmsText fromCms={villa.descriptionFromCms}>{description}</CmsText>
+          <CmsText fromCms={!useTranslatedBody && villa.descriptionFromCms}>
+            {description}
+          </CmsText>
         </p>
       )}
       {fact &&
-        !villa.descriptionFromCms &&
+        (language !== "en" || !villa.descriptionFromCms) &&
         fact !== `villas.${villa.translationKey}.informativeFact` && (
-        <p className={styles.fact}>
-          <CmsText fromCms={false}>{fact}</CmsText>
-        </p>
-      )}
-      {amenities.length > 0 && (
+          <p className={styles.fact}>
+            <CmsText fromCms={false}>{fact}</CmsText>
+          </p>
+        )}
+      {amenityKeys.length > 0 && (
         <ul className={styles.amenities}>
-          {amenities.map((amenity) => (
-            <li key={amenity}>{amenity}</li>
-          ))}
+          {amenityKeys.map((amenity) => {
+            const label = t(`villas.amenities.${amenity}`);
+            return (
+              <li key={amenity}>
+                <AmenityIcon name={amenity} />
+                <span>
+                  {label === `villas.amenities.${amenity}` ? amenity : label}
+                </span>
+              </li>
+            );
+          })}
         </ul>
       )}
       {gallery.length > 1 && (
@@ -105,6 +132,33 @@ export default function VillaDetailView({ villa }) {
       >
         {t("villas.buttons.bookNow")}
       </a>
+
+      <section className={styles.reviews}>
+        <h2>{t("feedback.villaReviewsTitle")}</h2>
+        {reviews.length ? (
+          <ul className={styles.reviewList}>
+            {reviews.map((review) => (
+              <li key={review.id}>
+                <div className={styles.reviewMeta}>
+                  <strong>{review.guestName}</strong>
+                  {review.rating ? <span>{"★".repeat(review.rating)}</span> : null}
+                </div>
+                <p>{review.comment}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.reviewEmpty}>{t("feedback.villaReviewsEmpty")}</p>
+        )}
+        <button
+          type="button"
+          className={styles.reviewCta}
+          onClick={() => setFeedbackOpen(true)}
+        >
+          {t("feedback.villaCta")}
+        </button>
+      </section>
+
       <VillaGalleryModal
         villa={villa}
         images={gallery.length ? gallery : [villa.image].filter(Boolean)}
@@ -112,6 +166,13 @@ export default function VillaDetailView({ villa }) {
         startIndex={modalIndex}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+      <FeedbackModal
+        open={feedbackOpen}
+        onClose={() => setFeedbackOpen(false)}
+        formType="villaComment"
+        villaId={villa.slug}
+        villaName={villa.name}
       />
     </article>
   );

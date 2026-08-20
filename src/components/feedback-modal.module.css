@@ -1,0 +1,150 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(10, 30, 22, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  animation: fadeIn 0.28s ease;
+}
+
+.modal {
+  width: min(520px, 100%);
+  background: #fff;
+  border-radius: 18px;
+  padding: 1.6rem 1.5rem 1.4rem;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+  animation: riseIn 0.34s ease;
+}
+
+.close {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.85rem;
+  border: none;
+  background: transparent;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #888;
+  cursor: pointer;
+}
+
+.modal h2 {
+  margin: 0 0 0.55rem;
+  color: var(--color-primary);
+  font-size: 1.45rem;
+  padding-right: 1.5rem;
+}
+
+.thanksTitle {
+  text-align: center;
+  padding-right: 0;
+  margin-bottom: 0.85rem;
+}
+
+.lead {
+  margin: 0 0 1.15rem;
+  color: #535353;
+  line-height: 1.55;
+}
+
+.form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.form label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.form span {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.form input,
+.form select,
+.form textarea {
+  border: 1px solid #d7e0d8;
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+  font: inherit;
+  color: #1a1a1a;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submit {
+  border: none;
+  border-radius: 10px;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: inherit;
+  font-weight: 700;
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.error {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.9rem;
+}
+
+.success {
+  text-align: center;
+}
+
+.success p {
+  color: #535353;
+  line-height: 1.6;
+}
+
+.success .submit {
+  width: auto;
+  min-width: 140px;
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

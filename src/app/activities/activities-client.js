@@ -6,13 +6,26 @@ import ActivityDetail from "@/components/activity-detail";
 import CmsText from "@/components/cms-text";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
-import { resolveCopy } from "@/lib/cms-field";
+import { resolveCopy, useUiCopy } from "@/lib/cms-field";
 import { displayMeta } from "@/lib/display-copy";
 import styles from "./activities.module.css";
 
 const ActivitiesMap = dynamic(() => import("@/components/activities-map"), {
   ssr: false,
 });
+
+function translateLegendItems(items, t) {
+  return (items || []).map((item) => {
+    const slug = item.slug || String(item.title || "").toLowerCase().replace(/\s+/g, "-");
+    const key = `activitiesPage.legend.${slug}`;
+    const translated = t(key);
+    return {
+      ...item,
+      slug,
+      title: translated === key ? item.title : translated,
+    };
+  });
+}
 
 export default function ActivitiesClient({
   activities: cmsActivities = [],
@@ -22,10 +35,12 @@ export default function ActivitiesClient({
 }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const pageTitle = resolveCopy(copy?.title, t("activitiesPage.title"));
+  const preferUi = useUiCopy(language);
+  const pageTitle = resolveCopy(copy?.title, t("activitiesPage.title"), language);
   const pageSubtitle = resolveCopy(
     copy?.subtitle,
-    t("activitiesPage.subtitle")
+    t("activitiesPage.subtitle"),
+    language
   );
   const [visibleItems, setVisibleItems] = useState(new Set());
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
@@ -46,18 +61,26 @@ export default function ActivitiesClient({
         const translatedFull = key
           ? t(`activitiesPage.${key}.fullDescription`)
           : activity.fullDescription;
+        const useTranslatedName = Boolean(key) && (preferUi || !activity.nameFromCms);
+        const useTranslatedBody =
+          Boolean(key) && (preferUi || !activity.descriptionFromCms);
         return {
           ...activity,
-          name: activity.nameFromCms ? activity.name : translatedName,
-          title: activity.nameFromCms
-            ? activity.title || activity.name
-            : translatedName,
-          description: activity.descriptionFromCms
-            ? activity.description
-            : translatedDescription,
-          fullDescription: activity.descriptionFromCms
-            ? activity.fullDescription || activity.description
-            : translatedFull,
+          name: useTranslatedName ? translatedName : activity.name,
+          title: useTranslatedName
+            ? translatedName
+            : activity.title || activity.name,
+          description: useTranslatedBody
+            ? translatedDescription
+            : activity.description,
+          fullDescription: useTranslatedBody
+            ? translatedFull
+            : activity.fullDescription || activity.description,
+          nameFromCms: useTranslatedName ? false : activity.nameFromCms,
+          descriptionFromCms: useTranslatedBody
+            ? false
+            : activity.descriptionFromCms,
+          legendItems: translateLegendItems(activity.legendItems, t),
           highlights: key
             ? t(`activitiesPage.${key}.highlights`)
             : activity.highlights,
@@ -76,7 +99,12 @@ export default function ActivitiesClient({
           ),
         };
       }),
-    [cmsActivities, t]
+    [cmsActivities, t, preferUi]
+  );
+
+  const translatedLegend = useMemo(
+    () => translateLegendItems(legendItems, t),
+    [legendItems, t]
   );
 
   const pins = useMemo(() => {
@@ -189,7 +217,7 @@ export default function ActivitiesClient({
       <div className={styles.mapLayout}>
         <ActivitiesMap
           activities={pins}
-          legendItems={legendItems}
+          legendItems={translatedLegend}
           selectedSlug={selectedSlug}
           onSelect={handleSelectPin}
         />
@@ -257,6 +285,11 @@ export default function ActivitiesClient({
             </p>
           )}
         </aside>
+      </div>
+      <div className={styles.mapBelow} aria-hidden={!selected?.image}>
+        {selected?.image ? (
+          <img src={selected.image} alt="" />
+        ) : null}
       </div>
 
       <div className={styles.filters}>

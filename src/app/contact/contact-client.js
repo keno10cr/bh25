@@ -14,8 +14,8 @@ export default function ContactClient({ copy }) {
   const bannerRef = useRef(null);
   const imageRef = useRef(null);
   const [imageOffset, setImageOffset] = useState(0);
-  const title = resolveCopy(copy?.title, t("contactPage.title"));
-  const subtitle = resolveCopy(copy?.subtitle, t("contactPage.subtitle"));
+  const title = resolveCopy(copy?.title, t("contactPage.title"), language);
+  const subtitle = resolveCopy(copy?.subtitle, t("contactPage.subtitle"), language);
 
   useEffect(() => {
     const handleScroll = () => {

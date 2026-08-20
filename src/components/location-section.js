@@ -11,20 +11,23 @@ import styles from "./location-section.module.css";
 export default function LocationSection({ copy }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const title = resolveCopy(copy?.locationTitle, t("location.title"));
+  const title = resolveCopy(copy?.locationTitle, t("location.title"), language);
   const description = resolveCopy(
     copy?.locationDescription,
-    t("location.description")
+    t("location.description"),
+    language
   );
   const mapsInfo = resolveCopy(
     copy?.locationMapsInfo,
-    t("location.mapsInfo")
+    t("location.mapsInfo"),
+    language
   );
   const mapsQuery = resolveCopy(
     copy?.locationMapsQuery,
-    "Blessed House Puerto Viejo de Talamanca"
+    "Blessed House Puerto Viejo de Talamanca",
+    language
   );
-  const cta = resolveCopy(copy?.locationCta, t("location.contactUs"));
+  const cta = resolveCopy(copy?.locationCta, t("location.contactUs"), language);
   const imageRef = useRef(null);
   const sectionRef = useRef(null);
   const textRef = useRef(null);

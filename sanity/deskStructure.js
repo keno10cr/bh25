@@ -4,6 +4,7 @@ const HIDDEN_TYPES = [
   "legendItem",
   "review",
   "blog",
+  "formSubmission",
   "blockContent",
   "homePageSettings",
   "aboutPageSettings",
@@ -13,10 +14,67 @@ const HIDDEN_TYPES = [
   "villasPageSettings",
 ];
 
+function formList(S, title, filter) {
+  return S.documentTypeList("formSubmission")
+    .title(title)
+    .filter(filter)
+    .defaultOrdering([{ field: "submittedAt", direction: "desc" }]);
+}
+
 export const deskStructure = (S) =>
   S.list()
     .title("BH Studio")
     .items([
+      S.listItem()
+        .title("Form Submissions")
+        .child(
+          S.list()
+            .title("Form Submissions")
+            .items([
+              S.listItem()
+                .title("All (newest first)")
+                .child(
+                  formList(S, "All submissions", `_type == "formSubmission"`)
+                ),
+              S.listItem()
+                .title("Needs Review")
+                .child(
+                  formList(
+                    S,
+                    "Needs Review",
+                    `_type == "formSubmission" && status == "needsReview"`
+                  )
+                ),
+              S.divider(),
+              S.listItem()
+                .title("Guest experiences")
+                .child(
+                  formList(
+                    S,
+                    "Guest experiences",
+                    `_type == "formSubmission" && formType == "guestExperience"`
+                  )
+                ),
+              S.listItem()
+                .title("Villa comments")
+                .child(
+                  formList(
+                    S,
+                    "Villa comments",
+                    `_type == "formSubmission" && formType == "villaComment"`
+                  )
+                ),
+              S.listItem()
+                .title("Contact messages")
+                .child(
+                  formList(
+                    S,
+                    "Contact messages",
+                    `_type == "formSubmission" && formType == "contact"`
+                  )
+                ),
+            ])
+        ),
       S.listItem()
         .title("Property")
         .child(

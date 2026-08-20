@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 import VillaDetailView from "@/components/villa-detail-view";
-import { getVillaBySlug, getVillaSlugs } from "@/lib/sanity/content";
+import {
+  getVillaBySlug,
+  getVillaReviews,
+  getVillaSlugs,
+} from "@/lib/sanity/content";
 
 export const revalidate = 60;
 
@@ -25,6 +29,7 @@ export default async function VillaPage({ params }) {
   const { slug } = await params;
   const villa = await getVillaBySlug(slug);
   if (!villa) notFound();
+  const reviews = await getVillaReviews(slug);
 
   const siteUrl = "https://www.blessedhouse.info";
   const jsonLd = {
@@ -53,7 +58,7 @@ export default async function VillaPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <VillaDetailView villa={villa} />
+      <VillaDetailView villa={villa} reviews={reviews} />
     </>
   );
 }

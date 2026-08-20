@@ -31,7 +31,7 @@ const EMPTY_FORM = {
 export default function ContactForm({ copy }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const formTitle = resolveCopy(copy?.formTitle, t("contactPage.formTitle"));
+  const formTitle = resolveCopy(copy?.formTitle, t("contactPage.formTitle"), language);
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -218,6 +218,8 @@ export default function ContactForm({ copy }) {
       ...formData,
       villaName: selectedVilla?.name || "",
       villaMaxPeople: selectedVilla?.maxPeople || "",
+      villaSlug: selectedVilla?.slug || "",
+      language,
       activityName: selectedActivity
         ? t(`activitiesPage.${selectedActivity.translationKey}.name`)
         : "",

@@ -37,8 +37,10 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
+  const cmsDebug = process.env.NODE_ENV === "development" ? "true" : undefined;
+
   return (
-    <html lang="en">
+    <html lang="en" data-cms-debug={cmsDebug}>
       <body>
         {/* Google Tag Manager (noscript) Fallback */}
         <noscript>

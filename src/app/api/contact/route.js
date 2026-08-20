@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { createSanityServerClient } from "@/lib/sanity/client";
 
 const subjectLabels = {
   booking: "Villa Booking",
@@ -55,6 +56,40 @@ const escapeHtml = (value) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
+async function saveContactSubmission(payload, detailText) {
+  if (!process.env.SANITY_API_WRITE_TOKEN) {
+    console.warn("SANITY_API_WRITE_TOKEN missing; contact not stored in Sanity.");
+    return;
+  }
+
+  const client = createSanityServerClient();
+  let villaRef;
+  if (payload.subject === "booking" && payload.villaSlug) {
+    const villaDocId = await client.fetch(
+      `*[_type == "villa" && slug.current == $slug][0]._id`,
+      { slug: String(payload.villaSlug) }
+    );
+    if (villaDocId) {
+      villaRef = { _type: "reference", _ref: villaDocId };
+    }
+  }
+
+  await client.create({
+    _type: "formSubmission",
+    formType: "contact",
+    status: "needsReview",
+    submittedAt: new Date().toISOString(),
+    name: String(payload.name || "").trim(),
+    email: String(payload.email || "").trim(),
+    phone: payload.phone ? String(payload.phone).trim() : undefined,
+    message: String(payload.message || "").trim(),
+    subject: subjectLabels[payload.subject] || payload.subject,
+    meta: detailText.length ? detailText.join("\n") : undefined,
+    language: payload.language || undefined,
+    villaRef,
+  });
+}
+
 export async function POST(request) {
   const apiKey = process.env.RESEND_API_KEY;
 
@@ -87,11 +122,13 @@ export async function POST(request) {
     villaId,
     villaName,
     villaMaxPeople,
+    villaSlug,
     checkIn,
     checkOut,
     activityId,
     activityName,
     activityDate,
+    language,
   } = payload || {};
 
   if (!name || !email || !subject || !message) {
@@ -149,13 +186,13 @@ export async function POST(request) {
     }
     if (checkIn || checkOut) {
       detailRows.push(
-        `<p><strong>Possible check-in:</strong> ${escapeHtml(checkIn || "N/A")}</p>`
+        `<p><strong>Possible check in:</strong> ${escapeHtml(checkIn || "N/A")}</p>`
       );
       detailRows.push(
-        `<p><strong>Possible check-out:</strong> ${escapeHtml(checkOut || "N/A")}</p>`
+        `<p><strong>Possible check out:</strong> ${escapeHtml(checkOut || "N/A")}</p>`
       );
-      detailText.push(`Possible check-in: ${checkIn || "N/A"}`);
-      detailText.push(`Possible check-out: ${checkOut || "N/A"}`);
+      detailText.push(`Possible check in: ${checkIn || "N/A"}`);
+      detailText.push(`Possible check out: ${checkOut || "N/A"}`);
     }
   }
 
@@ -209,6 +246,15 @@ Message:
 ${message}
       `,
     });
+
+    try {
+      await saveContactSubmission(
+        { name, email, phone, subject, message, language, villaSlug },
+        detailText
+      );
+    } catch (storeError) {
+      console.error("Contact saved email but Sanity store failed:", storeError);
+    }
 
     return NextResponse.json({ ok: true });
   } catch (error) {

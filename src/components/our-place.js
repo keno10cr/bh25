@@ -12,12 +12,13 @@ import styles from "./our-place.module.css";
 export default function OurPlace({ copy }) {
     const { language } = useLanguage();
     const t = useTranslation(language);
-    const title = resolveCopy(copy?.ourPlaceTitle, t("ourPlace.title"));
+    const title = resolveCopy(copy?.ourPlaceTitle, t("ourPlace.title"), language);
     const description = resolveCopy(
         copy?.ourPlaceDescription,
-        t("ourPlace.description")
+        t("ourPlace.description"),
+        language
     );
-    const cta = resolveCopy(copy?.ourPlaceCta, t("ourPlace.contactUs"));
+    const cta = resolveCopy(copy?.ourPlaceCta, t("ourPlace.contactUs"), language);
     const imageRef = useRef(null);
     const sectionRef = useRef(null);
     const [imageOffset, setImageOffset] = useState(0);

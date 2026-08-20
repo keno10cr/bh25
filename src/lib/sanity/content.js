@@ -12,6 +12,8 @@ import {
   contactPageSettingsQuery,
   homePageSettingsQuery,
   reviewsQuery,
+  publishedVillaCommentsQuery,
+  publishedGuestExperiencesQuery,
   villaBySlugQuery,
   villaSlugsQuery,
   villasPageSettingsQuery,
@@ -137,11 +139,54 @@ export async function getVillaSlugs() {
 }
 
 export async function getReviews() {
-  const raw = await sanityFetch(reviewsQuery);
-  if (Array.isArray(raw) && raw.length > 0) {
-    return raw.map(mapReview).filter(Boolean);
-  }
-  return STATIC_REVIEWS.map((review) => ({ ...review, fromCms: false }));
+  const [raw, publishedGuest] = await Promise.all([
+    sanityFetch(reviewsQuery),
+    sanityFetch(publishedGuestExperiencesQuery),
+  ]);
+
+  const studioReviews =
+    Array.isArray(raw) && raw.length > 0
+      ? raw.map(mapReview).filter(Boolean)
+      : STATIC_REVIEWS.map((review) => ({ ...review, fromCms: false }));
+
+  const guestReviews = Array.isArray(publishedGuest)
+    ? publishedGuest.map((item) => ({
+        id: item._id,
+        guestName: item.name,
+        date: item.submittedAt,
+        rating: Number(item.rating) || 5,
+        comment: item.message,
+        fromCms: true,
+      }))
+    : [];
+
+  return [...guestReviews, ...studioReviews];
+}
+
+export async function getVillaReviews(slug) {
+  const [rawReviews, publishedComments] = await Promise.all([
+    sanityFetch(reviewsQuery),
+    sanityFetch(publishedVillaCommentsQuery, { slug }),
+  ]);
+
+  const fromReviews = Array.isArray(rawReviews)
+    ? rawReviews
+        .map(mapReview)
+        .filter((review) => review && review.villaSlug === slug)
+    : [];
+
+  const fromForms = Array.isArray(publishedComments)
+    ? publishedComments.map((item) => ({
+        id: item._id,
+        guestName: item.name,
+        date: item.submittedAt,
+        rating: Number(item.rating) || 5,
+        comment: item.message,
+        fromCms: true,
+      }))
+    : [];
+
+  return [...fromForms, ...fromReviews];
 }
 
 function isPublished(post) {

@@ -32,7 +32,28 @@
   grid-template-columns: minmax(0, 1fr) 300px;
   gap: 1.25rem;
   align-items: start;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.mapBelow {
+  margin: 0 0 2.5rem;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #eef3ef;
+  min-height: 0;
+}
+
+.mapBelow:empty {
+  display: none;
+}
+
+.mapBelow img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  object-fit: contain;
+  margin: 0 auto;
 }
 
 .toolbox {
@@ -83,14 +104,18 @@
   position: relative;
   border-radius: 12px;
   overflow: hidden;
-  height: 150px;
+  height: 170px;
   margin-bottom: 0.85rem;
+  background: #eef3ef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .toolboxImage img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .toolboxNumber {

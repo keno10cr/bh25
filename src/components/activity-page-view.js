@@ -5,6 +5,7 @@ import Link from "next/link";
 import CmsText from "@/components/cms-text";
 import PortableBody from "@/components/portable-text";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useUiCopy } from "@/lib/cms-field";
 import { displayMeta } from "@/lib/display-copy";
 import { useTranslation } from "@/lib/translations";
 import styles from "./activity-page.module.css";
@@ -13,9 +14,36 @@ const ActivitiesMap = dynamic(() => import("@/components/activities-map"), {
   ssr: false,
 });
 
+function translateLegendItems(items, t) {
+  return (items || []).map((item) => {
+    const slug =
+      item.slug || String(item.title || "").toLowerCase().replace(/\s+/g, "-");
+    const key = `activitiesPage.legend.${slug}`;
+    const translated = t(key);
+    return {
+      ...item,
+      slug,
+      title: translated === key ? item.title : translated,
+    };
+  });
+}
+
 export default function ActivityPageView({ activity, legendItems = [] }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const preferUi = useUiCopy(language);
+  const key = activity.translationKey;
+  const translatedName = key ? t(`activitiesPage.${key}.name`) : activity.name;
+  const translatedFull = key
+    ? t(`activitiesPage.${key}.fullDescription`)
+    : activity.fullDescription || activity.description;
+  const useTranslatedName = Boolean(key) && (preferUi || !activity.nameFromCms);
+  const useTranslatedBody =
+    Boolean(key) && (preferUi || !activity.descriptionFromCms);
+  const name = useTranslatedName ? translatedName : activity.name;
+  const body = useTranslatedBody
+    ? translatedFull
+    : activity.fullDescription || activity.description;
   const duration = displayMeta(t, "activitiesPage.durations", activity.duration);
   const groupSize = displayMeta(
     t,
@@ -25,12 +53,15 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
   const price = activity.priceKey
     ? t(`activitiesPage.prices.${activity.priceKey}`)
     : activity.price;
-  const highlights = activity.translationKey
-    ? t(`activitiesPage.${activity.translationKey}.highlights`)
+  const highlights = key
+    ? t(`activitiesPage.${key}.highlights`)
     : activity.highlights;
   const hasMap = Boolean(activity.coordinates?.lat && activity.coordinates?.lng);
-  const mapLegend =
-    activity.legendItems?.length > 0 ? activity.legendItems : legendItems;
+  const mapLegend = translateLegendItems(
+    activity.legendItems?.length > 0 ? activity.legendItems : legendItems,
+    t
+  );
+  const tags = translateLegendItems(activity.legendItems, t);
 
   return (
     <article className={styles.page}>
@@ -38,18 +69,20 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
         ← {t("nav.activities")}
       </Link>
       <div className={styles.hero}>
-        <img src={activity.image || "/placeholder.svg"} alt={activity.name} />
+        <img src={activity.image || "/placeholder.svg"} alt={name} />
         {activity.number ? (
           <span className={styles.number}>{activity.number}</span>
         ) : null}
       </div>
       <header>
         <h1>
-          <CmsText fromCms={activity.nameFromCms}>{activity.name}</CmsText>
+          <CmsText fromCms={!useTranslatedName && activity.nameFromCms}>
+            {name}
+          </CmsText>
         </h1>
-        {activity.legendItems?.length ? (
+        {tags?.length ? (
           <ul className={styles.tags}>
-            {activity.legendItems.map((item) => (
+            {tags.map((item) => (
               <li key={item.slug || item.title}>
                 <i style={{ backgroundColor: item.color || "#0a4c3a" }} />
                 {item.title}
@@ -58,12 +91,12 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
           </ul>
         ) : null}
       </header>
-      {activity.descriptionBlocks ? (
+      {!useTranslatedBody && activity.descriptionBlocks ? (
         <PortableBody value={activity.descriptionBlocks} />
       ) : (
         <p className={styles.copy}>
-          <CmsText fromCms={activity.descriptionFromCms}>
-            {activity.fullDescription || activity.description}
+          <CmsText fromCms={!useTranslatedBody && activity.descriptionFromCms}>
+            {body}
           </CmsText>
         </p>
       )}
@@ -101,7 +134,14 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
       {hasMap ? (
         <div className={styles.mapWrap}>
           <ActivitiesMap
-            activities={[activity]}
+            activities={[
+              {
+                ...activity,
+                name,
+                title: name,
+                legendItems: tags,
+              },
+            ]}
             legendItems={mapLegend}
             selectedSlug={activity.slug}
             fitToPins={false}
@@ -109,24 +149,24 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
           />
         </div>
       ) : null}
-      {activity.translationKey === "ketos" ? (
+      {key === "ketos" ? (
         <a
           href="https://www.stickoscr.com/designs/ketos/"
           target="_blank"
           rel="noopener noreferrer"
           className={styles.secondary}
         >
-          Play Ketos Online
+          {t("activitiesPage.labels.playKetos")}
         </a>
       ) : null}
-      {activity.translationKey === "practiceWasteSorting" ? (
+      {key === "practiceWasteSorting" ? (
         <a
           href="https://www.toprrr.com/"
           target="_blank"
           rel="noopener noreferrer"
           className={styles.secondary}
         >
-          Play Top Recycler Online
+          {t("activitiesPage.labels.playTopRecycler")}
         </a>
       ) : null}
       {activity.externalLink ? (

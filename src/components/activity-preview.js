@@ -13,20 +13,52 @@ import styles from "./activity-preview.module.css";
 export default function ActivityPreview({ copy }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const title = resolveCopy(copy?.activitiesTitle, t("activities.title"));
+  const title = resolveCopy(copy?.activitiesTitle, t("activities.title"), language);
   const subtitle = resolveCopy(
     copy?.activitiesSubtitle,
-    t("activities.subtitle")
+    t("activities.subtitle"),
+    language
   );
-  const cta = resolveCopy(copy?.activitiesCta, t("activities.exploreAll"));
-  const activities = copy?.thingsToDoItems?.length
+  const cta = resolveCopy(copy?.activitiesCta, t("activities.exploreAll"), language);
+  const activities = (copy?.thingsToDoItems?.length
     ? copy.thingsToDoItems
     : HOME_THINGS_TO_DO.map((item) => ({
         ...item,
         fromCms: false,
         titleFromCms: false,
         descriptionFromCms: false,
-      }));
+      }))
+  ).map((item) => {
+    const key = item.id;
+    const nameKey = `activities.${key}.name`;
+    const descKey = `activities.${key}.description`;
+    const translatedName = t(nameKey);
+    const translatedDesc = t(descKey);
+    const hasName = translatedName !== nameKey;
+    const hasDesc = translatedDesc !== descKey;
+    const preferUi = language !== "en";
+    return {
+      ...item,
+      title:
+        preferUi && hasName
+          ? translatedName
+          : item.titleFromCms
+            ? item.title
+            : hasName
+              ? translatedName
+              : item.title,
+      description:
+        preferUi && hasDesc
+          ? translatedDesc
+          : item.descriptionFromCms
+            ? item.description
+            : hasDesc
+              ? translatedDesc
+              : item.description,
+      titleFromCms: preferUi && hasName ? false : item.titleFromCms,
+      descriptionFromCms: preferUi && hasDesc ? false : item.descriptionFromCms,
+    };
+  });
   const [visibleItems, setVisibleItems] = useState(new Set());
   const sectionRef = useRef(null);
 

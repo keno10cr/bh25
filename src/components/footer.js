@@ -35,9 +35,6 @@ export default function Footer() {
           <h4>{t("footer.quickLinks")}</h4>
           <ul>
             <li>
-              <Link href="/">{t("common.home")}</Link>
-            </li>
-            <li>
               <Link href="/gallery">{t("nav.gallery")}</Link>
             </li>
             <li>

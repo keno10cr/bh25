@@ -6,14 +6,15 @@ import VillaCard from "@/components/villa-card";
 import CmsText from "@/components/cms-text";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
-import { resolveCopy } from "@/lib/cms-field";
+import { resolveCopy, useUiCopy } from "@/lib/cms-field";
 import styles from "./villas.module.css";
 
 export default function VillasClient({ villas: cmsVillas = [], copy }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const pageTitle = resolveCopy(copy?.title, t("villas.title"));
-  const pageSubtitle = resolveCopy(copy?.subtitle, t("villas.subtitle"));
+  const preferUi = useUiCopy(language);
+  const pageTitle = resolveCopy(copy?.title, t("villas.title"), language);
+  const pageSubtitle = resolveCopy(copy?.subtitle, t("villas.subtitle"), language);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [visibleItems, setVisibleItems] = useState(new Set());
   const villasRef = useRef(null);
@@ -29,17 +30,19 @@ export default function VillasClient({ villas: cmsVillas = [], copy }) {
     if (villa.bedInfo) {
       translatedAmenities.push(t(`villas.bedInfo.${villa.bedInfo}`));
     }
+    const useTranslatedBody =
+      Boolean(villa.translationKey) &&
+      (preferUi || !villa.descriptionFromCms);
     return {
       ...villa,
-      description: villa.descriptionFromCms
-        ? villa.description
-        : villa.translationKey
-          ? t(`villas.${villa.translationKey}.description`)
-          : villa.description,
+      description: useTranslatedBody
+        ? t(`villas.${villa.translationKey}.description`)
+        : villa.description,
+      descriptionFromCms: useTranslatedBody ? false : villa.descriptionFromCms,
       informativeFact: villa.translationKey
         ? t(`villas.${villa.translationKey}.informativeFact`)
         : villa.informativeFact,
-      amenities: villa.fromCms ? amenityKeys : translatedAmenities,
+      amenities: preferUi || !villa.fromCms ? translatedAmenities : amenityKeys,
       galleryImages: villa.galleryImages,
     };
   });

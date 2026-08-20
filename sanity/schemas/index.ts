@@ -5,6 +5,7 @@ import { blog } from "./blog";
 import { blogPageSettings } from "./blogPageSettings";
 import { blockContent } from "./blockContent";
 import { contactPageSettings } from "./contactPageSettings";
+import { formSubmission } from "./formSubmission";
 import { homePageSettings } from "./homePageSettings";
 import { legendItem } from "./legendItem";
 import { review } from "./review";
@@ -17,6 +18,7 @@ export const schemaTypes = [
   legendItem,
   blog,
   review,
+  formSubmission,
   blockContent,
   homePageSettings,
   aboutPageSettings,

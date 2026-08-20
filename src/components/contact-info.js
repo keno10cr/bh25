@@ -11,7 +11,8 @@ export default function ContactInfo({ copy }) {
     const t = useTranslation(language);
     const infoTitle = resolveCopy(
         copy?.infoTitle,
-        t("contactPage.contactInfo.title")
+        t("contactPage.contactInfo.title"),
+        language
     );
     return (
         <div className={styles.infoContainer}>

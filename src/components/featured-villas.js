@@ -11,18 +11,21 @@ import styles from "./featured-villas.module.css";
 export default function FeaturedVillas({ copy, villas = [] }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const title = resolveCopy(copy?.featuredTitle, t("featuredVillas.title"));
+  const title = resolveCopy(copy?.featuredTitle, t("featuredVillas.title"), language);
   const subtitle = resolveCopy(
     copy?.featuredSubtitle,
-    t("featuredVillas.subtitle")
+    t("featuredVillas.subtitle"),
+    language
   );
   const learnMore = resolveCopy(
     copy?.featuredLearnMore,
-    t("common.learnMore")
+    t("common.learnMore"),
+    language
   );
   const viewAll = resolveCopy(
     copy?.featuredCta,
-    t("featuredVillas.viewAll")
+    t("featuredVillas.viewAll"),
+    language
   );
 
   const source = copy?.featuredItems?.length

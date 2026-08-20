@@ -72,7 +72,7 @@ export default function Hero({ copy }) {
           >
             <h1 className={styles.title}>
               {(() => {
-                const title = resolveCopy(copy?.heroTitle, t("hero.title"));
+                const title = resolveCopy(copy?.heroTitle, t("hero.title"), language);
                 if (title.value.includes("Blessed House")) {
                   const parts = title.value.split("Blessed House");
                   return (
@@ -89,30 +89,30 @@ export default function Hero({ copy }) {
             </h1>
             <p className={styles.subtitle}>
               <CmsText
-                fromCms={resolveCopy(copy?.heroSubtitle, t("hero.subtitle")).fromCms}
+                fromCms={resolveCopy(copy?.heroSubtitle, t("hero.subtitle"), language).fromCms}
               >
-                {resolveCopy(copy?.heroSubtitle, t("hero.subtitle")).value}
+                {resolveCopy(copy?.heroSubtitle, t("hero.subtitle"), language).value}
               </CmsText>
             </p>
             <div className={styles.cta}>
               <Link href="/villas" className={styles.btnPrimary}>
                 <CmsText
                   fromCms={
-                    resolveCopy(copy?.heroCtaPrimary, t("hero.exploreVillas"))
+                    resolveCopy(copy?.heroCtaPrimary, t("hero.exploreVillas"), language)
                       .fromCms
                   }
                 >
-                  {resolveCopy(copy?.heroCtaPrimary, t("hero.exploreVillas")).value}
+                  {resolveCopy(copy?.heroCtaPrimary, t("hero.exploreVillas"), language).value}
                 </CmsText>
               </Link>
               <Link href="/contact" className={styles.btnSecondary}>
                 <CmsText
                   fromCms={
-                    resolveCopy(copy?.heroCtaSecondary, t("hero.getInTouch"))
+                    resolveCopy(copy?.heroCtaSecondary, t("hero.getInTouch"), language)
                       .fromCms
                   }
                 >
-                  {resolveCopy(copy?.heroCtaSecondary, t("hero.getInTouch")).value}
+                  {resolveCopy(copy?.heroCtaSecondary, t("hero.getInTouch"), language).value}
                 </CmsText>
               </Link>
             </div>

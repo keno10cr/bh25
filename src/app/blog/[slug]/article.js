@@ -5,11 +5,14 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import PortableBody from "@/components/portable-text";
 import CmsText from "@/components/cms-text";
+import { localizedField } from "@/lib/localized";
 import styles from "../blog.module.css";
 
 export default function BlogArticle({ post }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const title = localizedField(post, "title", language);
+  const content = localizedField(post, "content", language) || post.content;
   const published = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString(language, {
         year: "numeric",
@@ -27,7 +30,7 @@ export default function BlogArticle({ post }) {
         <span className={styles.category}>{post.category}</span>
       </div>
       <h1>
-        <CmsText fromCms={post.titleFromCms}>{post.title}</CmsText>
+        <CmsText fromCms={Boolean(title)}>{title}</CmsText>
       </h1>
       {published && (
         <p className={styles.meta}>
@@ -37,7 +40,7 @@ export default function BlogArticle({ post }) {
       {post.featuredImage && (
         <img src={post.featuredImage} alt="" className={styles.hero} />
       )}
-      <PortableBody value={post.content} />
+      <PortableBody value={content} />
       <p className={styles.author}>
         <span>{t("blog.authorLabel")}</span>
         {t("blog.author")}

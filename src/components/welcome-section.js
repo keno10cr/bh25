@@ -10,12 +10,13 @@ import styles from "./welcome-section.module.css";
 export default function WelcomeSection({ copy }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const title = resolveCopy(copy?.welcomeTitle, t("welcome.title"));
+  const title = resolveCopy(copy?.welcomeTitle, t("welcome.title"), language);
   const description = resolveCopy(
     copy?.welcomeDescription,
-    t("welcome.description")
+    t("welcome.description"),
+    language
   );
-  const videoBy = resolveCopy(copy?.welcomeVideoBy, t("welcome.videoBy"));
+  const videoBy = resolveCopy(copy?.welcomeVideoBy, t("welcome.videoBy"), language);
   return (
     <section className={styles.section}>
       <div className={styles.container}>
