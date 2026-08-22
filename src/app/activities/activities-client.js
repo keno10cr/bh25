@@ -252,25 +252,6 @@ export default function ActivitiesClient({
               <h2>
                 <CmsText fromCms={selected.nameFromCms}>{selected.name}</CmsText>
               </h2>
-              <p>
-                <CmsText fromCms={selected.descriptionFromCms}>
-                  {selected.description}
-                </CmsText>
-              </p>
-              <dl className={styles.toolboxMeta}>
-                {selected.duration ? (
-                  <>
-                    <dt>{t("activitiesPage.labels.duration")}</dt>
-                    <dd>{selected.duration}</dd>
-                  </>
-                ) : null}
-                {selected.groupSize ? (
-                  <>
-                    <dt>{t("activitiesPage.labels.groupSize")}</dt>
-                    <dd>{selected.groupSize}</dd>
-                  </>
-                ) : null}
-              </dl>
               <button
                 type="button"
                 className={styles.toolboxLink}
@@ -285,11 +266,6 @@ export default function ActivitiesClient({
             </p>
           )}
         </aside>
-      </div>
-      <div className={styles.mapBelow} aria-hidden={!selected?.image}>
-        {selected?.image ? (
-          <img src={selected.image} alt="" />
-        ) : null}
       </div>
 
       <div className={styles.filters}>
