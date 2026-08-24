@@ -300,6 +300,50 @@ export const translations = {
           "Local Rental Service"
         ]
       },
+      cacaoMuseum: {
+        name: "Cacao Museum",
+        description: "Learn cacao history and chocolate making on the road to Cahuita",
+        fullDescription: "Stop at the cacao museum on the way to Cahuita to discover how cacao shaped Caribbean culture. Interactive exhibits and tastings make it a sweet detour from Blessed House.",
+        highlights: [
+          "Chocolate History",
+          "Local Culture",
+          "Interactive Exhibits",
+          "Near Cahuita"
+        ]
+      },
+      costaRicaPanamaBorder: {
+        name: "Costa Rica / Panama Border",
+        description: "Visit the Sixaola border crossing between Costa Rica and Panama",
+        fullDescription: "Take a day trip to the Costa Rica and Panama border at Sixaola. A unique cultural stop where two countries meet, with markets, river views, and an easy overland crossing for curious travelers.",
+        highlights: [
+          "Border Crossing",
+          "Cultural Experience",
+          "River Views",
+          "Day Trip"
+        ]
+      },
+      cahuitaReefPools: {
+        name: "Cahuita Reef Pools",
+        description: "Snorkel calm reef pools inside Cahuita National Park",
+        fullDescription: "Explore the reef pools at Cahuita National Park where calm Caribbean water meets living coral. Ideal for snorkeling, wildlife spotting, and a relaxed beach day less than thirty minutes from Blessed House.",
+        highlights: [
+          "Reef Snorkeling",
+          "National Park",
+          "Wildlife Spotting",
+          "Calm Waters"
+        ]
+      },
+      cahuitaPuertoVargas: {
+        name: "Cahuita (entrance Puerto Vargas)",
+        description: "Enter Cahuita National Park through the Puerto Vargas trail",
+        fullDescription: "The Puerto Vargas entrance offers a quieter path into Cahuita National Park with jungle trails, beaches, and wildlife. A great alternative starting point for exploring the park from Blessed House.",
+        highlights: [
+          "National Park Entrance",
+          "Jungle Trails",
+          "Beach Access",
+          "Wildlife Spotting"
+        ]
+      },
       legend: {
         beaches: "Beaches",
         "blessed-house": "Blessed House",
@@ -969,6 +1013,50 @@ export const translations = {
           "Exploración Fácil",
           "Bicicletas de Calidad",
           "Servicio de Alquiler Local"
+        ]
+      },
+      cacaoMuseum: {
+        name: "Museo del Cacao",
+        description: "Conoce la historia del cacao y el chocolate camino a Cahuita",
+        fullDescription: "Visita el museo del cacao camino a Cahuita y descubre cómo el cacao moldeó la cultura caribeña. Exhibiciones interactivas y degustaciones lo convierten en una parada dulce desde Blessed House.",
+        highlights: [
+          "Historia del Chocolate",
+          "Cultura Local",
+          "Exhibiciones Interactivas",
+          "Cerca de Cahuita"
+        ]
+      },
+      costaRicaPanamaBorder: {
+        name: "Frontera Costa Rica / Panamá",
+        description: "Visita el cruce fronterizo de Sixaola entre Costa Rica y Panamá",
+        fullDescription: "Haz una excursión de un día a la frontera de Costa Rica y Panamá en Sixaola. Un punto cultural único donde se encuentran dos países, con mercados, vistas al río y un cruce terrestre sencillo.",
+        highlights: [
+          "Cruce Fronterizo",
+          "Experiencia Cultural",
+          "Vistas al Río",
+          "Excursión de un Día"
+        ]
+      },
+      cahuitaReefPools: {
+        name: "Pozas del Arrecife de Cahuita",
+        description: "Snorkel en pozas tranquilas del arrecife en el Parque Nacional Cahuita",
+        fullDescription: "Explora las pozas del arrecife en el Parque Nacional Cahuita, donde el agua caribeña tranquila se encuentra con coral vivo. Ideal para snorkel, avistamiento de fauna y un día de playa relajado.",
+        highlights: [
+          "Snorkel en Arrecife",
+          "Parque Nacional",
+          "Avistamiento de Fauna",
+          "Aguas Tranquilas"
+        ]
+      },
+      cahuitaPuertoVargas: {
+        name: "Cahuita (entrada Puerto Vargas)",
+        description: "Entra al Parque Nacional Cahuita por el sendero Puerto Vargas",
+        fullDescription: "La entrada Puerto Vargas ofrece un camino más tranquilo al Parque Nacional Cahuita con senderos de selva, playas y fauna. Una gran alternativa para explorar el parque desde Blessed House.",
+        highlights: [
+          "Entrada al Parque Nacional",
+          "Senderos de Selva",
+          "Acceso a la Playa",
+          "Avistamiento de Fauna"
         ]
       },
       legend: {

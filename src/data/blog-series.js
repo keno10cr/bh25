@@ -168,6 +168,38 @@ const ACTIVITY_POSTS = {
     content:
       "An e bike turns the stretch between Puerto Viejo, Playa Negra, Cocles, and Punta Uva into a single looping day. You cover more ground than a walk and stay cooler than a full pedal, which is why so many guests rent for a half day or a full day.\n\nPuerto Viejo Bike Rentals sits in town. Blessed House can point you there, and the ride back through the garden roads is part of the pleasure.\n\nThe assistance helps on humid hills. You still steer, brake, and watch for dogs, buses, and sudden rain. Helmets are not optional in our advice, even when the law feels relaxed.\n\nStop when the beach looks right. The point of the bike is not a fitness score. It is Cocles at one hour and a cacao stand at the next without waiting for a taxi.\n\nLock the bike when you swim. Carry water. Come home before dark if you do not know the road. The coast is beautiful at dusk and harder to share with traffic.",
   },
+  "cacao-museum": {
+    title: "The cacao museum on the road to Cahuita",
+    category: "Local Spot",
+    excerpt:
+      "A stop between Puerto Viejo and Cahuita for cacao history, tasting, and the story of chocolate on this coast.",
+    content:
+      "The cacao museum sits on the road toward Cahuita, close enough for a short outing from Blessed House. It turns the plant you see in gardens into a story you can taste, from harvest to drink and bar.\n\nPlan one to two hours. Mixed ages work well, and the visit pairs naturally with a park day if you want history before the trail.\n\nGo slow in the tasting room. The point is not to rush through samples. Ask how local families still use cacao in drinks and cooking. That is the living part of the museum.\n\nCombine it with a grocery stop or a beach afternoon. You do not need a full day. A morning at the museum and an afternoon at Cahuita is a common rhythm from the property.\n\nTell us if you want help with timing or transport. The museum is easy to miss if you drive too fast toward the park entrance.",
+  },
+  "costa-rica-panama-border": {
+    title: "A day at the Costa Rica and Panama border",
+    category: "Local Spot",
+    excerpt:
+      "Sixaola sits south of the coast, where two countries meet at a river crossing with markets and local life.",
+    content:
+      "The border at Sixaola is a different kind of day trip from Blessed House. You see two countries from the same bridge, watch river traffic, and feel how close Panama really is from the Caribbean side.\n\nTreat it as a half day with documents ready if you plan to cross. Even if you stay on the Costa Rica side, the market energy and the river view are worth the ride.\n\nGo with patience. Border towns move at their own pace. Cash, shade, and water matter more than a tight schedule.\n\nAsk us about current conditions before you leave. Weather, queues, and holiday crowds change the day more than the map does.\n\nCome back with photos of the river, not only the line. The crossing is the headline, but the water and the people working beside it are the memory.",
+  },
+  "cahuita-reef-pools": {
+    title: "Snorkeling the reef pools at Cahuita",
+    category: "Local Spot",
+    excerpt:
+      "Calm reef pools inside Cahuita National Park offer clear water, fish, and an easy half day from Blessed House.",
+    content:
+      "The reef pools at Cahuita are where many guests first see Caribbean fish without a boat. Water stays calmer inside the protected strip, and the pools feel like rooms opened in the reef.\n\nBring mask and fins if you have them, or rent in town. Sunscreen should be reef safe, and touching coral is never worth a photo.\n\nGo early for clearer water and fewer people. A half day is enough for a first visit, with time to walk the trail before or after the swim.\n\nWatch the tide and ask locally about conditions. Some days the pools shine. Some days wind makes another beach the better choice.\n\nReturn through the garden roads at Blessed House with salt still in your hair. That is a good Cahuita day.",
+  },
+  "cahuita-puerto-vargas": {
+    title: "Entering Cahuita by the Puerto Vargas trail",
+    category: "Local Spot",
+    excerpt:
+      "The Puerto Vargas entrance opens a quieter path into Cahuita National Park, with jungle, beach, and wildlife.",
+    content:
+      "Most visitors know Cahuita from the main town entrance. Puerto Vargas is the other door, often quieter, with forest first and beach when the trail opens toward the sea.\n\nGive yourself a half day. Shoes for roots and humidity beat flip flops, and water is more important than extra camera gear.\n\nWildlife shows up when you stop talking. Sloths, crabs, and birds are common if you walk slowly and let the forest set the pace.\n\nPair this entrance with a plan for the return ride. It is less crowded, but also less served by the same taxi habits as the town side.\n\nAsk Blessed House which entrance fits your day. Puerto Vargas rewards guests who want trail and beach without the busiest gate.",
+  },
 };
 
 const ANIMAL_POSTS = [
@@ -253,19 +285,22 @@ const ANIMAL_POSTS = [
   },
 ];
 
-const ACTIVITY_SERIES = STATIC_ACTIVITIES.map((activity, index) => {
+const ACTIVITY_SERIES = STATIC_ACTIVITIES.flatMap((activity, index) => {
   const copy = ACTIVITY_POSTS[activity.slug];
+  if (!copy) return [];
   const slug = `journal-${activity.slug}`;
-  return {
-    id: `series-activity-${activity.slug}`,
-    title: copy.title,
-    slug,
-    category: copy.category,
-    publishedAt: publishedAtFrom(SERIES_START, index * SERIES_INTERVAL_DAYS),
-    excerpt: copy.excerpt,
-    featuredImage: activity.image,
-    content: toBlocks(copy.content, slug),
-  };
+  return [
+    {
+      id: `series-activity-${activity.slug}`,
+      title: copy.title,
+      slug,
+      category: copy.category,
+      publishedAt: publishedAtFrom(SERIES_START, index * SERIES_INTERVAL_DAYS),
+      excerpt: copy.excerpt,
+      featuredImage: activity.image,
+      content: toBlocks(copy.content, slug),
+    },
+  ];
 });
 
 const ANIMAL_SERIES = ANIMAL_POSTS.map((post, index) => {

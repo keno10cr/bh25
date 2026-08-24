@@ -31,6 +31,10 @@ export const CONTACT_ACTIVITIES = [
   { id: 15, translationKey: "practiceWasteSorting" },
   { id: 16, translationKey: "cahuitaNationalPark" },
   { id: 17, translationKey: "eBikeRental" },
+  { id: 18, translationKey: "cacaoMuseum" },
+  { id: 19, translationKey: "costaRicaPanamaBorder" },
+  { id: 20, translationKey: "cahuitaReefPools" },
+  { id: 21, translationKey: "cahuitaPuertoVargas" },
 ];
 
 export const SUBJECT_OPTIONS = [
