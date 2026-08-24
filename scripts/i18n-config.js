@@ -77,10 +77,18 @@ export const DOCUMENT_FIELDS = {
     { name: "title", kind: "string" },
     { name: "subtitle", kind: "string" },
   ],
+  systemSettings: [{ name: "taxLabelEn", kind: "string" }],
 };
 
 /** Nested array objects that also have Translations companions. */
 export const ARRAY_FIELDS = {
+  systemSettings: [
+    {
+      name: "checkoutFeeCatalog",
+      fields: [{ name: "title", kind: "string" }],
+      meta: ["feeId", "feeType", "amount", "application"],
+    },
+  ],
   homePageSettings: [
     {
       name: "featuredItems",

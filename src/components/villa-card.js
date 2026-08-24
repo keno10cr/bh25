@@ -9,7 +9,6 @@ import { villaImageCaption } from "@/lib/villa-gallery";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import {
-  AIRBNB_PROFILE_URL,
   trackAirbnbRedirectClicked,
   trackVillaCardExpanded,
 } from "@/lib/posthog";
@@ -25,6 +24,9 @@ export default function VillaCard({ villa }) {
     ? villa.galleryImages
     : [villa.image].filter(Boolean);
   const captions = gallery.map((src) => villaImageCaption(src, villa, t));
+  const bookHref = villa.slug
+    ? `/villas/${villa.slug}`
+    : `/contact?subject=booking&villa=${villa.id || ""}`;
 
   const handleToggleExpand = () => {
     setIsExpanded((prev) => {
@@ -40,11 +42,12 @@ export default function VillaCard({ villa }) {
     });
   };
 
-  const handleAirbnbClick = () => {
+  const handleBookClick = () => {
+    // Keep analytics event name for continuity; destination is now native booking.
     trackAirbnbRedirectClicked({
       villa_id: villa.id,
       villa_name: villa.name,
-      destination_url: villa.bookingUrl || AIRBNB_PROFILE_URL,
+      destination_url: bookHref,
     });
   };
 
@@ -152,15 +155,13 @@ export default function VillaCard({ villa }) {
               {t("villas.buttons.viewVilla")}
             </Link>
           ) : null}
-          <a
-            href={villa.bookingUrl || AIRBNB_PROFILE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={bookHref}
             className={styles.btn}
-            onClick={handleAirbnbClick}
+            onClick={handleBookClick}
           >
             {t("villas.buttons.bookNow")}
-          </a>
+          </Link>
         </div>
       </div>
     </div>

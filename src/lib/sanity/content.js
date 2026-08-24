@@ -14,6 +14,7 @@ import {
   reviewsQuery,
   publishedVillaCommentsQuery,
   publishedGuestExperiencesQuery,
+  propertyBySlugQuery,
   villaBySlugQuery,
   villaSlugsQuery,
   villasPageSettingsQuery,
@@ -42,6 +43,7 @@ import {
   HOME_THINGS_TO_DO,
   HOME_FEATURED_ITEMS,
 } from "@/data/page-defaults";
+import { sumHouseArrangementCapacity } from "@/lib/propertyPricing";
 
 function mergeBySlug(sanityItems, fallbackItems, mapFn) {
   const fallbackBySlug = new Map(
@@ -125,6 +127,65 @@ export async function getVillaBySlug(slug) {
   const fallback = STATIC_VILLAS.find((villa) => villa.slug === slug) || null;
   if (!raw && !fallback) return null;
   return mapVilla(raw, fallback);
+}
+
+export async function getPropertyBySlug(slug) {
+  const raw = await sanityFetch(propertyBySlugQuery, { slug });
+  if (!raw) return null;
+  const guestsMax =
+    sumHouseArrangementCapacity(raw.houseArrangements) ||
+    STATIC_VILLAS.find((villa) => villa.slug === slug)?.maxPeople ||
+    2;
+  const bedrooms = (raw.houseArrangements || []).reduce(
+    (sum, row) => sum + (Number(row.quantity) || 0),
+    0
+  );
+  return {
+    id: raw._id,
+    slug: raw.slug,
+    name: raw.name,
+    priceMin: raw.priceMin,
+    priceMax: raw.priceMax,
+    currency: raw.currency || "USD",
+    minimumNights: raw.minimumNights,
+    baseGuestCount: raw.baseGuestCount,
+    extraGuestFeePerNight: raw.extraGuestFeePerNight,
+    bathrooms: raw.bathrooms,
+    petsMax: raw.petsMax ?? 0,
+    guestsMax,
+    bedrooms,
+    amenities: raw.amenities || [],
+    shortDescription: raw.shortDescription,
+    heroImage: raw.heroImage,
+    gallery: raw.gallery || [],
+    seasonalPricing: raw.seasonalPricing || [],
+    houseArrangements: (raw.houseArrangements || []).map((row) => ({
+      quantity: row.quantity,
+      customTitleEn: row.customTitleEn,
+      roomType: row.roomType
+        ? {
+            titleEn: row.roomType.titleEn,
+            configEn: row.roomType.configEn,
+            capacity: row.roomType.capacity,
+          }
+        : null,
+    })),
+    propertyKindTitle: raw.propertyKindTitle,
+    locationLabel: raw.locationLabel,
+    regionEn: raw.regionEn,
+    houseRules: {
+      areaRules: (raw.houseRulesAreaRules || []).map((rule) => ({
+        titleEn: rule.titleEn,
+        bodyEn: rule.bodyEn || [],
+      })),
+      review: {
+        smokingEn: raw.houseRulesReview?.smokingEn,
+        dogsEn: raw.houseRulesReview?.dogsEn,
+        partiesEn: raw.houseRulesReview?.partiesEn,
+        quietHoursEn: raw.houseRulesReview?.quietHoursEn,
+      },
+    },
+  };
 }
 
 export async function getVillaSlugs() {

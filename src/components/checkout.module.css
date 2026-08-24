@@ -1,0 +1,580 @@
+.pageShell {
+  min-height: 100vh;
+  padding: 2rem 1.25rem 7rem;
+  background: linear-gradient(180deg, #f3f6f3 0%, #fafaf8 40%, #fafaf8 100%);
+  color: var(--color-neutral-dark, #1a1a18);
+}
+
+.topBar {
+  max-width: 1180px;
+  margin: 0 auto 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+
+.backButton {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--color-panel-border, #d7e0d8);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-primary, #0a4c3a);
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  padding: 0.5rem 0.95rem;
+  box-shadow: 0 2px 8px rgba(10, 76, 58, 0.06);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.backButton:hover {
+  background: #f3f6f3;
+  border-color: color-mix(in srgb, var(--color-primary, #0a4c3a) 25%, #d7e0d8);
+}
+
+.progressWrap {
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.progressLabel {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary, #0a4c3a);
+}
+
+.progressTrack {
+  width: 100%;
+  height: 6px;
+  background: #d7e0d8;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  background: var(--color-accent, #f79d1f);
+  border-radius: inherit;
+  transition: width 0.25s ease;
+}
+
+.topBarSpacer {
+  min-height: 1px;
+}
+
+.layout {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.85fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.mainColumn,
+.sidebarColumn {
+  min-width: 0;
+}
+
+.minStayBanner {
+  margin: 0 0 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #e8c48a;
+  background: #fff7ea;
+  color: var(--color-primary, #0a4c3a);
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.panel,
+.sidebarCard {
+  background: #fff;
+  border: 1px solid #d7e0d8;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(10, 76, 58, 0.06);
+}
+
+.panel {
+  padding: 1.5rem 1.4rem 1.6rem;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-bottom: 1.35rem;
+}
+
+.panelIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e7f1eb;
+  color: var(--color-primary, #0a4c3a);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
+  color: var(--color-primary, #0a4c3a);
+}
+
+.panelSubtitle {
+  margin: 0.4rem 0 0;
+  color: #5c655e;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.fieldLabel {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #667066;
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid #cfd6d0;
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+  font: inherit;
+  background: #fff;
+  color: inherit;
+}
+
+.input:focus {
+  outline: 2px solid color-mix(in srgb, var(--color-primary, #0a4c3a) 35%, white);
+  border-color: var(--color-primary, #0a4c3a);
+}
+
+.rulesStack {
+  display: grid;
+  gap: 1rem;
+}
+
+.ruleCard {
+  border: 1px solid #d7e0d8;
+  border-radius: 12px;
+  padding: 1rem 1.05rem;
+  background: #f9fbf9;
+}
+
+.ruleTitle {
+  margin: 0 0 0.55rem;
+  font-size: 1.05rem;
+  color: var(--color-primary, #0a4c3a);
+}
+
+.ruleBody {
+  color: #535353;
+  line-height: 1.55;
+  font-size: 0.92rem;
+}
+
+.reviewRulesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.reviewRuleItem {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.reviewRuleItem strong {
+  color: var(--color-primary, #0a4c3a);
+}
+
+.reviewRuleItem p {
+  margin: 0;
+  color: #535353;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.checkboxCard {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  border: 1px solid #d7e0d8;
+  border-radius: 12px;
+  padding: 0.95rem 1rem;
+  background: #fff;
+  cursor: pointer;
+}
+
+.checkboxCard input {
+  margin-top: 0.2rem;
+}
+
+.segmentedControl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin: 1.25rem 0 1rem;
+  padding: 0.3rem;
+  background: #eef3ef;
+  border-radius: 12px;
+}
+
+.segmentButton {
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 0.7rem 0.85rem;
+  cursor: pointer;
+  color: var(--color-primary, #0a4c3a);
+}
+
+.segmentButtonActive {
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(10, 76, 58, 0.12);
+}
+
+.payLaterCard {
+  border: 1px dashed #cfd6d0;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #f7faf7;
+  color: #5c655e;
+  line-height: 1.5;
+}
+
+.payLaterCard p {
+  margin: 0;
+}
+
+.desktopActions {
+  margin-top: 1.5rem;
+}
+
+.primaryButton,
+.mobileStickyButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  background: var(--color-accent, #f79d1f);
+  color: #1a1a18;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.primaryButton:disabled,
+.mobileStickyButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.sidebarCard {
+  padding: 1.15rem;
+  position: sticky;
+  top: 1.25rem;
+}
+
+.propertyRow {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.propertyImageWrap {
+  width: 96px;
+  height: 84px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #e7f1eb;
+}
+
+.propertyImageWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.propertyTitle {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+  color: var(--color-primary, #0a4c3a);
+}
+
+.propertyLocation {
+  margin: 0 0 0.35rem;
+  color: #667066;
+  font-size: 0.82rem;
+}
+
+.propertyLink {
+  color: var(--color-primary, #0a4c3a);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid #e4ebe5;
+  border-bottom: 1px solid #e4ebe5;
+  margin-bottom: 1rem;
+}
+
+.summaryFull {
+  grid-column: 1 / -1;
+}
+
+.summaryLabel {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #7a847c;
+  margin-bottom: 0.2rem;
+}
+
+.summaryGrid strong {
+  font-size: 0.92rem;
+  color: var(--color-neutral-dark, #1a1a18);
+}
+
+.priceCard {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.priceTitle {
+  margin: 0 0 0.15rem;
+  font-size: 1rem;
+  color: var(--color-primary, #0a4c3a);
+}
+
+.priceLine {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: #535353;
+}
+
+.priceTotal {
+  margin-top: 0.35rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid #e4ebe5;
+  color: var(--color-primary, #0a4c3a);
+  font-size: 1rem;
+}
+
+.successSummary {
+  display: grid;
+  gap: 0.7rem;
+  margin-bottom: 1.25rem;
+}
+
+.successRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: #535353;
+}
+
+.submitError {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: #fff1f0;
+  color: #9b1c1c;
+  font-size: 0.92rem;
+}
+
+.successCardsSection {
+  margin: 1.75rem 0 1.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid #e4ebe5;
+}
+
+.successCardsHeader {
+  margin-bottom: 1.1rem;
+}
+
+.successCardsTitle {
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+  color: var(--color-primary, #0a4c3a);
+}
+
+.successCardsSubtitle {
+  margin: 0;
+  color: #535353;
+  line-height: 1.5;
+}
+
+.successCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.successCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-height: 180px;
+  padding: 1.35rem 1.2rem;
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--color-primary, #0a4c3a) 18%, #d7e0d8);
+  background: linear-gradient(
+    160deg,
+    #ffffff 0%,
+    #f3faf5 55%,
+    color-mix(in srgb, var(--color-accent, #f79d1f) 12%, #ffffff) 100%
+  );
+  box-shadow: 0 10px 28px rgba(10, 76, 58, 0.08);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.successCard:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--color-accent, #f79d1f) 45%, #d7e0d8);
+  box-shadow: 0 16px 34px rgba(10, 76, 58, 0.12);
+}
+
+.successCard strong {
+  font-size: 1.15rem;
+  color: var(--color-primary, #0a4c3a);
+}
+
+.successCard p {
+  margin: 0;
+  color: #535353;
+  line-height: 1.45;
+  font-size: 0.92rem;
+}
+
+.successCardIcon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.mobileStickyBar {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .successCardsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebarCard {
+    position: static;
+  }
+
+  .desktopActions {
+    display: none;
+  }
+
+  .mobileStickyBar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1rem calc(0.85rem + env(safe-area-inset-bottom));
+    background: #fff;
+    border-top: 1px solid #d7e0d8;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .mobileStickyLabel {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #7a847c;
+  }
+
+  .mobileStickyValue {
+    font-size: 1.1rem;
+    color: var(--color-primary, #0a4c3a);
+  }
+
+  .mobileStickyButton {
+    width: auto;
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 640px) {
+  .formGrid,
+  .reviewRulesGrid,
+  .propertyRow {
+    grid-template-columns: 1fr;
+  }
+
+  .topBar {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
+  .progressWrap {
+    width: 100%;
+    align-items: stretch;
+  }
+}

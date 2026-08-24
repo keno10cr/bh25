@@ -44,22 +44,76 @@ export default function ContactForm({ copy }) {
     const params = new URLSearchParams(window.location.search);
     const subjectParam = params.get("subject");
     const villaParam = params.get("villa");
+    const propertyParam = params.get("property");
+    const checkInParam = params.get("checkIn") || "";
+    const checkOutParam = params.get("checkOut") || "";
+    const adultsParam = params.get("adults");
+    const childrenParam = params.get("children");
+
+    let villaId = "";
+    if (villaParam) {
+      const villaExists = CONTACT_VILLAS.some(
+        (villa) => String(villa.id) === String(villaParam)
+      );
+      if (villaExists) villaId = String(villaParam);
+    }
+    if (!villaId && propertyParam) {
+      const bySlug = CONTACT_VILLAS.find(
+        (villa) => villa.slug === propertyParam
+      );
+      if (bySlug) villaId = String(bySlug.id);
+    }
+
+    const isBookingPrefill =
+      subjectParam === "booking" || Boolean(villaId) || Boolean(propertyParam);
 
     if (subjectParam === "activities") {
       setFormData((prev) => ({
         ...prev,
         subject: "activities",
       }));
-    } else if (villaParam) {
-      const villaExists = CONTACT_VILLAS.some(
-        (villa) => String(villa.id) === String(villaParam)
-      );
-      setFormData((prev) => ({
-        ...prev,
-        subject: "booking",
-        villaId: villaExists ? String(villaParam) : "",
-      }));
+      return;
     }
+
+    if (!isBookingPrefill) return;
+
+    const guestParts = [];
+    if (adultsParam) {
+      const adults = Number(adultsParam);
+      if (Number.isFinite(adults) && adults > 0) {
+        guestParts.push(`${adults} adult${adults === 1 ? "" : "s"}`);
+      }
+    }
+    if (childrenParam) {
+      const children = Number(childrenParam);
+      if (Number.isFinite(children) && children > 0) {
+        guestParts.push(`${children} child${children === 1 ? "" : "ren"}`);
+      }
+    }
+
+    const messageParts = [];
+    if (checkInParam || checkOutParam) {
+      messageParts.push(
+        `Requested dates: ${checkInParam || "TBD"} to ${checkOutParam || "TBD"}.`
+      );
+    }
+    if (guestParts.length) {
+      messageParts.push(`Guests: ${guestParts.join(", ")}.`);
+    }
+    if (propertyParam) {
+      messageParts.push(`Property: ${propertyParam}.`);
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      subject: "booking",
+      villaId,
+      checkIn: checkInParam,
+      checkOut: checkOutParam,
+      message: messageParts.length
+        ? `${messageParts.join(" ")}\n\n`
+        : prev.message,
+    }));
   }, []);
 
   const clearFieldError = (name) => {

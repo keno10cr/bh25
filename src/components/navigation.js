@@ -41,7 +41,7 @@ export default function Navigation() {
         <Link href="/" className={styles.logoLink}>
           <div className={styles.logo}>
             <Image
-              src="/favicon.png"
+              src="/blessedhouse_logo25.png"
               alt="Blessed House Logo"
               width={80}
               height={80}

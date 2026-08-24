@@ -174,3 +174,53 @@ export const contactPageSettingsQuery = `*[_id == "contactPageSettings"][0]`;
 export const activitiesPageSettingsQuery = `*[_id == "activitiesPageSettings"][0]`;
 export const blogPageSettingsQuery = `*[_id == "blogPageSettings"][0]`;
 export const villasPageSettingsQuery = `*[_id == "villasPageSettings"][0]`;
+
+export const propertyBySlugQuery = `*[_type == "property" && slug.current == $slug && listed != false && !(_id in path("drafts.**"))][0]{
+  _id,
+  name,
+  listed,
+  "slug": slug.current,
+  priceMin,
+  priceMax,
+  currency,
+  minimumNights,
+  baseGuestCount,
+  extraGuestFeePerNight,
+  bathrooms,
+  petsMax,
+  amenities,
+  shortDescription,
+  "heroImage": heroImage.asset->url,
+  "gallery": gallery[].asset->url,
+  seasonalPricing[]{
+    titleEn,
+    startDate,
+    endDate,
+    price
+  },
+  houseArrangements[]{
+    quantity,
+    customTitleEn,
+    roomType->{
+      titleEn,
+      configEn,
+      capacity,
+      icon
+    }
+  },
+  "propertyKindTitle": propertyKind->titleEn,
+  "locationLabel": locationRef->label_en,
+  regionEn,
+  houseRulesAreaRules[]{
+    titleEn,
+    bodyEn
+  },
+  houseRulesReview{
+    smokingEn,
+    dogsEn,
+    partiesEn,
+    quietHoursEn
+  }
+}`;
+
+export const propertySlugsQuery = `*[_type == "property" && listed != false && defined(slug.current) && !(_id in path("drafts.**"))].slug.current`;

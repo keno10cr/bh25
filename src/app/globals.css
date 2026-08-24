@@ -148,9 +148,13 @@
   --color-primary: #0a4c3a; /* Deep teal - primary brand */
   --color-primary-light: #0d6b52; /* Lighter teal */
   --color-accent: #f79d1f; /* Warm gold/sand accent */
+  --color-success-light: #e7f1eb; /* Light green surfaces (OK, range highlight) */
+  --color-success-text: #28b430; /* Success label text (OK, confirmations) */
   --color-neutral-light: #fafaf8; /* Warm off-white */
   --color-neutral-dark: #1a1a18; /* Dark charcoal */
+  --color-neutral-muted: #667066; /* Muted labels */
   --color-border: #e5e5dc; /* Subtle border */
+  --color-panel-border: #d7e0d8; /* Cards and inputs */
 }
 
 /* Base Styles */
@@ -171,6 +175,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: var(--color-neutral-dark);
   background-color: var(--color-neutral-light);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
 }
 
 .cms-fallback {

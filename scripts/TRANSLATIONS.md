@@ -16,8 +16,12 @@ All editable content types use `i18nFieldset` (`Translations`, collapsible + col
 | `aboutPageSettings` | welcome + ourPlace fields |
 | `contactPageSettings` | title, subtitle, formTitle, infoTitle |
 | `activitiesPageSettings` / `blogPageSettings` / `villasPageSettings` | title, subtitle |
+| `systemSettings` | taxLabelEn |
+| `systemSettings` nested | `checkoutFeeCatalog` (title per fee row) |
 
 Not localized (by design): slugs, images, numbers, amenities tags, booking URLs, `formSubmission` inbox content.
+
+**Checkout UI chrome** (step labels, thank you cards, form fields): `checkout` namespace in `src/lib/translations.js` (English + Spanish provided; other locales fall back to English via `useTranslation`).
 
 ## Frontend display behavior
 

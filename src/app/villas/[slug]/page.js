@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import VillaDetailView from "@/components/villa-detail-view";
 import {
+  getPropertyBySlug,
   getVillaBySlug,
   getVillaReviews,
   getVillaSlugs,
@@ -29,7 +30,10 @@ export default async function VillaPage({ params }) {
   const { slug } = await params;
   const villa = await getVillaBySlug(slug);
   if (!villa) notFound();
-  const reviews = await getVillaReviews(slug);
+  const [reviews, property] = await Promise.all([
+    getVillaReviews(slug),
+    getPropertyBySlug(slug),
+  ]);
 
   const siteUrl = "https://www.blessedhouse.info";
   const jsonLd = {
@@ -58,7 +62,7 @@ export default async function VillaPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <VillaDetailView villa={villa} reviews={reviews} />
+      <VillaDetailView villa={villa} property={property} reviews={reviews} />
     </>
   );
 }
