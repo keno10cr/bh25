@@ -111,6 +111,27 @@
 .highlights h2 {
   font-size: 1rem;
   color: var(--color-primary);
+  margin: 0 0 0.75rem;
+}
+
+.highlights ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.highlights li {
+  display: inline-flex;
+  align-items: center;
+  background: #f0f4f1;
+  color: var(--color-primary);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
 }
 
 .mapWrap {

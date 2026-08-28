@@ -44,6 +44,17 @@ export function mapActivity(raw, fallback = null) {
           },
         ];
   const primaryLegend = mappedLegend[0] || null;
+  const whatsIncluded = Array.isArray(raw?.whatsIncluded)
+    ? raw.whatsIncluded.filter(Boolean)
+    : [];
+  const gallery = Array.isArray(raw?.gallery)
+    ? raw.gallery
+        .filter((item) => item?.url)
+        .map((item) => ({
+          url: item.url,
+          alt: item.alt || "",
+        }))
+    : [];
 
   return {
     ...base,
@@ -67,9 +78,18 @@ export function mapActivity(raw, fallback = null) {
     fullDescription: raw?.description
       ? portableTextToPlain(raw.description)
       : base.fullDescription,
+    whatsIncluded,
+    whatsIncludedEs: raw?.whatsIncludedEs,
+    whatsIncludedDe: raw?.whatsIncludedDe,
+    whatsIncludedNl: raw?.whatsIncludedNl,
+    whatsIncludedFr: raw?.whatsIncludedFr,
+    whatsIncludedJa: raw?.whatsIncludedJa,
+    whatsIncludedPt: raw?.whatsIncludedPt,
+    gallery,
     fromCms: Boolean(raw?._id),
     nameFromCms: Boolean(raw?.title),
     descriptionFromCms: Boolean(raw?.description),
+    whatsIncludedFromCms: whatsIncluded.length > 0,
   };
 }
 

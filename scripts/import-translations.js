@@ -75,6 +75,11 @@ function localeSuffix(code) {
 
 function valueForKind(kind, text, keyPrefix) {
   if (text == null) return undefined;
+  if (kind === "stringArray") {
+    if (!Array.isArray(text)) return undefined;
+    const items = text.map((item) => String(item || "").trim()).filter(Boolean);
+    return items.length ? items : undefined;
+  }
   const trimmed = String(text).trim();
   if (!trimmed) return undefined;
   if (kind === "blocks") return textToBlocks(trimmed, keyPrefix);

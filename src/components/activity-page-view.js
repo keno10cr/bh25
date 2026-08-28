@@ -2,10 +2,15 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import ActivityGallery from "@/components/activity-gallery";
 import CmsText from "@/components/cms-text";
 import PortableBody from "@/components/portable-text";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useUiCopy } from "@/lib/cms-field";
+import {
+  activityGalleryImages,
+  resolveWhatsIncluded,
+} from "@/lib/activity-content";
 import { displayMeta } from "@/lib/display-copy";
 import { useTranslation } from "@/lib/translations";
 import styles from "./activity-page.module.css";
@@ -53,9 +58,9 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
   const price = activity.priceKey
     ? t(`activitiesPage.prices.${activity.priceKey}`)
     : activity.price;
-  const highlights = key
-    ? t(`activitiesPage.${key}.highlights`)
-    : activity.highlights;
+  const { items: whatsIncluded, fromCms: whatsIncludedFromCms } =
+    resolveWhatsIncluded(activity, language, t);
+  const galleryImages = activityGalleryImages(activity, name);
   const hasMap = Boolean(activity.coordinates?.lat && activity.coordinates?.lng);
   const mapLegend = translateLegendItems(
     activity.legendItems?.length > 0 ? activity.legendItems : legendItems,
@@ -100,6 +105,9 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
           </CmsText>
         </p>
       )}
+      {galleryImages.length > 0 ? (
+        <ActivityGallery images={galleryImages} activityName={name} />
+      ) : null}
       <div className={styles.info}>
         {duration ? (
           <div>
@@ -120,14 +128,15 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
           </div>
         ) : null}
       </div>
-      {Array.isArray(highlights) && highlights.length > 0 ? (
+      {whatsIncluded.length > 0 ? (
         <div className={styles.highlights}>
           <h2>{t("activitiesPage.labels.whatsIncluded")}</h2>
           <ul>
-            {highlights.map((item, index) => {
-              const text = typeof item === "object" ? item.text : item;
-              return <li key={index}>{text}</li>;
-            })}
+            {whatsIncluded.map((item, index) => (
+              <li key={`${item}-${index}`}>
+                <CmsText fromCms={whatsIncludedFromCms}>{item}</CmsText>
+              </li>
+            ))}
           </ul>
         </div>
       ) : null}

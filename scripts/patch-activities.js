@@ -120,6 +120,9 @@ async function patchActivities() {
         [copy.description, copy.fullDescription].filter(Boolean).join("\n\n"),
         activity.slug
       ),
+      whatsIncluded: Array.isArray(copy.highlights)
+        ? copy.highlights.filter(Boolean)
+        : [],
     });
     console.log(`Queued ${copy.name || activity.slug}`);
   }

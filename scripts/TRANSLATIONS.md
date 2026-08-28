@@ -7,7 +7,7 @@ All editable content types use `i18nFieldset` (`Translations`, collapsible + col
 | Schema | Localized fields |
 |--------|------------------|
 | `villa` | name, description |
-| `activity` | title, duration, groupSize, description |
+| `activity` | title, duration, groupSize, description, whatsIncluded |
 | `blog` | title, excerpt, content |
 | `legendItem` | title |
 | `review` | comment |

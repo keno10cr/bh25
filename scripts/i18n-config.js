@@ -23,6 +23,7 @@ export const DOCUMENT_FIELDS = {
     { name: "duration", kind: "string" },
     { name: "groupSize", kind: "string" },
     { name: "description", kind: "blocks" },
+    { name: "whatsIncluded", kind: "stringArray" },
   ],
   blog: [
     { name: "title", kind: "string" },
@@ -151,6 +152,14 @@ export function emptyLocaleBag() {
 export function readLocalizedValue(doc, fieldName, kind) {
   const bag = emptyLocaleBag();
   const rawEn = doc?.[fieldName];
+  if (kind === "stringArray") {
+    bag.en = Array.isArray(rawEn) ? rawEn.filter(Boolean) : [];
+    for (const locale of LOCALES) {
+      const raw = doc?.[`${fieldName}${locale.suffix}`];
+      bag[locale.code] = Array.isArray(raw) ? raw.filter(Boolean) : [];
+    }
+    return bag;
+  }
   bag.en = kind === "blocks" ? blocksToText(rawEn) : rawEn || "";
   for (const locale of LOCALES) {
     const raw = doc?.[`${fieldName}${locale.suffix}`];

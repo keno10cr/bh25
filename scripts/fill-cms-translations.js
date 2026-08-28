@@ -95,6 +95,9 @@ async function seed() {
       if (groupSize && groupSize !== activity.groupSize) {
         patch[`groupSize${suffix}`] = groupSize;
       }
+      if (Array.isArray(copy.highlights) && copy.highlights.length > 0) {
+        patch[`whatsIncluded${suffix}`] = copy.highlights.filter(Boolean);
+      }
     }
     if (Object.keys(patch).length) {
       transaction.patch(`activity-${activity.slug}`, { set: patch });

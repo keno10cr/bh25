@@ -8,6 +8,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import { resolveCopy, useUiCopy } from "@/lib/cms-field";
 import { displayMeta } from "@/lib/display-copy";
+import { resolveWhatsIncluded } from "@/lib/activity-content";
 import styles from "./activities.module.css";
 
 const ActivitiesMap = dynamic(() => import("@/components/activities-map"), {
@@ -81,9 +82,7 @@ export default function ActivitiesClient({
             ? false
             : activity.descriptionFromCms,
           legendItems: translateLegendItems(activity.legendItems, t),
-          highlights: key
-            ? t(`activitiesPage.${key}.highlights`)
-            : activity.highlights,
+          whatsIncluded: resolveWhatsIncluded(activity, language, t).items,
           price: activity.priceKey
             ? t(`activitiesPage.prices.${activity.priceKey}`)
             : activity.price,

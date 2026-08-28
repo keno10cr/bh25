@@ -68,6 +68,37 @@ export const activity = defineType({
       title: "Description",
       type: "blockContent",
     }),
+    ...localizedField({
+      name: "whatsIncluded",
+      title: "What's included",
+      type: "array",
+      of: [{ type: "string" }],
+      description:
+        "Add 3 to 6 key features included in this activity. These appear as pills on the activity page.",
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "gallery",
+      title: "Photo gallery",
+      type: "array",
+      description:
+        "Optional extra photos shown below the description. Recommended dimensions: 1600 × 1080 (3:2 ratio) or 1600 × 900 (16:9 ratio). Keep each file under 5MB.",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: "alt",
+              title: "Alt text",
+              type: "string",
+              description:
+                "Describe the photo for accessibility and SEO. Example: Wooden trail through Cahuita National Park canopy.",
+            }),
+          ],
+        },
+      ],
+    }),
   ],
   preview: {
     select: { title: "title", subtitle: "legendItems.0.title", media: "image" },
