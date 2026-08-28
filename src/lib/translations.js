@@ -543,7 +543,19 @@ export const translations = {
         bedrooms: "Bedrooms:",
         bathrooms: "Bathrooms:",
         maxPeople: "Max People:",
-        amenities: "Amenities:"
+        amenities: "Amenities:",
+        houseArrangements: "House arrangements",
+        sleeps: "Sleeps",
+        houseRules: "House Rules / During your stay"
+      },
+      houseRules: {
+        petsWelcome: "Pets welcome · bring pet bed",
+        petsPolicy:
+          "Pets welcome with prior notice. No pets in the pool or on beds; please bring their own pet bed. Clean up after your pet and do not leave them unattended in the villa.",
+        smokingPolicy: "No smoking inside. Outdoor areas only.",
+        partiesPolicy:
+          "No parties or events. Only up to {max} registered guests may stay overnight.",
+        quietHoursPolicy: "Quiet hours from 10:00 PM to 8:00 AM."
       },
       buttons: {
         viewGallery: "View Gallery",
@@ -565,15 +577,20 @@ export const translations = {
         parking: "Parking",
         hotWater: "Hot water",
         ac: "AC",
-        bbqArea: "BBQ Area"
+        bbqArea: "BBQ Area",
+        sharedPool: "Shared pool"
       },
       bedInfo: {
-        bedInfo1: "1 Queen Bed, 1 Individual Bed",
-        bedInfo2: "1 double bed",
-        bedInfo3: "1 king + 3 singles beds",
-        bedInfo4: "1 queen + 1 single",
-        bedInfo5: "1 queen + 1 bunk bed",
-        bedInfo6: "1 queen + 1 double bed + 1 bunk bed"
+        bedInfo1: "1 Queen Bed, 1 Single Bed",
+        bedInfo2: "1 Double Bed",
+        bedInfo3: "1 King Bed + 3 Single Beds",
+        bedInfo3house: "1 King Bedroom, 3 Double Bedrooms, 1 Sofa Bed",
+        bedInfo4: "1 Queen Bed + 1 Single Bed",
+        bedInfo5: "1 Queen Bed + 1 Bunk Bed",
+        bedInfo5house: "1 Queen Bedroom, 1 Bedroom with 2 Double Beds, 1 Bedroom with 1 Single Bed",
+        bedInfo6: "1 Queen Bed + 1 Double Bed + 1 Bunk Bed",
+        bedInfo7: "Bedroom 1: 1 King Bed + 1 Single Bed. Bedroom 2: 1 Queen Bed + 1 Single Bed. External kitchen",
+        bedInfo12: "2 King Beds, 3 Single Beds, 1 Sofa Bed"
       },
       villa3: {
         description: "This is the perfect villa for your family. Crafted with local style and spacious for up to 10 people, it includes private parking, two bathrooms, and a fully equipped kitchen. Enjoy access to the shared pool, immersed in our lush tropical gardens near the best beaches of the Southern Caribbean.",
@@ -630,7 +647,7 @@ export const translations = {
       prompt: "Please share with us your comments about staying with us.",
       villaTitle: "Share your stay",
       villaPrompt: "If you have stayed at {villa}, please let us know your thoughts about it.",
-      villaCta: "Leave a villa comment",
+      villaCta: "Leave this Villa a comment",
       villaReviewsTitle: "Guest thoughts about this villa",
       villaReviewsEmpty: "No published comments for this villa yet. Be the first to share.",
       name: "Your name",
@@ -1245,7 +1262,19 @@ export const translations = {
         bedrooms: "Habitaciones:",
         bathrooms: "Baños:",
         maxPeople: "Máx. Personas:",
-        amenities: "Comodidades:"
+        amenities: "Comodidades:",
+        houseArrangements: "Distribución de la casa",
+        sleeps: "Capacidad",
+        houseRules: "Reglas de la casa / Durante tu estadía"
+      },
+      houseRules: {
+        petsWelcome: "Mascotas bienvenidas · traiga cama",
+        petsPolicy:
+          "Mascotas bienvenidas con aviso previo. No mascotas en la piscina ni en camas; traigan su propia cama para mascota. Limpia después de tu mascota y no la dejes sin supervisión en la villa.",
+        smokingPolicy: "No fumar en interiores. Solo en áreas exteriores.",
+        partiesPolicy:
+          "No fiestas ni eventos. Solo hasta {max} huéspedes registrados pueden pernoctar.",
+        quietHoursPolicy: "Horario de silencio de 10:00 PM a 8:00 AM."
       },
       buttons: {
         viewGallery: "Ver Galería",
@@ -1260,15 +1289,20 @@ export const translations = {
         parking: "Estacionamiento",
         hotWater: "Agua caliente",
         ac: "Aire acondicionado",
-        bbqArea: "Área de BBQ"
+        bbqArea: "Área de BBQ",
+        sharedPool: "Piscina compartida"
       },
       bedInfo: {
         bedInfo1: "1 Cama Queen, 1 Cama Individual",
-        bedInfo2: "1 cama doble",
-        bedInfo3: "1 cama king + 3 camas individuales",
-        bedInfo4: "1 queen + 1 individual",
-        bedInfo5: "1 queen + 1 litera",
-        bedInfo6: "1 queen + 1 cama doble + 1 litera"
+        bedInfo2: "1 Cama Doble",
+        bedInfo3: "1 Cama King + 3 Camas Individuales",
+        bedInfo3house: "1 Dormitorio King, 3 Dormitorios Dobles, 1 Sofá Cama",
+        bedInfo4: "1 Cama Queen + 1 Cama Individual",
+        bedInfo5: "1 Cama Queen + 1 Litera",
+        bedInfo5house: "1 Dormitorio Queen, 1 Dormitorio con 2 Camas Dobles, 1 Dormitorio con 1 Cama Individual",
+        bedInfo6: "1 Cama Queen + 1 Cama Doble + 1 Litera",
+        bedInfo7: "Dormitorio 1: 1 Cama King + 1 Cama Individual. Dormitorio 2: 1 Cama Queen + 1 Cama Individual. Cocina externa",
+        bedInfo12: "2 Camas King, 3 Camas Individuales, 1 Sofá Cama"
       },
       villa3: {
         description: "Esta es la villa perfecta para tu familia. Diseñada con estilo local y espaciosa para hasta 10 personas, incluye estacionamiento privado, dos baños y una cocina totalmente equipada. Disfruta del acceso a la piscina compartida, inmersa en nuestros exuberantes jardines tropicales cerca de las mejores playas del Caribe Sur.",
@@ -1417,7 +1451,7 @@ export const translations = {
       prompt: "Por favor comparte con nosotros tus comentarios sobre tu estadía.",
       villaTitle: "Comparte tu estadía",
       villaPrompt: "Si te has alojado en {villa}, cuéntanos qué te pareció.",
-      villaCta: "Dejar un comentario de la villa",
+      villaCta: "Dejar un comentario a esta villa",
       villaReviewsTitle: "Opiniones de huéspedes sobre esta villa",
       villaReviewsEmpty: "Aún no hay comentarios publicados para esta villa. Sé el primero en compartir.",
       name: "Tu nombre",
@@ -1874,7 +1908,19 @@ export const translations = {
         bedrooms: "Schlafzimmer:",
         bathrooms: "Badezimmer:",
         maxPeople: "Max. Personen:",
-        amenities: "Ausstattung:"
+        amenities: "Ausstattung:",
+        houseArrangements: "Schlafplätze",
+        sleeps: "Schläft",
+        houseRules: "Hausregeln / Während Ihres Aufenthalts"
+      },
+      houseRules: {
+        petsWelcome: "Haustiere willkommen · Bett mitbringen",
+        petsPolicy:
+          "Haustiere mit vorheriger Ankündigung willkommen. Keine Haustiere im Pool oder auf Betten; bitte eigenes Hundebett mitbringen. Hinterlassen Sie keine Verschmutzung und lassen Sie Tiere nicht unbeaufsichtigt in der Villa.",
+        smokingPolicy: "Nicht in Innenräumen rauchen. Nur im Freien.",
+        partiesPolicy:
+          "Keine Partys oder Events. Es dürfen höchstens {max} registrierte Gäste übernachten.",
+        quietHoursPolicy: "Ruhezeiten von 22:00 bis 8:00 Uhr."
       },
       buttons: {
         viewGallery: "Galerie Anzeigen",
@@ -1889,15 +1935,20 @@ export const translations = {
         parking: "Parkplatz",
         hotWater: "Heißes Wasser",
         ac: "Klimaanlage",
-        bbqArea: "Grillbereich"
+        bbqArea: "Grillbereich",
+        sharedPool: "Gemeinschaftspool"
       },
       bedInfo: {
-        bedInfo1: "1 Queen-Bett, 1 Einzelbett",
+        bedInfo1: "1 Queen Bett, 1 Einzelbett",
         bedInfo2: "1 Doppelbett",
-        bedInfo3: "1 King + 3 Einzelbetten",
-        bedInfo4: "1 Queen + 1 Einzelbett",
-        bedInfo5: "1 Queen + 1 Etagenbett",
-        bedInfo6: "1 Queen + 1 Doppelbett + 1 Etagenbett"
+        bedInfo3: "1 King Bett + 3 Einzelbetten",
+        bedInfo3house: "1 King Schlafzimmer, 3 Doppel Schlafzimmer, 1 Sofabett",
+        bedInfo4: "1 Queen Bett + 1 Einzelbett",
+        bedInfo5: "1 Queen Bett + 1 Etagenbett",
+        bedInfo5house: "1 Queen Schlafzimmer, 1 Schlafzimmer mit 2 Doppelbetten, 1 Schlafzimmer mit 1 Einzelbett",
+        bedInfo6: "1 Queen Bett + 1 Doppelbett + 1 Etagenbett",
+        bedInfo7: "Schlafzimmer 1: 1 King Bett + 1 Einzelbett. Schlafzimmer 2: 1 Queen Bett + 1 Einzelbett. Externe Küche",
+        bedInfo12: "2 King Betten, 3 Einzelbetten, 1 Sofabett"
       },
       villa3: {
         description: "Dies ist die perfekte Villa für Ihre Familie. Im lokalen Stil gestaltet und geräumig für bis zu 10 Personen, verfügt sie über einen privaten Parkplatz, zwei Badezimmer und eine voll ausgestattete Küche. Genießen Sie den Zugang zum gemeinsamen Pool, eingebettet in unsere üppigen tropischen Gärten in der Nähe der besten Strände der südlichen Karibik.",
@@ -2016,7 +2067,7 @@ export const translations = {
       prompt: "Bitte teilen Sie uns Ihre Kommentare zu Ihrem Aufenthalt mit.",
       villaTitle: "Teilen Sie Ihren Aufenthalt",
       villaPrompt: "Wenn Sie in {villa} übernachtet haben, schreiben Sie uns bitte Ihre Gedanken dazu.",
-      villaCta: "Villa Kommentar hinterlassen",
+      villaCta: "Dieser Villa einen Kommentar hinterlassen",
       villaReviewsTitle: "Gästestimmen zu dieser Villa",
       villaReviewsEmpty: "Noch keine veröffentlichten Kommentare zu dieser Villa. Seien Sie die erste Stimme.",
       name: "Ihr Name",
@@ -2473,7 +2524,19 @@ export const translations = {
         bedrooms: "Slaapkamers:",
         bathrooms: "Badkamers:",
         maxPeople: "Max. Personen:",
-        amenities: "Voorzieningen:"
+        amenities: "Voorzieningen:",
+        houseArrangements: "Slaapindeling",
+        sleeps: "Slaapplaatsen",
+        houseRules: "Huisregels / Tijdens uw verblijf"
+      },
+      houseRules: {
+        petsWelcome: "Huisdieren welkom · bed meenemen",
+        petsPolicy:
+          "Huisdieren welkom na voorafgaande melding. Geen huisdieren in het zwembad of op bedden; neem een eigen huisdierenbed mee. Ruim op na uw huisdier en laat het niet onbeheerd achter in de villa.",
+        smokingPolicy: "Niet roken binnen. Alleen buiten.",
+        partiesPolicy:
+          "Geen feesten of evenementen. Maximaal {max} geregistreerde gasten mogen overnachten.",
+        quietHoursPolicy: "Stilte uren van 22:00 tot 8:00."
       },
       buttons: {
         viewGallery: "Galerij Bekijken",
@@ -2488,15 +2551,20 @@ export const translations = {
         parking: "Parkeren",
         hotWater: "Warm water",
         ac: "Airconditioning",
-        bbqArea: "BBQ Gebied"
+        bbqArea: "BBQ Gebied",
+        sharedPool: "Gedeeld zwembad"
       },
       bedInfo: {
-        bedInfo1: "1 Queenbed, 1 Eenpersoonsbed",
-        bedInfo2: "1 tweepersoonsbed",
-        bedInfo3: "1 king + 3 eenpersoonsbedden",
-        bedInfo4: "1 queen + 1 eenpersoonsbed",
-        bedInfo5: "1 queen + 1 stapelbed",
-        bedInfo6: "1 queen + 1 tweepersoonsbed + 1 stapelbed"
+        bedInfo1: "1 Queen Bed, 1 Eenpersoonsbed",
+        bedInfo2: "1 Tweepersoonsbed",
+        bedInfo3: "1 King Bed + 3 Eenpersoonsbedden",
+        bedInfo3house: "1 King Slaapkamer, 3 Tweepersoons Slaapkamers, 1 Slaapbank",
+        bedInfo4: "1 Queen Bed + 1 Eenpersoonsbed",
+        bedInfo5: "1 Queen Bed + 1 Stapelbed",
+        bedInfo5house: "1 Queen Slaapkamer, 1 Slaapkamer met 2 Tweepersoonsbedden, 1 Slaapkamer met 1 Eenpersoonsbed",
+        bedInfo6: "1 Queen Bed + 1 Tweepersoonsbed + 1 Stapelbed",
+        bedInfo7: "Slaapkamer 1: 1 King Bed + 1 Eenpersoonsbed. Slaapkamer 2: 1 Queen Bed + 1 Eenpersoonsbed. Externe keuken",
+        bedInfo12: "2 King Beds, 3 Eenpersoonsbedden, 1 Slaapbank"
       },
       villa3: {
         description: "Dit is de perfecte villa voor uw gezin. Gemaakt in lokale stijl en ruim voor maximaal 10 personen, inclusief privéparkeerplaats, twee badkamers en een volledig uitgeruste keuken. Geniet van toegang tot het gedeelde zwembad, omringd door onze weelderige tropische tuinen nabij de beste stranden van de zuidelijke Caraïben.",
@@ -2615,7 +2683,7 @@ export const translations = {
       prompt: "Deel alsjeblieft je opmerkingen over je verblijf bij ons.",
       villaTitle: "Deel je verblijf",
       villaPrompt: "Als je in {villa} hebt verbleven, laat ons weten wat je ervan vond.",
-      villaCta: "Laat een villa reactie achter",
+      villaCta: "Laat deze villa een reactie achter",
       villaReviewsTitle: "Gastgedachten over deze villa",
       villaReviewsEmpty: "Nog geen gepubliceerde reacties voor deze villa. Wees de eerste.",
       name: "Je naam",
@@ -3072,7 +3140,19 @@ export const translations = {
         bedrooms: "Chambres:",
         bathrooms: "Salles de bain:",
         maxPeople: "Max. Personnes:",
-        amenities: "Équipements:"
+        amenities: "Équipements:",
+        houseArrangements: "Agencement des chambres",
+        sleeps: "Capacité",
+        houseRules: "Règles de la maison / Pendant votre séjour"
+      },
+      houseRules: {
+        petsWelcome: "Animaux acceptés · apportez un lit",
+        petsPolicy:
+          "Animaux acceptés avec préavis. Pas d'animaux dans la piscine ni sur les lits; apportez leur propre lit. Ramassez après votre animal et ne le laissez pas sans surveillance dans la villa.",
+        smokingPolicy: "Interdiction de fumer à l'intérieur. Extérieur uniquement.",
+        partiesPolicy:
+          "Pas de fêtes ni d'événements. Seuls {max} voyageurs enregistrés peuvent dormir sur place.",
+        quietHoursPolicy: "Heures de silence de 22h00 à 8h00."
       },
       buttons: {
         viewGallery: "Voir la Galerie",
@@ -3087,15 +3167,20 @@ export const translations = {
         parking: "Parking",
         hotWater: "Eau chaude",
         ac: "Climatisation",
-        bbqArea: "Zone BBQ"
+        bbqArea: "Zone BBQ",
+        sharedPool: "Piscine partagée"
       },
       bedInfo: {
-        bedInfo1: "1 lit Queen, 1 lit simple",
-        bedInfo2: "1 lit double",
-        bedInfo3: "1 lit king + 3 lits simples",
-        bedInfo4: "1 queen + 1 simple",
-        bedInfo5: "1 queen + 1 lit superposé",
-        bedInfo6: "1 queen + 1 lit double + 1 lit superposé"
+        bedInfo1: "1 Lit Queen, 1 Lit Simple",
+        bedInfo2: "1 Lit Double",
+        bedInfo3: "1 Lit King + 3 Lits Simples",
+        bedInfo3house: "1 Chambre King, 3 Chambres Doubles, 1 Canapé Lit",
+        bedInfo4: "1 Lit Queen + 1 Lit Simple",
+        bedInfo5: "1 Lit Queen + 1 Lit Superposé",
+        bedInfo5house: "1 Chambre Queen, 1 Chambre avec 2 Lits Doubles, 1 Chambre avec 1 Lit Simple",
+        bedInfo6: "1 Lit Queen + 1 Lit Double + 1 Lit Superposé",
+        bedInfo7: "Chambre 1: 1 Lit King + 1 Lit Simple. Chambre 2: 1 Lit Queen + 1 Lit Simple. Cuisine externe",
+        bedInfo12: "2 Lits King, 3 Lits Simples, 1 Canapé Lit"
       },
       villa3: {
         description: "C'est la villa parfaite pour votre famille. Conçue dans un style local et spacieuse pour jusqu'à 10 personnes, elle comprend un parking privé, deux salles de bain et une cuisine entièrement équipée. Profitez de l'accès à la piscine partagée, immergée dans nos jardins tropicaux luxuriants près des meilleures plages des Caraïbes du Sud.",
@@ -3214,7 +3299,7 @@ export const translations = {
       prompt: "Merci de partager vos commentaires sur votre séjour chez nous.",
       villaTitle: "Partagez votre séjour",
       villaPrompt: "Si vous avez séjourné à {villa}, dites nous ce que vous en avez pensé.",
-      villaCta: "Laisser un commentaire sur la villa",
+      villaCta: "Laisser un commentaire à cette villa",
       villaReviewsTitle: "Avis des hôtes sur cette villa",
       villaReviewsEmpty: "Pas encore de commentaires publiés pour cette villa. Soyez le premier.",
       name: "Votre nom",
@@ -3671,7 +3756,19 @@ export const translations = {
         bedrooms: "寝室:",
         bathrooms: "バスルーム:",
         maxPeople: "最大人数:",
-        amenities: "設備:"
+        amenities: "設備:",
+        houseArrangements: "寝室配置",
+        sleeps: "定員",
+        houseRules: "ハウスルール / 滞在中"
+      },
+      houseRules: {
+        petsWelcome: "ペット可 · ベッド持参",
+        petsPolicy:
+          "事前連絡のうえペット可。プール内およびベッド上は不可。ペット用ベッドをご持参ください。排泄物は必ず後片付けし、ヴィラ内で放置しないでください。",
+        smokingPolicy: "室内禁煙。屋外のみ可。",
+        partiesPolicy:
+          "パーティーやイベントは不可。宿泊できる登録ゲストは最大{max}名までです。",
+        quietHoursPolicy: "静かにする時間は午後10時から午前8時まで。"
       },
       buttons: {
         viewGallery: "ギャラリーを見る",
@@ -3686,15 +3783,20 @@ export const translations = {
         parking: "駐車場",
         hotWater: "お湯",
         ac: "エアコン",
-        bbqArea: "BBQエリア"
+        bbqArea: "BBQエリア",
+        sharedPool: "共用プール"
       },
       bedInfo: {
         bedInfo1: "クイーンベッド1台、シングルベッド1台",
         bedInfo2: "ダブルベッド1台",
-        bedInfo3: "キング1台 + シングル3台",
-        bedInfo4: "クイーン1台 + シングル1台",
-        bedInfo5: "クイーン1台 + 二段ベッド1台",
-        bedInfo6: "クイーン1台 + ダブル1台 + 二段ベッド1台"
+        bedInfo3: "キングベッド1台 + シングルベッド3台",
+        bedInfo3house: "キングベッドルーム1、ダブルベッドルーム3、ソファベッド1",
+        bedInfo4: "クイーンベッド1台 + シングルベッド1台",
+        bedInfo5: "クイーンベッド1台 + 二段ベッド1台",
+        bedInfo5house: "クイーンベッドルーム1、ダブルベッド2台の寝室1、シングルベッド1台の寝室1",
+        bedInfo6: "クイーンベッド1台 + ダブルベッド1台 + 二段ベッド1台",
+        bedInfo7: "寝室1: キングベッド1台 + シングルベッド1台。寝室2: クイーンベッド1台 + シングルベッド1台。外部キッチン",
+        bedInfo12: "キングベッド2台、シングルベッド3台、ソファベッド1台"
       },
       villa3: {
         description: "これはご家族に最適なヴィラです。地元のスタイルで作られ、最大10人まで収容できる広々とした空間で、専用駐車場、2つのバスルーム、完全装備のキッチンが含まれています。共有プールへのアクセスをお楽しみください。南カリブ海の最高のビーチの近くにある私たちの緑豊かな熱帯庭園に囲まれています。",
@@ -3813,7 +3915,7 @@ export const translations = {
       prompt: "Blessed Houseでの滞在について、ご感想をお聞かせください。",
       villaTitle: "滞在の感想を共有",
       villaPrompt: "{villa}に滞在された方は、ぜひご感想をお寄せください。",
-      villaCta: "ヴィラへのコメントを残す",
+      villaCta: "このヴィラにコメントを残す",
       villaReviewsTitle: "このヴィラへのゲストの声",
       villaReviewsEmpty: "まだ公開されたコメントはありません。最初の声をお寄せください。",
       name: "お名前",
@@ -3885,7 +3987,19 @@ export const translations = {
         bedrooms: "Quartos",
         bathrooms: "Banheiros",
         maxPeople: "Máx. Pessoas",
-        amenities: "Comodidades"
+        amenities: "Comodidades",
+        houseArrangements: "Disposição dos quartos",
+        sleeps: "Capacidade",
+        houseRules: "Regras da casa / Durante a estadia"
+      },
+      houseRules: {
+        petsWelcome: "Animais bem vindos · traga cama",
+        petsPolicy:
+          "Animais bem vindos com aviso prévio. Sem animais na piscina ou em camas; traga a cama do pet. Limpe após seu pet e não o deixe sem supervisão na vila.",
+        smokingPolicy: "Proibido fumar dentro. Apenas em áreas externas.",
+        partiesPolicy:
+          "Sem festas ou eventos. Apenas até {max} hóspedes registrados podem pernoitar.",
+        quietHoursPolicy: "Horário de silêncio das 22h às 8h."
       },
       buttons: {
         viewGallery: "Ver Galeria",
@@ -3900,15 +4014,20 @@ export const translations = {
         parking: "Estacionamento",
         hotWater: "Água quente",
         ac: "Ar condicionado",
-        bbqArea: "Área de Churrasqueira"
+        bbqArea: "Área de Churrasqueira",
+        sharedPool: "Piscina compartilhada"
       },
       bedInfo: {
         bedInfo1: "1 Cama Queen, 1 Cama Individual",
-        bedInfo2: "1 cama de casal",
-        bedInfo3: "1 king + 3 camas individuais",
-        bedInfo4: "1 queen + 1 individual",
-        bedInfo5: "1 queen + 1 beliche",
-        bedInfo6: "1 queen + 1 cama de casal + 1 beliche"
+        bedInfo2: "1 Cama de Casal",
+        bedInfo3: "1 Cama King + 3 Camas Individuais",
+        bedInfo3house: "1 Quarto King, 3 Quartos Duplos, 1 Sofá Cama",
+        bedInfo4: "1 Cama Queen + 1 Cama Individual",
+        bedInfo5: "1 Cama Queen + 1 Beliche",
+        bedInfo5house: "1 Quarto Queen, 1 Quarto com 2 Camas de Casal, 1 Quarto com 1 Cama Individual",
+        bedInfo6: "1 Cama Queen + 1 Cama de Casal + 1 Beliche",
+        bedInfo7: "Quarto 1: 1 Cama King + 1 Cama Individual. Quarto 2: 1 Cama Queen + 1 Cama Individual. Cozinha externa",
+        bedInfo12: "2 Camas King, 3 Camas Individuais, 1 Sofá Cama"
       },
       villa3: {
         description: "Esta é a vila perfeita para sua família. Feita com estilo local e espaçosa para até 10 pessoas, inclui estacionamento privado, dois banheiros e uma cozinha totalmente equipada. Desfrute do acesso à piscina compartilhada, imersa em nossos jardins tropicais exuberantes perto das melhores praias do Caribe Sul.",
@@ -4413,7 +4532,7 @@ export const translations = {
       prompt: "Por favor, compartilhe conosco seus comentários sobre a estadia.",
       villaTitle: "Compartilhe sua estadia",
       villaPrompt: "Se você ficou em {villa}, conte nos o que achou.",
-      villaCta: "Deixar um comentário da villa",
+      villaCta: "Deixar um comentário nesta villa",
       villaReviewsTitle: "Opiniões dos hóspedes sobre esta villa",
       villaReviewsEmpty: "Ainda não há comentários publicados para esta villa. Seja o primeiro.",
       name: "Seu nome",

@@ -201,9 +201,12 @@ export const propertyBySlugQuery = `*[_type == "property" && slug.current == $sl
   houseArrangements[]{
     quantity,
     customTitleEn,
+    customTitleEs,
     roomType->{
       titleEn,
+      titleEs,
       configEn,
+      configEs,
       capacity,
       icon
     }

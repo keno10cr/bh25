@@ -4,6 +4,13 @@ import {
   sumFeeLineSubtotals,
 } from "./checkoutFees";
 
+export {
+  getLocalizedHouseRules,
+  getHouseRulesForDisplay,
+  getOrderedHouseRuleCards,
+  formatPartiesPolicy,
+} from "./houseRules";
+
 function roundCurrency(value) {
   return Math.round((value + Number.EPSILON) * 100) / 100;
 }
@@ -45,88 +52,6 @@ export function buildCheckoutPriceSummary({
     fees: feesTotal,
     taxes,
     total,
-  };
-}
-
-function textToBlocks(text, prefix = "rule") {
-  return String(text || "")
-    .split(/\n\n+/)
-    .filter(Boolean)
-    .map((paragraph, index) => ({
-      _type: "block",
-      _key: `${prefix}-${index}`,
-      style: "normal",
-      markDefs: [],
-      children: [
-        {
-          _type: "span",
-          _key: `${prefix}-s${index}`,
-          text: paragraph,
-          marks: [],
-        },
-      ],
-    }));
-}
-
-export function getLocalizedHouseRules(property) {
-  const rules = property?.houseRules;
-  const areaRules =
-    rules?.areaRules
-      ?.map((rule) => ({
-        title: rule.titleEn || rule.title,
-        body: rule.bodyEn || rule.body || [],
-      }))
-      .filter((rule) => rule.title && Array.isArray(rule.body) && rule.body.length > 0) ||
-    [];
-
-  const petsMax = property?.petsMax ?? property?.guests?.petsMax ?? 0;
-
-  if (areaRules.length > 0) {
-    return {
-      areaRules,
-      review: {
-        smoking:
-          rules?.review?.smokingEn ||
-          "Smoking is not allowed inside the property.",
-        dogs:
-          rules?.review?.dogsEn ||
-          (petsMax > 0
-            ? `Up to ${petsMax} pets are allowed with prior approval.`
-            : "Pets are not allowed at this property."),
-        parties:
-          rules?.review?.partiesEn ||
-          "Parties, events, and unauthorized gatherings are not permitted.",
-        quietHours:
-          rules?.review?.quietHoursEn ||
-          "Please respect quiet hours from 10:00 PM to 8:00 AM.",
-      },
-    };
-  }
-
-  return {
-    areaRules: [
-      {
-        title: "Stay policy",
-        body: textToBlocks(
-          "Registered guests must respect the approved occupancy limit and follow the check in instructions shared before arrival."
-        ),
-      },
-      {
-        title: "Property care",
-        body: textToBlocks(
-          "Please help us keep the villa in excellent condition. Report any incident or damage as soon as it occurs."
-        ),
-      },
-    ],
-    review: {
-      smoking: "Smoking is not allowed inside the property.",
-      dogs:
-        petsMax > 0
-          ? `Up to ${petsMax} pets are allowed with prior approval.`
-          : "Pets are not allowed at this property.",
-      parties: "Parties, events, and unauthorized gatherings are not permitted.",
-      quietHours: "Please respect quiet hours from 10:00 PM to 8:00 AM.",
-    },
   };
 }
 

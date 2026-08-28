@@ -10,6 +10,7 @@ import ImageCarousel from "@/components/image-carousel";
 import VillaGalleryModal from "@/components/villa-gallery-modal";
 import FeedbackModal from "@/components/feedback-modal";
 import PropertyBookingSidebar from "@/components/property-booking-sidebar";
+import ReviewsMarquee from "@/components/reviews-marquee";
 import { AmenityIcon } from "@/components/amenity-icon";
 import { villaImageCaption } from "@/lib/villa-gallery";
 import {
@@ -17,6 +18,10 @@ import {
   resolveExtraGuestFeePerNight,
   resolveMinimumNights,
 } from "@/lib/propertyPricing";
+import {
+  getOrderedHouseRuleCards,
+  resolvePetsMax,
+} from "@/lib/houseRules";
 import styles from "./villa-detail.module.css";
 
 export default function VillaDetailView({ villa, property = null, reviews = [] }) {
@@ -59,6 +64,13 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
     ? resolveExtraGuestFeePerNight(property)
     : 0;
   const minNights = property ? resolveMinimumNights(property) : 1;
+
+  const houseRuleCards = useMemo(
+    () => getOrderedHouseRuleCards(property, t),
+    [property, t]
+  );
+
+  const petsMax = resolvePetsMax(property);
 
   const openGallery = (index) => {
     setModalIndex(index);
@@ -112,9 +124,9 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
                 </strong>
                 <em>{t("villas.details.maxPeople")}</em>
               </span>
-              {property && (property.petsMax || 0) === 0 ? (
+              {petsMax > 0 ? (
                 <span className={styles.badge}>
-                  <strong>No pets</strong>
+                  <strong>{t("villas.houseRules.petsWelcome")}</strong>
                 </span>
               ) : null}
             </div>
@@ -158,13 +170,21 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
 
           {arrangements.length > 0 ? (
             <section className={styles.section}>
-              <h2>House arrangements</h2>
+              <h2>{t("villas.details.houseArrangements")}</h2>
               <div className={styles.arrangementGrid}>
                 {arrangements.map((row, index) => {
                   const title =
+                    (language === "es"
+                      ? row.customTitleEs || row.roomType?.titleEs
+                      : null) ||
                     row.customTitleEn ||
                     row.roomType?.titleEn ||
                     "Sleeping space";
+                  const bedConfig =
+                    (language === "es"
+                      ? row.roomType?.configEs
+                      : row.roomType?.configEn) ||
+                    row.roomType?.configEn;
                   const qty = row.quantity > 1 ? `${row.quantity} × ` : "";
                   return (
                     <div key={`${title}-${index}`} className={styles.arrangementCard}>
@@ -173,10 +193,8 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
                         {title}
                       </strong>
                       <span>
-                        Sleeps {row.roomType?.capacity || "?"}
-                        {row.roomType?.configEn
-                          ? ` · ${row.roomType.configEn}`
-                          : ""}
+                        {t("villas.details.sleeps")} {row.roomType?.capacity || "?"}
+                        {bedConfig ? ` · ${bedConfig}` : ""}
                       </span>
                     </div>
                   );
@@ -219,32 +237,45 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
             </div>
           )}
 
+          <section className={`${styles.section} ${styles.rulesSection}`}>
+            <h2>{t("villas.details.houseRules")}</h2>
+            <div className={styles.rulesStack}>
+              {houseRuleCards.map((rule) => (
+                <article key={rule.key} className={styles.ruleCard}>
+                  <h3 className={styles.ruleTitle}>{rule.title}</h3>
+                  <div className={styles.ruleBody}>
+                    <PortableBody value={rule.body} />
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
           <section className={styles.reviews}>
-            <h2>{t("feedback.villaReviewsTitle")}</h2>
             {reviews.length ? (
-              <ul className={styles.reviewList}>
-                {reviews.map((review) => (
-                  <li key={review.id}>
-                    <div className={styles.reviewMeta}>
-                      <strong>{review.guestName}</strong>
-                      {review.rating ? (
-                        <span>{"★".repeat(review.rating)}</span>
-                      ) : null}
-                    </div>
-                    <p>{review.comment}</p>
-                  </li>
-                ))}
-              </ul>
+              <ReviewsMarquee
+                reviews={reviews}
+                rowCount={1}
+                embedded
+                title={t("feedback.villaReviewsTitle")}
+                subtitle=""
+                ariaLabel={t("feedback.villaReviewsTitle")}
+              />
             ) : (
-              <p className={styles.reviewEmpty}>{t("feedback.villaReviewsEmpty")}</p>
+              <>
+                <h2>{t("feedback.villaReviewsTitle")}</h2>
+                <p className={styles.reviewEmpty}>{t("feedback.villaReviewsEmpty")}</p>
+              </>
             )}
-            <button
-              type="button"
-              className={styles.reviewCta}
-              onClick={() => setFeedbackOpen(true)}
-            >
-              {t("feedback.villaCta")}
-            </button>
+            <div className={styles.reviewCtaWrap}>
+              <button
+                type="button"
+                className={styles.reviewCta}
+                onClick={() => setFeedbackOpen(true)}
+              >
+                {t("feedback.villaCta")}
+              </button>
+            </div>
           </section>
         </div>
 

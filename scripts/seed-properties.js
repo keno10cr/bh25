@@ -24,6 +24,18 @@ import {
   sanityProjectId,
 } from "../sanity/env.js";
 
+import {
+  ROOM_TYPES,
+  VILLA_ARRANGEMENTS,
+} from "./room-types-data.js";
+import {
+  DEFAULT_PETS_AREA_BODY_EN,
+  DEFAULT_PETS_MAX,
+  DEFAULT_PETS_REVIEW_EN,
+  formatPartiesPolicy,
+  textToPortableBlocks,
+} from "../src/lib/houseRules.js";
+
 const en = translations.en;
 const BH_COORDS = { lat: 9.64735, lng: -82.77697 };
 const imageCache = new Map();
@@ -41,55 +53,11 @@ const PRICING_BY_ID = {
   12: { priceMin: 200, priceMax: 280, baseGuestCount: 4, extraGuestFeePerNight: 35, minimumNights: 2 },
 };
 
-const ROOM_TYPES = [
-  {
-    id: "roomType-masterKing",
-    titleEn: "Master bedroom",
-    titleEs: "Dormitorio principal",
-    configEn: "1 king bed",
-    configEs: "1 cama king",
-    capacity: 2,
-    icon: "bed",
-  },
-  {
-    id: "roomType-queenBedroom",
-    titleEn: "Queen bedroom",
-    titleEs: "Dormitorio queen",
-    configEn: "1 queen bed",
-    configEs: "1 cama queen",
-    capacity: 2,
-    icon: "double",
-  },
-  {
-    id: "roomType-twinBedroom",
-    titleEn: "Twin bedroom",
-    titleEs: "Dormitorio twin",
-    configEn: "2 twin beds",
-    configEs: "2 camas twin",
-    capacity: 2,
-    icon: "bunk",
-  },
-  {
-    id: "roomType-guestSofa",
-    titleEn: "Living room sofa bed",
-    titleEs: "Sofa cama",
-    configEn: "1 sofa bed",
-    configEs: "1 sofa cama",
-    capacity: 2,
-    icon: "sofa",
-  },
-  {
-    id: "roomType-bunkRoom",
-    titleEn: "Bunk room",
-    titleEs: "Dormitorio literas",
-    configEn: "2 bunk beds",
-    configEs: "2 literas",
-    capacity: 4,
-    icon: "bunk",
-  },
-];
-
 function arrangementsForVilla(villa) {
+  if (VILLA_ARRANGEMENTS[villa.id]) {
+    return VILLA_ARRANGEMENTS[villa.id];
+  }
+
   const beds = villa.bedrooms || 1;
   const max = villa.maxPeople || 2;
   const rows = [];
@@ -179,8 +147,9 @@ async function uploadImage(client, relativePath) {
 }
 
 function amenityKeys(villa) {
-  // Store stable amenity keys (wifi, kitchen, …) so the site can translate and icon them.
-  return [...(villa.amenities || [])];
+  const keys = [...(villa.amenities || [])];
+  if (!keys.includes("sharedPool")) keys.push("sharedPool");
+  return keys;
 }
 
 
@@ -407,7 +376,7 @@ async function seed() {
       baseGuestCount: pricing.baseGuestCount,
       extraGuestFeePerNight: pricing.extraGuestFeePerNight,
       bathrooms: villa.bathrooms,
-      petsMax: 0,
+      petsMax: DEFAULT_PETS_MAX,
       houseArrangements,
       amenities: amenityKeys(villa),
       heroImage,
@@ -443,11 +412,16 @@ async function seed() {
             `arr-${villa.id}`
           ),
         },
+        {
+          _key: "pets",
+          titleEn: "Pets",
+          bodyEn: textToPortableBlocks(DEFAULT_PETS_AREA_BODY_EN, `pets-${villa.id}`),
+        },
       ],
       houseRulesReview: {
         smokingEn: "No smoking inside. Outdoor areas only.",
-        dogsEn: "Pets are not allowed at this villa.",
-        partiesEn: `No parties or extra guests beyond ${villa.maxPeople}.`,
+        dogsEn: DEFAULT_PETS_REVIEW_EN,
+        partiesEn: formatPartiesPolicy(villa.maxPeople),
         quietHoursEn: "Quiet hours from 10:00 PM to 8:00 AM.",
       },
     });

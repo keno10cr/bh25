@@ -1,3 +1,4 @@
+import { DEFAULT_PETS_MAX } from "@/lib/houseRules";
 import { sanityFetch } from "./fetch";
 import {
   aboutPageSettingsQuery,
@@ -151,7 +152,7 @@ export async function getPropertyBySlug(slug) {
     baseGuestCount: raw.baseGuestCount,
     extraGuestFeePerNight: raw.extraGuestFeePerNight,
     bathrooms: raw.bathrooms,
-    petsMax: raw.petsMax ?? 0,
+    petsMax: raw.petsMax ?? DEFAULT_PETS_MAX,
     guestsMax,
     bedrooms,
     amenities: raw.amenities || [],
@@ -162,10 +163,13 @@ export async function getPropertyBySlug(slug) {
     houseArrangements: (raw.houseArrangements || []).map((row) => ({
       quantity: row.quantity,
       customTitleEn: row.customTitleEn,
+      customTitleEs: row.customTitleEs,
       roomType: row.roomType
         ? {
             titleEn: row.roomType.titleEn,
+            titleEs: row.roomType.titleEs,
             configEn: row.roomType.configEn,
+            configEs: row.roomType.configEs,
             capacity: row.roomType.capacity,
           }
         : null,

@@ -58,6 +58,16 @@ export function AmenityIcon({ name }) {
           <path d="M9 10V7a3 3 0 0 1 6 0v3" />
         </svg>
       );
+    case "sharedPool":
+      return (
+        <svg {...common}>
+          <path d="M2 14c2-3 4-3 6 0s4 3 6 0 4-3 6 0" />
+          <path d="M4 18h16" />
+          <path d="M8 6V4" />
+          <path d="M12 6V4" />
+          <path d="M16 6V4" />
+        </svg>
+      );
     case "bedrooms":
       return (
         <svg {...common}>

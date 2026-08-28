@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import CmsText from "@/components/cms-text";
 import styles from "./reviews-marquee.module.css";
 
-const ROW_COUNT = 3;
+const DEFAULT_ROW_COUNT = 3;
 
 function formatReviewDate(value) {
   if (!value) return "";
@@ -85,15 +85,23 @@ export default function ReviewsMarquee({
   title = "What Our Guests Say",
   subtitle = "Stories from stays in the southern Caribbean",
   ariaLabel,
+  rowCount = DEFAULT_ROW_COUNT,
+  embedded = false,
 }) {
-  const rows = useMemo(() => splitIntoRows(reviews, ROW_COUNT), [reviews]);
+  const rows = useMemo(
+    () => splitIntoRows(reviews, Math.max(1, rowCount)),
+    [reviews, rowCount]
+  );
   if (!rows.length) return null;
 
   return (
-    <section className={styles.section} aria-label={ariaLabel || "Guest reviews"}>
-      <div className={styles.header}>
+    <section
+      className={`${styles.section} ${embedded ? styles.sectionEmbedded : ""}`}
+      aria-label={ariaLabel || "Guest reviews"}
+    >
+      <div className={`${styles.header} ${embedded ? styles.headerEmbedded : ""}`}>
         <h2>{title}</h2>
-        <p>{subtitle}</p>
+        {subtitle ? <p>{subtitle}</p> : null}
       </div>
       <div className={styles.rows}>
         {rows.map((rowReviews, index) => (

@@ -9,7 +9,7 @@ import {
   buildCheckoutPriceSummary,
   formatMoney,
   formatStayDate,
-  getLocalizedHouseRules,
+  getOrderedHouseRuleCards,
 } from "@/lib/checkout";
 import { resolveFeeTitle } from "@/lib/checkoutFees";
 import {
@@ -152,9 +152,9 @@ export default function CheckoutClient({
     });
   }, [extraGuestFee, initialQuote, nights, property, settings]);
 
-  const houseRules = useMemo(
-    () => getLocalizedHouseRules(property),
-    [property]
+  const houseRuleCards = useMemo(
+    () => getOrderedHouseRuleCards(property, t),
+    [property, t]
   );
 
   const locationLabel = [property.locationLabel, property.regionEn]
@@ -495,35 +495,14 @@ export default function CheckoutClient({
                     </div>
                   </div>
                   <div className={styles.rulesStack}>
-                    {houseRules.areaRules.map((rule) => (
-                      <section key={rule.title} className={styles.ruleCard}>
+                    {houseRuleCards.map((rule) => (
+                      <section key={rule.key} className={styles.ruleCard}>
                         <h2 className={styles.ruleTitle}>{rule.title}</h2>
                         <div className={styles.ruleBody}>
                           <PortableBody value={rule.body} />
                         </div>
                       </section>
                     ))}
-                    <section className={styles.ruleCard}>
-                      <h2 className={styles.ruleTitle}>{t("checkout.duringStay")}</h2>
-                      <div className={styles.reviewRulesGrid}>
-                        <div className={styles.reviewRuleItem}>
-                          <strong>{t("checkout.smoking")}</strong>
-                          <p>{houseRules.review.smoking}</p>
-                        </div>
-                        <div className={styles.reviewRuleItem}>
-                          <strong>{t("checkout.pets")}</strong>
-                          <p>{houseRules.review.dogs}</p>
-                        </div>
-                        <div className={styles.reviewRuleItem}>
-                          <strong>{t("checkout.parties")}</strong>
-                          <p>{houseRules.review.parties}</p>
-                        </div>
-                        <div className={styles.reviewRuleItem}>
-                          <strong>{t("checkout.quietHours")}</strong>
-                          <p>{houseRules.review.quietHours}</p>
-                        </div>
-                      </div>
-                    </section>
                     <label className={styles.checkboxCard}>
                       <input
                         type="checkbox"

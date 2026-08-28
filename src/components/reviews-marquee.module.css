@@ -22,6 +22,22 @@
   margin: 0;
 }
 
+.sectionEmbedded {
+  padding: 0 0 0.5rem;
+  background: transparent;
+}
+
+.headerEmbedded {
+  text-align: left;
+  max-width: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+
+.headerEmbedded h2 {
+  font-size: 1.35rem;
+}
+
 .rows {
   display: flex;
   flex-direction: column;
