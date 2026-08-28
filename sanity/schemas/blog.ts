@@ -45,6 +45,8 @@ export const blog = defineType({
       name: "featuredImage",
       title: "Featured image",
       type: "image",
+      description:
+        "Main blog image. Best size: 1600 × 900 pixels (16:9 landscape). Wide photos look best in the blog list and at the top of each post.",
       options: { hotspot: true },
     }),
     ...localizedField({

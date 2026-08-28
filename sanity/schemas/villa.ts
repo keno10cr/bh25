@@ -49,6 +49,8 @@ export const villa = defineType({
       name: "gallery",
       title: "Gallery",
       type: "array",
+      description:
+        "Villa photos. Use WIDE landscape photos, same size for every image: about 2400 × 1350 pixels (16:9). Tip: hold the phone sideways. Avoid tall portrait photos so the website does not cut off the top or bottom.",
       of: [{ type: "image", options: { hotspot: true } }],
     }),
     ...localizedField({

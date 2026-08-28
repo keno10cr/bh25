@@ -39,6 +39,8 @@ export const blockContent = defineType({
     defineArrayMember({
       type: "image",
       options: { hotspot: true },
+      description:
+        "Inline photo inside the text. Best size: about 1600 × 900 pixels (wide landscape). Avoid very tall phone photos.",
     }),
   ],
 });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./image-carousel.module.css";
 
 export default function ImageCarousel({
@@ -8,19 +8,65 @@ export default function ImageCarousel({
   alt = "",
   className = "",
   onImageClick,
+  parallax = false,
 }) {
   const pics = (images || []).filter(Boolean);
   const [index, setIndex] = useState(0);
+  const [offset, setOffset] = useState(0);
+  const rootRef = useRef(null);
   const current = pics[index] || "/placeholder.svg";
+
+  useEffect(() => {
+    if (!parallax || typeof window === "undefined") return undefined;
+
+    let frame = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const node = rootRef.current;
+        if (!node) return;
+        const rect = node.getBoundingClientRect();
+        const viewport = window.innerHeight || 1;
+        const progress = (viewport / 2 - (rect.top + rect.height / 2)) / viewport;
+        setOffset(Math.max(-36, Math.min(36, progress * 48)));
+      });
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [parallax]);
+
+  const media = (
+    <div
+      className={styles.media}
+      style={
+        parallax
+          ? { transform: `translate3d(0, ${offset}px, 0) scale(1.12)` }
+          : undefined
+      }
+    >
+      <img
+        src={current}
+        alt={alt}
+        onClick={() => onImageClick?.(index)}
+      />
+    </div>
+  );
 
   if (pics.length <= 1) {
     return (
-      <div className={`${styles.carousel} ${className}`.trim()}>
-        <img
-          src={current}
-          alt={alt}
-          onClick={() => onImageClick?.(0)}
-        />
+      <div
+        ref={rootRef}
+        className={`${styles.carousel} ${parallax ? styles.parallax : ""} ${className}`.trim()}
+      >
+        {media}
+        <div className={styles.veil} aria-hidden="true" />
       </div>
     );
   }
@@ -38,12 +84,12 @@ export default function ImageCarousel({
   };
 
   return (
-    <div className={`${styles.carousel} ${className}`.trim()}>
-      <img
-        src={current}
-        alt={alt}
-        onClick={() => onImageClick?.(index)}
-      />
+    <div
+      ref={rootRef}
+      className={`${styles.carousel} ${parallax ? styles.parallax : ""} ${className}`.trim()}
+    >
+      {media}
+      <div className={styles.veil} aria-hidden="true" />
       <button
         type="button"
         className={`${styles.arrow} ${styles.prev}`}

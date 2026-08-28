@@ -6,6 +6,7 @@ import {
   getVillaReviews,
   getVillaSlugs,
 } from "@/lib/sanity/content";
+import { SITE_NAME, SITE_URL } from "@/lib/siteMetadata";
 
 export const revalidate = 60;
 
@@ -16,13 +17,48 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const villa = await getVillaBySlug(slug);
+  const [villa, property] = await Promise.all([
+    getVillaBySlug(slug),
+    getPropertyBySlug(slug),
+  ]);
   if (!villa) return { title: "Villa not found" };
+
+  const description = (
+    property?.shortDescription ||
+    villa.description ||
+    "Caribbean style villa in Puerto Viejo, Limón, Costa Rica."
+  )
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 160);
+
+  const image =
+    property?.heroImage ||
+    property?.gallery?.[0] ||
+    villa.image ||
+    villa.galleryImages?.[0];
+  const pageUrl = `${SITE_URL}/villas/${villa.slug}`;
+
   return {
-    title: `${villa.name} | Blessed House Villas`,
-    description:
-      villa.description?.slice(0, 155) ||
-      "Caribbean style villa in Puerto Viejo, Limón, Costa Rica.",
+    title: villa.name,
+    description,
+    alternates: { canonical: pageUrl },
+    openGraph: {
+      type: "website",
+      url: pageUrl,
+      siteName: SITE_NAME,
+      title: `${villa.name} | ${SITE_NAME}`,
+      description,
+      images: image
+        ? [{ url: image, alt: villa.name }]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${villa.name} | ${SITE_NAME}`,
+      description,
+      images: image ? [image] : undefined,
+    },
   };
 }
 
@@ -35,7 +71,7 @@ export default async function VillaPage({ params }) {
     getPropertyBySlug(slug),
   ]);
 
-  const siteUrl = "https://www.blessedhouse.info";
+  const siteUrl = SITE_URL;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",

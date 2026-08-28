@@ -3,32 +3,38 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import PostHogProvider from "@/components/posthog-provider";
 import SiteChrome from "@/components/site-chrome";
 import { Analytics } from "@vercel/analytics/react";
+import {
+  SITE_DESCRIPTION,
+  SITE_URL,
+  defaultOpenGraph,
+  defaultTwitter,
+  siteIcons,
+} from "@/lib/siteMetadata";
 import "./globals.css";
 
 export const metadata = {
-  title: "Blessed House Villas - Puerto Viejo",
-  description:
-    "Caribbean style villas in Puerto Viejo, Limón. Experience tropical adventures and beachside relaxation.",
-  icons: {
-    icon: [
-      { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon/favicon.ico", sizes: "any" },
-    ],
-    shortcut: "/favicon/favicon.ico",
-    apple: "/favicon/apple-touch-icon.png",
-    other: [
-      {
-        rel: "apple-touch-icon",
-        url: "/favicon/apple-touch-icon.png",
-      },
-    ],
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Blessed House Villas - Puerto Viejo",
+    template: "%s | Blessed House",
   },
+  description: SITE_DESCRIPTION,
+  applicationName: "Blessed House",
+  icons: siteIcons,
   manifest: "/favicon/site.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: "Blessed House",
+  },
+  openGraph: defaultOpenGraph,
+  twitter: defaultTwitter,
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: SITE_URL,
   },
 };
 

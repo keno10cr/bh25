@@ -13,10 +13,13 @@
 }
 
 .hero {
-  height: 420px;
-  border-radius: 16px;
+  height: clamp(420px, 62vh, 680px);
+  border-radius: 22px;
   overflow: hidden;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+  box-shadow:
+    0 18px 50px rgba(10, 76, 58, 0.16),
+    0 2px 0 rgba(255, 255, 255, 0.35) inset;
 }
 
 .layout {
@@ -292,7 +295,8 @@
 
 @media (max-width: 768px) {
   .hero {
-    height: 240px;
+    height: clamp(300px, 52vh, 420px);
+    border-radius: 16px;
   }
 
   .reviewRulesGrid {

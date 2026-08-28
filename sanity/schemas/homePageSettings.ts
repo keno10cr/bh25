@@ -16,6 +16,8 @@ const cardI18n = {
       name: "image",
       title: "Icon",
       type: "image",
+      description:
+        "Small icon for a homepage card. Best size: 512 × 512 pixels (square). Simple graphics work best; avoid busy photos.",
       options: { hotspot: true },
     }),
   ],
@@ -40,6 +42,8 @@ const featuredI18n = {
       name: "image",
       title: "Image",
       type: "image",
+      description:
+        "Villa teaser image on the homepage. Best size: 1200 × 900 pixels (4:3) or 1200 × 675 (16:9). Use a wide landscape photo.",
       options: { hotspot: true },
     }),
   ],

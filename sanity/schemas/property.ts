@@ -461,7 +461,7 @@ export const property = defineType({
       type: "image",
       group: "media",
       description:
-        "Primary visual for cards, headers, and social previews. Use the strongest landscape photo.",
+        "Main villa photo (the big image at the top of the villa page). Use a WIDE landscape photo, not a tall phone selfie. Best size: 2400 × 1350 pixels (16:9). Tip: hold the phone sideways when you take the picture. Center the bed, porch, or view so important parts stay in the middle.",
       options: { hotspot: true },
       fields: [
         defineField({
@@ -469,7 +469,7 @@ export const property = defineType({
           title: "Alt text",
           type: "string",
           description:
-            "Accessibility text for the hero. Example: Wooden villa porch overlooking the Blessed House gardens.",
+            "Short description for accessibility and SEO. Example: Wooden villa porch overlooking the Blessed House gardens.",
         }),
       ],
     }),
@@ -479,7 +479,7 @@ export const property = defineType({
       type: "array",
       group: "media",
       description:
-        "Additional photos in display order. First image can double as a secondary cover if needed.",
+        "Extra villa photos for the swipe gallery. Use the SAME wide shape as the hero: about 2400 × 1350 pixels (16:9 landscape). Keep every photo landscape so the gallery looks neat and nothing important gets cut off. After upload, drag the hotspot onto the most important part of the photo.",
       of: [
         {
           type: "image",
@@ -490,7 +490,7 @@ export const property = defineType({
               title: "Alt text",
               type: "string",
               description:
-                "Describe the photo for accessibility. Example: King bed with mosquito net and garden view.",
+                "Describe the photo in one short sentence. Example: King bed with garden view.",
             }),
           ],
         },

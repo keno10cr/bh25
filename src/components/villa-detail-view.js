@@ -89,6 +89,7 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
           images={gallery.length ? gallery : [heroFallback].filter(Boolean)}
           alt={property?.name || villa.name}
           onImageClick={openGallery}
+          parallax
         />
       </div>
 
