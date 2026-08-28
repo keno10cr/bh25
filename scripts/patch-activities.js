@@ -1,6 +1,7 @@
 /**
- * Sync activity coordinates, copy, and images from STATIC_ACTIVITIES into Sanity.
- * Uploads new images from public/ for activities whose image path changed.
+ * Sync activity coordinates, copy, images, and what's included from
+ * STATIC_ACTIVITIES into Sanity. Also patches any CMS only activities
+ * that match a translation key by slug.
  *
  * Run: npm run patch:activities
  */
@@ -15,6 +16,12 @@ import {
   sanityProjectId,
 } from "../sanity/env.js";
 import { legendRefsForCategory } from "./legend-items.js";
+import {
+  deleteActivityDrafts,
+  normalizeAllActivityWhatsIncluded,
+  reconcileActivityDrafts,
+} from "./sanity-document-sync.js";
+import { toWhatsIncludedItems } from "./whats-included.js";
 
 const en = translations.en;
 const imageCache = new Map();
@@ -45,6 +52,17 @@ function publicPath(relative) {
     "public",
     String(relative || "").replace(/^\//, "")
   );
+}
+
+function translationKeyForSlug(slug) {
+  const staticActivity = STATIC_ACTIVITIES.find((item) => item.slug === slug);
+  return staticActivity?.translationKey || null;
+}
+
+function highlightsForSlug(slug) {
+  const key = translationKeyForSlug(slug);
+  const highlights = key ? en.activitiesPage?.[key]?.highlights : null;
+  return Array.isArray(highlights) ? highlights.filter(Boolean) : [];
 }
 
 async function getClient() {
@@ -120,15 +138,47 @@ async function patchActivities() {
         [copy.description, copy.fullDescription].filter(Boolean).join("\n\n"),
         activity.slug
       ),
-      whatsIncluded: Array.isArray(copy.highlights)
-        ? copy.highlights.filter(Boolean)
-        : [],
+      whatsIncluded: toWhatsIncludedItems(copy.highlights, activity.slug),
     });
     console.log(`Queued ${copy.name || activity.slug}`);
   }
 
   console.log("Committing activities...");
   await transaction.commit({ autoGenerateArrayKeys: true });
+
+  const cmsOnlyActivities = await client.fetch(
+    `*[_type == "activity" && !(_id in path("drafts.**")) && !(_id in $staticIds)]{ _id, "slug": slug.current }`,
+    { staticIds: STATIC_ACTIVITIES.map((item) => `activity-${item.slug}`) }
+  );
+
+  if (Array.isArray(cmsOnlyActivities) && cmsOnlyActivities.length > 0) {
+    const orphanTx = client.transaction();
+    for (const activity of cmsOnlyActivities) {
+      const highlights = highlightsForSlug(activity.slug);
+      if (!highlights.length) continue;
+      orphanTx.patch(activity._id, {
+        set: {
+          whatsIncluded: toWhatsIncludedItems(highlights, activity.slug),
+        },
+      });
+      console.log(`Queued CMS only activity ${activity.slug}`);
+    }
+    await orphanTx.commit();
+  }
+
+  const normalized = await normalizeAllActivityWhatsIncluded(client);
+  console.log(`Normalized what's included on ${normalized} activities.`);
+
+  const syncedDrafts = await reconcileActivityDrafts(client);
+  if (syncedDrafts > 0) {
+    console.log(`Synced what's included on ${syncedDrafts} activity draft(s).`);
+  }
+
+  const removedDrafts = await deleteActivityDrafts(client);
+  if (removedDrafts > 0) {
+    console.log(`Removed ${removedDrafts} stale activity draft(s).`);
+  }
+
   console.log(`Synced ${STATIC_ACTIVITIES.length} activities to Sanity.`);
 }
 

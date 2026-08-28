@@ -25,6 +25,7 @@ import {
   LOCALES,
   textToBlocks,
 } from "./i18n-config.js";
+import { toWhatsIncludedItems } from "./whats-included.js";
 
 function parseArgs(argv) {
   const args = {
@@ -77,7 +78,7 @@ function valueForKind(kind, text, keyPrefix) {
   if (text == null) return undefined;
   if (kind === "stringArray") {
     if (!Array.isArray(text)) return undefined;
-    const items = text.map((item) => String(item || "").trim()).filter(Boolean);
+    const items = toWhatsIncludedItems(text, keyPrefix);
     return items.length ? items : undefined;
   }
   const trimmed = String(text).trim();

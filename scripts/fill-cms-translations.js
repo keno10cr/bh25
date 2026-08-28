@@ -15,6 +15,7 @@ import {
   sanityProjectId,
 } from "../sanity/env.js";
 import { LEGEND_ITEMS } from "./legend-items.js";
+import { toWhatsIncludedItems } from "./whats-included.js";
 
 const LOCALES = [
   { lang: "es", suffix: "Es" },
@@ -96,7 +97,10 @@ async function seed() {
         patch[`groupSize${suffix}`] = groupSize;
       }
       if (Array.isArray(copy.highlights) && copy.highlights.length > 0) {
-        patch[`whatsIncluded${suffix}`] = copy.highlights.filter(Boolean);
+        patch[`whatsIncluded${suffix}`] = toWhatsIncludedItems(
+          copy.highlights,
+          `${activity.slug}-${lang}`
+        );
       }
     }
     if (Object.keys(patch).length) {

@@ -1,4 +1,5 @@
 import { cmsField } from "@/lib/cms-field";
+import { whatsIncludedLabels } from "@/lib/whats-included";
 
 const LEGEND_COLORS = {
   Beaches: "#2e86ab",
@@ -44,9 +45,7 @@ export function mapActivity(raw, fallback = null) {
           },
         ];
   const primaryLegend = mappedLegend[0] || null;
-  const whatsIncluded = Array.isArray(raw?.whatsIncluded)
-    ? raw.whatsIncluded.filter(Boolean)
-    : [];
+  const whatsIncluded = whatsIncludedLabels(raw?.whatsIncluded);
   const gallery = Array.isArray(raw?.gallery)
     ? raw.gallery
         .filter((item) => item?.url)
@@ -79,12 +78,12 @@ export function mapActivity(raw, fallback = null) {
       ? portableTextToPlain(raw.description)
       : base.fullDescription,
     whatsIncluded,
-    whatsIncludedEs: raw?.whatsIncludedEs,
-    whatsIncludedDe: raw?.whatsIncludedDe,
-    whatsIncludedNl: raw?.whatsIncludedNl,
-    whatsIncludedFr: raw?.whatsIncludedFr,
-    whatsIncludedJa: raw?.whatsIncludedJa,
-    whatsIncludedPt: raw?.whatsIncludedPt,
+    whatsIncludedEs: whatsIncludedLabels(raw?.whatsIncludedEs),
+    whatsIncludedDe: whatsIncludedLabels(raw?.whatsIncludedDe),
+    whatsIncludedNl: whatsIncludedLabels(raw?.whatsIncludedNl),
+    whatsIncludedFr: whatsIncludedLabels(raw?.whatsIncludedFr),
+    whatsIncludedJa: whatsIncludedLabels(raw?.whatsIncludedJa),
+    whatsIncludedPt: whatsIncludedLabels(raw?.whatsIncludedPt),
     gallery,
     fromCms: Boolean(raw?._id),
     nameFromCms: Boolean(raw?.title),

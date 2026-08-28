@@ -20,6 +20,7 @@ import {
   legendDocument,
   legendRefsForCategory,
 } from "./legend-items.js";
+import { toWhatsIncludedItems } from "./whats-included.js";
 
 const en = translations.en;
 const imageCache = new Map();
@@ -192,9 +193,7 @@ async function seed() {
         [copy.description, copy.fullDescription].filter(Boolean).join("\n\n"),
         activity.slug
       ),
-      whatsIncluded: Array.isArray(copy.highlights)
-        ? copy.highlights.filter(Boolean)
-        : [],
+      whatsIncluded: toWhatsIncludedItems(copy.highlights, activity.slug),
     });
     console.log(`Queued activity ${copy.name || activity.slug}`);
   }

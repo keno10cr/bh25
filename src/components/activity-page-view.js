@@ -59,7 +59,7 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
     ? t(`activitiesPage.prices.${activity.priceKey}`)
     : activity.price;
   const { items: whatsIncluded, fromCms: whatsIncludedFromCms } =
-    resolveWhatsIncluded(activity, language, t);
+    resolveWhatsIncluded(activity, language);
   const galleryImages = activityGalleryImages(activity, name);
   const hasMap = Boolean(activity.coordinates?.lat && activity.coordinates?.lng);
   const mapLegend = translateLegendItems(

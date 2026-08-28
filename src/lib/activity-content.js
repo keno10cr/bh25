@@ -1,21 +1,11 @@
 import { localizedArray } from "@/lib/localized";
 
-export function resolveWhatsIncluded(activity, language, t) {
+export function resolveWhatsIncluded(activity, language) {
   const cmsItems = localizedArray(activity, "whatsIncluded", language);
-  if (cmsItems.length > 0) {
-    return {
-      items: cmsItems,
-      fromCms: Boolean(activity.whatsIncludedFromCms),
-    };
-  }
-
-  const key = activity?.translationKey;
-  const translated = key ? t(`activitiesPage.${key}.highlights`) : null;
-  if (Array.isArray(translated) && translated.length > 0) {
-    return { items: translated, fromCms: false };
-  }
-
-  return { items: [], fromCms: false };
+  return {
+    items: cmsItems,
+    fromCms: cmsItems.length > 0 && Boolean(activity?.whatsIncludedFromCms),
+  };
 }
 
 export function activityGalleryImages(activity, activityName) {

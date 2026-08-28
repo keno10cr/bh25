@@ -1,4 +1,4 @@
-export const activitiesQuery = `*[_type == "activity"] | order(title asc) {
+export const activitiesQuery = `*[_type == "activity" && !(_id in path("drafts.**"))] | order(title asc) {
   _id,
   title,
   titleEs,
@@ -27,13 +27,13 @@ export const activitiesQuery = `*[_type == "activity"] | order(title asc) {
   coordinates,
   "image": image.asset->url,
   description,
-  whatsIncluded,
-  whatsIncludedEs,
-  whatsIncludedDe,
-  whatsIncludedNl,
-  whatsIncludedFr,
-  whatsIncludedJa,
-  whatsIncludedPt,
+  "whatsIncluded": whatsIncluded[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedEs": whatsIncludedEs[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedDe": whatsIncludedDe[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedNl": whatsIncludedNl[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedFr": whatsIncludedFr[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedJa": whatsIncludedJa[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedPt": whatsIncludedPt[]{"label": coalesce(label, @)}.label,
   gallery[]{
     "url": asset->url,
     alt
@@ -46,7 +46,7 @@ export const activitiesQuery = `*[_type == "activity"] | order(title asc) {
   }
 }`;
 
-export const activityBySlugQuery = `*[_type == "activity" && slug.current == $slug][0] {
+export const activityBySlugQuery = `*[_type == "activity" && slug.current == $slug && !(_id in path("drafts.**"))][0] {
   _id,
   title,
   titleEs,
@@ -81,13 +81,13 @@ export const activityBySlugQuery = `*[_type == "activity" && slug.current == $sl
   descriptionFr,
   descriptionJa,
   descriptionPt,
-  whatsIncluded,
-  whatsIncludedEs,
-  whatsIncludedDe,
-  whatsIncludedNl,
-  whatsIncludedFr,
-  whatsIncludedJa,
-  whatsIncludedPt,
+  "whatsIncluded": whatsIncluded[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedEs": whatsIncludedEs[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedDe": whatsIncludedDe[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedNl": whatsIncludedNl[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedFr": whatsIncludedFr[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedJa": whatsIncludedJa[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedPt": whatsIncludedPt[]{"label": coalesce(label, @)}.label,
   gallery[]{
     "url": asset->url,
     alt
@@ -100,7 +100,7 @@ export const activityBySlugQuery = `*[_type == "activity" && slug.current == $sl
   }
 }`;
 
-export const activitySlugsQuery = `*[_type == "activity" && defined(slug.current)].slug.current`;
+export const activitySlugsQuery = `*[_type == "activity" && defined(slug.current) && !(_id in path("drafts.**"))].slug.current`;
 
 export const legendItemsQuery = `*[_type == "legendItem"] | order(sortOrder asc, title asc) {
   _id,

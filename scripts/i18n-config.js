@@ -3,6 +3,8 @@
  * English is the source field (no suffix). Locales use Es/De/Nl/Fr/Ja/Pt.
  */
 
+import { whatsIncludedLabels } from "./whats-included.js";
+
 export const LOCALES = [
   { code: "es", suffix: "Es", title: "Spanish" },
   { code: "de", suffix: "De", title: "German" },
@@ -153,10 +155,10 @@ export function readLocalizedValue(doc, fieldName, kind) {
   const bag = emptyLocaleBag();
   const rawEn = doc?.[fieldName];
   if (kind === "stringArray") {
-    bag.en = Array.isArray(rawEn) ? rawEn.filter(Boolean) : [];
+    bag.en = whatsIncludedLabels(rawEn);
     for (const locale of LOCALES) {
       const raw = doc?.[`${fieldName}${locale.suffix}`];
-      bag[locale.code] = Array.isArray(raw) ? raw.filter(Boolean) : [];
+      bag[locale.code] = whatsIncludedLabels(raw);
     }
     return bag;
   }

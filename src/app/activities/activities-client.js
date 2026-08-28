@@ -82,7 +82,7 @@ export default function ActivitiesClient({
             ? false
             : activity.descriptionFromCms,
           legendItems: translateLegendItems(activity.legendItems, t),
-          whatsIncluded: resolveWhatsIncluded(activity, language, t).items,
+          whatsIncluded: resolveWhatsIncluded(activity, language).items,
           price: activity.priceKey
             ? t(`activitiesPage.prices.${activity.priceKey}`)
             : activity.price,

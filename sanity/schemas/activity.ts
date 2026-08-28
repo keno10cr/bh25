@@ -1,5 +1,43 @@
-import { defineField, defineType } from "sanity";
-import { i18nFieldset, localizedField } from "./i18n";
+import { defineArrayMember, defineField, defineType } from "sanity";
+import { i18nFieldset, localizedField, TRANSLATION_LOCALES } from "./i18n";
+
+const whatsIncludedMember = defineArrayMember({
+  type: "object",
+  name: "whatsIncludedItem",
+  fields: [
+    defineField({
+      name: "label",
+      title: "Feature",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    }),
+  ],
+  preview: {
+    select: { title: "label" },
+  },
+});
+
+function whatsIncludedFields() {
+  return [
+    defineField({
+      name: "whatsIncluded",
+      title: "What's included",
+      type: "array",
+      of: [whatsIncludedMember],
+      description:
+        "Add 3 to 6 key features included in this activity. These appear as pills on the activity page.",
+    }),
+    ...TRANSLATION_LOCALES.map((locale) =>
+      defineField({
+        name: `whatsIncluded${locale.code}`,
+        title: `What's included (${locale.title})`,
+        type: "array",
+        of: [whatsIncludedMember],
+        fieldset: "i18n",
+      })
+    ),
+  ];
+}
 
 export const activity = defineType({
   name: "activity",
@@ -68,15 +106,7 @@ export const activity = defineType({
       title: "Description",
       type: "blockContent",
     }),
-    ...localizedField({
-      name: "whatsIncluded",
-      title: "What's included",
-      type: "array",
-      of: [{ type: "string" }],
-      description:
-        "Add 3 to 6 key features included in this activity. These appear as pills on the activity page.",
-      options: { layout: "tags" },
-    }),
+    ...whatsIncludedFields(),
     defineField({
       name: "gallery",
       title: "Photo gallery",

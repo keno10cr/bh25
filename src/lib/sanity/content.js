@@ -84,9 +84,15 @@ export async function getActivityBySlug(slug) {
   const raw = await sanityFetch(activityBySlugQuery, { slug });
   const fallback = STATIC_ACTIVITIES.find((item) => item.slug === slug) || null;
   if (!raw && !fallback) return null;
+
+  const mapped = mapActivity(raw, fallback);
   const activities = await getActivities();
   const numbered = activities.find((item) => item.slug === slug);
-  return numbered || mapActivity(raw, fallback);
+
+  return {
+    ...mapped,
+    number: numbered?.number,
+  };
 }
 
 export async function getActivitySlugs() {
