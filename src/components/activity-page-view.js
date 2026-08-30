@@ -142,6 +142,15 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
       ) : null}
       {hasMap ? (
         <div className={styles.mapWrap}>
+          {activity.slug === "e-bike-rental" ? (
+            <div className={styles.mapOverlay}>
+              <img
+                src="/activities/bikeShop.gif"
+                alt="Puerto Viejo Bike Rentals shop"
+                className={styles.mapOverlayGif}
+              />
+            </div>
+          ) : null}
           <ActivitiesMap
             activities={[
               {
