@@ -2,6 +2,10 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .card {
@@ -10,26 +14,32 @@
   border-radius: 16px;
   padding: 1.25rem 1.2rem 1.4rem;
   box-shadow: 0 16px 40px rgba(10, 76, 58, 0.22);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .preheader {
   margin: 0 0 0.75rem;
   font-size: 0.78rem;
   opacity: 0.85;
+  overflow-wrap: anywhere;
 }
 
 .priceRow {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  flex-wrap: wrap;
   gap: 0.75rem;
   margin-bottom: 0.75rem;
 }
 
 .price {
-  font-size: 1.85rem;
+  font-size: clamp(1.45rem, 6vw, 1.85rem);
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.1;
 }
 
 .priceMeta {
@@ -39,7 +49,8 @@
 
 .rating {
   font-size: 0.9rem;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .rating span {
@@ -53,6 +64,7 @@
   line-height: 1.45;
   opacity: 0.92;
   margin: 0 0 1rem;
+  overflow-wrap: anywhere;
 }
 
 .breakdown div + div {
@@ -69,6 +81,7 @@
 .dateField,
 .guestField {
   width: 100%;
+  min-width: 0;
   text-align: left;
   background: #fff;
   color: var(--color-neutral-dark, #1a1a18);
@@ -76,6 +89,7 @@
   border-radius: 10px;
   padding: 0.65rem 0.75rem;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .dateField span,
@@ -92,11 +106,13 @@
 .guestField strong {
   font-size: 0.95rem;
   font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 .guestWrap {
   position: relative;
   margin-bottom: 0.85rem;
+  min-width: 0;
 }
 
 .guestPanel {
@@ -180,6 +196,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  max-width: 100%;
   border-radius: 10px;
   padding: 0.85rem 1rem;
   font-weight: 700;
@@ -187,6 +204,7 @@
   border: none;
   cursor: pointer;
   font-size: 0.98rem;
+  box-sizing: border-box;
 }
 
 .primaryBtn {
@@ -236,6 +254,7 @@
   color: #5c655e;
   font-size: 0.82rem;
   line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .modalOverlay {
@@ -361,5 +380,20 @@
 
   .months .calendarMonth:last-child {
     display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem 0.95rem 1.15rem;
+  }
+
+  .fields {
+    grid-template-columns: 1fr;
+  }
+
+  .priceRow {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
