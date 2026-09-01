@@ -117,7 +117,7 @@ export default function ActivityPreview({ copy }) {
               <div className={styles.icon}>
                 <Image
                   src={activity.image}
-                  alt={activity.title}
+                  alt={activity.imageAlt || activity.title}
                   width={120}
                   height={120}
                 />

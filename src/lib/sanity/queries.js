@@ -26,6 +26,7 @@ export const activitiesQuery = `*[_type == "activity" && !(_id in path("drafts.*
   groupSizePt,
   coordinates,
   "image": image.asset->url,
+  "imageAlt": image.alt,
   description,
   "whatsIncluded": whatsIncluded[]{"label": coalesce(label, @)}.label,
   "whatsIncludedEs": whatsIncludedEs[]{"label": coalesce(label, @)}.label,
@@ -74,6 +75,7 @@ export const activityBySlugQuery = `*[_type == "activity" && slug.current == $sl
   groupSizePt,
   coordinates,
   "image": image.asset->url,
+  "imageAlt": image.alt,
   description,
   descriptionEs,
   descriptionDe,
@@ -183,7 +185,8 @@ export const blogPostsQuery = `*[_type == "blog"] | order(publishedAt desc) {
   excerptFr,
   excerptJa,
   excerptPt,
-  "featuredImage": featuredImage.asset->url
+  "featuredImage": featuredImage.asset->url,
+  "featuredImageAlt": featuredImage.alt
 }`;
 
 export const blogPostBySlugQuery = `*[_type == "blog" && slug.current == $slug][0] {
@@ -206,6 +209,7 @@ export const blogPostBySlugQuery = `*[_type == "blog" && slug.current == $slug][
   excerptJa,
   excerptPt,
   "featuredImage": featuredImage.asset->url,
+  "featuredImageAlt": featuredImage.alt,
   content,
   contentEs,
   contentDe,

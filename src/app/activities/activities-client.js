@@ -245,7 +245,7 @@ export default function ActivitiesClient({
               <div className={styles.toolboxImage}>
                 <img
                   src={selected.image || "/placeholder.svg"}
-                  alt={selected.name}
+                  alt={selected.imageAlt || selected.name}
                 />
               </div>
               <h2>

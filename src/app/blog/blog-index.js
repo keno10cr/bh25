@@ -6,6 +6,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import { resolveCopy } from "@/lib/cms-field";
 import { localizedField } from "@/lib/localized";
+import { blogImageAlt } from "@/lib/blog-image-alt";
 import styles from "./blog.module.css";
 
 export default function BlogIndex({ posts, copy }) {
@@ -34,7 +35,15 @@ export default function BlogIndex({ posts, copy }) {
             return (
               <article key={post.slug} className={styles.card}>
                 {post.featuredImage && (
-                  <img src={post.featuredImage} alt="" />
+                  <img
+                    src={post.featuredImage}
+                    alt={blogImageAlt({
+                      alt: post.featuredImageAlt,
+                      title: postTitle,
+                      category: post.category,
+                      slug: post.slug,
+                    })}
+                  />
                 )}
                 <div className={styles.cardBody}>
                   <span className={styles.category}>{post.category}</span>

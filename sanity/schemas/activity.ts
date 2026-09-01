@@ -100,6 +100,15 @@ export const activity = defineType({
       description:
         "Cover photo for this activity. Best size: 1600 × 900 pixels (16:9 landscape) or 1600 × 1200 (4:3). Prefer wide photos of the place or experience. Avoid very tall portrait photos.",
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          description:
+            "Describe the photo for accessibility and SEO. If empty, the site uses the activity title. Example: Green boat on turquoise water near Punta Mona, Costa Rica.",
+        }),
+      ],
     }),
     ...localizedField({
       name: "description",

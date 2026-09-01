@@ -25,7 +25,7 @@ export function activityStructuredImages(activity, activityName) {
   if (activity?.image) {
     images.push({
       url: activity.image,
-      alt: activityName,
+      alt: activity.imageAlt || activityName,
     });
   }
 

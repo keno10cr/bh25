@@ -48,6 +48,15 @@ export const blog = defineType({
       description:
         "Main blog image. Best size: 1600 × 900 pixels (16:9 landscape). Wide photos look best in the blog list and at the top of each post.",
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          description:
+            "Describe the photo for accessibility and SEO. If you leave this empty, the site uses the post title and category. Example: Coastal trail toward Punta Mona near Manzanillo, Costa Rica.",
+        }),
+      ],
     }),
     ...localizedField({
       name: "excerpt",

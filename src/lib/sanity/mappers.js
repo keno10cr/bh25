@@ -70,6 +70,7 @@ export function mapActivity(raw, fallback = null) {
     groupSize: raw?.groupSize || base.groupSize,
     coordinates,
     image: raw?.image || base.image,
+    imageAlt: raw?.imageAlt || base.imageAlt || "",
     description: raw?.description
       ? portableTextToPlain(raw.description)
       : base.description,
@@ -160,6 +161,7 @@ export function mapBlogPost(raw, fallback = null) {
     excerptJa: raw?.excerptJa,
     excerptPt: raw?.excerptPt,
     featuredImage: raw?.featuredImage || base.featuredImage || null,
+    featuredImageAlt: raw?.featuredImageAlt || base.featuredImageAlt || "",
     content: raw?.content || base.content || [],
     contentEs: raw?.contentEs,
     contentDe: raw?.contentDe,

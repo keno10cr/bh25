@@ -13,7 +13,10 @@ export default function ActivityDetail({ activity }) {
   return (
     <div className={styles.card}>
       <div className={styles.imageContainer}>
-        <img src={activity.image || "/placeholder.svg"} alt={activity.name} />
+        <img
+          src={activity.image || "/placeholder.svg"}
+          alt={activity.imageAlt || activity.name}
+        />
         {activity.number ? (
           <span className={styles.numberBadge}>{activity.number}</span>
         ) : null}

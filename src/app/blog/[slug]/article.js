@@ -6,6 +6,7 @@ import { useTranslation } from "@/lib/translations";
 import PortableBody from "@/components/portable-text";
 import CmsText from "@/components/cms-text";
 import { localizedField } from "@/lib/localized";
+import { blogImageAlt } from "@/lib/blog-image-alt";
 import styles from "../blog.module.css";
 
 export default function BlogArticle({ post }) {
@@ -38,9 +39,27 @@ export default function BlogArticle({ post }) {
         </p>
       )}
       {post.featuredImage && (
-        <img src={post.featuredImage} alt="" className={styles.hero} />
+        <img
+          src={post.featuredImage}
+          alt={blogImageAlt({
+            alt: post.featuredImageAlt,
+            title,
+            category: post.category,
+            slug: post.slug,
+          })}
+          className={styles.hero}
+        />
       )}
-      <PortableBody value={content} />
+      <PortableBody
+        value={content}
+        imageAlt={blogImageAlt({
+          alt: "",
+          title,
+          category: post.category,
+          slug: post.slug,
+          kind: "photo",
+        })}
+      />
       <p className={styles.author}>
         <span>{t("blog.authorLabel")}</span>
         {t("blog.author")}

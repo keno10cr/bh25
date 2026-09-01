@@ -1,4 +1,4 @@
-import { defineArrayMember, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const blockContent = defineType({
   name: "blockContent",
@@ -41,6 +41,15 @@ export const blockContent = defineType({
       options: { hotspot: true },
       description:
         "Inline photo inside the text. Best size: about 1600 × 900 pixels (wide landscape). Avoid very tall phone photos.",
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          description:
+            "Describe this photo for accessibility and SEO. If empty, the site uses the post title. Example: Boat approaching Punta Mona from Manzanillo.",
+        }),
+      ],
     }),
   ],
 });

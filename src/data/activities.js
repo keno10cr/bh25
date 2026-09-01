@@ -254,4 +254,21 @@ export const STATIC_ACTIVITIES = [
     image: "/activities/r2/PNC.PV.jpg",
     coordinates: { lat: 9.714108, lng: -82.822194 },
   },
+  {
+    id: 22,
+    slug: "punta-mona",
+    translationKey: "puntaMona",
+    name: "Punta Mona",
+    title: "Punta Mona",
+    category: "Beaches",
+    duration: "Half day to Full day",
+    priceKey: "contactUs",
+    difficulty: "Moderate",
+    groupSize: "Up to 8 people",
+    image: "/activities/all/manzanilloHike.jpg",
+    description: "A remote Caribbean beach and organic farm south of Manzanillo",
+    fullDescription:
+      "Punta Mona sits past Manzanillo at the edge of the southern Caribbean, with rainforest, a quiet beach, and an organic farm community. From Blessed House it is a half day outing: drive to Manzanillo, then hike or take a boat along the shore. Bring water, wear trail shoes, and start early so you have daylight for the return.",
+    coordinates: { lat: 9.631013, lng: -82.619816 },
+  },
 ];

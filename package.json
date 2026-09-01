@@ -18,7 +18,10 @@
     "translate:cms": "sanity exec scripts/fill-cms-translations.js --with-user-token",
     "translate:blog": "sanity exec scripts/fill-blog-translations.js --with-user-token",
     "i18n:export": "sanity exec scripts/export-translations.js --with-user-token",
-    "i18n:import": "sanity exec scripts/import-translations.js --with-user-token"
+    "i18n:import": "sanity exec scripts/import-translations.js --with-user-token",
+    "webhook:blog": "node --env-file=.env.local scripts/setup-blog-webhook.mjs",
+    "patch:blog-alts": "node --env-file=.env.local scripts/patch-blog-image-alts.js",
+    "create:punta-mona": "node --env-file=.env.local scripts/create-punta-mona-activity.js"
   },
   "dependencies": {
     "@maptiler/sdk": "^4.1.0",

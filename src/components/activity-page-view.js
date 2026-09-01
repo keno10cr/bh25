@@ -74,7 +74,10 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
         ← {t("nav.activities")}
       </Link>
       <div className={styles.hero}>
-        <img src={activity.image || "/placeholder.svg"} alt={name} />
+        <img
+          src={activity.image || "/placeholder.svg"}
+          alt={activity.imageAlt || name}
+        />
         {activity.number ? (
           <span className={styles.number}>{activity.number}</span>
         ) : null}
