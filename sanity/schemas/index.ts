@@ -7,6 +7,7 @@ import { blogPageSettings } from "./blogPageSettings";
 import { blockContent } from "./blockContent";
 import { contactPageSettings } from "./contactPageSettings";
 import { formSubmission } from "./formSubmission";
+import { galleryPageSettings } from "./galleryPageSettings";
 import { homePageSettings } from "./homePageSettings";
 import { jobApplication } from "./jobApplication";
 import { jobPosting } from "./jobPosting";
@@ -46,6 +47,7 @@ export const schemaTypes = [
   homePageSettings,
   aboutPageSettings,
   contactPageSettings,
+  galleryPageSettings,
   activitiesPageSettings,
   blogPageSettings,
   villasPageSettings,

@@ -118,6 +118,23 @@ export const homePageSettings = defineType({
       type: "array",
       of: [featuredI18n],
     }),
+    defineField({
+      name: "ourPlaceImage",
+      title: "Our Place image",
+      type: "image",
+      description:
+        "Pool and garden photo in the Our Place section on the homepage. Best size: 1600 × 1200 pixels or similar landscape.",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          description:
+            "Describe the photo for accessibility and SEO. Example: Shared pool and gardens at Blessed House.",
+        }),
+      ],
+    }),
     ...localizedField({
       name: "locationTitle",
       title: "Location title",

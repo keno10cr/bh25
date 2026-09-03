@@ -49,8 +49,8 @@ export default function ContactClient({ copy }) {
             style={{ transform: `translateY(${imageOffset}px)` }}
           >
             <img
-              src="/info/miradorBHContact.jpg"
-              alt={t("contact.bannerAlt")}
+              src={copy?.heroImage?.value || "/info/miradorBHContact.jpg"}
+              alt={copy?.heroImageAlt?.value || t("contact.bannerAlt")}
               className={styles.bannerImage}
             />
           </div>

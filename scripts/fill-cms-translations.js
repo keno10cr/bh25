@@ -178,6 +178,13 @@ async function seed() {
       },
     },
     {
+      id: "galleryPageSettings",
+      fields: {
+        title: "gallery.title",
+        description: "gallery.description",
+      },
+    },
+    {
       id: "aboutPageSettings",
       fields: {
         welcomeTitle: "welcome.title",

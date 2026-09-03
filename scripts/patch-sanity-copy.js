@@ -6,6 +6,7 @@ import {
   ACTIVITIES_PAGE_DEFAULTS,
   BLOG_PAGE_DEFAULTS,
   CONTACT_PAGE_DEFAULTS,
+  GALLERY_PAGE_DEFAULTS,
   HOME_PAGE_DEFAULTS,
   HOME_THINGS_TO_DO,
   HOME_FEATURED_ITEMS,
@@ -119,10 +120,17 @@ async function patch() {
     _type: "aboutPageSettings",
     ...ABOUT_PAGE_DEFAULTS,
   });
+  const { heroImage: _contactHero, heroImageAlt: _contactHeroAlt, ...contactCopy } =
+    CONTACT_PAGE_DEFAULTS;
   await client.createOrReplace({
     _id: "contactPageSettings",
     _type: "contactPageSettings",
-    ...CONTACT_PAGE_DEFAULTS,
+    ...contactCopy,
+  });
+  await client.createOrReplace({
+    _id: "galleryPageSettings",
+    _type: "galleryPageSettings",
+    ...GALLERY_PAGE_DEFAULTS,
   });
   await client.createOrReplace({
     _id: "activitiesPageSettings",

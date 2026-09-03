@@ -11,6 +11,7 @@ import {
   blogPostBySlugQuery,
   blogPostsQuery,
   contactPageSettingsQuery,
+  galleryPageSettingsQuery,
   homePageSettingsQuery,
   reviewsQuery,
   publishedVillaCommentsQuery,
@@ -34,12 +35,14 @@ import { STATIC_ACTIVITIES } from "@/data/activities";
 import { STATIC_VILLAS } from "@/data/villas";
 import { STATIC_REVIEWS } from "@/data/reviews";
 import { STATIC_BLOG_POSTS } from "@/data/blog";
+import { STATIC_GALLERY_IMAGES } from "@/data/gallery";
 import {
   ABOUT_PAGE_DEFAULTS,
   ACTIVITIES_PAGE_DEFAULTS,
   BLOG_PAGE_DEFAULTS,
   VILLAS_PAGE_DEFAULTS,
   CONTACT_PAGE_DEFAULTS,
+  GALLERY_PAGE_DEFAULTS,
   HOME_PAGE_DEFAULTS,
   HOME_THINGS_TO_DO,
   HOME_FEATURED_ITEMS,
@@ -301,6 +304,27 @@ export async function getAboutPageSettings() {
 export async function getContactPageSettings() {
   const raw = await sanityFetch(contactPageSettingsQuery);
   return mapPageSettings(raw, CONTACT_PAGE_DEFAULTS);
+}
+
+export async function getGalleryPageSettings() {
+  const raw = await sanityFetch(galleryPageSettingsQuery);
+  const mapped = mapPageSettings(raw, GALLERY_PAGE_DEFAULTS);
+  const cmsImages = Array.isArray(raw?.images)
+    ? raw.images.filter((image) => image?.src)
+    : [];
+  mapped.images = cmsImages.length
+    ? cmsImages.map((image, index) => ({
+        id: image._key || String(index + 1),
+        src: image.src,
+        alt: image.alt || image.caption || "",
+        caption: image.caption || image.alt || "",
+        fromCms: true,
+      }))
+    : STATIC_GALLERY_IMAGES.map((image) => ({
+        ...image,
+        fromCms: false,
+      }));
+  return mapped;
 }
 
 export async function getActivitiesPageSettings() {

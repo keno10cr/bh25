@@ -8,6 +8,7 @@ import {
   ACTIVITIES_PAGE_DEFAULTS,
   BLOG_PAGE_DEFAULTS,
   CONTACT_PAGE_DEFAULTS,
+  GALLERY_PAGE_DEFAULTS,
   HOME_PAGE_DEFAULTS,
   VILLAS_PAGE_DEFAULTS,
 } from "../src/data/page-defaults.js";
@@ -115,10 +116,17 @@ async function seed() {
     _type: "aboutPageSettings",
     ...ABOUT_PAGE_DEFAULTS,
   });
+  const { heroImage: _contactHero, heroImageAlt: _contactHeroAlt, ...contactCopy } =
+    CONTACT_PAGE_DEFAULTS;
   transaction.createOrReplace({
     _id: "contactPageSettings",
     _type: "contactPageSettings",
-    ...CONTACT_PAGE_DEFAULTS,
+    ...contactCopy,
+  });
+  transaction.createOrReplace({
+    _id: "galleryPageSettings",
+    _type: "galleryPageSettings",
+    ...GALLERY_PAGE_DEFAULTS,
   });
   transaction.createOrReplace({
     _id: "activitiesPageSettings",

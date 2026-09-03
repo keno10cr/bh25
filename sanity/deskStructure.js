@@ -14,6 +14,7 @@ const HIDDEN_FROM_DEFAULT = [
   "homePageSettings",
   "aboutPageSettings",
   "contactPageSettings",
+  "galleryPageSettings",
   "activitiesPageSettings",
   "blogPageSettings",
   "villasPageSettings",
@@ -308,6 +309,13 @@ export const deskStructure = (S) =>
                           S.document()
                             .schemaType("contactPageSettings")
                             .documentId("contactPageSettings")
+                        ),
+                      S.listItem()
+                        .title("Gallery")
+                        .child(
+                          S.document()
+                            .schemaType("galleryPageSettings")
+                            .documentId("galleryPageSettings")
                         ),
                       S.listItem()
                         .title("Villas")

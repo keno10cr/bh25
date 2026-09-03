@@ -26,7 +26,17 @@ export default async function Home() {
     <main>
       <Hero copy={home} />
       <WelcomeSection copy={about} />
-      <OurPlace copy={about} />
+      <OurPlace
+        copy={{
+          ...about,
+          ourPlaceImage: home.ourPlaceImage?.fromCms
+            ? home.ourPlaceImage
+            : about.ourPlaceImage,
+          ourPlaceImageAlt: home.ourPlaceImageAlt?.fromCms
+            ? home.ourPlaceImageAlt
+            : about.ourPlaceImageAlt,
+        }}
+      />
       <FeaturedVillas copy={home} villas={villas} />
       <LocationSection copy={home} />
       <ActivityPreview copy={home} />

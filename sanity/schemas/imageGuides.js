@@ -14,6 +14,10 @@ export const IMAGE_GUIDE = {
     "Featured blog image. Best size: 1600 × 900 pixels (16:9 landscape). Wide photos look best in the blog list and at the top of each post.",
   homeHero:
     "Homepage hero / welcome image. Best size: 2400 × 1350 pixels (16:9 landscape). This is a large banner, so use a clear, bright photo of the property or gardens.",
+  contactHero:
+    "Contact page banner photo. Best size: 2400 × 1350 pixels (16:9 landscape). This is a large banner, so use a clear, wide photo of the property or view.",
+  gallery:
+    "Photos shown on the Gallery page. Best size: 1600 × 1200 pixels or similar landscape. Drag to change the order. After upload, add alt text and a short caption.",
   homeFeatured:
     "Small villa teaser image on the homepage. Best size: 1200 × 900 pixels (4:3) or 1200 × 675 (16:9). Landscape works best.",
   homeIcon:

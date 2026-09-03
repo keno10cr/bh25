@@ -6,6 +6,8 @@ export const HOME_PAGE_DEFAULTS = {
   heroCtaSecondary: "Get in Touch",
   heroImage: "/BannerVilla4.jpg",
   heroImageAlt: "Caribbean style villa with jungle view",
+  ourPlaceImage: "/villas/general/junglepool.jpg",
+  ourPlaceImageAlt: "Blessed House pool area",
   locationImage: "/info/locationBHmap.jpg",
   locationImageAlt:
     "Satellite map of Blessed House near Puerto Viejo de Talamanca, Playa Cocles, and Punta Uva",
@@ -99,6 +101,14 @@ export const CONTACT_PAGE_DEFAULTS = {
   subtitle: "Have questions? We'd love to hear from you. Contact us anytime.",
   formTitle: "Send us a Message",
   infoTitle: "Contact Information",
+  heroImage: "/info/miradorBHContact.jpg",
+  heroImageAlt: "View from El Mirador over Blessed House and the Caribbean",
+};
+
+export const GALLERY_PAGE_DEFAULTS = {
+  title: "Discover Paradise at Blessed House",
+  description:
+    "Immerse yourself in peace and charm at Blessed House. Nestled amidst lush greenery, our Puerto Viejo haven offers relaxation, wildlife encounters, and easy access to the area's beauty. Explore, unwind, and experience the Caribbean's warm embrace.",
 };
 
 export const ACTIVITIES_PAGE_DEFAULTS = {

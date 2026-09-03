@@ -225,6 +225,8 @@ export const homePageSettingsQuery = `*[_id == "homePageSettings"][0]{
   ...,
   "heroImage": heroImage.asset->url,
   "heroImageAlt": heroImage.alt,
+  "ourPlaceImage": ourPlaceImage.asset->url,
+  "ourPlaceImageAlt": ourPlaceImage.alt,
   "locationImage": locationImage.asset->url,
   "locationImageAlt": locationImage.alt,
   thingsToDoItems[]{
@@ -246,7 +248,20 @@ export const aboutPageSettingsQuery = `*[_id == "aboutPageSettings"][0]{
   "ourPlaceImage": ourPlaceImage.asset->url,
   "ourPlaceImageAlt": ourPlaceImage.alt
 }`;
-export const contactPageSettingsQuery = `*[_id == "contactPageSettings"][0]`;
+export const contactPageSettingsQuery = `*[_id == "contactPageSettings"][0]{
+  ...,
+  "heroImage": heroImage.asset->url,
+  "heroImageAlt": heroImage.alt
+}`;
+export const galleryPageSettingsQuery = `*[_id == "galleryPageSettings"][0]{
+  ...,
+  images[]{
+    _key,
+    alt,
+    caption,
+    "src": asset->url
+  }
+}`;
 export const activitiesPageSettingsQuery = `*[_id == "activitiesPageSettings"][0]`;
 export const blogPageSettingsQuery = `*[_id == "blogPageSettings"][0]`;
 export const villasPageSettingsQuery = `*[_id == "villasPageSettings"][0]`;

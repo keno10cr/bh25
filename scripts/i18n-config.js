@@ -68,6 +68,10 @@ export const DOCUMENT_FIELDS = {
     { name: "formTitle", kind: "string" },
     { name: "infoTitle", kind: "string" },
   ],
+  galleryPageSettings: [
+    { name: "title", kind: "string" },
+    { name: "description", kind: "string" },
+  ],
   activitiesPageSettings: [
     { name: "title", kind: "string" },
     { name: "subtitle", kind: "string" },
