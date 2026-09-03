@@ -55,22 +55,14 @@ export default function LocationSection({ copy }) {
         const rect = sectionRef.current.getBoundingClientRect();
         const sectionTop = rect.top + window.scrollY;
         const scrollPosition = window.scrollY;
-        
-        // Only apply parallax when section is in viewport
+
         if (rect.top < window.innerHeight && rect.bottom > 0) {
           const scrolled = scrollPosition - sectionTop;
-          
-          // Image moves down as we scroll down
-          const rate = scrolled * 0.3;
-          setImageOffset(rate);
-          
-          // Content appears from the right and moves left as we scroll down
-          // Start with positive offset (off to the right), then move left
-          const initialOffset = 100; // Start 100px to the right
-          const contentRate = initialOffset - (scrolled * 0.5);
+          setImageOffset(scrolled * 0.3);
+          const initialOffset = 100;
+          const contentRate = initialOffset - scrolled * 0.5;
           setContentOffset(contentRate);
         } else {
-          // Reset when out of viewport
           setImageOffset(0);
           setContentOffset(0);
         }
@@ -169,14 +161,17 @@ export default function LocationSection({ copy }) {
   return (
     <section className={styles.section} ref={sectionRef}>
       <div className={styles.imageBackground}>
-        <div 
+        <div
           className={styles.imageContainer}
           ref={imageRef}
           style={{ transform: `translateY(${imageOffset}px)` }}
         >
           <img
-            src="/info/locationBHmap.jpg"
-            alt="Location map"
+            src={copy?.locationImage?.value || "/info/locationBHmap.jpg"}
+            alt={
+              copy?.locationImageAlt?.value ||
+              "Satellite map of Blessed House near Puerto Viejo de Talamanca, Playa Cocles, and Punta Uva"
+            }
             className={styles.image}
           />
         </div>

@@ -57,8 +57,11 @@ export default function Hero({ copy }) {
           style={{ transform: `translateX(${imageOffset}px)` }}
         >
           <img
-            src="/BannerVilla4.jpg"
-            alt="Caribbean style villa with jungle view"
+            src={copy?.heroImage?.value || "/BannerVilla4.jpg"}
+            alt={
+              copy?.heroImageAlt?.value ||
+              "Caribbean style villa with jungle view"
+            }
             className={styles.backgroundImage}
           />
         </div>

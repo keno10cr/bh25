@@ -4,6 +4,11 @@ export const HOME_PAGE_DEFAULTS = {
     "For guests seeking peace, quiet, and a touch of authentic charm, you have found your haven. Our ideal location ensures effortless exploration of the best of Costa Rica's Southern Caribbean coast.",
   heroCtaPrimary: "Explore Villas",
   heroCtaSecondary: "Get in Touch",
+  heroImage: "/BannerVilla4.jpg",
+  heroImageAlt: "Caribbean style villa with jungle view",
+  locationImage: "/info/locationBHmap.jpg",
+  locationImageAlt:
+    "Satellite map of Blessed House near Puerto Viejo de Talamanca, Playa Cocles, and Punta Uva",
   featuredTitle: "Featured Villas",
   featuredSubtitle:
     "Experience Caribbean style in our handpicked selection of villas",
@@ -85,6 +90,8 @@ export const ABOUT_PAGE_DEFAULTS = {
   ourPlaceDescription:
     "Welcome to Blessed House, a tranquil and spacious property nestled in the rich mountains near Puerto Viejo. We offer an authentic Caribbean experience surrounded by incredible nature and just a short distance from the beaches. Here, you'll enjoy a healthy, eco friendly environment where wildlife, from sloths to hummingbirds, is part of the scenery. Our comfortable villas and shared pool area are designed for your complete relaxation and enjoyment.",
   ourPlaceCta: "Contact Us",
+  ourPlaceImage: "/villas/general/junglepool.jpg",
+  ourPlaceImageAlt: "Blessed House pool area",
 };
 
 export const CONTACT_PAGE_DEFAULTS = {

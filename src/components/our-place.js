@@ -55,8 +55,11 @@ export default function OurPlace({ copy }) {
                             style={{ transform: `translateY(${imageOffset}px)` }}
                         >
                             <img
-                                src="/villas/general/junglepool.jpg"
-                                alt="Blessed House pool area"
+                                src={copy?.ourPlaceImage?.value || "/villas/general/junglepool.jpg"}
+                                alt={
+                                    copy?.ourPlaceImageAlt?.value ||
+                                    "Blessed House pool area"
+                                }
                                 className={styles.image}
                             />
                         </div>

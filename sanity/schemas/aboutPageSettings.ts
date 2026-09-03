@@ -1,5 +1,6 @@
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 import { i18nFieldset, localizedField } from "./i18n";
+import { IMAGE_GUIDE } from "./imageGuides";
 
 export const aboutPageSettings = defineType({
   name: "aboutPageSettings",
@@ -27,6 +28,22 @@ export const aboutPageSettings = defineType({
       rows: 5,
     }),
     ...localizedField({ name: "ourPlaceCta", title: "Our Place button", type: "string" }),
+    defineField({
+      name: "ourPlaceImage",
+      title: "Our Place image",
+      type: "image",
+      description: IMAGE_GUIDE.homeHero,
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          description:
+            "Describe the photo for accessibility and SEO. Example: Shared pool and gardens at Blessed House.",
+        }),
+      ],
+    }),
   ],
   preview: {
     prepare: () => ({ title: "About" }),

@@ -223,6 +223,10 @@ export const blogSlugsQuery = `*[_type == "blog" && defined(slug.current)].slug.
 
 export const homePageSettingsQuery = `*[_id == "homePageSettings"][0]{
   ...,
+  "heroImage": heroImage.asset->url,
+  "heroImageAlt": heroImage.alt,
+  "locationImage": locationImage.asset->url,
+  "locationImageAlt": locationImage.alt,
   thingsToDoItems[]{
     _key,
     title,
@@ -237,7 +241,11 @@ export const homePageSettingsQuery = `*[_id == "homePageSettings"][0]{
     "image": image.asset->url
   }
 }`;
-export const aboutPageSettingsQuery = `*[_id == "aboutPageSettings"][0]`;
+export const aboutPageSettingsQuery = `*[_id == "aboutPageSettings"][0]{
+  ...,
+  "ourPlaceImage": ourPlaceImage.asset->url,
+  "ourPlaceImageAlt": ourPlaceImage.alt
+}`;
 export const contactPageSettingsQuery = `*[_id == "contactPageSettings"][0]`;
 export const activitiesPageSettingsQuery = `*[_id == "activitiesPageSettings"][0]`;
 export const blogPageSettingsQuery = `*[_id == "blogPageSettings"][0]`;

@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { i18nFieldset, localizedField } from "./i18n";
+import { IMAGE_GUIDE } from "./imageGuides";
 
 const cardI18n = {
   type: "object",
@@ -75,6 +76,22 @@ export const homePageSettings = defineType({
       title: "Hero secondary button",
       type: "string",
     }),
+    defineField({
+      name: "heroImage",
+      title: "Hero image",
+      type: "image",
+      description: IMAGE_GUIDE.homeHero,
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          description:
+            "Describe the hero photo for accessibility and SEO. Example: Caribbean style villa with jungle view at Blessed House.",
+        }),
+      ],
+    }),
     ...localizedField({
       name: "featuredTitle",
       title: "Featured villas title",
@@ -125,6 +142,23 @@ export const homePageSettings = defineType({
       name: "locationCta",
       title: "Location button",
       type: "string",
+    }),
+    defineField({
+      name: "locationImage",
+      title: "Location map image",
+      type: "image",
+      description:
+        "Map photo behind the Location box on the homepage. Best size: 1500 × 1084 pixels or similar wide landscape. This is the satellite map that moves as visitors scroll.",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          description:
+            "Describe the map for accessibility and SEO. Example: Satellite map of Blessed House near Puerto Viejo de Talamanca.",
+        }),
+      ],
     }),
     ...localizedField({
       name: "activitiesTitle",
