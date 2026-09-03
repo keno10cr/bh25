@@ -2,8 +2,20 @@
 
 import { useEffect, useId, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import {
+  COMMENT_MAX_LENGTH,
+  COMMENT_MIN_LENGTH,
+  commentLength,
+  getCommentLengthCode,
+} from "@/lib/comment-length";
 import { useTranslation } from "@/lib/translations";
 import styles from "./feedback-modal.module.css";
+
+function fillCopy(template, values) {
+  return String(template || "").replace(/\{(\w+)\}/g, (_, key) =>
+    values[key] == null ? `{${key}}` : String(values[key])
+  );
+}
 
 export default function FeedbackModal({
   open,
@@ -47,9 +59,25 @@ export default function FeedbackModal({
 
   if (!open) return null;
 
+  const messageLength = commentLength(message);
+  const lengthCode = getCommentLengthCode(message);
+  const lengthValues = {
+    min: COMMENT_MIN_LENGTH,
+    max: COMMENT_MAX_LENGTH,
+    count: messageLength,
+  };
+  const lengthHint = fillCopy(t("feedback.lengthHint"), lengthValues);
+  const lengthMessage = lengthCode
+    ? fillCopy(t(`feedback.${lengthCode}`), lengthValues)
+    : lengthHint;
+
   async function handleSubmit(event) {
     event.preventDefault();
     setError("");
+    if (lengthCode) {
+      setError(lengthMessage);
+      return;
+    }
     setLoading(true);
     try {
       const response = await fetch("/api/forms", {
@@ -150,8 +178,21 @@ export default function FeedbackModal({
                 onChange={(event) => setMessage(event.target.value)}
                 required
                 rows={5}
-                maxLength={2000}
+                minLength={COMMENT_MIN_LENGTH}
+                maxLength={COMMENT_MAX_LENGTH}
+                className={lengthCode && messageLength > 0 ? styles.invalid : undefined}
+                aria-describedby={`${titleId}-length`}
               />
+              <p
+                id={`${titleId}-length`}
+                className={`${styles.lengthHint} ${
+                  lengthCode && messageLength > 0 ? styles.lengthError : ""
+                }`}
+              >
+                {messageLength > 0 ? lengthMessage : lengthHint}
+                {" "}
+                {fillCopy(t("feedback.charCount"), lengthValues)}
+              </p>
             </label>
             <input
               className={styles.honeypot}
@@ -162,7 +203,11 @@ export default function FeedbackModal({
               aria-hidden="true"
             />
             {error ? <p className={styles.error}>{error}</p> : null}
-            <button type="submit" className={styles.submit} disabled={loading}>
+            <button
+              type="submit"
+              className={styles.submit}
+              disabled={loading || Boolean(lengthCode)}
+            >
               {loading ? t("feedback.sending") : t("feedback.send")}
             </button>
           </form>

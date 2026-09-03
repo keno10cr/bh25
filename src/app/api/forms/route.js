@@ -1,4 +1,10 @@
 import { NextResponse } from "next/server";
+import {
+  COMMENT_MAX_LENGTH,
+  COMMENT_MIN_LENGTH,
+  getCommentLengthCode,
+  isGuestCommentForm,
+} from "@/lib/comment-length";
 import { createSanityServerClient } from "@/lib/sanity/client";
 
 const ALLOWED_TYPES = new Set([
@@ -63,6 +69,28 @@ export async function POST(request) {
 
   if (!name || !email || !message) {
     return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
+  }
+
+  if (isGuestCommentForm(formType)) {
+    const lengthCode = getCommentLengthCode(message);
+    if (lengthCode === "tooShort") {
+      return NextResponse.json(
+        {
+          error: `Please write at least ${COMMENT_MIN_LENGTH} characters.`,
+          code: lengthCode,
+        },
+        { status: 400 }
+      );
+    }
+    if (lengthCode === "tooLong") {
+      return NextResponse.json(
+        {
+          error: `Please keep comments to ${COMMENT_MAX_LENGTH} characters or fewer.`,
+          code: lengthCode,
+        },
+        { status: 400 }
+      );
+    }
   }
 
   if (formType === "villaComment" && !villaId) {

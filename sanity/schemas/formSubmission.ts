@@ -74,7 +74,23 @@ export const formSubmission = defineType({
       title: "Message",
       type: "text",
       rows: 5,
-      validation: (Rule) => Rule.required(),
+      description:
+        "Guest experience and villa comments should be 60 to 280 characters, similar to published guest notes.",
+      validation: (Rule) =>
+        Rule.required().custom((value, context) => {
+          const formType = context.document?.formType;
+          if (formType !== "guestExperience" && formType !== "villaComment") {
+            return true;
+          }
+          const length = String(value || "").trim().length;
+          if (length < 60) {
+            return "Guest comments need at least 60 characters.";
+          }
+          if (length > 280) {
+            return "Guest comments must be 280 characters or fewer.";
+          }
+          return true;
+        }),
     }),
     defineField({
       name: "villaRef",

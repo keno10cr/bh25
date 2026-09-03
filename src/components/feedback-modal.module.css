@@ -101,6 +101,22 @@
   cursor: wait;
 }
 
+.invalid {
+  border-color: #b42318 !important;
+}
+
+.lengthHint {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #5f6b61;
+  line-height: 1.45;
+}
+
+.lengthError {
+  color: #b42318;
+}
+
 .error {
   margin: 0;
   color: #b42318;
