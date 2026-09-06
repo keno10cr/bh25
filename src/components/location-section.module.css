@@ -88,6 +88,17 @@
     max-width: 1400px;
     padding: 4rem 3rem;
   }
+
+  /* Keep the 600px band. The full map sits inside it and parallax moves that photo. */
+  .imageContainer {
+    height: auto;
+  }
+
+  .image {
+    width: 100%;
+    height: auto;
+    object-fit: unset;
+  }
 }
 
 @media (max-width: 768px) {
