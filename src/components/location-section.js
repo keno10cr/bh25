@@ -38,11 +38,19 @@ export default function LocationSection({ copy }) {
   const [imageOffset, setImageOffset] = useState(0);
   const [contentOffset, setContentOffset] = useState(0);
   const [visibleChars, setVisibleChars] = useState(0);
+  const scrollHandlerRef = useRef(() => {});
 
   const fullText = `"${mapsQuery.value}"`;
   const totalChars = fullText.length;
 
   useEffect(() => {
+    const getCenterOffset = () => {
+      const band = sectionRef.current;
+      const image = imageRef.current;
+      if (!band || !image) return 0;
+      return (band.offsetHeight - image.offsetHeight) / 2;
+    };
+
     const handleScroll = () => {
       // Only apply parallax on desktop (above 768px)
       if (window.innerWidth <= 768) {
@@ -52,22 +60,25 @@ export default function LocationSection({ copy }) {
       }
 
       if (sectionRef.current && imageRef.current) {
+        const centerOffset = getCenterOffset();
         const rect = sectionRef.current.getBoundingClientRect();
         const sectionTop = rect.top + window.scrollY;
         const scrollPosition = window.scrollY;
 
         if (rect.top < window.innerHeight && rect.bottom > 0) {
           const scrolled = scrollPosition - sectionTop;
-          setImageOffset(scrolled * 0.3);
+          setImageOffset(centerOffset + scrolled * 0.3);
           const initialOffset = 100;
           const contentRate = initialOffset - scrolled * 0.5;
           setContentOffset(contentRate);
         } else {
-          setImageOffset(0);
+          setImageOffset(centerOffset);
           setContentOffset(0);
         }
       }
     };
+
+    scrollHandlerRef.current = handleScroll;
 
     const handleResize = () => {
       // Reset offsets on resize if mobile
@@ -173,6 +184,7 @@ export default function LocationSection({ copy }) {
               "Satellite map of Blessed House near Puerto Viejo de Talamanca, Playa Cocles, and Punta Uva"
             }
             className={styles.image}
+            onLoad={() => scrollHandlerRef.current()}
           />
         </div>
       </div>
