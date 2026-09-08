@@ -19,6 +19,8 @@ const MONTH_LABELS = [
 ];
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const LABEL_WIDTH = 220;
+const DAY_MIN_WIDTH = 36;
 
 const styles = {
   root: {
@@ -60,26 +62,53 @@ const styles = {
     justifyContent: "space-between",
     marginBottom: 12,
   },
-  grid: {
+  scroller: {
+    overflow: "auto",
     border: "1px solid var(--card-border-color, #d0d0d0)",
     borderRadius: 8,
-    overflow: "hidden",
+    maxHeight: "70vh",
   },
-  weekRow: { display: "flex" },
-  weekday: {
-    flex: "1 1 14.28%",
-    maxWidth: "14.28%",
-    padding: 8,
+  labelCell: {
+    position: "sticky",
+    left: 0,
+    zIndex: 2,
+    width: LABEL_WIDTH,
+    minWidth: LABEL_WIDTH,
+    maxWidth: LABEL_WIDTH,
+    padding: "8px 10px",
+    boxSizing: "border-box",
+    background: "var(--card-bg-color, #fff)",
+    borderRight: "1px solid var(--card-border-color, #d0d0d0)",
+    borderBottom: "1px solid var(--card-border-color, #d0d0d0)",
     fontSize: 12,
     fontWeight: 600,
+    display: "flex",
+    alignItems: "center",
+  },
+  headerLabel: {
+    position: "sticky",
+    left: 0,
+    top: 0,
+    zIndex: 3,
+    background: "var(--card-muted-bg-color, #f4f4f4)",
+  },
+  dayHeader: {
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
+    minWidth: DAY_MIN_WIDTH,
+    padding: "6px 2px",
     textAlign: "center",
     borderBottom: "1px solid var(--card-border-color, #d0d0d0)",
+    borderRight: "1px solid var(--card-border-color, #d0d0d0)",
+    background: "var(--card-muted-bg-color, #f4f4f4)",
+    boxSizing: "border-box",
   },
-  cell: {
-    flex: "1 1 14.28%",
-    maxWidth: "14.28%",
-    minHeight: 84,
-    padding: 8,
+  dayNum: { fontSize: 12, fontWeight: 600, lineHeight: 1.2 },
+  dayWeek: { fontSize: 10, opacity: 0.65, marginTop: 2 },
+  dayCell: {
+    minWidth: DAY_MIN_WIDTH,
+    minHeight: 28,
     borderBottom: "1px solid var(--card-border-color, #d0d0d0)",
     borderRight: "1px solid var(--card-border-color, #d0d0d0)",
     boxSizing: "border-box",
@@ -132,6 +161,42 @@ function occupiedNights(checkIn, checkOut) {
   last.setUTCDate(last.getUTCDate() - 1);
   const endIso = `${last.getUTCFullYear()}-${pad(last.getUTCMonth() + 1)}-${pad(last.getUTCDate())}`;
   return eachIsoInRange(checkIn, endIso);
+}
+
+function getDayEntry(byProperty, propertyKey, iso) {
+  let dayMap = byProperty.get(propertyKey);
+  if (!dayMap) {
+    dayMap = new Map();
+    byProperty.set(propertyKey, dayMap);
+  }
+  let entry = dayMap.get(iso);
+  if (!entry) {
+    entry = { blocked: [], booked: [] };
+    dayMap.set(iso, entry);
+  }
+  return entry;
+}
+
+function cellTitle(entry) {
+  if (!entry) return "";
+  return [
+    entry.booked?.length
+      ? `Booked: ${entry.booked
+          .map((item) => item.guestName || item.confirmationCode)
+          .join(", ")}`
+      : null,
+    entry.blocked?.length
+      ? `Blocked: ${entry.blocked.map((item) => item.title).join(", ")}`
+      : null,
+  ]
+    .filter(Boolean)
+    .join(" | ");
+}
+
+function cellBackground(entry) {
+  if (entry?.booked?.length) return "rgba(34, 139, 80, 0.28)";
+  if (entry?.blocked?.length) return "rgba(180, 83, 9, 0.22)";
+  return "transparent";
 }
 
 const CALENDAR_QUERY = `{
@@ -192,40 +257,36 @@ export function OwnerCalendar() {
     load();
   }, [load]);
 
-  const dayMap = useMemo(() => {
-    const map = new Map();
-    const matchProperty = (id) => propertyId === "all" || id === propertyId;
+  const visibleProperties = useMemo(() => {
+    const properties = data.properties || [];
+    if (propertyId === "all") return properties;
+    return properties.filter((property) => property._id === propertyId);
+  }, [data.properties, propertyId]);
+
+  const occupancyByProperty = useMemo(() => {
+    const byProperty = new Map();
+    const allowed = new Set(visibleProperties.map((property) => property._id));
 
     (data.blocks || []).forEach((block) => {
-      if (!matchProperty(block.propertyId)) return;
+      if (!block.propertyId || !allowed.has(block.propertyId)) return;
       eachIsoInRange(block.startDate, block.endDate).forEach((iso) => {
-        const entry = map.get(iso) || { blocked: [], booked: [] };
-        entry.blocked.push(block);
-        map.set(iso, entry);
+        getDayEntry(byProperty, block.propertyId, iso).blocked.push(block);
       });
     });
 
     (data.bookings || []).forEach((booking) => {
-      if (!matchProperty(booking.propertyId)) return;
+      if (!booking.propertyId || !allowed.has(booking.propertyId)) return;
       occupiedNights(booking.checkIn, booking.checkOut).forEach((iso) => {
-        const entry = map.get(iso) || { blocked: [], booked: [] };
-        entry.booked.push(booking);
-        map.set(iso, entry);
+        getDayEntry(byProperty, booking.propertyId, iso).booked.push(booking);
       });
     });
 
-    return map;
-  }, [data, propertyId]);
+    return byProperty;
+  }, [data.blocks, data.bookings, visibleProperties]);
 
-  const cells = useMemo(() => {
-    const firstWeekday = new Date(year, month, 1).getDay();
+  const days = useMemo(() => {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const list = [];
-    for (let i = 0; i < firstWeekday; i += 1) list.push(null);
-    for (let day = 1; day <= daysInMonth; day += 1) {
-      list.push(day);
-    }
-    return list;
+    return Array.from({ length: daysInMonth }, (_, index) => index + 1);
   }, [year, month]);
 
   const shiftMonth = (delta) => {
@@ -234,13 +295,16 @@ export function OwnerCalendar() {
     setMonth(next.getMonth());
   };
 
+  const gridTemplateColumns = `${LABEL_WIDTH}px repeat(${days.length}, minmax(${DAY_MIN_WIDTH}px, 1fr))`;
+
   return (
     <div style={styles.root}>
       <div style={styles.headerRow}>
         <div>
           <h2 style={styles.title}>Owner calendar</h2>
           <p style={styles.muted}>
-            Open nights stay clear. Owner blocks and paid bookings share this grid.
+            Each villa has its own row. Open nights stay clear. Owner blocks and
+            paid bookings stay on that villa.
           </p>
         </div>
         <div style={styles.controls}>
@@ -276,69 +340,36 @@ export function OwnerCalendar() {
 
       {error ? <div style={styles.error}>{error}</div> : null}
 
-      <div style={styles.grid}>
-        <div style={styles.weekRow}>
-          {WEEKDAYS.map((label) => (
-            <div key={label} style={styles.weekday}>
-              {label}
-            </div>
-          ))}
-        </div>
-        <div style={styles.weekRow}>
-          {cells.map((day, index) => {
-            if (!day) {
-              return (
-                <div
-                  key={`empty-${index}`}
-                  style={{
-                    ...styles.cell,
-                    background: "var(--card-muted-bg-color, #f4f4f4)",
-                  }}
-                />
-              );
-            }
-
-            const iso = toIso(year, month, day);
-            const entry = dayMap.get(iso);
-            const isBooked = Boolean(entry?.booked?.length);
-            const isBlocked = Boolean(entry?.blocked?.length);
-            const background = isBooked
-              ? "rgba(34, 139, 80, 0.18)"
-              : isBlocked
-                ? "rgba(180, 83, 9, 0.16)"
-                : "transparent";
-            const title = [
-              isBooked
-                ? `Booked: ${entry.booked
-                    .map((b) => b.guestName || b.confirmationCode)
-                    .join(", ")}`
-                : null,
-              isBlocked
-                ? `Blocked: ${entry.blocked.map((b) => b.title).join(", ")}`
-                : null,
-            ]
-              .filter(Boolean)
-              .join(" | ");
-
+      <div style={styles.scroller}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns,
+            minWidth: LABEL_WIDTH + days.length * DAY_MIN_WIDTH,
+          }}
+        >
+          <div style={{ ...styles.labelCell, ...styles.headerLabel }}>Villa</div>
+          {days.map((day) => {
+            const weekday = WEEKDAYS[new Date(year, month, day).getDay()];
             return (
-              <div key={iso} title={title} style={{ ...styles.cell, background }}>
-                <div style={{ fontWeight: 600, fontSize: 13 }}>{day}</div>
-                {isBooked ? (
-                  <div style={{ marginTop: 6, fontSize: 11, color: "#166534" }}>
-                    Booked
-                  </div>
-                ) : null}
-                {isBlocked && !isBooked ? (
-                  <div style={{ marginTop: 6, fontSize: 11, color: "#9a3412" }}>
-                    Blocked
-                  </div>
-                ) : null}
-                {isBlocked && isBooked ? (
-                  <div style={{ marginTop: 4, fontSize: 11, opacity: 0.7 }}>
-                    + block
-                  </div>
-                ) : null}
+              <div key={`head-${day}`} style={styles.dayHeader}>
+                <div style={styles.dayNum}>{day}</div>
+                <div style={styles.dayWeek}>{weekday}</div>
               </div>
+            );
+          })}
+
+          {visibleProperties.map((property) => {
+            const dayMap = occupancyByProperty.get(property._id);
+            return (
+              <PropertyRow
+                key={property._id}
+                property={property}
+                days={days}
+                year={year}
+                month={month}
+                dayMap={dayMap}
+              />
             );
           })}
         </div>
@@ -359,5 +390,27 @@ export function OwnerCalendar() {
 
       {loading ? <p style={styles.muted}>Loading…</p> : null}
     </div>
+  );
+}
+
+function PropertyRow({ property, days, year, month, dayMap }) {
+  const label = property.name || property.slug || property._id;
+  return (
+    <>
+      <div style={styles.labelCell} title={label}>
+        {label}
+      </div>
+      {days.map((day) => {
+        const iso = toIso(year, month, day);
+        const entry = dayMap?.get(iso);
+        return (
+          <div
+            key={`${property._id}-${iso}`}
+            title={cellTitle(entry)}
+            style={{ ...styles.dayCell, background: cellBackground(entry) }}
+          />
+        );
+      })}
+    </>
   );
 }
