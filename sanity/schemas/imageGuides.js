@@ -11,7 +11,7 @@ export const IMAGE_GUIDE = {
   activity:
     "Cover photo for this activity card and detail page. Best size: 1600 × 900 pixels (16:9 landscape) or 1600 × 1200 (4:3). Prefer wide photos of the place or experience. Avoid very tall portrait photos.",
   blog:
-    "Featured blog image. Best size: 1600 × 900 pixels (16:9 landscape). Wide photos look best in the blog list and at the top of each post.",
+    "Featured blog image. Shortest side must be at least 950 pixels so social posts can use a centered square. Best size: 1600 × 1200 (4:3 landscape) or 1600 × 1600 (square). Wide 16:9 photos also work if both sides are at least 950 pixels.",
   homeHero:
     "Homepage hero / welcome image. Best size: 2400 × 1350 pixels (16:9 landscape). This is a large banner, so use a clear, bright photo of the property or gardens.",
   contactHero:

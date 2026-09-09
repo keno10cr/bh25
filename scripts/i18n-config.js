@@ -30,6 +30,8 @@ export const DOCUMENT_FIELDS = {
   blog: [
     { name: "title", kind: "string" },
     { name: "excerpt", kind: "string" },
+    { name: "socialTitle", kind: "string" },
+    { name: "socialHook", kind: "string" },
     { name: "content", kind: "blocks" },
   ],
   legendItem: [{ name: "title", kind: "string" }],

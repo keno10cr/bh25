@@ -59,6 +59,9 @@ export default function BlogIndex({ posts, copy }) {
                       {postExcerpt}
                     </CmsText>
                   </p>
+                  <Link href={`/blog/${post.slug}`} className={styles.readPost}>
+                    {t("blog.readPost")}
+                  </Link>
                 </div>
               </article>
             );

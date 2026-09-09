@@ -25,9 +25,11 @@ const FILTER = '_type == "blog"';
 
 const PROJECTION = `{
   title,
+  socialTitle,
+  socialHook,
   "slug": slug.current,
   "mainImageUrl": featuredImage.asset->url,
-  "description": excerpt,
+  "description": coalesce(socialHook, excerpt),
   "url": "${SITE_URL}/blog/" + slug.current,
   category
 }`;

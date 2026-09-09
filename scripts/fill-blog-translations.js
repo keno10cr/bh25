@@ -122,9 +122,13 @@ async function main() {
     _id,
     title,
     excerpt,
+    socialTitle,
+    socialHook,
     content,
     titleEs, titleDe, titleNl, titleFr, titleJa, titlePt,
     excerptEs, excerptDe, excerptNl, excerptFr, excerptJa, excerptPt,
+    socialTitleEs, socialTitleDe, socialTitleNl, socialTitleFr, socialTitleJa, socialTitlePt,
+    socialHookEs, socialHookDe, socialHookNl, socialHookFr, socialHookJa, socialHookPt,
     contentEs, contentDe, contentNl, contentFr, contentJa, contentPt
   }`);
 
@@ -139,6 +143,8 @@ async function main() {
     for (const locale of LOCALES) {
       const titleKey = `title${locale.suffix}`;
       const excerptKey = `excerpt${locale.suffix}`;
+      const socialTitleKey = `socialTitle${locale.suffix}`;
+      const socialHookKey = `socialHook${locale.suffix}`;
       const contentKey = `content${locale.suffix}`;
 
       if (!post[titleKey] && post.title) {
@@ -146,6 +152,12 @@ async function main() {
       }
       if (!post[excerptKey] && post.excerpt) {
         patch[excerptKey] = await translateText(post.excerpt, locale.target);
+      }
+      if (!post[socialTitleKey] && post.socialTitle) {
+        patch[socialTitleKey] = await translateText(post.socialTitle, locale.target);
+      }
+      if (!post[socialHookKey] && post.socialHook) {
+        patch[socialHookKey] = await translateText(post.socialHook, locale.target);
       }
       if (!isFilledContent(post[contentKey]) && englishBody) {
         const paragraphs = englishBody.split(/\n\n+/).filter(Boolean);

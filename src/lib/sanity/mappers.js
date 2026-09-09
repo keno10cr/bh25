@@ -1,4 +1,5 @@
 import { cmsField } from "@/lib/cms-field";
+import { socialCopyFor } from "@/data/blog-social";
 import { whatsIncludedLabels } from "@/lib/whats-included";
 
 const LEGEND_COLORS = {
@@ -141,25 +142,43 @@ export function mapReview(raw) {
 export function mapBlogPost(raw, fallback = null) {
   if (!raw && !fallback) return null;
   const base = fallback || {};
+  const slug = raw?.slug || base.slug;
+  const title = raw?.title || base.title;
+  const excerpt = raw?.excerpt || base.excerpt || "";
+  const social = socialCopyFor(slug, { title, excerpt });
   return {
     id: raw?._id || base.id,
-    title: raw?.title || base.title,
+    title,
     titleEs: raw?.titleEs,
     titleDe: raw?.titleDe,
     titleNl: raw?.titleNl,
     titleFr: raw?.titleFr,
     titleJa: raw?.titleJa,
     titlePt: raw?.titlePt,
-    slug: raw?.slug || base.slug,
+    slug,
     category: raw?.category || base.category,
     publishedAt: raw?.publishedAt || base.publishedAt,
-    excerpt: raw?.excerpt || base.excerpt || "",
+    excerpt,
     excerptEs: raw?.excerptEs,
     excerptDe: raw?.excerptDe,
     excerptNl: raw?.excerptNl,
     excerptFr: raw?.excerptFr,
     excerptJa: raw?.excerptJa,
     excerptPt: raw?.excerptPt,
+    socialTitle: raw?.socialTitle || base.socialTitle || social.socialTitle,
+    socialTitleEs: raw?.socialTitleEs,
+    socialTitleDe: raw?.socialTitleDe,
+    socialTitleNl: raw?.socialTitleNl,
+    socialTitleFr: raw?.socialTitleFr,
+    socialTitleJa: raw?.socialTitleJa,
+    socialTitlePt: raw?.socialTitlePt,
+    socialHook: raw?.socialHook || base.socialHook || social.socialHook,
+    socialHookEs: raw?.socialHookEs,
+    socialHookDe: raw?.socialHookDe,
+    socialHookNl: raw?.socialHookNl,
+    socialHookFr: raw?.socialHookFr,
+    socialHookJa: raw?.socialHookJa,
+    socialHookPt: raw?.socialHookPt,
     featuredImage: raw?.featuredImage || base.featuredImage || null,
     featuredImageAlt: raw?.featuredImageAlt || base.featuredImageAlt || "",
     content: raw?.content || base.content || [],
