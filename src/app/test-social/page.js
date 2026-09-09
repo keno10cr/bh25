@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getBlogPosts } from "@/lib/sanity/content";
 import { SOCIAL_PLATFORMS } from "@/lib/social/platforms";
 import { SOCIAL_SAMPLE_POST } from "@/lib/social/load-post";
+import { socialPageSecretAllowed } from "@/lib/social/auth";
 import styles from "./test-social.module.css";
 
 export const dynamic = "force-dynamic";
@@ -50,10 +51,7 @@ function PreviewCard({
 
 export default async function TestSocialPage({ searchParams }) {
   const params = await searchParams;
-  if (process.env.NODE_ENV === "production") {
-    const secret = process.env.SOCIAL_PREVIEW_SECRET;
-    if (!secret || params?.secret !== secret) notFound();
-  }
+  if (!socialPageSecretAllowed(params?.secret)) notFound();
 
   const posts = await getBlogPosts();
   const slug = params?.slug || SOCIAL_SAMPLE_POST.slug;

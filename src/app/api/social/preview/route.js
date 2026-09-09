@@ -7,24 +7,12 @@ import {
 } from "@/lib/social/load-post";
 import { getSocialPlatform, SOCIAL_PLATFORM_KEYS } from "@/lib/social/platforms";
 import { renderSocialPost } from "@/lib/social/render-post";
+import { requestOrigin, socialRequestAllowed } from "@/lib/social/auth";
 
 export const runtime = "nodejs";
 
-function previewAllowed(request) {
-  if (process.env.NODE_ENV !== "production") return true;
-  const secret = process.env.SOCIAL_PREVIEW_SECRET;
-  if (!secret) return false;
-  return request.nextUrl.searchParams.get("secret") === secret;
-}
-
-function requestOrigin(request) {
-  const host = request.headers.get("x-forwarded-host") || request.headers.get("host");
-  const proto = request.headers.get("x-forwarded-proto") || "http";
-  return host ? `${proto}://${host}` : request.nextUrl.origin;
-}
-
 export async function GET(request) {
-  if (!previewAllowed(request)) {
+  if (!socialRequestAllowed(request)) {
     return NextResponse.json({ error: "Not found." }, { status: 404 });
   }
 

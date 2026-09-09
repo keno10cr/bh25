@@ -23,15 +23,24 @@ const HOOKS_URL = `https://${sanityProjectId}.api.sanity.io/${API_VERSION}/hooks
 
 const FILTER = '_type == "blog"';
 
+const PACK_URL = `${SITE_URL}/api/social/pack?slug=`;
+const PREVIEW_URL = `${SITE_URL}/api/social/preview`;
+
 const PROJECTION = `{
   title,
-  socialTitle,
-  socialHook,
+  "socialTitle": coalesce(socialTitle, title),
+  "socialHook": coalesce(socialHook, excerpt, title),
   "slug": slug.current,
   "mainImageUrl": featuredImage.asset->url,
-  "description": coalesce(socialHook, excerpt),
+  "description": coalesce(socialHook, excerpt, title),
   "url": "${SITE_URL}/blog/" + slug.current,
-  category
+  category,
+  "packUrl": "${PACK_URL}" + slug.current,
+  "images": {
+    "feed": "${PREVIEW_URL}?platform=instagram&slug=" + slug.current,
+    "tiktok": "${PREVIEW_URL}?platform=tiktok&slug=" + slug.current,
+    "pinterest": "${PREVIEW_URL}?platform=pinterest&slug=" + slug.current
+  }
 }`;
 
 function getAuthToken() {
@@ -81,7 +90,7 @@ function webhookBody() {
     url: MAKE_WEBHOOK_URL,
     dataset: sanityDataset,
     description:
-      "Sends title, slug, main image, description, and post URL to Make.com when a blog post is first published, for social sharing.",
+      "Sends social copy, blog URL, pack URL, and branded image URLs to Make.com when a blog post is first published.",
     rule: {
       on: ["create"],
       filter: FILTER,
@@ -120,7 +129,12 @@ async function main() {
   console.log(`  name:     ${created.name}`);
   console.log(`  dataset:  ${created.dataset}`);
   console.log(`  trigger:  first publish of _type == "blog"`);
-  console.log(`  payload:  title, slug, mainImageUrl, description, url, category`);
+  console.log(
+    "  payload:  title, socialTitle, socialHook, slug, url, category, packUrl, images"
+  );
+  console.log(
+    "  Make.com: GET packUrl with header x-social-secret = SOCIAL_PREVIEW_SECRET"
+  );
 }
 
 main().catch((error) => {
