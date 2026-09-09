@@ -408,7 +408,7 @@ async function seed() {
           _key: "arrival",
           titleEn: "Arrival",
           bodyEn: toBlocks(
-            "We will share check in instructions and access details before your arrival. Please let us know if you have an early flight or late transfer.",
+            "We will share check in instructions and access details before your arrival. Please let us know if you have an early flight or late transfer. See the property map in the photo gallery to find your villa.",
             `arr-${villa.id}`
           ),
         },

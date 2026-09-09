@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useSmoothParallax } from "@/lib/parallax-motion";
 import styles from "./image-carousel.module.css";
 
 export default function ImageCarousel({
@@ -9,67 +10,54 @@ export default function ImageCarousel({
   className = "",
   onImageClick,
   parallax = false,
+  controlsPlacement = "overlay",
 }) {
   const pics = (images || []).filter(Boolean);
   const [index, setIndex] = useState(0);
-  const [offset, setOffset] = useState(0);
   const rootRef = useRef(null);
+  const mediaRef = useRef(null);
   const current = pics[index] || "/placeholder.svg";
+  const below = controlsPlacement === "below";
 
-  useEffect(() => {
-    if (!parallax || typeof window === "undefined") return undefined;
-
-    let frame = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const node = rootRef.current;
-        if (!node) return;
-        const rect = node.getBoundingClientRect();
-        const viewport = window.innerHeight || 1;
-        const progress = (viewport / 2 - (rect.top + rect.height / 2)) / viewport;
-        setOffset(Math.max(-36, Math.min(36, progress * 48)));
-      });
-    };
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
+  useSmoothParallax((loop) => {
+    if (!parallax) return;
+    const node = rootRef.current;
+    if (!node) return;
+    const rect = node.getBoundingClientRect();
+    const viewport = window.innerHeight || 1;
+    const progress =
+      (viewport / 2 - (rect.top + rect.height / 2)) / viewport;
+    const offset = Math.max(-36, Math.min(36, progress * 48));
+    loop.set(mediaRef.current, { y: offset, lerp: 0.2 });
   }, [parallax]);
 
-  const media = (
-    <div
-      className={styles.media}
-      style={
-        parallax
-          ? { transform: `translate3d(0, ${offset}px, 0) scale(1.12)` }
-          : undefined
+  useEffect(() => {
+    const refresh = () => {
+      const img = mediaRef.current?.querySelector("img");
+      if (!img) return;
+      if (!img.complete || img.naturalWidth === 0) {
+        const src = img.getAttribute("src");
+        if (src) {
+          img.setAttribute("src", src);
+        }
       }
-    >
+    };
+    window.addEventListener("pageshow", refresh);
+    return () => window.removeEventListener("pageshow", refresh);
+  }, [current]);
+
+  const media = (
+    <div ref={mediaRef} className={styles.media}>
       <img
+        key={current}
         src={current}
         alt={alt}
+        loading="eager"
+        decoding="async"
         onClick={() => onImageClick?.(index)}
       />
     </div>
   );
-
-  if (pics.length <= 1) {
-    return (
-      <div
-        ref={rootRef}
-        className={`${styles.carousel} ${parallax ? styles.parallax : ""} ${className}`.trim()}
-      >
-        {media}
-        <div className={styles.veil} aria-hidden="true" />
-      </div>
-    );
-  }
 
   const previous = (event) => {
     event.preventDefault();
@@ -83,44 +71,89 @@ export default function ImageCarousel({
     setIndex((currentIndex) => (currentIndex + 1) % pics.length);
   };
 
-  return (
+  const dots = pics.map((src, dotIndex) => (
+    <button
+      key={src + dotIndex}
+      type="button"
+      className={
+        below
+          ? dotIndex === index
+            ? styles.dotBelowActive
+            : styles.dotBelow
+          : dotIndex === index
+            ? styles.dotActive
+            : styles.dot
+      }
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setIndex(dotIndex);
+      }}
+      aria-label={`Image ${dotIndex + 1}`}
+    />
+  ));
+
+  const stage = (
     <div
       ref={rootRef}
       className={`${styles.carousel} ${parallax ? styles.parallax : ""} ${className}`.trim()}
     >
       {media}
-      <div className={styles.veil} aria-hidden="true" />
-      <button
-        type="button"
-        className={`${styles.arrow} ${styles.prev}`}
-        onClick={previous}
-        aria-label="Previous image"
-      >
-        ‹
-      </button>
-      <button
-        type="button"
-        className={`${styles.arrow} ${styles.next}`}
-        onClick={next}
-        aria-label="Next image"
-      >
-        ›
-      </button>
-      <div className={styles.dots} aria-hidden="true">
-        {pics.map((src, dotIndex) => (
+      {below ? null : <div className={styles.veil} aria-hidden="true" />}
+      {!below && pics.length > 1 ? (
+        <>
           <button
-            key={src + dotIndex}
             type="button"
-            className={dotIndex === index ? styles.dotActive : styles.dot}
-            onClick={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
-              setIndex(dotIndex);
-            }}
-            aria-label={`Image ${dotIndex + 1}`}
-          />
-        ))}
-      </div>
+            className={`${styles.arrow} ${styles.prev}`}
+            onClick={previous}
+            aria-label="Previous image"
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            className={`${styles.arrow} ${styles.next}`}
+            onClick={next}
+            aria-label="Next image"
+          >
+            ›
+          </button>
+          <div className={styles.dots} aria-hidden="true">
+            {dots}
+          </div>
+        </>
+      ) : null}
+    </div>
+  );
+
+  if (!below) {
+    return stage;
+  }
+
+  return (
+    <div className={styles.bundle}>
+      {stage}
+      {pics.length > 1 ? (
+        <div className={styles.toolbar}>
+          <button
+            type="button"
+            className={styles.arrowBelow}
+            onClick={previous}
+            aria-label="Previous image"
+          >
+            ‹
+          </button>
+          <div className={styles.dotsBelow}>{dots}</div>
+          <button
+            type="button"
+            className={styles.arrowBelow}
+            onClick={next}
+            aria-label="Next image"
+          >
+            ›
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }

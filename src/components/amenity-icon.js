@@ -95,6 +95,16 @@ export function AmenityIcon({ name }) {
           <path d="M14 14.5c1.4 0 3 .7 4 2.5" />
         </svg>
       );
+    case "pets":
+      return (
+        <svg {...common} fill="currentColor" stroke="none">
+          <circle cx="6.5" cy="9" r="1.8" />
+          <circle cx="17.5" cy="9" r="1.8" />
+          <circle cx="9.5" cy="5.2" r="1.7" />
+          <circle cx="14.5" cy="5.2" r="1.7" />
+          <path d="M8.2 13.2c0-1.8 1.6-3.2 3.8-3.2s3.8 1.4 3.8 3.2c0 2.2-1.8 4.3-3.8 4.3s-3.8-2.1-3.8-4.3Z" />
+        </svg>
+      );
     default:
       return (
         <svg {...common}>
@@ -103,4 +113,22 @@ export function AmenityIcon({ name }) {
         </svg>
       );
   }
+}
+
+export function CheckIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M5 12.5 10 17.5 19 7.5" />
+    </svg>
+  );
 }

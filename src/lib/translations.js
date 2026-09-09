@@ -556,6 +556,7 @@ export const translations = {
         bedrooms: "Bedrooms:",
         bathrooms: "Bathrooms:",
         maxPeople: "Max People:",
+        pets: "Pets",
         amenities: "Amenities:",
         houseArrangements: "House arrangements",
         sleeps: "Sleeps",
@@ -565,6 +566,10 @@ export const translations = {
         petsWelcome: "Pets welcome · bring pet bed",
         petsPolicy:
           "Pets welcome with prior notice. No pets in the pool or on beds; please bring their own pet bed. Clean up after your pet and do not leave them unattended in the villa.",
+        occupancyAndParties: "Occupancy and parties",
+        arrivalMapInvite:
+          "See the property map in the photo gallery to find your villa.",
+        seePropertyMap: "See the property map",
         smokingPolicy: "No smoking inside. Outdoor areas only.",
         partiesPolicy:
           "No parties or events. Only up to {max} registered guests may stay overnight.",
@@ -574,6 +579,7 @@ export const translations = {
         viewGallery: "View Gallery",
         viewVilla: "View Villa",
         bookNow: "Book Now",
+        checkAvailability: "Check availability",
         showDetails: "Show full details",
         hideDetails: "Hide details"
       },
@@ -1279,6 +1285,7 @@ export const translations = {
         bedrooms: "Habitaciones:",
         bathrooms: "Baños:",
         maxPeople: "Máx. Personas:",
+        pets: "Mascotas",
         amenities: "Comodidades:",
         houseArrangements: "Distribución de la casa",
         sleeps: "Capacidad",
@@ -1288,6 +1295,10 @@ export const translations = {
         petsWelcome: "Mascotas bienvenidas · traiga cama",
         petsPolicy:
           "Mascotas bienvenidas con aviso previo. No mascotas en la piscina ni en camas; traigan su propia cama para mascota. Limpia después de tu mascota y no la dejes sin supervisión en la villa.",
+        occupancyAndParties: "Ocupación y fiestas",
+        arrivalMapInvite:
+          "Mira el mapa de la propiedad en la galería de fotos para encontrar tu villa.",
+        seePropertyMap: "Ver el mapa de la propiedad",
         smokingPolicy: "No fumar en interiores. Solo en áreas exteriores.",
         partiesPolicy:
           "No fiestas ni eventos. Solo hasta {max} huéspedes registrados pueden pernoctar.",
@@ -1297,6 +1308,7 @@ export const translations = {
         viewGallery: "Ver Galería",
         viewVilla: "Ver Villa",
         bookNow: "Reservar Ahora",
+        checkAvailability: "Consultar disponibilidad",
         showDetails: "Ver detalles completos",
         hideDetails: "Ocultar detalles"
       },
@@ -1930,6 +1942,7 @@ export const translations = {
         bedrooms: "Schlafzimmer:",
         bathrooms: "Badezimmer:",
         maxPeople: "Max. Personen:",
+        pets: "Haustiere",
         amenities: "Ausstattung:",
         houseArrangements: "Schlafplätze",
         sleeps: "Schläft",
@@ -1939,6 +1952,10 @@ export const translations = {
         petsWelcome: "Haustiere willkommen · Bett mitbringen",
         petsPolicy:
           "Haustiere mit vorheriger Ankündigung willkommen. Keine Haustiere im Pool oder auf Betten; bitte eigenes Hundebett mitbringen. Hinterlassen Sie keine Verschmutzung und lassen Sie Tiere nicht unbeaufsichtigt in der Villa.",
+        occupancyAndParties: "Belegung und Feiern",
+        arrivalMapInvite:
+          "Den Lageplan finden Sie in der Fotogalerie, um Ihre Villa zu finden.",
+        seePropertyMap: "Lageplan ansehen",
         smokingPolicy: "Nicht in Innenräumen rauchen. Nur im Freien.",
         partiesPolicy:
           "Keine Partys oder Events. Es dürfen höchstens {max} registrierte Gäste übernachten.",
@@ -1948,6 +1965,7 @@ export const translations = {
         viewGallery: "Galerie Anzeigen",
         viewVilla: "Villa Ansehen",
         bookNow: "Jetzt Buchen",
+        checkAvailability: "Verfügbarkeit prüfen",
         showDetails: "Alle Details anzeigen",
         hideDetails: "Details ausblenden"
       },
@@ -2551,6 +2569,7 @@ export const translations = {
         bedrooms: "Slaapkamers:",
         bathrooms: "Badkamers:",
         maxPeople: "Max. Personen:",
+        pets: "Huisdieren",
         amenities: "Voorzieningen:",
         houseArrangements: "Slaapindeling",
         sleeps: "Slaapplaatsen",
@@ -2560,6 +2579,10 @@ export const translations = {
         petsWelcome: "Huisdieren welkom · bed meenemen",
         petsPolicy:
           "Huisdieren welkom na voorafgaande melding. Geen huisdieren in het zwembad of op bedden; neem een eigen huisdierenbed mee. Ruim op na uw huisdier en laat het niet onbeheerd achter in de villa.",
+        occupancyAndParties: "Bezetting en feesten",
+        arrivalMapInvite:
+          "Bekijk de kaart van het terrein in de fotogalerij om uw villa te vinden.",
+        seePropertyMap: "Bekijk de kaart van het terrein",
         smokingPolicy: "Niet roken binnen. Alleen buiten.",
         partiesPolicy:
           "Geen feesten of evenementen. Maximaal {max} geregistreerde gasten mogen overnachten.",
@@ -2569,6 +2592,7 @@ export const translations = {
         viewGallery: "Galerij Bekijken",
         viewVilla: "Villa Bekijken",
         bookNow: "Nu Boeken",
+        checkAvailability: "Beschikbaarheid bekijken",
         showDetails: "Volledige details tonen",
         hideDetails: "Details verbergen"
       },
@@ -3172,6 +3196,7 @@ export const translations = {
         bedrooms: "Chambres:",
         bathrooms: "Salles de bain:",
         maxPeople: "Max. Personnes:",
+        pets: "Animaux",
         amenities: "Équipements:",
         houseArrangements: "Agencement des chambres",
         sleeps: "Capacité",
@@ -3181,6 +3206,10 @@ export const translations = {
         petsWelcome: "Animaux acceptés · apportez un lit",
         petsPolicy:
           "Animaux acceptés avec préavis. Pas d'animaux dans la piscine ni sur les lits; apportez leur propre lit. Ramassez après votre animal et ne le laissez pas sans surveillance dans la villa.",
+        occupancyAndParties: "Occupation et fêtes",
+        arrivalMapInvite:
+          "Consultez le plan de la propriété dans la galerie photo pour trouver votre villa.",
+        seePropertyMap: "Voir le plan de la propriété",
         smokingPolicy: "Interdiction de fumer à l'intérieur. Extérieur uniquement.",
         partiesPolicy:
           "Pas de fêtes ni d'événements. Seuls {max} voyageurs enregistrés peuvent dormir sur place.",
@@ -3190,6 +3219,7 @@ export const translations = {
         viewGallery: "Voir la Galerie",
         viewVilla: "Voir la Villa",
         bookNow: "Réserver Maintenant",
+        checkAvailability: "Vérifier les disponibilités",
         showDetails: "Afficher tous les détails",
         hideDetails: "Masquer les détails"
       },
@@ -3793,6 +3823,7 @@ export const translations = {
         bedrooms: "寝室:",
         bathrooms: "バスルーム:",
         maxPeople: "最大人数:",
+        pets: "ペット",
         amenities: "設備:",
         houseArrangements: "寝室配置",
         sleeps: "定員",
@@ -3802,6 +3833,10 @@ export const translations = {
         petsWelcome: "ペット可 · ベッド持参",
         petsPolicy:
           "事前連絡のうえペット可。プール内およびベッド上は不可。ペット用ベッドをご持参ください。排泄物は必ず後片付けし、ヴィラ内で放置しないでください。",
+        occupancyAndParties: "宿泊人数とパーティー",
+        arrivalMapInvite:
+          "ヴィラの場所はフォトギャラリーの敷地マップでご確認ください。",
+        seePropertyMap: "敷地マップを見る",
         smokingPolicy: "室内禁煙。屋外のみ可。",
         partiesPolicy:
           "パーティーやイベントは不可。宿泊できる登録ゲストは最大{max}名までです。",
@@ -3811,6 +3846,7 @@ export const translations = {
         viewGallery: "ギャラリーを見る",
         viewVilla: "ヴィラを見る",
         bookNow: "今すぐ予約",
+        checkAvailability: "空室を確認",
         showDetails: "詳細を表示",
         hideDetails: "詳細を隠す"
       },
@@ -4029,6 +4065,7 @@ export const translations = {
         bedrooms: "Quartos",
         bathrooms: "Banheiros",
         maxPeople: "Máx. Pessoas",
+        pets: "Animais",
         amenities: "Comodidades",
         houseArrangements: "Disposição dos quartos",
         sleeps: "Capacidade",
@@ -4038,6 +4075,10 @@ export const translations = {
         petsWelcome: "Animais bem vindos · traga cama",
         petsPolicy:
           "Animais bem vindos com aviso prévio. Sem animais na piscina ou em camas; traga a cama do pet. Limpe após seu pet e não o deixe sem supervisão na vila.",
+        occupancyAndParties: "Ocupação e festas",
+        arrivalMapInvite:
+          "Veja o mapa da propriedade na galeria de fotos para encontrar sua vila.",
+        seePropertyMap: "Ver o mapa da propriedade",
         smokingPolicy: "Proibido fumar dentro. Apenas em áreas externas.",
         partiesPolicy:
           "Sem festas ou eventos. Apenas até {max} hóspedes registrados podem pernoitar.",
@@ -4047,6 +4088,7 @@ export const translations = {
         viewGallery: "Ver Galeria",
         viewVilla: "Ver Vila",
         bookNow: "Reservar Agora",
+        checkAvailability: "Verificar disponibilidade",
         showDetails: "Ver detalhes completos",
         hideDetails: "Ocultar detalhes"
       },

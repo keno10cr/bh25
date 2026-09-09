@@ -10,11 +10,14 @@
   isolation: isolate;
 }
 
+.parallax .media {
+  inset: -14% 0;
+}
+
 .media {
   position: absolute;
   inset: -8% 0;
   will-change: transform;
-  transition: transform 0.12s linear;
 }
 
 .carousel img {
@@ -106,6 +109,67 @@
   transform: scale(1.15);
 }
 
+.bundle {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.85rem 0.15rem;
+}
+
+.arrowBelow {
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-neutral-light);
+  font-size: 1.55rem;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.arrowBelow:hover {
+  background: var(--color-primary-light);
+  transform: scale(1.04);
+}
+
+.dotsBelow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dotBelow,
+.dotBelowActive {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 1px solid var(--color-primary);
+  border-radius: 50%;
+  background: rgba(10, 76, 58, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.dotBelowActive {
+  background: var(--color-primary);
+  transform: scale(1.15);
+}
+
 @media (max-width: 768px) {
   .arrow {
     width: 2.2rem;
@@ -119,5 +183,11 @@
 
   .next {
     right: 0.65rem;
+  }
+
+  .arrowBelow {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.4rem;
   }
 }

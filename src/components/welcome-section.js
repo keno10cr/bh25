@@ -28,8 +28,8 @@ export default function WelcomeSection({ copy }) {
             <Image
               src="/blessedhouse_logo25.png"
               alt="Blessed House Logo"
-              width={150}
-              height={150}
+              width={300}
+              height={300}
               className={styles.logo}
             />
           </div>
@@ -39,7 +39,7 @@ export default function WelcomeSection({ copy }) {
           <div className={styles.videoContainer}>
             <div className={styles.videoWrapper}>
               <iframe
-                src="https://www.youtube.com/embed/nwga2GnnoMM?rel=0&modestbranding=1"
+                src="https://www.youtube.com/embed/nwga2GnnoMM?autoplay=1&mute=1&loop=1&playlist=nwga2GnnoMM&playsinline=1&rel=0&modestbranding=1"
                 title="Welcome to Blessed House"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen

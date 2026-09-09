@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import CmsText from "@/components/cms-text";
 import { resolveCopy } from "@/lib/cms-field";
+import { useSmoothParallax } from "@/lib/parallax-motion";
 import styles from "./hero.module.css";
 
 export default function Hero({ copy }) {
@@ -14,38 +15,19 @@ export default function Hero({ copy }) {
   const heroRef = useRef(null);
   const imageRef = useRef(null);
   const contentRef = useRef(null);
-  const [imageOffset, setImageOffset] = useState(0);
-  const [contentOffset, setContentOffset] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        const heroTop = rect.top + window.scrollY;
-        const scrollPosition = window.scrollY;
-        
-        // Only apply parallax when hero is in viewport
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          const scrolled = scrollPosition - heroTop;
-          
-          // Image moves right (positive translateX)
-          const imageRate = scrolled * 0.5;
-          setImageOffset(imageRate);
-          
-          // Content moves left (negative translateX)
-          const contentRate = scrolled * -0.3;
-          setContentOffset(contentRate);
-        } else {
-          // Reset when out of viewport
-          setImageOffset(0);
-          setContentOffset(0);
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Call once on mount
-    return () => window.removeEventListener("scroll", handleScroll);
+  useSmoothParallax((loop) => {
+    const hero = heroRef.current;
+    if (!hero) return;
+    const rect = hero.getBoundingClientRect();
+    if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
+      loop.set(imageRef.current, { x: 0, lerp: 0.2 });
+      loop.set(contentRef.current, { x: 0, lerp: 0.2 });
+      return;
+    }
+    const scrolled = -rect.top;
+    loop.set(imageRef.current, { x: scrolled * 0.45, lerp: 0.18 });
+    loop.set(contentRef.current, { x: scrolled * -0.28, lerp: 0.16 });
   }, []);
 
   return (
@@ -54,7 +36,6 @@ export default function Hero({ copy }) {
         <div
           className={styles.imageContainer}
           ref={imageRef}
-          style={{ transform: `translateX(${imageOffset}px)` }}
         >
           <img
             src={copy?.heroImage?.value || "/BannerVilla4.jpg"}
@@ -71,7 +52,6 @@ export default function Hero({ copy }) {
           <div 
             className={styles.heroContent}
             ref={contentRef}
-            style={{ transform: `translateX(${contentOffset}px)` }}
           >
             <h1 className={styles.title}>
               {(() => {

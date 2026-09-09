@@ -27,8 +27,8 @@
 .logo {
   width: auto;
   height: auto;
-  max-width: 150px;
-  max-height: 150px;
+  max-width: 300px;
+  max-height: 300px;
   object-fit: contain;
 }
 
@@ -47,7 +47,7 @@
 .videoWrapper {
   position: relative;
   width: 100%;
-  max-width: 678px;
+  max-width: 100%;
   margin: 0 auto;
   aspect-ratio: 16 / 9;
   overflow: hidden;
@@ -97,8 +97,8 @@
   }
 
   .logo {
-    max-width: 300px;
-    max-height: 300px;
+    max-width: 220px;
+    max-height: 220px;
   }
 
   .header p {

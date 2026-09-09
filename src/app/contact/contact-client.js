@@ -1,11 +1,12 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import ContactForm from "@/components/contact-form";
 import ContactInfo from "@/components/contact-info";
 import CmsText from "@/components/cms-text";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import { resolveCopy } from "@/lib/cms-field";
+import { useSmoothParallax } from "@/lib/parallax-motion";
 import styles from "./contact.module.css";
 
 export default function ContactClient({ copy }) {
@@ -13,30 +14,18 @@ export default function ContactClient({ copy }) {
   const t = useTranslation(language);
   const bannerRef = useRef(null);
   const imageRef = useRef(null);
-  const [imageOffset, setImageOffset] = useState(0);
   const title = resolveCopy(copy?.title, t("contactPage.title"), language);
   const subtitle = resolveCopy(copy?.subtitle, t("contactPage.subtitle"), language);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (bannerRef.current && imageRef.current) {
-        const rect = bannerRef.current.getBoundingClientRect();
-        const bannerTop = rect.top + window.scrollY;
-        const scrollPosition = window.scrollY;
-
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          const scrolled = scrollPosition - bannerTop;
-          const rate = scrolled * 0.5;
-          setImageOffset(rate);
-        } else {
-          setImageOffset(0);
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+  useSmoothParallax((loop) => {
+    const banner = bannerRef.current;
+    if (!banner) return;
+    const rect = banner.getBoundingClientRect();
+    if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
+      loop.set(imageRef.current, { y: 0, lerp: 0.2 });
+      return;
+    }
+    loop.set(imageRef.current, { y: -rect.top * 0.45, lerp: 0.16 });
   }, []);
 
   return (
@@ -46,7 +35,6 @@ export default function ContactClient({ copy }) {
           <div
             className={styles.bannerImageWrapper}
             ref={imageRef}
-            style={{ transform: `translateY(${imageOffset}px)` }}
           >
             <img
               src={copy?.heroImage?.value || "/info/miradorBHContact.jpg"}

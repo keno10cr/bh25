@@ -4,7 +4,10 @@ export const DEFAULT_PETS_REVIEW_EN =
   "Pets welcome with prior notice. No pets in the pool or on beds; please bring their own pet bed. Clean up after your pet and do not leave them unattended in the villa.";
 
 export const DEFAULT_PETS_AREA_BODY_EN =
-  "Pets are welcome with prior notice.\n\nPets are not allowed in the pool. Pets are not allowed on beds or furniture. Please bring their own pet bed.\n\nClean up after your pet in the garden and shared paths. Do not leave pets unattended in the villa.\n\nPlease tell us how many pets you are bringing when you book.";
+  "Pets are welcome with prior notice. Please tell us how many pets you are bringing when you book.\n\nPets are not allowed in the pool. Pets are not allowed on beds or furniture. Please bring their own pet bed.\n\nClean up after your pet in the garden and shared paths. Do not leave pets unattended in the villa.";
+
+export const ARRIVAL_RULE_EN =
+  "We will share check in instructions and access details before your arrival. Please let us know if you have an early flight or late transfer. See the property map in the photo gallery to find your villa.";
 
 function textToBlocks(text, prefix = "rule") {
   return String(text || "")
@@ -181,6 +184,41 @@ function portableTextToPlain(body) {
 }
 
 function ensurePetsAreaBody(body) {
+  const blocks = Array.isArray(body) ? body : [];
+  const paragraphs = blocks.map((block) => portableTextToPlain([block]).trim());
+  const welcomeIndex = paragraphs.findIndex((text) =>
+    text.toLowerCase().startsWith("pets are welcome with prior notice")
+  );
+  const countIndex = paragraphs.findIndex((text) =>
+    text.toLowerCase().includes("how many pets you are bringing")
+  );
+
+  if (
+    welcomeIndex >= 0 &&
+    countIndex >= 0 &&
+    welcomeIndex !== countIndex
+  ) {
+    const merged = `${paragraphs[welcomeIndex].replace(/\.$/, "")}. ${paragraphs[countIndex]}`;
+    return blocks
+      .map((block, index) => {
+        if (index === countIndex) return null;
+        if (index !== welcomeIndex) return block;
+        return {
+          ...block,
+          children: [
+            {
+              ...(block.children?.[0] || {}),
+              _type: "span",
+              _key: `${block._key || "pets"}-merged`,
+              text: merged,
+              marks: block.children?.[0]?.marks || [],
+            },
+          ],
+        };
+      })
+      .filter(Boolean);
+  }
+
   const plain = portableTextToPlain(body).toLowerCase();
   if (
     !plain.includes("pet bed") &&
@@ -192,48 +230,121 @@ function ensurePetsAreaBody(body) {
   return body;
 }
 
+function withArrivalMapInvite(body, translate) {
+  const plain = portableTextToPlain(body);
+  const lower = plain.toLowerCase();
+  if (!lower.includes("check in")) return body;
+  if (lower.includes("property map") || lower.includes("see the map")) {
+    return body;
+  }
+  let invite = translate("villas.houseRules.arrivalMapInvite");
+  if (!invite || invite === "villas.houseRules.arrivalMapInvite") {
+    invite =
+      "See the property map in the photo gallery to find your villa.";
+  }
+  return [...body, ...textToBlocks(invite, "map-invite")];
+}
+
+export function toRoman(num) {
+  const glyphs = [
+    [10, "X"],
+    [9, "IX"],
+    [5, "V"],
+    [4, "IV"],
+    [1, "I"],
+  ];
+  let n = Math.max(1, Math.floor(num));
+  let out = "";
+  for (const [value, glyph] of glyphs) {
+    while (n >= value) {
+      out += glyph;
+      n -= value;
+    }
+  }
+  return out;
+}
+
 export function hasPetsAreaRule(areaRules) {
   return (areaRules || []).some(
     (rule) => String(rule?.title || "").trim().toLowerCase() === "pets"
   );
 }
 
-/** Flat rule cards: area rules (Pets last), then Smoking, Parties, Quiet hours. */
+function ruleTitleKey(title) {
+  return String(title || "").trim().toLowerCase();
+}
+
+function localizedTitle(translate, key, fallback) {
+  const value = translate(key);
+  return value && value !== key ? value : fallback;
+}
+
+/** I pool, II occupancy+parties, III arrival, IV pets, V quiet hours, VI smoking. */
 export function getOrderedHouseRuleCards(property, t) {
   const display = getHouseRulesForDisplay(property, t);
   const translate = typeof t === "function" ? t : (key) => key;
   const petsMax = resolvePetsMax(property);
 
   const petsAreaRule = display.areaRules.find(
-    (rule) => String(rule.title || "").trim().toLowerCase() === "pets"
+    (rule) => ruleTitleKey(rule.title) === "pets"
   );
-  const otherAreaRules = display.areaRules.filter(
-    (rule) => String(rule.title || "").trim().toLowerCase() !== "pets"
+  const occupancyRule = display.areaRules.find((rule) =>
+    ruleTitleKey(rule.title).includes("occupancy")
+  );
+  const otherAreaRules = display.areaRules.filter((rule) => {
+    const key = ruleTitleKey(rule.title);
+    return key !== "pets" && !key.includes("occupancy");
+  });
+
+  const poolRule = otherAreaRules.find((rule) =>
+    ruleTitleKey(rule.title).includes("pool")
+  );
+  const arrivalRule = otherAreaRules.find(
+    (rule) => ruleTitleKey(rule.title) === "arrival"
+  );
+  const extraAreaRules = otherAreaRules.filter(
+    (rule) => rule !== poolRule && rule !== arrivalRule
   );
 
-  const cards = otherAreaRules.map((rule) => ({
-    key: `area-${rule.title}`,
-    title: rule.title,
-    body: rule.body,
-  }));
+  const cards = [];
 
-  cards.push(
-    {
-      key: "smoking",
-      title: translate("checkout.smoking"),
-      body: textToBlocks(display.review.smoking, "smoking"),
-    },
-    {
-      key: "parties",
-      title: translate("checkout.parties"),
-      body: textToBlocks(display.review.parties, "parties"),
-    },
-    {
-      key: "quietHours",
-      title: translate("checkout.quietHours"),
-      body: textToBlocks(display.review.quietHours, "quiet"),
-    }
-  );
+  if (poolRule) {
+    cards.push({
+      key: "pool",
+      title: poolRule.title,
+      body: poolRule.body,
+    });
+  }
+
+  const occupancyBody = Array.isArray(occupancyRule?.body) ? occupancyRule.body : [];
+  const partiesBody = textToBlocks(display.review.parties, "parties");
+  if (occupancyBody.length || partiesBody.length) {
+    cards.push({
+      key: "occupancy-parties",
+      title: localizedTitle(
+        translate,
+        "villas.houseRules.occupancyAndParties",
+        "Occupancy and parties"
+      ),
+      body: [...occupancyBody, ...partiesBody],
+    });
+  }
+
+  if (arrivalRule) {
+    cards.push({
+      key: "arrival",
+      title: arrivalRule.title,
+      body: withArrivalMapInvite(arrivalRule.body, translate),
+    });
+  }
+
+  extraAreaRules.forEach((rule) => {
+    cards.push({
+      key: `area-${rule.title}`,
+      title: rule.title,
+      body: rule.body,
+    });
+  });
 
   if (petsAreaRule) {
     cards.push({
@@ -248,6 +359,19 @@ export function getOrderedHouseRuleCards(property, t) {
       body: textToBlocks(display.review.dogs, "pets"),
     });
   }
+
+  cards.push(
+    {
+      key: "quietHours",
+      title: translate("checkout.quietHours"),
+      body: textToBlocks(display.review.quietHours, "quiet"),
+    },
+    {
+      key: "smoking",
+      title: translate("checkout.smoking"),
+      body: textToBlocks(display.review.smoking, "smoking"),
+    }
+  );
 
   return cards;
 }

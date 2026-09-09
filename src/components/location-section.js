@@ -6,6 +6,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import CmsText from "@/components/cms-text";
 import { resolveCopy } from "@/lib/cms-field";
+import { useSmoothParallax } from "@/lib/parallax-motion";
 import styles from "./location-section.module.css";
 
 export default function LocationSection({ copy }) {
@@ -35,15 +36,13 @@ export default function LocationSection({ copy }) {
   const intervalRef = useRef(null);
   const observerRef = useRef(null);
   const hasAnimatedRef = useRef(false);
-  const [imageOffset, setImageOffset] = useState(0);
-  const [contentOffset, setContentOffset] = useState(0);
   const [visibleChars, setVisibleChars] = useState(0);
-  const scrollHandlerRef = useRef(() => {});
+  const parallaxUpdateRef = useRef(() => {});
 
   const fullText = `"${mapsQuery.value}"`;
   const totalChars = fullText.length;
 
-  useEffect(() => {
+  useSmoothParallax((loop) => {
     const getCenterOffset = () => {
       const band = sectionRef.current;
       const image = imageRef.current;
@@ -51,51 +50,34 @@ export default function LocationSection({ copy }) {
       return (band.offsetHeight - image.offsetHeight) / 2;
     };
 
-    const handleScroll = () => {
-      // Only apply parallax on desktop (above 768px)
+    const apply = () => {
       if (window.innerWidth <= 768) {
-        setImageOffset(0);
-        setContentOffset(0);
+        loop.set(imageRef.current, { y: 0, lerp: 0.22 });
+        loop.set(textContentRef.current, { x: 0, lerp: 0.22 });
         return;
       }
-
-      if (sectionRef.current && imageRef.current) {
-        const centerOffset = getCenterOffset();
-        const rect = sectionRef.current.getBoundingClientRect();
-        const sectionTop = rect.top + window.scrollY;
-        const scrollPosition = window.scrollY;
-
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          const scrolled = scrollPosition - sectionTop;
-          setImageOffset(centerOffset + scrolled * 0.3);
-          const initialOffset = 100;
-          const contentRate = initialOffset - scrolled * 0.5;
-          setContentOffset(contentRate);
-        } else {
-          setImageOffset(centerOffset);
-          setContentOffset(0);
-        }
+      const centerOffset = getCenterOffset();
+      const section = sectionRef.current;
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        const scrolled = -rect.top;
+        loop.set(imageRef.current, {
+          y: centerOffset + scrolled * 0.28,
+          lerp: 0.16,
+        });
+        loop.set(textContentRef.current, {
+          x: 100 - scrolled * 0.45,
+          lerp: 0.14,
+        });
+      } else {
+        loop.set(imageRef.current, { y: centerOffset, lerp: 0.18 });
+        loop.set(textContentRef.current, { x: 0, lerp: 0.18 });
       }
     };
 
-    scrollHandlerRef.current = handleScroll;
-
-    const handleResize = () => {
-      // Reset offsets on resize if mobile
-      if (window.innerWidth <= 768) {
-        setImageOffset(0);
-        setContentOffset(0);
-      }
-      handleScroll();
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
-    handleScroll(); // Call once on mount
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-    };
+    parallaxUpdateRef.current = apply;
+    apply();
   }, []);
 
   useEffect(() => {
@@ -175,7 +157,6 @@ export default function LocationSection({ copy }) {
         <div
           className={styles.imageContainer}
           ref={imageRef}
-          style={{ transform: `translateY(${imageOffset}px)` }}
         >
           <img
             src={copy?.locationImage?.value || "/info/locationBHmap.jpg"}
@@ -184,7 +165,7 @@ export default function LocationSection({ copy }) {
               "Satellite map of Blessed House near Puerto Viejo de Talamanca, Playa Cocles, and Punta Uva"
             }
             className={styles.image}
-            onLoad={() => scrollHandlerRef.current()}
+            onLoad={() => parallaxUpdateRef.current()}
           />
         </div>
       </div>
@@ -192,7 +173,6 @@ export default function LocationSection({ copy }) {
         <div 
           className={styles.textContent}
           ref={textContentRef}
-          style={{ transform: `translateX(${contentOffset}px)` }}
         >
           <h2>
             <CmsText fromCms={title.fromCms}>{title.value}</CmsText>

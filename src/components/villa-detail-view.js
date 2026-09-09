@@ -12,7 +12,7 @@ import FeedbackModal from "@/components/feedback-modal";
 import PropertyBookingSidebar from "@/components/property-booking-sidebar";
 import ReviewsMarquee from "@/components/reviews-marquee";
 import { AmenityIcon } from "@/components/amenity-icon";
-import { villaImageCaption } from "@/lib/villa-gallery";
+import { villaImageCaption, mergeVillaGallery, isPropertyMapSrc } from "@/lib/villa-gallery";
 import {
   resolveBaseGuestCount,
   resolveExtraGuestFeePerNight,
@@ -21,6 +21,7 @@ import {
 import {
   getOrderedHouseRuleCards,
   resolvePetsMax,
+  toRoman,
 } from "@/lib/houseRules";
 import styles from "./villa-detail.module.css";
 
@@ -42,12 +43,9 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
     !(property?.shortDescription && language === "en");
   const fact =
     villa.translationKey && t(`villas.${villa.translationKey}.informativeFact`);
-  const gallery =
-    property?.gallery?.length > 0
-      ? property.gallery
-      : villa.galleryImages || villa.gallery || [];
-  const heroFallback = property?.heroImage || villa.image;
+  const gallery = mergeVillaGallery(villa, property);
   const captions = gallery.map((src) => villaImageCaption(src, villa, t));
+  const mapIndex = gallery.findIndex((src) => isPropertyMapSrc(src));
   const amenitySource =
     property?.amenities?.length > 0 ? property.amenities : villa.amenities;
   const amenityKeys = useMemo(
@@ -86,7 +84,7 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
       </Link>
       <div className={styles.hero}>
         <ImageCarousel
-          images={gallery.length ? gallery : [heroFallback].filter(Boolean)}
+          images={gallery.length ? gallery : [property?.heroImage || villa.image].filter(Boolean)}
           alt={property?.name || villa.name}
           onImageClick={openGallery}
           parallax
@@ -227,7 +225,7 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
             <div className={styles.gallery}>
               {gallery.map((src, index) => (
                 <button
-                  key={src}
+                  key={`${src}-${index}`}
                   type="button"
                   className={styles.thumb}
                   onClick={() => openGallery(index)}
@@ -240,13 +238,25 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
 
           <section className={`${styles.section} ${styles.rulesSection}`}>
             <h2>{t("villas.details.houseRules")}</h2>
-            <div className={styles.rulesStack}>
-              {houseRuleCards.map((rule) => (
+            <div className={styles.rulesGrid}>
+              {houseRuleCards.map((rule, index) => (
                 <article key={rule.key} className={styles.ruleCard}>
-                  <h3 className={styles.ruleTitle}>{rule.title}</h3>
+                  <h3 className={styles.ruleTitle}>
+                    <span className={styles.ruleNum}>{toRoman(index + 1)}.</span>
+                    {rule.title}
+                  </h3>
                   <div className={styles.ruleBody}>
                     <PortableBody value={rule.body} />
                   </div>
+                  {rule.key === "arrival" && mapIndex >= 0 ? (
+                    <button
+                      type="button"
+                      className={styles.mapLink}
+                      onClick={() => openGallery(mapIndex)}
+                    >
+                      {t("villas.houseRules.seePropertyMap")}
+                    </button>
+                  ) : null}
                 </article>
               ))}
             </div>

@@ -1,5 +1,11 @@
 export const SOCIAL_PHOTO_SLOT = 950;
 
+/** Shared photo crop used by feed 4:5 and TikTok so all three previews show the same area. */
+export const SOCIAL_SHARED_PHOTO = {
+  width: 1080,
+  height: 1084,
+};
+
 export const SOCIAL_PLATFORMS = {
   instagram: {
     key: "instagram",
@@ -14,7 +20,7 @@ export const SOCIAL_PLATFORMS = {
     label: "Facebook / Meta",
     order: 2,
     width: 1080,
-    height: 1080,
+    height: 1350,
     tallType: false,
   },
   tiktok: {
@@ -30,7 +36,7 @@ export const SOCIAL_PLATFORMS = {
     label: "X",
     order: 4,
     width: 1080,
-    height: 1080,
+    height: 1350,
     tallType: false,
   },
   bluesky: {
@@ -38,7 +44,7 @@ export const SOCIAL_PLATFORMS = {
     label: "Bluesky",
     order: 5,
     width: 1080,
-    height: 1080,
+    height: 1350,
     tallType: false,
   },
   pinterest: {

@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import { useRef } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import CmsText from "@/components/cms-text";
 import { resolveCopy } from "@/lib/cms-field";
+import { useSmoothParallax } from "@/lib/parallax-motion";
 import styles from "./our-place.module.css";
 
 export default function OurPlace({ copy }) {
@@ -21,27 +21,13 @@ export default function OurPlace({ copy }) {
     const cta = resolveCopy(copy?.ourPlaceCta, t("ourPlace.contactUs"), language);
     const imageRef = useRef(null);
     const sectionRef = useRef(null);
-    const [imageOffset, setImageOffset] = useState(0);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (sectionRef.current && imageRef.current) {
-                const rect = sectionRef.current.getBoundingClientRect();
-                const sectionTop = rect.top + window.scrollY;
-                const scrollPosition = window.scrollY;
-
-                // Only apply parallax when section is in viewport
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    const scrolled = scrollPosition - sectionTop;
-                    const rate = scrolled * 0.3; // Move image down as we scroll down
-                    setImageOffset(rate);
-                }
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        handleScroll(); // Call once on mount
-        return () => window.removeEventListener("scroll", handleScroll);
+    useSmoothParallax((loop) => {
+        const section = sectionRef.current;
+        if (!section) return;
+        const rect = section.getBoundingClientRect();
+        if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
+        loop.set(imageRef.current, { y: -rect.top * 0.28, lerp: 0.16 });
     }, []);
 
     return (
@@ -52,7 +38,6 @@ export default function OurPlace({ copy }) {
                         <div
                             className={styles.imageContainer}
                             ref={imageRef}
-                            style={{ transform: `translateY(${imageOffset}px)` }}
                         >
                             <img
                                 src={copy?.ourPlaceImage?.value || "/villas/general/junglepool.jpg"}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import VillaCard from "@/components/villa-card";
 import CmsText from "@/components/cms-text";
@@ -16,8 +16,6 @@ export default function VillasClient({ villas: cmsVillas = [], copy }) {
   const pageTitle = resolveCopy(copy?.title, t("villas.title"), language);
   const pageSubtitle = resolveCopy(copy?.subtitle, t("villas.subtitle"), language);
   const [selectedFilter, setSelectedFilter] = useState("all");
-  const [visibleItems, setVisibleItems] = useState(new Set());
-  const villasRef = useRef(null);
 
   const villas = cmsVillas.map((villa) => {
     const amenityKeys = Array.isArray(villa.amenities) ? villa.amenities : [];
@@ -71,35 +69,6 @@ export default function VillasClient({ villas: cmsVillas = [], copy }) {
           return filterValue === selectedFilter;
         });
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisibleItems((prev) => new Set([...prev, entry.target.dataset.id]));
-          } else {
-            setVisibleItems((prev) => {
-              const next = new Set(prev);
-              next.delete(entry.target.dataset.id);
-              return next;
-            });
-          }
-        });
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "50px",
-      }
-    );
-
-    const items = villasRef.current?.querySelectorAll("[data-villa-item]");
-    items?.forEach((item) => observer.observe(item));
-
-    return () => {
-      items?.forEach((item) => observer.unobserve(item));
-    };
-  }, [filteredVillas]);
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -127,17 +96,9 @@ export default function VillasClient({ villas: cmsVillas = [], copy }) {
         </div>
       </div>
 
-      <div className={styles.grid} ref={villasRef}>
-        {filteredVillas.map((villa, index) => (
-          <div
-            key={villa.id}
-            data-villa-item
-            data-id={villa.id}
-            className={`${styles.villaWrapper} ${
-              visibleItems.has(String(villa.id)) ? styles.visible : ""
-            }`}
-            style={{ animationDelay: `${index * 0.03}s` }}
-          >
+      <div className={styles.grid}>
+        {filteredVillas.map((villa) => (
+          <div key={villa.id} className={styles.villaWrapper}>
             <VillaCard villa={villa} />
           </div>
         ))}

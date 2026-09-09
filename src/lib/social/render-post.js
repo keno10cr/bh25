@@ -3,7 +3,7 @@ import path from "node:path";
 import { ImageResponse } from "next/og";
 import { NextResponse } from "next/server";
 import sharp from "sharp";
-import { getSocialPlatform } from "./platforms";
+import { getSocialPlatform, SOCIAL_SHARED_PHOTO } from "./platforms";
 
 export const SOCIAL_COLORS = {
   green: "#0a4c3a",
@@ -17,6 +17,9 @@ const SQUARE_FOOTER = { width: 959, height: 237.5 };
 const RADIUS = 28;
 const LOGO_H = 198;
 const LOGO_W = Math.round((LOGO_H * 316) / 272);
+const TIKTOK_LOGO_H = 148;
+const TIKTOK_LOGO_W = Math.round((TIKTOK_LOGO_H * 316) / 272);
+const TIKTOK_TOP_INSET = 88;
 
 let fontCache = null;
 let logoCache = null;
@@ -108,23 +111,34 @@ function fitTitle(title, { boxWidth, baseSize, minSize, maxLines }) {
 }
 
 function layoutFor(platform) {
-  const footerWidth = Math.min(SQUARE_FOOTER.width, platform.width - 40);
+  const tabFooter = !platform.tallType;
+  const tabInset = 40;
   const bottomPad = 40;
   const gap = 28;
-  const overlayFooter = platform.height === 1080;
   const titleSize = platform.tallType ? 104 : 72;
   const descriptionSize = 39;
+  const tabHeight = Math.round(SQUARE_FOOTER.height);
+  const topBar = platform.key === "tiktok";
+  const topBarHeight = topBar ? 248 : 0;
+  const sharedPhotoH = Math.round(
+    (platform.width * SOCIAL_SHARED_PHOTO.height) / SOCIAL_SHARED_PHOTO.width
+  );
 
-  let photoH = platform.width;
-  let footerHeight = SQUARE_FOOTER.height;
-  if (platform.key === "tiktok") {
-    photoH = 1380;
+  let photoH = sharedPhotoH;
+  let footerHeight = tabHeight;
+  let footerWidth = Math.min(SQUARE_FOOTER.width, platform.width - 40);
+
+  if (tabFooter) {
+    footerWidth = platform.width - tabInset * 2;
+    footerHeight = tabHeight;
+    photoH = platform.height - gap - footerHeight;
+  } else if (topBar) {
+    photoH = sharedPhotoH;
+    footerHeight =
+      platform.height - topBarHeight - gap * 2 - photoH - bottomPad;
+  } else {
+    photoH = sharedPhotoH;
     footerHeight = platform.height - photoH - gap - bottomPad;
-  } else if (platform.tallType) {
-    footerHeight = platform.height - photoH - gap - bottomPad;
-  } else if (!overlayFooter) {
-    footerHeight = Math.round(footerHeight);
-    photoH = platform.height - footerHeight - gap - bottomPad;
   }
 
   return {
@@ -132,7 +146,10 @@ function layoutFor(platform) {
     photoH,
     footerWidth,
     footerHeight,
-    overlayFooter,
+    tabFooter,
+    topBar,
+    topBarHeight,
+    tabInset,
     bottomPad,
     gap,
     titleSize,
@@ -157,7 +174,7 @@ function SocialCard({ platform, post, imageUrl, logoSrc }) {
     ? 16 + Math.max(2, Math.ceil(descChars / descPerLine)) * layout.descriptionSize * 1.3
     : 0;
   const footerNeeded = Math.ceil(footerPadY * 2 + titleBlock + descBlock);
-  if (!layout.overlayFooter && footerNeeded > layout.footerHeight) {
+  if (!layout.tabFooter && footerNeeded > layout.footerHeight) {
     const extra = footerNeeded - layout.footerHeight;
     layout.photoH -= extra;
     layout.footerHeight += extra;
@@ -175,9 +192,73 @@ function SocialCard({ platform, post, imageUrl, logoSrc }) {
         color: SOCIAL_COLORS.cream,
         fontFamily: "REM",
         position: "relative",
-        paddingBottom: layout.overlayFooter ? 0 : layout.bottomPad,
+        paddingBottom: layout.tabFooter ? 0 : layout.bottomPad,
+        overflow: "hidden",
       }}
     >
+      {layout.topBar ? (
+        <div
+          style={{
+            width: "100%",
+            height: layout.topBarHeight,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              width: platform.width - TIKTOK_TOP_INSET * 2,
+              minWidth: platform.width - TIKTOK_TOP_INSET * 2,
+              maxWidth: platform.width - TIKTOK_TOP_INSET * 2,
+              height: layout.topBarHeight,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: SOCIAL_COLORS.greenDeep,
+              borderTopLeftRadius: 0,
+              borderTopRightRadius: 0,
+              borderBottomLeftRadius: RADIUS,
+              borderBottomRightRadius: RADIUS,
+              border: `3px solid ${SOCIAL_COLORS.gold}`,
+              paddingTop: 16,
+              paddingBottom: 18,
+            }}
+          >
+            <img
+              src={logoSrc}
+              alt=""
+              width={TIKTOK_LOGO_W}
+              height={TIKTOK_LOGO_H}
+              style={{
+                objectFit: "contain",
+              }}
+            />
+            <div
+              style={{
+                display: "flex",
+                marginTop: 10,
+                backgroundColor: SOCIAL_COLORS.gold,
+                color: SOCIAL_COLORS.greenDeep,
+                fontSize: 22,
+                fontWeight: 700,
+                letterSpacing: 1,
+                paddingTop: 8,
+                paddingBottom: 8,
+                paddingLeft: 18,
+                paddingRight: 18,
+                borderRadius: 999,
+                textTransform: "uppercase",
+              }}
+            >
+              {clipText(post.category || "Blessed House", 28)}
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       <div
         style={{
           width: layout.photoW,
@@ -186,6 +267,7 @@ function SocialCard({ platform, post, imageUrl, logoSrc }) {
           position: "relative",
           overflow: "hidden",
           backgroundColor: SOCIAL_COLORS.greenDeep,
+          marginTop: layout.topBar ? layout.gap : 0,
         }}
       >
         {imageUrl ? (
@@ -216,44 +298,51 @@ function SocialCard({ platform, post, imageUrl, logoSrc }) {
             No photo yet
           </div>
         )}
-        <div
-          style={{
-            position: "absolute",
-            top: 14,
-            left: 20,
-            display: "flex",
-            backgroundColor: SOCIAL_COLORS.gold,
-            color: SOCIAL_COLORS.greenDeep,
-            fontSize: 22,
-            fontWeight: 700,
-            letterSpacing: 1,
-            padding: "10px 20px",
-            borderRadius: 999,
-            textTransform: "uppercase",
-          }}
-        >
-          {clipText(post.category || "Blessed House", 28)}
-        </div>
-        <img
-          src={logoSrc}
-          alt=""
-          width={LOGO_W}
-          height={LOGO_H}
-          style={{
-            position: "absolute",
-            top: 4,
-            right: 8,
-            objectFit: "contain",
-          }}
-        />
+        {layout.topBar ? null : (
+          <div
+            style={{
+              position: "absolute",
+              top: 14,
+              left: 20,
+              display: "flex",
+              backgroundColor: SOCIAL_COLORS.gold,
+              color: SOCIAL_COLORS.greenDeep,
+              fontSize: 22,
+              fontWeight: 700,
+              letterSpacing: 1,
+              paddingTop: 10,
+              paddingBottom: 10,
+              paddingLeft: 20,
+              paddingRight: 20,
+              borderRadius: 999,
+              textTransform: "uppercase",
+            }}
+          >
+            {clipText(post.category || "Blessed House", 28)}
+          </div>
+        )}
+        {layout.topBar ? null : (
+          <img
+            src={logoSrc}
+            alt=""
+            width={LOGO_W}
+            height={LOGO_H}
+            style={{
+              position: "absolute",
+              top: 20,
+              right: 22,
+              objectFit: "contain",
+            }}
+          />
+        )}
       </div>
 
       <div
         style={
-          layout.overlayFooter
+          layout.tabFooter
             ? {
-                position: "absolute",
-                bottom: 36,
+                position: "relative",
+                marginTop: layout.gap,
                 width: layout.footerWidth,
                 height: layout.footerHeight,
                 display: "flex",
@@ -261,7 +350,10 @@ function SocialCard({ platform, post, imageUrl, logoSrc }) {
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: SOCIAL_COLORS.greenDeep,
-                borderRadius: RADIUS,
+                borderTopLeftRadius: RADIUS,
+                borderTopRightRadius: RADIUS,
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
                 border: `3px solid ${SOCIAL_COLORS.gold}`,
                 paddingTop: footerPadY,
                 paddingBottom: footerPadY,
