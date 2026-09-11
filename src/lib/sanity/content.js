@@ -75,12 +75,23 @@ function mergeBySlug(sanityItems, fallbackItems, mapFn) {
 
 export async function getActivities() {
   const raw = await sanityFetch(activitiesQuery);
-  return mergeBySlug(raw, STATIC_ACTIVITIES, mapActivity).map(
-    (activity, index) => ({
+  const staticOrder = new Map(
+    STATIC_ACTIVITIES.map((item, index) => [item.slug, index])
+  );
+
+  return mergeBySlug(raw, STATIC_ACTIVITIES, mapActivity)
+    .sort((a, b) => {
+      if (a.slug === "pool") return -1;
+      if (b.slug === "pool") return 1;
+      const aOrder = staticOrder.has(a.slug) ? staticOrder.get(a.slug) : 999;
+      const bOrder = staticOrder.has(b.slug) ? staticOrder.get(b.slug) : 999;
+      if (aOrder !== bOrder) return aOrder - bOrder;
+      return String(a.name || "").localeCompare(String(b.name || ""));
+    })
+    .map((activity, index) => ({
       ...activity,
       number: index + 1,
-    })
-  );
+    }));
 }
 
 export async function getActivityBySlug(slug) {

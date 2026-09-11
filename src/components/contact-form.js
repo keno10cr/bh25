@@ -68,9 +68,18 @@ export default function ContactForm({ copy }) {
       subjectParam === "booking" || Boolean(villaId) || Boolean(propertyParam);
 
     if (subjectParam === "activities") {
+      const activityParam =
+        params.get("activity") || params.get("activityId") || "";
+      const matchedActivity = CONTACT_ACTIVITIES.find(
+        (activity) =>
+          String(activity.id) === String(activityParam) ||
+          activity.slug === activityParam ||
+          activity.translationKey === activityParam
+      );
       setFormData((prev) => ({
         ...prev,
         subject: "activities",
+        activityId: matchedActivity ? String(matchedActivity.id) : "",
       }));
       return;
     }
@@ -317,6 +326,31 @@ export default function ContactForm({ copy }) {
 
   return (
     <div className={styles.formContainer}>
+      <div className={styles.videoContainer}>
+        <h3>{t("contact.videoTitle")}</h3>
+        <div className={styles.videoWrapper}>
+          <iframe
+            src="https://player.vimeo.com/video/228500255?h=7c3b5c0e9f"
+            width="100%"
+            height="100%"
+            frameBorder="0"
+            allow="autoplay; fullscreen; picture-in-picture"
+            title={t("contact.videoTitle")}
+          ></iframe>
+        </div>
+        <p className={styles.videoCredit}>
+          {t("contact.videoCredit")}{" "}
+          <a
+            href="https://vimeo.com/ensofilmscr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.videoLink}
+          >
+            ENSO Films
+          </a>
+        </p>
+      </div>
+
       <h2>
         <CmsText fromCms={formTitle.fromCms}>{formTitle.value}</CmsText>
       </h2>
@@ -583,31 +617,6 @@ export default function ContactForm({ copy }) {
           />
         </div>
         <p>{t("footer.parkingFee")}</p>
-      </div>
-
-      <div className={styles.videoContainer}>
-        <h3>{t("contact.videoTitle")}</h3>
-        <div className={styles.videoWrapper}>
-          <iframe
-            src="https://player.vimeo.com/video/228500255?h=7c3b5c0e9f"
-            width="100%"
-            height="100%"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture"
-            title={t("contact.videoTitle")}
-          ></iframe>
-        </div>
-        <p className={styles.videoCredit}>
-          {t("contact.videoCredit")}{" "}
-          <a
-            href="https://vimeo.com/ensofilmscr"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.videoLink}
-          >
-            ENSO Films
-          </a>
-        </p>
       </div>
     </div>
   );

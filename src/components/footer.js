@@ -30,11 +30,13 @@ export default function Footer() {
     );
 
     loop.set(layer2Ref.current, {
-      y: (1 - progress) * 120 + (0.5 - progress) * 18,
+      // Back layer: 10px above the floor when settled.
+      y: (1 - progress) * 100,
       lerp: 0.07,
     });
     loop.set(layer1Ref.current, {
-      y: (1 - progress) * 56 + (0.5 - progress) * 8,
+      // Front layer: flush with the floor when settled.
+      y: (1 - progress) * 80,
       lerp: 0.16,
     });
   }, []);
@@ -42,16 +44,12 @@ export default function Footer() {
   return (
     <footer className={styles.footer} ref={footerRef}>
       <div className={styles.layers} aria-hidden="true">
-        <img
+        <div
           ref={layer2Ref}
-          src="/footerL2.svg"
-          alt=""
           className={`${styles.layer} ${styles.layerBack}`}
         />
-        <img
+        <div
           ref={layer1Ref}
-          src="/footerL1.svg"
-          alt=""
           className={`${styles.layer} ${styles.layerFront}`}
         />
       </div>

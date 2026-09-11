@@ -16,27 +16,63 @@
 }
 
 .layer {
+  --layer-h: clamp(140px, 26vw, 220px);
+  /* footerL1/L2 viewBox is 473 × 193 */
+  --layer-aspect: 2.451;
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -8%;
+  bottom: 0;
   width: 100%;
-  height: auto;
-  object-fit: cover;
-  object-position: center bottom;
+  height: var(--layer-h);
+  background-repeat: repeat-x;
+  background-position: center bottom;
+  background-size: calc(var(--layer-h) * var(--layer-aspect)) var(--layer-h);
   will-change: transform;
   user-select: none;
   pointer-events: none;
 }
 
 .layerBack {
-  opacity: 0.42;
-  bottom: -18%;
+  --layer-h: clamp(160px, 30vw, 260px);
+  opacity: 0.55;
+  bottom: 25px;
+  background-image: url("/footerL2.svg");
 }
 
 .layerFront {
+  --layer-h: clamp(170px, 32vw, 260px);
   opacity: 0.88;
-  bottom: -6%;
+  bottom: 15px;
+  background-image: url("/footerL1.svg");
+}
+
+@media (min-width: 1200px) {
+  .layer {
+    --layer-h: 200px;
+  }
+
+  .layerBack {
+    --layer-h: 240px;
+  }
+
+  .layerFront {
+    --layer-h: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layer {
+    --layer-h: clamp(110px, 42vw, 160px);
+  }
+
+  .layerBack {
+    --layer-h: clamp(130px, 48vw, 180px);
+  }
+
+  .layerFront {
+    --layer-h: clamp(140px, 50vw, 190px);
+  }
 }
 
 .content {

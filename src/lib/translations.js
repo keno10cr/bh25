@@ -459,7 +459,8 @@ export const translations = {
         mapSearch: "Blessed House Puerto Viejo de Talamanca",
         getDirections: "Get directions from Google Maps →",
         coordinatesTitle: "Coordinates",
-        findUsHere: "Find Us Here"
+        findUsHere: "Find Us Here",
+        activitiesAround: "Check the activities around..."
       }
     },
     footer: {
@@ -1188,7 +1189,8 @@ export const translations = {
         mapSearch: "Blessed House Puerto Viejo de Talamanca",
         getDirections: "Obtener indicaciones de Google Maps →",
         coordinatesTitle: "Coordenadas",
-        findUsHere: "Encuéntranos Aquí"
+        findUsHere: "Encuéntranos Aquí",
+        activitiesAround: "Mira las actividades alrededor..."
       }
     },
     footer: {
@@ -1887,7 +1889,8 @@ export const translations = {
         mapSearch: "Blessed House Puerto Viejo de Talamanca",
         getDirections: "Wegbeschreibung von Google Maps →",
         coordinatesTitle: "Koordinaten",
-        findUsHere: "Finden Sie uns hier"
+        findUsHere: "Finden Sie uns hier",
+        activitiesAround: "Entdecken Sie die Aktivitäten in der Umgebung..."
       }
     },
     footer: {
@@ -2514,7 +2517,8 @@ export const translations = {
         mapSearch: "Blessed House Puerto Viejo de Talamanca",
         getDirections: "Routebeschrijving van Google Maps →",
         coordinatesTitle: "Coördinaten",
-        findUsHere: "Vind Ons Hier"
+        findUsHere: "Vind Ons Hier",
+        activitiesAround: "Bekijk de activiteiten in de omgeving..."
       }
     },
     footer: {
@@ -3141,7 +3145,8 @@ export const translations = {
         mapSearch: "Blessed House Puerto Viejo de Talamanca",
         getDirections: "Obtenir l'itinéraire depuis Google Maps →",
         coordinatesTitle: "Coordonnées",
-        findUsHere: "Trouvez-nous Ici"
+        findUsHere: "Trouvez-nous Ici",
+        activitiesAround: "Découvrez les activités autour..."
       }
     },
     footer: {
@@ -3768,7 +3773,8 @@ export const translations = {
         mapSearch: "Blessed House Puerto Viejo de Talamanca",
         getDirections: "Googleマップからルートを取得 →",
         coordinatesTitle: "座標",
-        findUsHere: "ここで見つける"
+        findUsHere: "ここで見つける",
+        activitiesAround: "周辺のアクティビティをチェック..."
       }
     },
     footer: {
@@ -4488,7 +4494,8 @@ export const translations = {
         mapSearch: "Blessed House Puerto Viejo de Talamanca",
         getDirections: "Obter direções do Google Maps →",
         coordinatesTitle: "Coordenadas",
-        findUsHere: "Encontre-nos Aqui"
+        findUsHere: "Encontre-nos Aqui",
+        activitiesAround: "Confira as atividades por perto..."
       }
     },
     activities: {

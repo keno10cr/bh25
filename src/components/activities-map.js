@@ -59,6 +59,13 @@ function loadMapLibre() {
   });
 }
 
+const CENTRAL_AMERICA = {
+  center: [-85.5, 12.8],
+  zoom: 4.15,
+};
+
+const INTRO_FLY_MS = 8000;
+
 function pinColor(activity) {
   return (
     activity.pinColor ||
@@ -110,13 +117,14 @@ export default function ActivitiesMap({
       );
 
       mapRef.current?.remove?.();
+      const useIntroZoom = points.length >= 1;
       const map = new maplibre.Map({
         container: containerRef.current,
         style: MAP_STYLE,
-        center: points[0]
-          ? [points[0].coordinates.lng, points[0].coordinates.lat]
+        center: useIntroZoom
+          ? CENTRAL_AMERICA.center
           : [-82.68, 9.58],
-        zoom: !fitToPins && points.length === 1 ? 13 : 9.6,
+        zoom: useIntroZoom ? CENTRAL_AMERICA.zoom : 9.6,
         attributionControl: false,
       });
       map.addControl(
@@ -163,6 +171,8 @@ export default function ActivitiesMap({
           markersRef.current.push(marker);
         });
 
+        if (!points.length) return;
+
         if (fitToPins && points.length > 1) {
           const bounds = new maplibre.LngLatBounds();
           points.forEach((activity) => {
@@ -170,8 +180,23 @@ export default function ActivitiesMap({
           });
           bounds.extend([-82.9, 9.78]);
           bounds.extend([-82.5, 9.42]);
-          map.fitBounds(bounds, { padding: 36, maxZoom: 10, duration: 0 });
+          map.fitBounds(bounds, {
+            padding: 36,
+            maxZoom: 10,
+            duration: INTRO_FLY_MS,
+            essential: true,
+          });
+          return;
         }
+
+        const focus = points.find((item) => item.slug === selectedSlugRef.current)
+          || points[0];
+        map.flyTo({
+          center: [focus.coordinates.lng, focus.coordinates.lat],
+          zoom: 13,
+          duration: INTRO_FLY_MS,
+          essential: true,
+        });
       };
 
       if (map.loaded()) addPins();

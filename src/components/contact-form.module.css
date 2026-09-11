@@ -254,9 +254,9 @@
 }
 
 .videoContainer {
-  margin-top: 3rem;
-  padding-top: 3rem;
-  border-top: 2px solid #f0f0f0;
+  margin: 0 0 2.5rem;
+  padding: 0 0 2.5rem;
+  border-bottom: 2px solid #f0f0f0;
 }
 
 .videoContainer h3 {
@@ -343,8 +343,8 @@
   }
 
   .videoContainer {
-    margin-top: 2rem;
-    padding-top: 2rem;
+    margin: 0 0 2rem;
+    padding: 0 0 2rem;
   }
 
   .videoContainer h3 {

@@ -1,3 +1,5 @@
+import { STATIC_ACTIVITIES } from "@/data/activities";
+
 /** Lightweight villa list for contact form selection */
 export const CONTACT_VILLAS = [
   { id: 3, name: "Villa #3 Baula Turtle", maxPeople: 10, slug: "villa-3-baula-turtle" },
@@ -12,30 +14,12 @@ export const CONTACT_VILLAS = [
   { id: 12, name: "Villa #12 Mariposa Morpho", maxPeople: 8, slug: "villa-12-mariposa-morpho" },
 ];
 
-/** Activity translation keys for contact form selection */
-export const CONTACT_ACTIVITIES = [
-  { id: 1, translationKey: "familyReunions" },
-  { id: 2, translationKey: "weddings" },
-  { id: 3, translationKey: "aerobics" },
-  { id: 4, translationKey: "manzanillo" },
-  { id: 5, translationKey: "elMirador" },
-  { id: 6, translationKey: "socialArea" },
-  { id: 7, translationKey: "pool" },
-  { id: 8, translationKey: "fishingTours" },
-  { id: 9, translationKey: "surfLessons" },
-  { id: 10, translationKey: "bribriCacaoTour" },
-  { id: 11, translationKey: "kayaking" },
-  { id: 12, translationKey: "volioWaterfalls" },
-  { id: 13, translationKey: "puntaUva" },
-  { id: 14, translationKey: "ketos" },
-  { id: 15, translationKey: "practiceWasteSorting" },
-  { id: 16, translationKey: "cahuitaNationalPark" },
-  { id: 17, translationKey: "eBikeRental" },
-  { id: 18, translationKey: "cacaoMuseum" },
-  { id: 19, translationKey: "costaRicaPanamaBorder" },
-  { id: 20, translationKey: "cahuitaReefPools" },
-  { id: 21, translationKey: "cahuitaPuertoVargas" },
-];
+/** Activity options for contact form selection (synced with static activities) */
+export const CONTACT_ACTIVITIES = STATIC_ACTIVITIES.map((activity) => ({
+  id: activity.id,
+  slug: activity.slug,
+  translationKey: activity.translationKey,
+}));
 
 export const SUBJECT_OPTIONS = [
   {

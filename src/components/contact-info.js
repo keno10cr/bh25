@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import CmsText from "@/components/cms-text";
@@ -138,6 +139,9 @@ export default function ContactInfo({ copy }) {
                         referrerPolicy="no-referrer-when-downgrade"
                     />
                 </div>
+                <Link href="/activities" className={styles.activitiesLink}>
+                    {t("contactPage.contactInfo.activitiesAround")}
+                </Link>
             </div>
         </div>
     );

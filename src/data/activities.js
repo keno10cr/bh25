@@ -2,6 +2,18 @@ const BH = { lat: 9.64735, lng: -82.77697 };
 
 export const STATIC_ACTIVITIES = [
   {
+    id: 7,
+    slug: "pool",
+    translationKey: "pool",
+    category: "Blessed House",
+    duration: "All day",
+    priceKey: "included",
+    difficulty: "Easy",
+    groupSize: "10",
+    image: "/activities/all/poolArea.jpg",
+    coordinates: { lat: 9.647317, lng: -82.777429 },
+  },
+  {
     id: 1,
     slug: "family-reunions",
     translationKey: "familyReunions",
@@ -72,18 +84,6 @@ export const STATIC_ACTIVITIES = [
     groupSize: "Up to 30 people",
     image: "/activities/all/socialArea.jpg",
     coordinates: BH,
-  },
-  {
-    id: 7,
-    slug: "pool",
-    translationKey: "pool",
-    category: "Blessed House",
-    duration: "All day",
-    priceKey: "included",
-    difficulty: "Easy",
-    groupSize: "10",
-    image: "/activities/all/poolArea.jpg",
-    coordinates: { lat: 9.647317, lng: -82.777429 },
   },
   {
     id: 8,

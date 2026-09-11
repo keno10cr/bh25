@@ -160,6 +160,20 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.activitiesLink {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.activitiesLink:hover {
+  color: var(--color-primary-light);
+  text-decoration: underline;
+}
+
 .socialContainer {
   padding-top: 2rem;
   border-top: 2px solid #f0f0f0;

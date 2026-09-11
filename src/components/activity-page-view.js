@@ -131,18 +131,6 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
           </div>
         ) : null}
       </div>
-      {whatsIncluded.length > 0 ? (
-        <div className={styles.highlights}>
-          <h2>{t("activitiesPage.labels.whatsIncluded")}</h2>
-          <ul>
-            {whatsIncluded.map((item, index) => (
-              <li key={`${item}-${index}`}>
-                <CmsText fromCms={whatsIncludedFromCms}>{item}</CmsText>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
       {hasMap ? (
         <div className={styles.mapWrap}>
           {activity.slug === "e-bike-rental" ? (
@@ -168,6 +156,18 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
             fitToPins={false}
             showLegend={false}
           />
+        </div>
+      ) : null}
+      {whatsIncluded.length > 0 ? (
+        <div className={styles.highlights}>
+          <h2>{t("activitiesPage.labels.whatsIncluded")}</h2>
+          <ul>
+            {whatsIncluded.map((item, index) => (
+              <li key={`${item}-${index}`}>
+                <CmsText fromCms={whatsIncludedFromCms}>{item}</CmsText>
+              </li>
+            ))}
+          </ul>
         </div>
       ) : null}
       {key === "ketos" ? (
@@ -200,7 +200,12 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
           {t("activitiesPage.labels.visitWebsite")}
         </a>
       ) : (
-        <Link href="/contact?subject=activities" className={styles.book}>
+        <Link
+          href={`/contact?subject=activities&activity=${encodeURIComponent(
+            activity.slug || ""
+          )}`}
+          className={styles.book}
+        >
           {t("activitiesPage.labels.contactUs")}
         </Link>
       )}
