@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "seed:sanity": "sanity exec scripts/seed-sanity.js --with-user-token",
+    "seed:pvg": "sanity exec scripts/seed-pvg-page.js --with-user-token",
     "patch:sanity": "sanity exec scripts/patch-sanity-copy.js --with-user-token",
     "patch:legend": "sanity exec scripts/patch-legend-items.js --with-user-token",
     "patch:activities": "node --env-file=.env.local scripts/patch-activities.js",

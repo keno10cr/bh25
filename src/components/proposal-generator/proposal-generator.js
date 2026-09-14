@@ -95,7 +95,7 @@ export default function ProposalGenerator({ locale = "en" }) {
             logging: false,
           },
           jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-          pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+          pagebreak: { mode: ["css", "legacy"] },
         })
         .from(documentRef.current)
         .save();
@@ -210,7 +210,7 @@ export default function ProposalGenerator({ locale = "en" }) {
             <p>{copy.includesBody}</p>
           </section>
 
-          <section className={styles.block}>
+          <section className={`${styles.block} ${styles.pageTwo}`}>
             <h2>{copy.focusTitle}</h2>
             <p>{note}</p>
           </section>
@@ -218,6 +218,16 @@ export default function ProposalGenerator({ locale = "en" }) {
           <section className={`${styles.block} ${styles.nextBlock}`}>
             <h2>{copy.nextTitle}</h2>
             <p>{copy.nextBody}</p>
+            <p className={styles.nextLinkWrap}>
+              <a
+                href={copy.nextLinkHref}
+                className={styles.nextLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {copy.nextLinkLabel}
+              </a>
+            </p>
             <p className={styles.contactLine}>
               <strong>{copy.contactName}</strong>
               <br />

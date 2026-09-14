@@ -1,4 +1,5 @@
 import { DEFAULT_PETS_MAX } from "@/lib/houseRules";
+import { cmsField } from "@/lib/cms-field";
 import { sanityFetch } from "./fetch";
 import {
   aboutPageSettingsQuery,
@@ -21,6 +22,7 @@ import {
   villaSlugsQuery,
   villasPageSettingsQuery,
   villasQuery,
+  pvgPageSettingsQuery,
 } from "./queries";
 import {
   mapActivity,
@@ -30,6 +32,8 @@ import {
   mapThingsToDoItems,
   mapFeaturedItems,
   mapVilla,
+  mapPvgPillars,
+  mapPvgCapacitySpecs,
 } from "./mappers";
 import { STATIC_ACTIVITIES } from "@/data/activities";
 import { STATIC_VILLAS } from "@/data/villas";
@@ -47,6 +51,11 @@ import {
   HOME_THINGS_TO_DO,
   HOME_FEATURED_ITEMS,
 } from "@/data/page-defaults";
+import {
+  PVG_PAGE_DEFAULTS,
+  PVG_PILLARS_DEFAULTS,
+  PVG_CAPACITY_SPECS_DEFAULTS,
+} from "@/data/pvg-defaults";
 import { sumHouseArrangementCapacity } from "@/lib/propertyPricing";
 
 function mergeBySlug(sanityItems, fallbackItems, mapFn) {
@@ -351,6 +360,29 @@ export async function getBlogPageSettings() {
 export async function getVillasPageSettings() {
   const raw = await sanityFetch(villasPageSettingsQuery);
   return mapPageSettings(raw, VILLAS_PAGE_DEFAULTS);
+}
+
+export async function getPvgPageSettings() {
+  const raw = await sanityFetch(pvgPageSettingsQuery);
+  const mapped = mapPageSettings(raw, PVG_PAGE_DEFAULTS);
+  mapped.pillars = mapPvgPillars(raw?.pillars, PVG_PILLARS_DEFAULTS);
+  mapped.capacitySpecs = mapPvgCapacitySpecs(
+    raw?.capacitySpecs,
+    PVG_CAPACITY_SPECS_DEFAULTS
+  );
+
+  const lat = Number(raw?.locationLat);
+  const lng = Number(raw?.locationLng);
+  mapped.locationLat = cmsField(
+    Number.isFinite(lat) ? lat : null,
+    PVG_PAGE_DEFAULTS.locationLat
+  );
+  mapped.locationLng = cmsField(
+    Number.isFinite(lng) ? lng : null,
+    PVG_PAGE_DEFAULTS.locationLng
+  );
+
+  return mapped;
 }
 
 export async function getBlogSlugs() {

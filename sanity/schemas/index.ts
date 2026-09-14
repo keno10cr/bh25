@@ -22,6 +22,7 @@ import { stayBooking } from "./stayBooking";
 import { systemSettings } from "./systemSettings";
 import { villa } from "./villa";
 import { villasPageSettings } from "./villasPageSettings";
+import { pvgPageSettings } from "./pvgPageSettings";
 
 export const schemaTypes = [
   // Bookable inventory
@@ -51,4 +52,5 @@ export const schemaTypes = [
   activitiesPageSettings,
   blogPageSettings,
   villasPageSettings,
+  pvgPageSettings,
 ];

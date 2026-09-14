@@ -217,6 +217,28 @@ async function seed() {
         reviewsSubtitle: "reviews.subtitle",
       },
     },
+    {
+      id: "pvgPageSettings",
+      fields: {
+        heroBrandLine: "pvg.heroBrandLine",
+        heroHeadline: "pvg.heroHeadline",
+        heroSubtitle: "pvg.heroSubtitle",
+        heroCta: "pvg.heroCta",
+        guaranteeTitle: "pvg.guaranteeTitle",
+        guaranteeBody: "pvg.guaranteeBody",
+        pillarsTitle: "pvg.pillarsTitle",
+        capacityTitle: "pvg.capacityTitle",
+        locationTitle: "pvg.locationTitle",
+        locationLead: "pvg.locationLead",
+        locationLegendLabel: "pvg.locationLegendLabel",
+        activitiesTitle: "pvg.activitiesTitle",
+        inquiryTitle: "pvg.inquiryTitle",
+        inquiryLead: "pvg.inquiryLead",
+        inquirySubmitLabel: "pvg.inquirySubmitLabel",
+        inquirySubmittingLabel: "pvg.inquirySubmittingLabel",
+        inquirySuccessMessage: "pvg.inquirySuccessMessage",
+      },
+    },
   ];
 
   for (const page of pagePatches) {

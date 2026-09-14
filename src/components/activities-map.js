@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./activities-map.module.css";
 
 const FALLBACK_COLORS = {
@@ -82,6 +82,7 @@ export default function ActivitiesMap({
   onSelect,
   fitToPins = true,
   showLegend = true,
+  showCoordinates = null,
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -90,6 +91,25 @@ export default function ActivitiesMap({
   const onSelectRef = useRef(onSelect);
   const selectedSlugRef = useRef(selectedSlug);
   const prevSlugRef = useRef("");
+  const [coordsCopied, setCoordsCopied] = useState(false);
+
+  const coordsText =
+    showCoordinates?.lat != null && showCoordinates?.lng != null
+      ? `${Number(showCoordinates.lat).toFixed(5)}, ${Number(
+          showCoordinates.lng
+        ).toFixed(5)}`
+      : "";
+
+  const copyCoordinates = async () => {
+    if (!coordsText) return;
+    try {
+      await navigator.clipboard.writeText(coordsText);
+      setCoordsCopied(true);
+      window.setTimeout(() => setCoordsCopied(false), 1600);
+    } catch {
+      setCoordsCopied(false);
+    }
+  };
 
   activitiesRef.current = activities;
   onSelectRef.current = onSelect;
@@ -326,6 +346,46 @@ export default function ActivitiesMap({
               {item.title}
             </button>
           ))}
+          {coordsText ? (
+            <span className={styles.coordsRow}>
+              <span className={styles.coordsText}>{coordsText}</span>
+              <button
+                type="button"
+                className={styles.copyCoordsBtn}
+                onClick={copyCoordinates}
+                aria-label="Copy coordinates"
+                title={coordsCopied ? "Copied" : "Copy coordinates"}
+              >
+                {coordsCopied ? (
+                  "Copied"
+                ) : (
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <rect
+                      x="9"
+                      y="9"
+                      width="11"
+                      height="11"
+                      rx="2"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                    <path
+                      d="M5 15V5a2 2 0 0 1 2-2h10"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                )}
+              </button>
+            </span>
+          ) : null}
         </div>
       ) : null}
     </div>

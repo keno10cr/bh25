@@ -15,7 +15,7 @@ export default function Navigation() {
   const t = useTranslation(language);
   const pathname = usePathname();
   const isPaymentsPage = pathname === "/payments" || pathname === "/p" || pathname === "/payment" || pathname === "/pagos";
-  const isWelcomePage = pathname === "/welcome";
+  const isPvgPage = pathname === "/pvg";
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
@@ -24,7 +24,7 @@ export default function Navigation() {
   menuOpenRef.current = isOpen || isClosing;
 
   useEffect(() => {
-    if (!isWelcomePage) {
+    if (!isPvgPage) {
       setNavHidden(false);
       return undefined;
     }
@@ -58,7 +58,7 @@ export default function Navigation() {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [isWelcomePage]);
+  }, [isPvgPage]);
 
   const handleToggle = () => {
     if (isOpen) {
@@ -81,8 +81,8 @@ export default function Navigation() {
   return (
     <nav
       className={`${styles.navbar} ${
-        isWelcomePage && navHidden ? styles.navbarHidden : ""
-      } ${isWelcomePage ? styles.navbarAutoHide : ""}`}
+        isPvgPage && navHidden ? styles.navbarHidden : ""
+      } ${isPvgPage ? styles.navbarAutoHide : ""}`}
     >
       <div className={styles.container}>
         <Link href="/" className={styles.logoLink}>
@@ -159,7 +159,11 @@ export default function Navigation() {
         </ul>
 
         <div className={styles.rightSection}>
-          {isPaymentsPage ? <LanguageSwitcherPayments /> : <LanguageSwitcher />}
+          {isPaymentsPage ? (
+            <LanguageSwitcherPayments />
+          ) : (
+            <LanguageSwitcher />
+          )}
           <button
             className={`${styles.hamburger} ${isOpen ? styles.active : ""}`}
             onClick={handleToggle}

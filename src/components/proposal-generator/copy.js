@@ -17,7 +17,7 @@ export const PROPOSAL_COPY = {
     titlePrefix: "Private Estate Buyout Proposal for",
     capacity: (pax) =>
       `Exclusive access to Villas Blessed House for ${pax} guests.`,
-    valueTitle: "Value proposition",
+    valueTitle: "What We Offer",
     valueBody:
       "Complete property isolation in Puerto Viejo, Costa Rica. Dedicated spaces for team alignment, privacy, and full compound buyout.",
     includesTitle: "Included specs",
@@ -26,7 +26,9 @@ export const PROPOSAL_COPY = {
     focusTitle: "Group focus",
     nextTitle: "Next step",
     nextBody:
-      "Contact Floribel Fadel to confirm dates and custom group itinerary.",
+      "Review the group invitation and request preferred dates at blessedhouse.info/pvg, or contact Floribel Fadel to confirm the itinerary.",
+    nextLinkLabel: "Open Puerto Viejo Groups",
+    nextLinkHref: "https://www.blessedhouse.info/pvg",
     contactName: "Floribel Fadel",
     contactPhone: "+1 (754) 610 4710",
     contactEmail: "blessedhousecr@gmail.com",
@@ -55,7 +57,7 @@ export const PROPOSAL_COPY = {
     titlePrefix: "Propuesta de Alquiler Exclusivo de Propiedad para",
     capacity: (pax) =>
       `Uso exclusivo de Villas Blessed House para ${pax} personas.`,
-    valueTitle: "Valor principal",
+    valueTitle: "Lo que ofrecemos",
     valueBody:
       "Privacidad total de la propiedad en Puerto Viejo, Costa Rica. Espacios privados diseñados para el enfoque de su grupo, reuniones y convivencia sin otros huéspedes en la propiedad.",
     includesTitle: "Incluye",
@@ -64,7 +66,9 @@ export const PROPOSAL_COPY = {
     focusTitle: "Enfoque del grupo",
     nextTitle: "Siguiente paso",
     nextBody:
-      "Contactar a Floribel Fadel para coordinar fechas y propuesta final.",
+      "Revise la invitación para grupos y solicite fechas en blessedhouse.info/pvg?lang=es, o contacte a Floribel Fadel para confirmar el itinerario.",
+    nextLinkLabel: "Abrir Puerto Viejo Groups",
+    nextLinkHref: "https://www.blessedhouse.info/pvg?lang=es",
     contactName: "Floribel Fadel",
     contactPhone: "+1 (754) 610 4710",
     contactEmail: "blessedhousecr@gmail.com",

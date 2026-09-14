@@ -77,6 +77,14 @@
   color: var(--color-accent);
 }
 
+.heroSubtitle {
+  margin: 0;
+  max-width: 36ch;
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.88);
+}
+
 .cta,
 .submit {
   appearance: none;
@@ -168,6 +176,16 @@
   gap: 2rem;
 }
 
+.pillarImage {
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  background: #e8efe9;
+}
+
 .pillar h3 {
   margin: 0 0 0.75rem;
   font-size: 1.2rem;
@@ -185,6 +203,17 @@
   background: #fff;
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
+}
+
+.capacityGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.6fr) minmax(0, 0.4fr);
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.capacityCopy {
+  min-width: 0;
 }
 
 .capacity h2 {
@@ -206,6 +235,20 @@
   color: #2a2a2a;
   padding-left: 1.1rem;
   border-left: 3px solid var(--color-accent);
+}
+
+.capacityMedia {
+  min-width: 0;
+}
+
+.capacityImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: 12px;
 }
 
 .location {
@@ -235,6 +278,9 @@
   overflow: hidden;
   width: 100%;
   padding: 0 0 2.5rem;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
   mask-image: linear-gradient(
     90deg,
     transparent,
@@ -244,11 +290,26 @@
   );
 }
 
+.marqueeDragging {
+  cursor: grabbing;
+}
+
+.galleryBlock {
+  margin-top: 0.5rem;
+}
+
+.galleryTitle {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
 .marqueeTrack {
   display: flex;
   width: max-content;
   gap: 1rem;
-  animation: welcomeMarquee 55s linear infinite;
+  will-change: transform;
 }
 
 .marqueeItem {
@@ -280,15 +341,6 @@
   text-overflow: ellipsis;
   max-width: 100%;
   padding: 0 0.25rem;
-}
-
-@keyframes welcomeMarquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
 }
 
 .inquiry {
@@ -492,6 +544,15 @@
 
   .location {
     padding-bottom: 0;
+  }
+
+  .capacityGrid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .capacityImage {
+    aspect-ratio: 16 / 10;
   }
 
   .guaranteeLogo {

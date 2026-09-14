@@ -1,5 +1,7 @@
 // Translation files for all languages
 
+import { PVG_I18N } from "../data/pvg-i18n.js";
+
 export const translations = {
   en: {
     nav: {
@@ -258,7 +260,7 @@ export const translations = {
         ]
       },
       ketos: {
-        name: "Ketos",
+        name: "Play Ketos at the Beach or Online",
         description: "A paddle game for anyone at the beach, play in team or individual",
         fullDescription: "Ketos is an exciting paddle game perfect for anyone looking for fun at the beach. Check out the mobile version of the game and try your best to keep the ball up.",
         highlights: [
@@ -269,7 +271,7 @@ export const translations = {
         ]
       },
       practiceWasteSorting: {
-        name: "Practice Waste Sorting",
+        name: "Recycling Online Game",
         description: "Play and practice with the waste sorting rules of Costa Rica.",
         fullDescription: "Practice is the best way to learn. Let's put our waste in the correct place. Can be played in any browser like Google Chrome, in tablets or computers. Play it with swipes or with the arrows, use the space bar to collect coins, empty bins to win time and become the #1 Top Recycler in Costa Rica.",
         highlights: [
@@ -1013,7 +1015,7 @@ export const translations = {
         ]
       },
       ketos: {
-        name: "Ketos",
+        name: "Juega Ketos en la playa o en línea",
         description: "Un juego de paletas para cualquiera en la playa, juega en equipo o individual",
         fullDescription: "Ketos es un emocionante juego de paletas perfecto para cualquiera que busque diversión en la playa. Consulta la versión móvil del juego y haz tu mejor esfuerzo para mantener la pelota arriba.",
         highlights: [
@@ -1024,7 +1026,7 @@ export const translations = {
         ]
       },
       practiceWasteSorting: {
-        name: "Practicar Clasificación de Residuos",
+        name: "Juego de reciclaje en línea",
         description: "Juega y practica con las reglas de clasificación de residuos de Costa Rica.",
         fullDescription: "La práctica es la mejor manera de aprender. Pongamos nuestros residuos en el lugar correcto. Se puede jugar en cualquier navegador como Google Chrome, en tabletas o computadoras. Juega con deslizamientos o con las flechas, usa la barra espaciadora para recolectar monedas, vacía los contenedores para ganar tiempo y conviértete en el #1 Top Reciclador en Costa Rica.",
         highlights: [
@@ -4643,6 +4645,12 @@ export const translations = {
     }
   }
 };
+
+for (const [lang, copy] of Object.entries(PVG_I18N)) {
+  if (translations[lang]) {
+    translations[lang].pvg = copy;
+  }
+}
 
 export function useTranslation(language) {
   return (key) => {

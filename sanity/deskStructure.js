@@ -18,6 +18,7 @@ const HIDDEN_FROM_DEFAULT = [
   "activitiesPageSettings",
   "blogPageSettings",
   "villasPageSettings",
+  "pvgPageSettings",
   "property",
   "propertyKind",
   "location",
@@ -346,6 +347,13 @@ export const deskStructure = (S) =>
                           S.document()
                             .schemaType("blogPageSettings")
                             .documentId("blogPageSettings")
+                        ),
+                      S.listItem()
+                        .title("Puerto Viejo Groups")
+                        .child(
+                          S.document()
+                            .schemaType("pvgPageSettings")
+                            .documentId("pvgPageSettings")
                         ),
                     ])
                 ),

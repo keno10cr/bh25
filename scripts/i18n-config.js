@@ -86,6 +86,25 @@ export const DOCUMENT_FIELDS = {
     { name: "title", kind: "string" },
     { name: "subtitle", kind: "string" },
   ],
+  pvgPageSettings: [
+    { name: "heroBrandLine", kind: "string" },
+    { name: "heroHeadline", kind: "string" },
+    { name: "heroSubtitle", kind: "string" },
+    { name: "heroCta", kind: "string" },
+    { name: "guaranteeTitle", kind: "string" },
+    { name: "guaranteeBody", kind: "string" },
+    { name: "pillarsTitle", kind: "string" },
+    { name: "capacityTitle", kind: "string" },
+    { name: "locationTitle", kind: "string" },
+    { name: "locationLead", kind: "string" },
+    { name: "locationLegendLabel", kind: "string" },
+    { name: "activitiesTitle", kind: "string" },
+    { name: "inquiryTitle", kind: "string" },
+    { name: "inquiryLead", kind: "string" },
+    { name: "inquirySubmitLabel", kind: "string" },
+    { name: "inquirySubmittingLabel", kind: "string" },
+    { name: "inquirySuccessMessage", kind: "string" },
+  ],
   systemSettings: [{ name: "taxLabelEn", kind: "string" }],
 };
 
@@ -112,6 +131,24 @@ export const ARRAY_FIELDS = {
       fields: [
         { name: "title", kind: "string" },
         { name: "description", kind: "string" },
+      ],
+      meta: [],
+    },
+  ],
+  pvgPageSettings: [
+    {
+      name: "pillars",
+      fields: [
+        { name: "title", kind: "string" },
+        { name: "body", kind: "string" },
+      ],
+      meta: [],
+    },
+    {
+      name: "capacitySpecs",
+      fields: [
+        { name: "label", kind: "string" },
+        { name: "text", kind: "string" },
       ],
       meta: [],
     },

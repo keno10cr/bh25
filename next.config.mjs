@@ -12,6 +12,25 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/welcome",
+        destination: "/pvg",
+        permanent: true,
+      },
+      {
+        source: "/bienvenidos",
+        destination: "/pvg",
+        permanent: true,
+      },
+      {
+        source: "/bienvenidas",
+        destination: "/pvg",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

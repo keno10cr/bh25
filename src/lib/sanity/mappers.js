@@ -70,7 +70,11 @@ export function mapActivity(raw, fallback = null) {
     duration: raw?.duration || base.duration,
     groupSize: raw?.groupSize || base.groupSize,
     coordinates,
-    image: raw?.image || base.image,
+    image:
+      (raw?.slug || base.slug) === "punta-mona" ||
+      base.translationKey === "puntaMona"
+        ? "/activities/all/puntaMona.jpg"
+        : raw?.image || base.image,
     imageAlt: raw?.imageAlt || base.imageAlt || "",
     description: raw?.description
       ? portableTextToPlain(raw.description)
@@ -248,5 +252,52 @@ export function mapThingsToDoItems(rawItems, fallbackItems) {
     fromCms: false,
     titleFromCms: false,
     descriptionFromCms: false,
+  }));
+}
+
+export function mapPvgPillars(rawItems, fallbackItems) {
+  if (Array.isArray(rawItems) && rawItems.length > 0) {
+    return rawItems.map((item, index) => {
+      const fallback = fallbackItems[index] || {};
+      return {
+        id: item._key || fallback.id || String(index),
+        title: item.title || fallback.title,
+        body: item.body || fallback.body,
+        image: item.image || fallback.image || "",
+        fromCms: true,
+        titleFromCms: Boolean(item.title),
+        bodyFromCms: Boolean(item.body),
+      };
+    });
+  }
+
+  return fallbackItems.map((item) => ({
+    ...item,
+    fromCms: false,
+    titleFromCms: false,
+    bodyFromCms: false,
+  }));
+}
+
+export function mapPvgCapacitySpecs(rawItems, fallbackItems) {
+  if (Array.isArray(rawItems) && rawItems.length > 0) {
+    return rawItems.map((item, index) => {
+      const fallback = fallbackItems[index] || {};
+      return {
+        id: item._key || fallback.id || String(index),
+        label: item.label || fallback.label,
+        text: item.text || fallback.text,
+        fromCms: true,
+        labelFromCms: Boolean(item.label),
+        textFromCms: Boolean(item.text),
+      };
+    });
+  }
+
+  return fallbackItems.map((item) => ({
+    ...item,
+    fromCms: false,
+    labelFromCms: false,
+    textFromCms: false,
   }));
 }

@@ -17,7 +17,7 @@ import {
 
 const ACTIVITY_ID = "activity-punta-mona";
 const SLUG = "punta-mona";
-const IMAGE_PATH = "activities/all/manzanilloHike.jpg";
+const IMAGE_PATH = "activities/all/puntaMona.jpg";
 
 function toBlocks(text, prefix) {
   return String(text || "")

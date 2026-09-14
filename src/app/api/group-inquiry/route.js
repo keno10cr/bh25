@@ -134,7 +134,7 @@ export async function POST(request) {
       subject: `Group Buyout Inquiry – ${String(organizationName).trim()}`,
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1a1a1a;">
-          <h2 style="color: #0a4c3a;">New group estate inquiry from /welcome</h2>
+          <h2 style="color: #0a4c3a;">New group estate inquiry from /pvg</h2>
           <p><strong>Organization:</strong> ${escapeHtml(organizationName)}</p>
           <p><strong>Estimated attendees:</strong> ${escapeHtml(attendees)}</p>
           <p><strong>Target dates:</strong></p>
@@ -145,7 +145,7 @@ export async function POST(request) {
         </div>
       `,
       text: `
-New group estate inquiry from /welcome
+New group estate inquiry from /pvg
 
 Organization: ${organizationName}
 Estimated attendees: ${attendees}

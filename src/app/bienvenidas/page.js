@@ -1,5 +1,5 @@
 import { permanentRedirect } from "next/navigation";
 
-export default function WelcomeRedirectPage() {
+export default function BienvenidasRedirectPage() {
   permanentRedirect("/pvg");
 }

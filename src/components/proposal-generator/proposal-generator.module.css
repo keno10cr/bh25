@@ -253,7 +253,23 @@
   font-weight: 500;
   letter-spacing: 0.02em;
   line-height: 1.2;
-  color: var(--color-neutral-muted);
+  color: #667066;
+}
+
+.pageTwo {
+  break-before: page;
+  page-break-before: always;
+}
+
+.nextLinkWrap {
+  margin: 0.7rem 0 0 !important;
+}
+
+.nextLink {
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .docFooter {
@@ -392,6 +408,12 @@
 
   .block {
     margin-bottom: 0.95rem;
+  }
+
+  .pageTwo {
+    break-before: page;
+    page-break-before: always;
+    padding-top: 0.35rem;
   }
 
   .block h2 {

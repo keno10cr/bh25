@@ -61,6 +61,7 @@
 .legend {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.45rem 0.85rem;
   margin-top: 0.75rem;
 }
@@ -87,6 +88,46 @@
   color: var(--color-primary, #0a4c3a);
   background: #eef4f0;
   border-color: #d7e0d8;
+  outline: none;
+}
+
+.coordsRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+  padding: 0.2rem 0.35rem 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid #d7e0d8;
+  background: #f7faf8;
+}
+
+.coordsText {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #5c655e;
+  font-variant-numeric: tabular-nums;
+}
+
+.copyCoordsBtn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--color-primary, #0a4c3a);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: inherit;
+}
+
+.copyCoordsBtn:hover,
+.copyCoordsBtn:focus-visible {
+  background: #e7f1eb;
   outline: none;
 }
 

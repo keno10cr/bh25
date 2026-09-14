@@ -16,7 +16,7 @@ export default async function sitemap() {
     "/villas",
     "/contact",
     "/blog",
-    "/welcome",
+    "/pvg",
   ].map((path) => ({
     url: `${SITE_URL}${path || "/"}`,
     lastModified: new Date(),

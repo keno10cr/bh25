@@ -293,6 +293,25 @@ export const galleryPageSettingsQuery = `*[_id == "galleryPageSettings"][0]{
 export const activitiesPageSettingsQuery = `*[_id == "activitiesPageSettings"][0]`;
 export const blogPageSettingsQuery = `*[_id == "blogPageSettings"][0]`;
 export const villasPageSettingsQuery = `*[_id == "villasPageSettings"][0]`;
+export const pvgPageSettingsQuery = `*[_id == "pvgPageSettings"][0]{
+  ...,
+  "heroImage": heroImage.asset->url,
+  "heroImageAlt": heroImage.alt,
+  "guaranteeLogo": guaranteeLogo.asset->url,
+  "capacityImage": capacityImage.asset->url,
+  "capacityImageAlt": capacityImage.alt,
+  pillars[]{
+    _key,
+    title,
+    body,
+    "image": image.asset->url
+  },
+  capacitySpecs[]{
+    _key,
+    label,
+    text
+  }
+}`;
 
 export const propertyBySlugQuery = `*[_type == "property" && slug.current == $slug && listed != false && !(_id in path("drafts.**"))][0]{
   _id,
