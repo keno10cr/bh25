@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
@@ -26,12 +27,17 @@ export default function LanguageSwitcherPayments() {
   const t = useTranslation(language);
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
-  // Only use English or Spanish, default to English if other language is selected
-  const currentLangCode = language === "en" || language === "es" ? language : "en";
+  const currentLangCode =
+    language === "en" || language === "es" ? language : "en";
   const currentLanguage = paymentsLanguages[currentLangCode];
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleToggle = () => {
     if (isOpen) {
@@ -55,7 +61,6 @@ export default function LanguageSwitcherPayments() {
     }, 300);
   };
 
-  // Close modal when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -84,7 +89,6 @@ export default function LanguageSwitcherPayments() {
     };
   }, [isOpen]);
 
-  // Close modal on Escape key
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === "Escape" && isOpen) {
@@ -100,12 +104,76 @@ export default function LanguageSwitcherPayments() {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen]);
 
-  // If language is not English or Spanish, switch to English
   useEffect(() => {
     if (language !== "en" && language !== "es") {
       changeLanguage("en");
     }
   }, [language, changeLanguage]);
+
+  const modal =
+    mounted && isOpen
+      ? createPortal(
+          <div
+            className={`${styles.modalOverlay} ${
+              isClosing ? styles.closing : ""
+            }`}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setIsClosing(true);
+                setTimeout(() => {
+                  setIsOpen(false);
+                  setIsClosing(false);
+                }, 300);
+              }
+            }}
+          >
+            <div
+              ref={modalRef}
+              className={`${styles.modal} ${isClosing ? styles.closing : ""}`}
+            >
+              <div className={styles.modalHeader}>
+                <h3>{t("common.selectLanguage")}</h3>
+                <button
+                  className={styles.closeButton}
+                  onClick={handleToggle}
+                  aria-label="Close"
+                >
+                  ×
+                </button>
+              </div>
+              <div className={styles.languageList}>
+                {Object.values(paymentsLanguages).map((lang) => (
+                  <button
+                    key={lang.code}
+                    className={`${styles.languageOption} ${
+                      currentLangCode === lang.code ? styles.active : ""
+                    }`}
+                    onClick={() => handleLanguageSelect(lang.code)}
+                  >
+                    <Image
+                      src={lang.flag}
+                      alt={lang.name}
+                      width={38}
+                      height={38}
+                      className={styles.flag}
+                    />
+                    <div className={styles.languageInfo}>
+                      <span className={styles.languageName}>
+                        {lang.nativeName}
+                      </span>
+                      <span className={styles.languageEnglish}>{lang.name}</span>
+                    </div>
+                    {currentLangCode === lang.code && (
+                      <span className={styles.checkmark}>✓</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>,
+          document.body
+        )
+      : null;
 
   return (
     <>
@@ -124,66 +192,7 @@ export default function LanguageSwitcherPayments() {
           className={styles.flag}
         />
       </button>
-
-      {isOpen && (
-        <div
-          className={`${styles.modalOverlay} ${
-            isClosing ? styles.closing : ""
-          }`}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setIsClosing(true);
-              setTimeout(() => {
-                setIsOpen(false);
-                setIsClosing(false);
-              }, 300);
-            }
-          }}
-        >
-          <div
-            ref={modalRef}
-            className={`${styles.modal} ${isClosing ? styles.closing : ""}`}
-          >
-            <div className={styles.modalHeader}>
-              <h3>{t("common.selectLanguage")}</h3>
-              <button
-                className={styles.closeButton}
-                onClick={handleToggle}
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-            <div className={styles.languageList}>
-              {Object.values(paymentsLanguages).map((lang) => (
-                <button
-                  key={lang.code}
-                  className={`${styles.languageOption} ${
-                    currentLangCode === lang.code ? styles.active : ""
-                  }`}
-                  onClick={() => handleLanguageSelect(lang.code)}
-                >
-                  <Image
-                    src={lang.flag}
-                    alt={lang.name}
-                    width={38}
-                    height={38}
-                    className={styles.flag}
-                  />
-                  <div className={styles.languageInfo}>
-                    <span className={styles.languageName}>{lang.nativeName}</span>
-                    <span className={styles.languageEnglish}>{lang.name}</span>
-                  </div>
-                  {currentLangCode === lang.code && (
-                    <span className={styles.checkmark}>✓</span>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      {modal}
     </>
   );
 }
-

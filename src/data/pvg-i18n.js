@@ -58,6 +58,9 @@ export const PVG_I18N = {
     contactNameLabel: "Your Name",
     emailLabel: "Contact email",
     optionLabel: "Option",
+    activityLabels: {
+      tennisNearPlayaNegra: "Tennis court near Playa Negra",
+    },
   },
   es: {
     heroBrandLine: "Blessed House",
@@ -116,6 +119,9 @@ export const PVG_I18N = {
     contactNameLabel: "Su nombre",
     emailLabel: "Correo de contacto",
     optionLabel: "Opción",
+    activityLabels: {
+      tennisNearPlayaNegra: "Cancha de tenis cerca de Playa Negra",
+    },
   },
   de: {
     heroBrandLine: "Blessed House",
@@ -174,6 +180,9 @@ export const PVG_I18N = {
     contactNameLabel: "Ihr Name",
     emailLabel: "Kontakt E Mail",
     optionLabel: "Option",
+    activityLabels: {
+      tennisNearPlayaNegra: "Tennisplatz bei Playa Negra",
+    },
   },
   nl: {
     heroBrandLine: "Blessed House",
@@ -232,6 +241,9 @@ export const PVG_I18N = {
     contactNameLabel: "Uw naam",
     emailLabel: "Contact e mail",
     optionLabel: "Optie",
+    activityLabels: {
+      tennisNearPlayaNegra: "Tennisbaan bij Playa Negra",
+    },
   },
   fr: {
     heroBrandLine: "Blessed House",
@@ -290,6 +302,9 @@ export const PVG_I18N = {
     contactNameLabel: "Votre nom",
     emailLabel: "E mail de contact",
     optionLabel: "Option",
+    activityLabels: {
+      tennisNearPlayaNegra: "Court de tennis près de Playa Negra",
+    },
   },
   ja: {
     heroBrandLine: "Blessed House",
@@ -348,6 +363,9 @@ export const PVG_I18N = {
     contactNameLabel: "お名前",
     emailLabel: "連絡用メール",
     optionLabel: "候補",
+    activityLabels: {
+      tennisNearPlayaNegra: "プラヤネグラ近くのテニスコート",
+    },
   },
   pt: {
     heroBrandLine: "Blessed House",
@@ -406,5 +424,8 @@ export const PVG_I18N = {
     contactNameLabel: "Seu nome",
     emailLabel: "E mail de contato",
     optionLabel: "Opção",
+    activityLabels: {
+      tennisNearPlayaNegra: "Quadra de tênis perto de Playa Negra",
+    },
   },
 };

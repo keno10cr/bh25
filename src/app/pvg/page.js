@@ -16,15 +16,24 @@ export const metadata = {
 
 export const revalidate = 60;
 
-function normalizeGalleryTitle(activity) {
-  const raw = String(activity?.title || activity?.name || "").trim();
-  const lower = raw.toLowerCase();
-  if (lower.includes("tennis") && lower.includes("negra")) {
-    return "Tennis court near Playa Negra";
+const TRANSLATION_KEY_BY_SLUG = Object.fromEntries(
+  STATIC_ACTIVITIES.filter((item) => item.slug && item.translationKey).map(
+    (item) => [item.slug, item.translationKey]
+  )
+);
+
+function isTennisNearPlayaNegra(activity) {
+  const slug = String(activity?.slug || "").toLowerCase();
+  const raw = String(activity?.title || activity?.name || "").trim().toLowerCase();
+  if (slug.includes("tennis") && (slug.includes("negra") || slug.includes("playa"))) {
+    return true;
   }
-  if (lower === "ketos") return "";
-  if (lower.includes("waste sorting")) return "";
-  return raw;
+  return raw.includes("tennis") && raw.includes("negra");
+}
+
+function galleryLabelKey(activity) {
+  if (isTennisNearPlayaNegra(activity)) return "tennisNearPlayaNegra";
+  return "";
 }
 
 export default async function PvgPage() {
@@ -75,15 +84,23 @@ export default async function PvgPage() {
           const src = isPuntaMona
             ? "/activities/all/puntaMona.jpg"
             : activity.image;
-          const title = normalizeGalleryTitle(activity);
+          const labelKey = galleryLabelKey(activity);
+          const fallbackTitle = String(
+            activity?.title || activity?.name || ""
+          ).trim();
           return [
             src,
             {
               src,
-              translationKey: activity.translationKey || "",
-              title,
+              slug: activity.slug || "",
+              translationKey:
+                activity.translationKey ||
+                TRANSLATION_KEY_BY_SLUG[activity.slug] ||
+                "",
+              labelKey,
+              title: labelKey ? "" : fallbackTitle,
               alt:
-                title ||
+                fallbackTitle ||
                 activity.title ||
                 activity.name ||
                 "Blessed House activity",

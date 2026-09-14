@@ -1759,7 +1759,7 @@ export const translations = {
         ]
       },
       ketos: {
-        name: "Ketos",
+        name: "Ketos am Strand oder online spielen",
         description: "Ein Paddelspiel für jeden am Strand, spielen Sie im Team oder einzeln",
         fullDescription: "Ketos ist ein aufregendes Paddelspiel, perfekt für jeden, der Spaß am Strand sucht. Schauen Sie sich die mobile Version des Spiels an und versuchen Sie Ihr Bestes, um den Ball oben zu halten.",
         highlights: [
@@ -1770,7 +1770,7 @@ export const translations = {
         ]
       },
       practiceWasteSorting: {
-        name: "Abfalltrennung Üben",
+        name: "Recycling Online Spiel",
         description: "Spielen und üben Sie mit den Abfalltrennungsregeln von Costa Rica.",
         fullDescription: "Übung ist der beste Weg zum Lernen. Lassen Sie uns unseren Abfall an den richtigen Ort bringen. Kann in jedem Browser wie Google Chrome, auf Tablets oder Computern gespielt werden. Spielen Sie es mit Wischgesten oder mit den Pfeiltasten, verwenden Sie die Leertaste, um Münzen zu sammeln, leeren Sie Behälter, um Zeit zu gewinnen und werden Sie der #1 Top-Recycler in Costa Rica.",
         highlights: [
@@ -2387,7 +2387,7 @@ export const translations = {
         ]
       },
       ketos: {
-        name: "Ketos",
+        name: "Speel Ketos op het strand of online",
         description: "Een peddelspel voor iedereen op het strand, speel in team of individueel",
         fullDescription: "Ketos is een spannend peddelspel perfect voor iedereen die op zoek is naar plezier op het strand. Bekijk de mobiele versie van het spel en probeer je best te doen om de bal omhoog te houden.",
         highlights: [
@@ -2398,7 +2398,7 @@ export const translations = {
         ]
       },
       practiceWasteSorting: {
-        name: "Afvalscheiding Oefenen",
+        name: "Recycling online spel",
         description: "Speel en oefen met de afvalscheidingsregels van Costa Rica.",
         fullDescription: "Oefenen is de beste manier om te leren. Laten we ons afval op de juiste plaats zetten. Kan worden gespeeld in elke browser zoals Google Chrome, op tablets of computers. Speel het met veegbewegingen of met de pijltjes, gebruik de spatiebalk om munten te verzamelen, leeg bakken om tijd te winnen en word de #1 Top Recycler in Costa Rica.",
         highlights: [
@@ -3015,7 +3015,7 @@ export const translations = {
         ]
       },
       ketos: {
-        name: "Ketos",
+        name: "Jouez à Ketos à la plage ou en ligne",
         description: "Un jeu de raquette pour tous à la plage, jouez en équipe ou individuellement",
         fullDescription: "Ketos est un jeu de raquette passionnant parfait pour tous ceux qui cherchent du plaisir à la plage. Découvrez la version mobile du jeu et faites de votre mieux pour garder la balle en l'air.",
         highlights: [
@@ -3026,7 +3026,7 @@ export const translations = {
         ]
       },
       practiceWasteSorting: {
-        name: "Pratiquer le Tri des Déchets",
+        name: "Jeu de recyclage en ligne",
         description: "Jouez et pratiquez avec les règles de tri des déchets du Costa Rica.",
         fullDescription: "La pratique est le meilleur moyen d'apprendre. Mettons nos déchets au bon endroit. Peut être joué dans n'importe quel navigateur comme Google Chrome, sur tablettes ou ordinateurs. Jouez avec des balayages ou avec les flèches, utilisez la barre d'espace pour collecter des pièces, videz les bacs pour gagner du temps et devenez le #1 Top Recycler au Costa Rica.",
         highlights: [
@@ -3643,7 +3643,7 @@ export const translations = {
         ]
       },
       ketos: {
-        name: "ケトス",
+        name: "ビーチまたはオンラインでケトスをプレイ",
         description: "ビーチで誰でも楽しめるパドルゲーム、チームまたは個人でプレイ",
         fullDescription: "ケトスは、ビーチで楽しみを求める誰にでも最適なエキサイティングなパドルゲームです。モバイル版のゲームをチェックして、ボールを上に保つために最善を尽くしてください。",
         highlights: [
@@ -3654,7 +3654,7 @@ export const translations = {
         ]
       },
       practiceWasteSorting: {
-        name: "廃棄物分別の練習",
+        name: "リサイクルオンラインゲーム",
         description: "コスタリカの廃棄物分別ルールで遊び、練習しましょう。",
         fullDescription: "練習は学ぶ最良の方法です。廃棄物を正しい場所に置きましょう。Google Chromeなどの任意のブラウザ、タブレット、コンピューターでプレイできます。スワイプまたは矢印キーでプレイし、スペースバーを使用してコインを集め、ビンを空にして時間を獲得し、コスタリカの#1トップリサイクラーになりましょう。",
         highlights: [
@@ -4389,7 +4389,7 @@ export const translations = {
         ]
       },
       ketos: {
-        name: "Ketos",
+        name: "Jogue Ketos na praia ou online",
         description: "Um jogo de pá para qualquer pessoa na praia, jogue em equipe ou individual",
         fullDescription: "Ketos é um emocionante jogo de pá perfeito para qualquer pessoa que procura diversão na praia. Confira a versão móvel do jogo e faça o seu melhor para manter a bola no alto.",
         highlights: [
@@ -4400,7 +4400,7 @@ export const translations = {
         ]
       },
       practiceWasteSorting: {
-        name: "Praticar Classificação de Resíduos",
+        name: "Jogo de reciclagem online",
         description: "Jogue e pratique com as regras de classificação de resíduos da Costa Rica.",
         fullDescription: "A prática é a melhor maneira de aprender. Vamos colocar nossos resíduos no lugar correto. Pode ser jogado em qualquer navegador como Google Chrome, em tablets ou computadores. Jogue com deslizamentos ou com as setas, use a barra de espaço para coletar moedas, esvazie as lixeiras para ganhar tempo e torne-se o #1 Top Reciclador na Costa Rica.",
         highlights: [

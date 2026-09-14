@@ -32,6 +32,11 @@ const EMPTY_FORM = {
 const EMPTY_RANGE = { checkIn: "", checkOut: "" };
 
 function resolveActivityLabel(image, t) {
+  if (image.labelKey) {
+    const labeled = t(`pvg.activityLabels.${image.labelKey}`);
+    if (labeled && !String(labeled).startsWith("pvg.")) return labeled;
+  }
+
   const translated = image.translationKey
     ? t(`activitiesPage.${image.translationKey}.name`)
     : "";
@@ -39,9 +44,17 @@ function resolveActivityLabel(image, t) {
     translated && !translated.startsWith("activitiesPage.") ? translated : "";
   const raw = fromTranslation || image.title || image.alt || "Activity";
   const lower = String(raw).toLowerCase();
-  if (lower.includes("tennis") && lower.includes("negra")) {
-    return "Tennis court near Playa Negra";
+
+  // CMS titles like "Playa Negra @ Tennis" without a translation key
+  if (
+    (lower.includes("tennis") && lower.includes("negra")) ||
+    (String(image.slug || "").includes("tennis") &&
+      String(image.slug || "").includes("negra"))
+  ) {
+    const labeled = t("pvg.activityLabels.tennisNearPlayaNegra");
+    if (labeled && !String(labeled).startsWith("pvg.")) return labeled;
   }
+
   return raw;
 }
 
@@ -311,13 +324,6 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
     "pvg.heroHeadline",
     t
   );
-  const heroSubtitle = textValue(
-    copy?.heroSubtitle,
-    PVG_PAGE_DEFAULTS.heroSubtitle,
-    language,
-    "pvg.heroSubtitle",
-    t
-  );
   const heroCta = textValue(
     copy?.heroCta,
     PVG_PAGE_DEFAULTS.heroCta,
@@ -487,9 +493,6 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
         <div className={styles.heroInner}>
           <p className={styles.brandName}>{heroBrandLine}</p>
           <h1 className={styles.headline}>{heroHeadline}</h1>
-          {heroSubtitle ? (
-            <p className={styles.heroSubtitle}>{heroSubtitle}</p>
-          ) : null}
           <button type="button" className={styles.cta} onClick={scrollToForm}>
             {heroCta}
           </button>

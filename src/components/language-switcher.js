@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { useLanguage, languages } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
@@ -11,10 +12,15 @@ export default function LanguageSwitcher() {
   const t = useTranslation(language);
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
   const currentLanguage = languages[language];
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleToggle = () => {
     if (isOpen) {
@@ -38,7 +44,6 @@ export default function LanguageSwitcher() {
     }, 300);
   };
 
-  // Close modal when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -67,7 +72,6 @@ export default function LanguageSwitcher() {
     };
   }, [isOpen]);
 
-  // Close modal on Escape key
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === "Escape" && isOpen) {
@@ -82,6 +86,71 @@ export default function LanguageSwitcher() {
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen]);
+
+  const modal =
+    mounted && isOpen
+      ? createPortal(
+          <div
+            className={`${styles.modalOverlay} ${
+              isClosing ? styles.closing : ""
+            }`}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setIsClosing(true);
+                setTimeout(() => {
+                  setIsOpen(false);
+                  setIsClosing(false);
+                }, 300);
+              }
+            }}
+          >
+            <div
+              ref={modalRef}
+              className={`${styles.modal} ${isClosing ? styles.closing : ""}`}
+            >
+              <div className={styles.modalHeader}>
+                <h3>{t("common.selectLanguage")}</h3>
+                <button
+                  className={styles.closeButton}
+                  onClick={handleToggle}
+                  aria-label="Close"
+                >
+                  ×
+                </button>
+              </div>
+              <div className={styles.languageList}>
+                {Object.values(languages).map((lang) => (
+                  <button
+                    key={lang.code}
+                    className={`${styles.languageOption} ${
+                      language === lang.code ? styles.active : ""
+                    }`}
+                    onClick={() => handleLanguageSelect(lang.code)}
+                  >
+                    <Image
+                      src={lang.flag}
+                      alt={lang.name}
+                      width={38}
+                      height={38}
+                      className={styles.flag}
+                    />
+                    <div className={styles.languageInfo}>
+                      <span className={styles.languageName}>
+                        {lang.nativeName}
+                      </span>
+                      <span className={styles.languageEnglish}>{lang.name}</span>
+                    </div>
+                    {language === lang.code && (
+                      <span className={styles.checkmark}>✓</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>,
+          document.body
+        )
+      : null;
 
   return (
     <>
@@ -100,66 +169,7 @@ export default function LanguageSwitcher() {
           className={styles.flag}
         />
       </button>
-
-      {isOpen && (
-        <div
-          className={`${styles.modalOverlay} ${
-            isClosing ? styles.closing : ""
-          }`}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setIsClosing(true);
-              setTimeout(() => {
-                setIsOpen(false);
-                setIsClosing(false);
-              }, 300);
-            }
-          }}
-        >
-          <div
-            ref={modalRef}
-            className={`${styles.modal} ${isClosing ? styles.closing : ""}`}
-          >
-            <div className={styles.modalHeader}>
-              <h3>{t("common.selectLanguage")}</h3>
-              <button
-                className={styles.closeButton}
-                onClick={handleToggle}
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-            <div className={styles.languageList}>
-              {Object.values(languages).map((lang) => (
-                <button
-                  key={lang.code}
-                  className={`${styles.languageOption} ${
-                    language === lang.code ? styles.active : ""
-                  }`}
-                  onClick={() => handleLanguageSelect(lang.code)}
-                >
-                  <Image
-                    src={lang.flag}
-                    alt={lang.name}
-                    width={38}
-                    height={38}
-                    className={styles.flag}
-                  />
-                  <div className={styles.languageInfo}>
-                    <span className={styles.languageName}>{lang.nativeName}</span>
-                    <span className={styles.languageEnglish}>{lang.name}</span>
-                  </div>
-                  {language === lang.code && (
-                    <span className={styles.checkmark}>✓</span>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      {modal}
     </>
   );
 }
-
