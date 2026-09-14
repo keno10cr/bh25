@@ -193,6 +193,15 @@ export const deskStructure = (S) =>
                     `_type == "formSubmission" && formType == "contact"`
                   )
                 ),
+              S.listItem()
+                .title("Group inquiries")
+                .child(
+                  formList(
+                    S,
+                    "Group inquiries",
+                    `_type == "formSubmission" && formType == "groupInquiry"`
+                  )
+                ),
             ])
         ),
 

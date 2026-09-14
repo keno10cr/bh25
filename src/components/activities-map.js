@@ -250,16 +250,81 @@ export default function ActivitiesMap({
           color,
         }));
 
+  const focusLegendItem = (item) => {
+    const map = mapRef.current;
+    const maplibre = window.maplibregl;
+    if (!map?.flyTo || !maplibre) return;
+
+    const title = String(item?.title || "").trim().toLowerCase();
+    if (!title) return;
+
+    const matches = activitiesRef.current.filter((activity) => {
+      if (!activity?.coordinates?.lat || !activity?.coordinates?.lng) return false;
+      const category = String(activity.category || "").trim().toLowerCase();
+      if (category === title) return true;
+      const labels = Array.isArray(activity.legendItems)
+        ? activity.legendItems
+        : [];
+      return labels.some(
+        (entry) => String(entry?.title || "").trim().toLowerCase() === title
+      );
+    });
+
+    if (!matches.length) {
+      // Single pin maps often use a custom legend label (e.g. Blessed House)
+      const fallback = activitiesRef.current.filter(
+        (activity) => activity?.coordinates?.lat && activity?.coordinates?.lng
+      );
+      if (fallback.length === 1) {
+        map.flyTo({
+          center: [fallback[0].coordinates.lng, fallback[0].coordinates.lat],
+          zoom: Math.max(map.getZoom?.() || 12, 13),
+          duration: 900,
+          essential: true,
+        });
+        onSelectRef.current?.(fallback[0]);
+      }
+      return;
+    }
+
+    if (matches.length === 1) {
+      map.flyTo({
+        center: [matches[0].coordinates.lng, matches[0].coordinates.lat],
+        zoom: Math.max(map.getZoom?.() || 12, 13),
+        duration: 900,
+        essential: true,
+      });
+      onSelectRef.current?.(matches[0]);
+      return;
+    }
+
+    const bounds = new maplibre.LngLatBounds();
+    matches.forEach((activity) => {
+      bounds.extend([activity.coordinates.lng, activity.coordinates.lat]);
+    });
+    map.fitBounds(bounds, {
+      padding: 48,
+      maxZoom: 12.5,
+      duration: 900,
+      essential: true,
+    });
+  };
+
   return (
     <div className={styles.mapPane}>
       <div ref={containerRef} className={styles.map} />
       {showLegend ? (
         <div className={styles.legend}>
           {legend.map((item) => (
-            <span key={item.slug || item.title} className={styles.legendItem}>
+            <button
+              key={item.slug || item.title}
+              type="button"
+              className={styles.legendItem}
+              onClick={() => focusLegendItem(item)}
+            >
               <i style={{ backgroundColor: item.color || "#0a4c3a" }} />
               {item.title}
-            </span>
+            </button>
           ))}
         </div>
       ) : null}

@@ -8,6 +8,8 @@ import Footer from "@/components/footer";
 export default function SiteChrome({ children }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
+  const isProposalTool = pathname === "/ccen" || pathname === "/cces";
+  const hideChrome = isAdmin || isProposalTool;
 
   useEffect(() => {
     const root = document.documentElement;
@@ -23,7 +25,7 @@ export default function SiteChrome({ children }) {
     };
   }, [isAdmin]);
 
-  if (isAdmin) {
+  if (hideChrome) {
     return children;
   }
 

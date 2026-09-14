@@ -3,7 +3,7 @@ export default function robots() {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin", "/api/"],
+      disallow: ["/admin", "/api/", "/ccen", "/cces"],
     },
     sitemap: "https://www.blessedhouse.info/sitemap.xml",
   };

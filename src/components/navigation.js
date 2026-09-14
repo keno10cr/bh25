@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import LanguageSwitcher from "./language-switcher";
 import LanguageSwitcherPayments from "./language-switcher-payments";
@@ -15,8 +15,50 @@ export default function Navigation() {
   const t = useTranslation(language);
   const pathname = usePathname();
   const isPaymentsPage = pathname === "/payments" || pathname === "/p" || pathname === "/payment" || pathname === "/pagos";
+  const isWelcomePage = pathname === "/welcome";
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [navHidden, setNavHidden] = useState(false);
+  const menuOpenRef = useRef(false);
+
+  menuOpenRef.current = isOpen || isClosing;
+
+  useEffect(() => {
+    if (!isWelcomePage) {
+      setNavHidden(false);
+      return undefined;
+    }
+
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    const update = () => {
+      const currentY = window.scrollY;
+      const delta = currentY - lastY;
+
+      if (menuOpenRef.current) {
+        setNavHidden(false);
+      } else if (currentY < 24) {
+        setNavHidden(false);
+      } else if (delta > 6) {
+        setNavHidden(true);
+      } else if (delta < -6) {
+        setNavHidden(false);
+      }
+
+      lastY = currentY;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isWelcomePage]);
 
   const handleToggle = () => {
     if (isOpen) {
@@ -28,6 +70,7 @@ export default function Navigation() {
     } else {
       setIsOpen(true);
       setIsClosing(false);
+      setNavHidden(false);
     }
   };
 
@@ -36,7 +79,11 @@ export default function Navigation() {
   };
 
   return (
-    <nav className={styles.navbar}>
+    <nav
+      className={`${styles.navbar} ${
+        isWelcomePage && navHidden ? styles.navbarHidden : ""
+      } ${isWelcomePage ? styles.navbarAutoHide : ""}`}
+    >
       <div className={styles.container}>
         <Link href="/" className={styles.logoLink}>
           <div className={styles.logo}>

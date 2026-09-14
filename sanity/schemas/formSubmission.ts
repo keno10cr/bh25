@@ -4,6 +4,7 @@ export const FORM_TYPES = [
   { title: "Guest experience", value: "guestExperience" },
   { title: "Villa comment", value: "villaComment" },
   { title: "Contact message", value: "contact" },
+  { title: "Group inquiry", value: "groupInquiry" },
 ];
 
 export const formSubmission = defineType({

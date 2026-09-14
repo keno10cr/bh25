@@ -43,3 +43,6 @@ next-env.d.ts
 # large translation dumps (regenerate with pnpm i18n:export)
 /translations/*.json
 !/translations/.gitkeep
+
+# outreach lead lists (local only)
+/outreach/

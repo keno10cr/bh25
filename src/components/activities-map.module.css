@@ -72,6 +72,22 @@
   font-size: 0.78rem;
   color: #5c655e;
   font-weight: 600;
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 999px;
+  padding: 0.2rem 0.45rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.legendItem:hover,
+.legendItem:focus-visible {
+  color: var(--color-primary, #0a4c3a);
+  background: #eef4f0;
+  border-color: #d7e0d8;
+  outline: none;
 }
 
 .legendItem i {

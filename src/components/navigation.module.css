@@ -9,6 +9,20 @@
   transition: padding 0.3s ease;
 }
 
+.navbarAutoHide {
+  transition:
+    transform 0.35s ease,
+    padding 0.3s ease,
+    box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.navbarHidden {
+  transform: translateY(-110%);
+  box-shadow: none;
+  pointer-events: none;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
