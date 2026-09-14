@@ -52,12 +52,12 @@ export const PROPOSAL_COPY = {
       organization: "Su Organización",
       note: "Reinicio de liderazgo, alineación de equipo y enfoque privado del grupo.",
     },
-    titlePrefix: "Propuesta de Alquiler Exclusivo de Finca para",
+    titlePrefix: "Propuesta de Alquiler Exclusivo de Propiedad para",
     capacity: (pax) =>
       `Uso exclusivo de Villas Blessed House para ${pax} personas.`,
     valueTitle: "Valor principal",
     valueBody:
-      "Privacidad total de la propiedad en Puerto Viejo, Costa Rica. Espacios privados diseñados para el enfoque de su grupo, reuniones y convivencia sin otros huéspedes en la finca.",
+      "Privacidad total de la propiedad en Puerto Viejo, Costa Rica. Espacios privados diseñados para el enfoque de su grupo, reuniones y convivencia sin otros huéspedes en la propiedad.",
     includesTitle: "Incluye",
     includesBody:
       "Villas privadas, piscina, áreas al aire libre para reuniones, internet de alta velocidad y opciones de alimentación para grupos.",
