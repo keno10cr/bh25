@@ -2,12 +2,14 @@ export const PROPOSAL_COPY = {
   en: {
     metaTitle: "Private Proposal",
     panelTitle: "Proposal control panel",
-    panelHint: "Fill the fields, review the document below, then generate the PDF.",
+    panelHint: "Fill the fields, review the document below, then download the PDF.",
     organizationLabel: "Organization Name",
     paxLabel: "Estimated Pax (20 to 45)",
     noteLabel: "Custom Note / Specific Focus",
     notePlaceholder: "e.g. leadership reset, sports camp, corporate retreat",
-    generateButton: "Generate PDF Proposal",
+    generateButton: "Download PDF Proposal",
+    generatingButton: "Preparing PDF...",
+    downloadError: "Could not create the PDF. Please try again.",
     defaults: {
       organization: "Your Organization",
       note: "Leadership reset, team alignment, and private group focus.",
@@ -37,13 +39,15 @@ export const PROPOSAL_COPY = {
     metaTitle: "Propuesta Privada",
     panelTitle: "Panel de control de propuesta",
     panelHint:
-      "Complete los campos, revise el documento abajo y genere el PDF.",
+      "Complete los campos, revise el documento abajo y descargue el PDF.",
     organizationLabel: "Nombre de la Organización",
     paxLabel: "Personas estimadas (20 a 45)",
     noteLabel: "Nota personalizada / Enfoque específico",
     notePlaceholder:
       "ej. reinicio de liderazgo, campamento deportivo, retiro corporativo",
-    generateButton: "Generar Propuesta PDF",
+    generateButton: "Descargar Propuesta PDF",
+    generatingButton: "Preparando PDF...",
+    downloadError: "No se pudo crear el PDF. Intente de nuevo.",
     defaults: {
       organization: "Su Organización",
       note: "Reinicio de liderazgo, alineación de equipo y enfoque privado del grupo.",

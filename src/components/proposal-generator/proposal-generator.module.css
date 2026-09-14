@@ -107,10 +107,24 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-.generate:hover {
+.generate:hover:not(:disabled) {
   background: #0d5a44;
   transform: translateY(-1px);
   box-shadow: 0 8px 18px rgba(10, 76, 58, 0.22);
+}
+
+.generate:disabled {
+  opacity: 0.7;
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
+}
+
+.downloadError {
+  margin: 0 0 0.85rem;
+  color: #721c24;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .document {
@@ -228,6 +242,18 @@
 
 .printHeader {
   display: none;
+}
+
+.pdfHeader {
+  margin: 0 0 0.85rem;
+  padding: 0 1.5rem;
+  padding-top: 1.15rem;
+  font-family: "REM", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: var(--color-neutral-muted);
 }
 
 .docFooter {

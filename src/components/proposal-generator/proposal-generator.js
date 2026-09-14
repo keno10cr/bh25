@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { PROPOSAL_COPY } from "./copy";
 import styles from "./proposal-generator.module.css";
 
@@ -10,10 +10,22 @@ const EMPTY = {
   note: "",
 };
 
+function safeFilename(value) {
+  return String(value || "proposal")
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .slice(0, 60) || "proposal";
+}
+
 export default function ProposalGenerator({ locale = "en" }) {
   const copy = PROPOSAL_COPY[locale] || PROPOSAL_COPY.en;
+  const documentRef = useRef(null);
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
+  const [downloading, setDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState("");
 
   const organization =
     form.organization.trim() || copy.defaults.organization;
@@ -32,6 +44,7 @@ export default function ProposalGenerator({ locale = "en" }) {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
+    setDownloadError("");
   };
 
   const validate = () => {
@@ -57,23 +70,45 @@ export default function ProposalGenerator({ locale = "en" }) {
     return Object.keys(next).length === 0;
   };
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (!validate()) return;
-    const previousTitle = document.title;
-    document.title = copy.printHeader || "Private Proposal";
-    const restoreTitle = () => {
-      document.title = previousTitle;
-      window.removeEventListener("afterprint", restoreTitle);
-    };
-    window.addEventListener("afterprint", restoreTitle);
-    window.print();
+    if (!documentRef.current || downloading) return;
+
+    setDownloading(true);
+    setDownloadError("");
+
+    try {
+      const html2pdf = (await import("html2pdf.js")).default;
+      const filename = `${safeFilename(copy.printHeader)}-${safeFilename(
+        organization
+      )}.pdf`;
+
+      await html2pdf()
+        .set({
+          margin: [10, 10, 10, 10],
+          filename,
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: "#ffffff",
+            logging: false,
+          },
+          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+          pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+        })
+        .from(documentRef.current)
+        .save();
+    } catch (error) {
+      console.error("PDF download failed:", error);
+      setDownloadError(copy.downloadError);
+    } finally {
+      setDownloading(false);
+    }
   };
 
   return (
     <div className={styles.page}>
-      <p className={styles.printHeader} aria-hidden="true">
-        {copy.printHeader}
-      </p>
       <section className={styles.panel} aria-label={copy.panelTitle}>
         <div className={styles.panelInner}>
           <div className={styles.panelIntro}>
@@ -123,17 +158,27 @@ export default function ProposalGenerator({ locale = "en" }) {
             </label>
           </div>
 
+          {downloadError ? (
+            <p className={styles.downloadError}>{downloadError}</p>
+          ) : null}
+
           <button
             type="button"
             className={styles.generate}
             onClick={handleGenerate}
+            disabled={downloading}
           >
-            {copy.generateButton}
+            {downloading ? copy.generatingButton : copy.generateButton}
           </button>
         </div>
       </section>
 
-      <article className={styles.document} aria-label={documentTitle}>
+      <article
+        ref={documentRef}
+        className={styles.document}
+        aria-label={documentTitle}
+      >
+        <p className={styles.pdfHeader}>{copy.printHeader}</p>
         <header className={styles.docHero}>
           <img
             src="/BannerVilla4.jpg"
