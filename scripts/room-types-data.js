@@ -144,6 +144,15 @@ export const ROOM_TYPES = [
     capacity: 2,
     icon: "double",
   },
+  {
+    id: "roomType-queenTwoSingles",
+    titleEn: "Bedroom",
+    titleEs: "Dormitorio",
+    configEn: "1 Queen Bed + 2 Single Beds",
+    configEs: "1 Cama Queen + 2 Camas Individuales",
+    capacity: 4,
+    icon: "bed",
+  },
 ];
 
 export const VILLA_ARRANGEMENTS = {
@@ -152,7 +161,7 @@ export const VILLA_ARRANGEMENTS = {
     { roomTypeId: "roomType-doubleBed", quantity: 3, customTitleEn: "Double Bedrooms" },
     { roomTypeId: "roomType-guestSofa", quantity: 1 },
   ],
-  4: [{ roomTypeId: "roomType-queenSingle", quantity: 1 }],
+  4: [{ roomTypeId: "roomType-queenTwoSingles", quantity: 1 }],
   5: [
     { roomTypeId: "roomType-queenBed", quantity: 1, customTitleEn: "Bedroom 1" },
     { roomTypeId: "roomType-doubleTwin", quantity: 1, customTitleEn: "Bedroom 2" },

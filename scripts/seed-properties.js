@@ -41,16 +41,17 @@ const BH_COORDS = { lat: 9.64735, lng: -82.77697 };
 const imageCache = new Map();
 
 const PRICING_BY_ID = {
-  3: { priceMin: 250, priceMax: 350, baseGuestCount: 6, extraGuestFeePerNight: 35, minimumNights: 2 },
-  4: { priceMin: 90, priceMax: 130, baseGuestCount: 2, extraGuestFeePerNight: 25, minimumNights: 2 },
-  5: { priceMin: 160, priceMax: 220, baseGuestCount: 4, extraGuestFeePerNight: 30, minimumNights: 2 },
-  6: { priceMin: 80, priceMax: 110, baseGuestCount: 1, extraGuestFeePerNight: 30, minimumNights: 2 },
-  7: { priceMin: 150, priceMax: 200, baseGuestCount: 4, extraGuestFeePerNight: 30, minimumNights: 2 },
-  8: { priceMin: 120, priceMax: 170, baseGuestCount: 2, extraGuestFeePerNight: 30, minimumNights: 2 },
-  9: { priceMin: 90, priceMax: 130, baseGuestCount: 2, extraGuestFeePerNight: 25, minimumNights: 2 },
-  10: { priceMin: 100, priceMax: 150, baseGuestCount: 2, extraGuestFeePerNight: 30, minimumNights: 2 },
-  11: { priceMin: 150, priceMax: 210, baseGuestCount: 4, extraGuestFeePerNight: 30, minimumNights: 2 },
-  12: { priceMin: 200, priceMax: 280, baseGuestCount: 4, extraGuestFeePerNight: 35, minimumNights: 2 },
+  // Spreadsheet base = priceMin; priceMax ≈ 25% high season markup (rounded).
+  3: { priceMin: 280, priceMax: 350, baseGuestCount: 6, extraGuestFeePerNight: 30, minimumNights: 2 },
+  4: { priceMin: 110, priceMax: 140, baseGuestCount: 2, extraGuestFeePerNight: 30, minimumNights: 2 },
+  5: { priceMin: 190, priceMax: 240, baseGuestCount: 2, extraGuestFeePerNight: 30, minimumNights: 2 },
+  6: { priceMin: 65, priceMax: 85, baseGuestCount: 1, extraGuestFeePerNight: 30, minimumNights: 2 },
+  7: { priceMin: 190, priceMax: 240, baseGuestCount: 4, extraGuestFeePerNight: 30, minimumNights: 2 },
+  8: { priceMin: 140, priceMax: 175, baseGuestCount: 2, extraGuestFeePerNight: 30, minimumNights: 2 },
+  9: { priceMin: 120, priceMax: 150, baseGuestCount: 2, extraGuestFeePerNight: 30, minimumNights: 2 },
+  10: { priceMin: 120, priceMax: 150, baseGuestCount: 2, extraGuestFeePerNight: 30, minimumNights: 2 },
+  11: { priceMin: 180, priceMax: 225, baseGuestCount: 4, extraGuestFeePerNight: 30, minimumNights: 2 },
+  12: { priceMin: 220, priceMax: 275, baseGuestCount: 4, extraGuestFeePerNight: 30, minimumNights: 2 },
 };
 
 function arrangementsForVilla(villa) {
