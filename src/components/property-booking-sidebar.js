@@ -148,6 +148,10 @@ export default function PropertyBookingSidebar({
   const [disabledDates, setDisabledDates] = useState(new Set());
   const [pricingMap, setPricingMap] = useState({});
   const [defaultNightlyRate, setDefaultNightlyRate] = useState(0);
+  const [liveGuestsMax, setLiveGuestsMax] = useState(null);
+  const [liveBaseGuestCount, setLiveBaseGuestCount] = useState(null);
+  const [liveExtraGuestFee, setLiveExtraGuestFee] = useState(null);
+  const [liveMinimumNights, setLiveMinimumNights] = useState(null);
   const [minIso, setMinIso] = useState(() => tomorrowIsoDate());
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [guestOpen, setGuestOpen] = useState(false);
@@ -157,11 +161,40 @@ export default function PropertyBookingSidebar({
   });
   const [loadingAvailability, setLoadingAvailability] = useState(true);
 
-  const guestsMax = property?.guestsMax || 2;
   const petsMax = property?.petsMax || 0;
-  const minimumNights = resolveMinimumNights(property || {});
+  const guestsMax =
+    (typeof liveGuestsMax === "number" && liveGuestsMax > 0
+      ? liveGuestsMax
+      : property?.guestsMax) || 2;
+  const pricingProperty = useMemo(
+    () => ({
+      ...property,
+      guestsMax,
+      capacity: guestsMax,
+      baseGuestCount:
+        typeof liveBaseGuestCount === "number" && liveBaseGuestCount > 0
+          ? liveBaseGuestCount
+          : property?.baseGuestCount,
+      extraGuestFeePerNight:
+        typeof liveExtraGuestFee === "number" && liveExtraGuestFee > 0
+          ? liveExtraGuestFee
+          : property?.extraGuestFeePerNight,
+      minimumNights:
+        typeof liveMinimumNights === "number" && liveMinimumNights >= 1
+          ? liveMinimumNights
+          : property?.minimumNights,
+    }),
+    [
+      property,
+      guestsMax,
+      liveBaseGuestCount,
+      liveExtraGuestFee,
+      liveMinimumNights,
+    ]
+  );
+  const minimumNights = resolveMinimumNights(pricingProperty);
   const publishedRate =
-    defaultNightlyRate || getDefaultPublishedNightly(property || {});
+    defaultNightlyRate || getDefaultPublishedNightly(pricingProperty);
 
   useEffect(() => {
     if (!property?.slug) return;
@@ -177,6 +210,21 @@ export default function PropertyBookingSidebar({
         setPricingMap(data.pricingMap || {});
         setDefaultNightlyRate(data.defaultNightlyRate || 0);
         if (data.minCheckInDate) setMinIso(data.minCheckInDate);
+        if (typeof data.guestsMax === "number" && data.guestsMax > 0) {
+          setLiveGuestsMax(data.guestsMax);
+        }
+        if (typeof data.baseGuestCount === "number" && data.baseGuestCount > 0) {
+          setLiveBaseGuestCount(data.baseGuestCount);
+        }
+        if (
+          typeof data.extraGuestFeePerNight === "number" &&
+          data.extraGuestFeePerNight > 0
+        ) {
+          setLiveExtraGuestFee(data.extraGuestFeePerNight);
+        }
+        if (typeof data.minimumNights === "number" && data.minimumNights >= 1) {
+          setLiveMinimumNights(data.minimumNights);
+        }
         if (typeof data.guestsMax === "number" && data.guestsMax > 0) {
           setGuests((prev) =>
             clampGuestSelection(
@@ -220,15 +268,22 @@ export default function PropertyBookingSidebar({
     );
     const extra = computeExtraGuestStayFee({
       nights,
-      extraGuests: extraGuestCount(getTotalHumanGuests(guests), {
-        ...property,
-        guestsMax,
-        capacity: guestsMax,
-      }),
-      feePerNight: resolveExtraGuestFeePerNight(property || {}),
+      extraGuests: extraGuestCount(
+        getTotalHumanGuests(guests),
+        pricingProperty
+      ),
+      feePerNight: resolveExtraGuestFeePerNight(pricingProperty),
     });
     return withExtraGuestStayFee(nightly, extra);
-  }, [nightIsos, nights, pricingMap, property, publishedRate, guests, guestsMax]);
+  }, [
+    nightIsos,
+    nights,
+    pricingMap,
+    property?.seasonalPricing,
+    publishedRate,
+    guests,
+    pricingProperty,
+  ]);
 
   const meetsMinimum = nights > 0 && nights >= minimumNights;
   const canReserve =
@@ -307,12 +362,8 @@ export default function PropertyBookingSidebar({
     });
   };
 
-  const baseIncluded = resolveBaseGuestCount({
-    ...property,
-    guestsMax,
-    capacity: guestsMax,
-  });
-  const extraFee = resolveExtraGuestFeePerNight(property || {});
+  const baseIncluded = resolveBaseGuestCount(pricingProperty);
+  const extraFee = resolveExtraGuestFeePerNight(pricingProperty);
 
   return (
     <aside className={styles.wrap}>

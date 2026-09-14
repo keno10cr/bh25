@@ -3,11 +3,13 @@
  * Empty CMS values fall back to inclusive defaults (same rules as STADA).
  */
 
+/** Spreadsheet base rate (priceMin). priceMax stays for future yield / high season. */
 export function getDefaultPublishedNightly(property) {
   const min = Number(property?.priceMin ?? property?.price?.min);
+  if (Number.isFinite(min) && min > 0) return Math.round(min);
   const max = Number(property?.priceMax ?? property?.price?.max);
-  if (!Number.isFinite(min) || !Number.isFinite(max)) return 0;
-  return Math.round((min + max) / 2);
+  if (Number.isFinite(max) && max > 0) return Math.round(max);
+  return 0;
 }
 
 /** Empty CMS value → 1 night (no extra restriction). */
