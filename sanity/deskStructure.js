@@ -1,7 +1,6 @@
 import { OwnerCalendar } from "./components/OwnerCalendar";
 
 const SYSTEM_SETTINGS_ID = "systemSettings";
-const JOBS_PAGE_ID = "jobsPage";
 
 const HIDDEN_FROM_DEFAULT = [
   "villa",
@@ -19,6 +18,8 @@ const HIDDEN_FROM_DEFAULT = [
   "blogPageSettings",
   "villasPageSettings",
   "pvgPageSettings",
+  "navSettings",
+  "footerSettings",
   "property",
   "propertyKind",
   "location",
@@ -26,9 +27,6 @@ const HIDDEN_FROM_DEFAULT = [
   "blockedDate",
   "stayBooking",
   "systemSettings",
-  "jobsPage",
-  "jobPosting",
-  "jobApplication",
 ];
 
 function formList(S, title, filter) {
@@ -43,13 +41,6 @@ function bookingList(S, title, filter) {
     .title(title)
     .filter(filter)
     .defaultOrdering([{ field: "checkIn", direction: "asc" }]);
-}
-
-function applicationList(S, title, filter) {
-  return S.documentTypeList("jobApplication")
-    .title(title)
-    .filter(filter)
-    .defaultOrdering([{ field: "submittedAt", direction: "desc" }]);
 }
 
 export const deskStructure = (S) =>
@@ -206,78 +197,6 @@ export const deskStructure = (S) =>
             ])
         ),
 
-      S.listItem()
-        .title("Careers Data")
-        .id("careers-data-root")
-        .child(
-          S.list()
-            .title("Careers Data")
-            .items([
-              S.listItem()
-                .title("Jobs page")
-                .id(JOBS_PAGE_ID)
-                .child(
-                  S.document()
-                    .schemaType("jobsPage")
-                    .documentId(JOBS_PAGE_ID)
-                    .title("Jobs page")
-                ),
-              S.listItem()
-                .title("Job postings")
-                .schemaType("jobPosting")
-                .child(
-                  S.documentTypeList("jobPosting")
-                    .title("Job postings")
-                    .defaultOrdering([{ field: "positionTitle", direction: "asc" }])
-                ),
-              S.listItem()
-                .title("Applications")
-                .id("job-applications-root")
-                .child(
-                  S.list()
-                    .title("Applications")
-                    .items([
-                      S.listItem()
-                        .title("All")
-                        .child(
-                          applicationList(
-                            S,
-                            "All applications",
-                            `_type == "jobApplication"`
-                          )
-                        ),
-                      S.listItem()
-                        .title("New")
-                        .child(
-                          applicationList(
-                            S,
-                            "New",
-                            `_type == "jobApplication" && status == "new"`
-                          )
-                        ),
-                      S.listItem()
-                        .title("Reviewed")
-                        .child(
-                          applicationList(
-                            S,
-                            "Reviewed",
-                            `_type == "jobApplication" && status == "reviewed"`
-                          )
-                        ),
-                      S.listItem()
-                        .title("Archived")
-                        .child(
-                          applicationList(
-                            S,
-                            "Archived",
-                            `_type == "jobApplication" && status == "archived"`
-                          )
-                        ),
-                    ])
-                ),
-            ])
-        ),
-
       S.divider(),
 
       S.listItem()
@@ -286,13 +205,26 @@ export const deskStructure = (S) =>
           S.list()
             .title("Site content")
             .items([
-              S.listItem()
-                .title("Marketing villas (legacy)")
-                .child(S.documentTypeList("villa").title("Villas")),
               S.documentTypeListItem("activity").title("Activities"),
               S.documentTypeListItem("legendItem").title("Legend items"),
               S.documentTypeListItem("review").title("Reviews"),
               S.documentTypeListItem("blog").title("Blog"),
+              S.listItem()
+                .title("Navigation")
+                .child(
+                  S.document()
+                    .schemaType("navSettings")
+                    .documentId("navSettings")
+                    .title("Navigation")
+                ),
+              S.listItem()
+                .title("Footer")
+                .child(
+                  S.document()
+                    .schemaType("footerSettings")
+                    .documentId("footerSettings")
+                    .title("Footer")
+                ),
               S.listItem()
                 .title("Site Pages")
                 .child(

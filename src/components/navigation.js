@@ -8,18 +8,50 @@ import LanguageSwitcher from "./language-switcher";
 import LanguageSwitcherPayments from "./language-switcher-payments";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
+import { NAV_SETTINGS_DEFAULTS } from "@/data/page-defaults";
 import styles from "./navigation.module.css";
 
-export default function Navigation() {
+const NAV_KEY_BY_HREF = {
+  "/gallery": "gallery",
+  "/villas": "villas",
+  "/activities": "activities",
+  "/blog": "blog",
+  "/contact": "contact",
+};
+
+function linkLabel(link, t, language) {
+  const key = NAV_KEY_BY_HREF[link.href];
+  if (key && language !== "en") return t(`nav.${key}`);
+  return link.label || (key ? t(`nav.${key}`) : link.href);
+}
+
+function isActivePath(pathname, href) {
+  if (!pathname || !href) return false;
+  if (href === "/") return pathname === "/";
+  if (href === "/blog") return pathname.startsWith("/blog");
+  return pathname === href;
+}
+
+export default function Navigation({ nav }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const pathname = usePathname();
-  const isPaymentsPage = pathname === "/payments" || pathname === "/p" || pathname === "/payment" || pathname === "/pagos";
+  const isPaymentsPage =
+    pathname === "/payments" ||
+    pathname === "/p" ||
+    pathname === "/payment" ||
+    pathname === "/pagos";
   const isPvgPage = pathname === "/pvg";
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
   const menuOpenRef = useRef(false);
+
+  const brandName = nav?.brandName?.value || NAV_SETTINGS_DEFAULTS.brandName;
+  const links =
+    Array.isArray(nav?.links) && nav.links.length > 0
+      ? nav.links
+      : NAV_SETTINGS_DEFAULTS.links;
 
   menuOpenRef.current = isOpen || isClosing;
 
@@ -66,7 +98,7 @@ export default function Navigation() {
       setTimeout(() => {
         setIsOpen(false);
         setIsClosing(false);
-      }, 400); // Match the close animation duration
+      }, 400);
     } else {
       setIsOpen(true);
       setIsClosing(false);
@@ -89,66 +121,42 @@ export default function Navigation() {
           <div className={styles.logo}>
             <Image
               src="/blessedhouse_logo25.png"
-              alt="Blessed House Logo"
+              alt={`${brandName} Logo`}
               width={80}
               height={80}
               className={styles.logoImage}
               priority
             />
-            <span className={styles.logoText}>Blessed House</span>
+            <span className={styles.logoText}>{brandName}</span>
           </div>
         </Link>
 
-        <ul className={`${styles.navLinks} ${isOpen && !isClosing ? styles.active : isClosing ? styles.closing : ""}`}>
-          <li>
-            <Link 
-              href="/gallery" 
-              onClick={handleLinkClick}
-              className={pathname === "/gallery" ? styles.active : ""}
-            >
-              {t("nav.gallery")}
-            </Link>
-          </li>
-          <li>
-            <Link 
-              href="/villas" 
-              onClick={handleLinkClick}
-              className={pathname === "/villas" ? styles.active : ""}
-            >
-              {t("nav.villas")}
-            </Link>
-          </li>
-          <li>
-            <Link 
-              href="/activities" 
-              onClick={handleLinkClick}
-              className={pathname === "/activities" ? styles.active : ""}
-            >
-              {t("nav.activities")}
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/blog"
-              onClick={handleLinkClick}
-              className={pathname?.startsWith("/blog") ? styles.active : ""}
-            >
-              {t("nav.blog")}
-            </Link>
-          </li>
-          <li>
-            <Link 
-              href="/contact" 
-              onClick={handleLinkClick}
-              className={pathname === "/contact" ? styles.active : ""}
-            >
-              {t("nav.contact")}
-            </Link>
-          </li>
-          {(pathname === "/payments" || pathname === "/p" || pathname === "/payment" || pathname === "/pagos") && (language === "en" || language === "es") && (
+        <ul
+          className={`${styles.navLinks} ${
+            isOpen && !isClosing
+              ? styles.active
+              : isClosing
+                ? styles.closing
+                : ""
+          }`}
+        >
+          {links.map((link) => (
+            <li key={link.key || link.href}>
+              <Link
+                href={link.href}
+                onClick={handleLinkClick}
+                className={
+                  isActivePath(pathname, link.href) ? styles.active : ""
+                }
+              >
+                {linkLabel(link, t, language)}
+              </Link>
+            </li>
+          ))}
+          {isPaymentsPage && (language === "en" || language === "es") && (
             <li>
-              <Link 
-                href="/payments" 
+              <Link
+                href="/payments"
                 onClick={handleLinkClick}
                 className={styles.active}
               >

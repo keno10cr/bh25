@@ -2,14 +2,36 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
+import { resolveCopy } from "@/lib/cms-field";
 import { AIRBNB_PROFILE_URL, trackAirbnbRedirectClicked } from "@/lib/posthog";
 import { useSmoothParallax } from "@/lib/parallax-motion";
+import { FOOTER_SETTINGS_DEFAULTS } from "@/data/page-defaults";
 import styles from "./footer.module.css";
 
-export default function Footer() {
+const SOCIAL_ICONS = {
+  instagram: "/social/instagram.png",
+  airbnb: "/social/airbnb.png",
+  youtube: "/social/youtube.png",
+};
+
+const NAV_KEY_BY_HREF = {
+  "/gallery": "gallery",
+  "/villas": "villas",
+  "/activities": "activities",
+  "/blog": "blog",
+  "/contact": "contact",
+};
+
+function linkLabel(link, t, language) {
+  const key = NAV_KEY_BY_HREF[link.href];
+  if (key && language !== "en") return t(`nav.${key}`);
+  return link.label || (key ? t(`nav.${key}`) : link.href);
+}
+
+export default function Footer({ footer }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const currentYear = new Date().getFullYear();
@@ -17,10 +39,38 @@ export default function Footer() {
   const layer1Ref = useRef(null);
   const layer2Ref = useRef(null);
 
+  const brandName = footer?.brandName?.value || FOOTER_SETTINGS_DEFAULTS.brandName;
+  const locationLine = resolveCopy(
+    footer?.locationLine,
+    t("footer.location"),
+    language
+  );
+  const tagline = resolveCopy(footer?.tagline, t("footer.tagline"), language);
+  const email = footer?.email?.value || FOOTER_SETTINGS_DEFAULTS.email;
+  const addressLine =
+    footer?.addressLine?.value || FOOTER_SETTINGS_DEFAULTS.addressLine;
+  const copyright = resolveCopy(
+    footer?.copyright,
+    t("footer.copyright"),
+    language
+  );
+  const phones =
+    Array.isArray(footer?.phones) && footer.phones.length > 0
+      ? footer.phones
+      : FOOTER_SETTINGS_DEFAULTS.phones;
+  const quickLinks =
+    Array.isArray(footer?.quickLinks) && footer.quickLinks.length > 0
+      ? footer.quickLinks
+      : FOOTER_SETTINGS_DEFAULTS.quickLinks;
+  const socialLinks =
+    Array.isArray(footer?.socialLinks) && footer.socialLinks.length > 0
+      ? footer.socialLinks
+      : FOOTER_SETTINGS_DEFAULTS.socialLinks;
+
   useSmoothParallax((loop) => {
-    const footer = footerRef.current;
-    if (!footer) return;
-    const rect = footer.getBoundingClientRect();
+    const el = footerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
     const viewH = window.innerHeight || 1;
     const start = viewH;
     const end = viewH * 0.15;
@@ -30,12 +80,10 @@ export default function Footer() {
     );
 
     loop.set(layer2Ref.current, {
-      // Back layer: 10px above the floor when settled.
       y: (1 - progress) * 100,
       lerp: 0.07,
     });
     loop.set(layer1Ref.current, {
-      // Front layer: flush with the floor when settled.
       y: (1 - progress) * 80,
       lerp: 0.16,
     });
@@ -58,38 +106,30 @@ export default function Footer() {
         <div className={styles.logoSection}>
           <Image
             src="/blessedhouse_logo25.png"
-            alt="Blessed House Logo"
+            alt={`${brandName} Logo`}
             width={150}
             height={150}
             className={styles.logo}
           />
-          <p className={styles.location}>{t("footer.location")}</p>
+          <p className={styles.location}>{locationLine.value}</p>
         </div>
 
         <div className={styles.container}>
           <div className={styles.section}>
-            <h3>Blessed House</h3>
-            <p>{t("footer.tagline")}</p>
+            <h3>{brandName}</h3>
+            <p>{tagline.value}</p>
           </div>
 
           <div className={styles.section}>
             <h4>{t("footer.quickLinks")}</h4>
             <ul>
-              <li>
-                <Link href="/gallery">{t("nav.gallery")}</Link>
-              </li>
-              <li>
-                <Link href="/villas">{t("nav.villas")}</Link>
-              </li>
-              <li>
-                <Link href="/activities">{t("nav.activities")}</Link>
-              </li>
-              <li>
-                <Link href="/blog">{t("nav.blog")}</Link>
-              </li>
-              <li>
-                <Link href="/contact">{t("nav.contact")}</Link>
-              </li>
+              {quickLinks.map((link) => (
+                <li key={link.key || link.href}>
+                  <Link href={link.href}>
+                    {linkLabel(link, t, language)}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -97,73 +137,69 @@ export default function Footer() {
             <h4>{t("footer.contactInfo")}</h4>
             <p>
               {t("common.email")}:{" "}
-              <a href="mailto:blessedhousecr@gmail.com">blessedhousecr@gmail.com</a>
+              <a href={`mailto:${email}`}>{email}</a>
             </p>
             <p>
               {t("common.phone")}:{" "}
-              <a href="tel:+17546104710">+1 (754) 610-4710</a>
+              {phones.map((phone, index) => (
+                <Fragment key={`${phone.tel}-${index}`}>
+                  {index > 0 && (
+                    <>
+                      <br />
+                      {t("common.or")}
+                      <br />
+                    </>
+                  )}
+                  <a href={`tel:${phone.tel}`}>{phone.label}</a>
+                </Fragment>
+              ))}
             </p>
-            <p>Puerto Viejo, Limón, Costa Rica</p>
+            <p>{addressLine}</p>
           </div>
 
           <div className={styles.section}>
             <h4>{t("footer.socialMedia")}</h4>
             <div className={styles.socialRow}>
-              <a
-                href="https://www.instagram.com/blessedhouse"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className={styles.socialIcon}
-              >
-                <Image
-                  src="/social/instagram.png"
-                  alt="Instagram"
-                  width={50}
-                  height={50}
-                />
-              </a>
-              <a
-                href={AIRBNB_PROFILE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Airbnb"
-                className={styles.socialIcon}
-                onClick={() =>
-                  trackAirbnbRedirectClicked({
-                    villa_id: null,
-                    villa_name: null,
-                    destination_url: AIRBNB_PROFILE_URL,
-                  })
-                }
-              >
-                <Image
-                  src="/social/airbnb.png"
-                  alt="Airbnb"
-                  width={50}
-                  height={50}
-                />
-              </a>
-              <a
-                href="https://www.youtube.com/@blessedhouse3354"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="YouTube"
-                className={styles.socialIcon}
-              >
-                <Image
-                  src="/social/youtube.png"
-                  alt="YouTube"
-                  width={50}
-                  height={50}
-                />
-              </a>
+              {socialLinks.map((link) => {
+                const icon = link.iconUrl || SOCIAL_ICONS[link.network];
+                if (!icon) return null;
+                const isAirbnb = link.network === "airbnb";
+                return (
+                  <a
+                    key={link.key || link.url}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.label}
+                    className={styles.socialIcon}
+                    onClick={
+                      isAirbnb
+                        ? () =>
+                            trackAirbnbRedirectClicked({
+                              villa_id: null,
+                              villa_name: null,
+                              destination_url: link.url || AIRBNB_PROFILE_URL,
+                            })
+                        : undefined
+                    }
+                  >
+                    <Image
+                      src={icon}
+                      alt={link.iconAlt || link.label}
+                      width={50}
+                      height={50}
+                    />
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
 
         <div className={styles.copyright}>
-          <p>&copy; {currentYear} Blessed House Villas. {t("footer.copyright")}</p>
+          <p>
+            &copy; {currentYear} {brandName} Villas. {copyright.value}
+          </p>
         </div>
       </div>
     </footer>

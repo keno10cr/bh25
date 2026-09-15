@@ -8,8 +8,10 @@ import {
   ACTIVITIES_PAGE_DEFAULTS,
   BLOG_PAGE_DEFAULTS,
   CONTACT_PAGE_DEFAULTS,
+  FOOTER_SETTINGS_DEFAULTS,
   GALLERY_PAGE_DEFAULTS,
   HOME_PAGE_DEFAULTS,
+  NAV_SETTINGS_DEFAULTS,
   VILLAS_PAGE_DEFAULTS,
 } from "../src/data/page-defaults.js";
 import { STATIC_REVIEWS } from "../src/data/reviews.js";
@@ -142,6 +144,16 @@ async function seed() {
     _id: "villasPageSettings",
     _type: "villasPageSettings",
     ...VILLAS_PAGE_DEFAULTS,
+  });
+  transaction.createOrReplace({
+    _id: "navSettings",
+    _type: "navSettings",
+    ...NAV_SETTINGS_DEFAULTS,
+  });
+  transaction.createOrReplace({
+    _id: "footerSettings",
+    _type: "footerSettings",
+    ...FOOTER_SETTINGS_DEFAULTS,
   });
 
   for (const villa of STATIC_VILLAS) {

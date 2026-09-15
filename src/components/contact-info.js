@@ -7,7 +7,7 @@ import CmsText from "@/components/cms-text";
 import { resolveCopy } from "@/lib/cms-field";
 import styles from "./contact-info.module.css";
 
-export default function ContactInfo({ copy }) {
+export default function ContactInfo({ copy, footer }) {
     const { language } = useLanguage();
     const t = useTranslation(language);
     const infoTitle = resolveCopy(
@@ -70,8 +70,11 @@ export default function ContactInfo({ copy }) {
                     </div>
                     <h3>{t("contactPage.contactInfo.email")}</h3>
                     <p>
-                        <a href="mailto:blessedhousecr@gmail.com" className={styles.contactLink}>
-                            blessedhousecr@gmail.com
+                        <a
+                            href={`mailto:${footer?.email?.value || "blessedhousecr@gmail.com"}`}
+                            className={styles.contactLink}
+                        >
+                            {footer?.email?.value || "blessedhousecr@gmail.com"}
                         </a>
                     </p>
                 </div>
@@ -87,9 +90,23 @@ export default function ContactInfo({ copy }) {
                     </div>
                     <h3>{t("contactPage.contactInfo.phone")}</h3>
                     <p>
-                        <a href="tel:+17546104710" className={styles.contactLink}>
-                            +1 (754) 610-4710
-                        </a>
+                        {(Array.isArray(footer?.phones) && footer.phones.length > 0
+                            ? footer.phones
+                            : [{ label: "+1 (754) 610 4710", tel: "+17546104710" }]
+                        ).map((phone, index) => (
+                            <span key={`${phone.tel}-${index}`}>
+                                {index > 0 && (
+                                    <>
+                                        <br />
+                                        {t("common.or")}
+                                        <br />
+                                    </>
+                                )}
+                                <a href={`tel:${phone.tel}`} className={styles.contactLink}>
+                                    {phone.label}
+                                </a>
+                            </span>
+                        ))}
                     </p>
                 </div>
             </div>

@@ -278,29 +278,6 @@ async function seed() {
         tagCode: "NL",
       },
     ],
-    careersLocationCatalog: [
-      {
-        _key: "bhPv",
-        locationId: "blessed-house-pv",
-        labelEn: "Blessed House, Puerto Viejo",
-        labelEs: "Blessed House, Puerto Viejo",
-        coordinates: {
-          _type: "geopoint",
-          lat: BH_COORDS.lat,
-          lng: BH_COORDS.lng,
-        },
-      },
-    ],
-    jobListingTagCatalog: [
-      {
-        _key: "urgent",
-        tagId: "urgent",
-        labelEn: "Urgent",
-        labelEs: "Urgente",
-        backgroundColor: "#9a3412",
-        textColor: "#ffffff",
-      },
-    ],
   });
 
   await upsert(client, {

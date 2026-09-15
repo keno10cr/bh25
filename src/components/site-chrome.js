@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 
-export default function SiteChrome({ children }) {
+export default function SiteChrome({ children, nav, footer }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
   const isProposalTool = pathname === "/ccen" || pathname === "/cces";
@@ -31,9 +31,9 @@ export default function SiteChrome({ children }) {
 
   return (
     <>
-      <Navigation />
+      <Navigation nav={nav} />
       {children}
-      <Footer />
+      <Footer footer={footer} />
     </>
   );
 }

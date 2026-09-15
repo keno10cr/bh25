@@ -281,6 +281,43 @@ export const contactPageSettingsQuery = `*[_id == "contactPageSettings"][0]{
   "heroImage": heroImage.asset->url,
   "heroImageAlt": heroImage.alt
 }`;
+export const navSettingsQuery = `*[_id == "navSettings"][0]{
+  brandName,
+  links[]{
+    _key,
+    label,
+    href,
+    enabled
+  }
+}`;
+export const footerSettingsQuery = `*[_id == "footerSettings"][0]{
+  brandName,
+  locationLine,
+  tagline,
+  email,
+  addressLine,
+  copyright,
+  phones[]{
+    _key,
+    label,
+    tel
+  },
+  quickLinks[]{
+    _key,
+    label,
+    href,
+    enabled
+  },
+  socialLinks[]{
+    _key,
+    network,
+    url,
+    label,
+    enabled,
+    "iconUrl": icon.asset->url,
+    "iconAlt": icon.alt
+  }
+}`;
 export const galleryPageSettingsQuery = `*[_id == "galleryPageSettings"][0]{
   ...,
   images[]{

@@ -9,7 +9,7 @@ import { resolveCopy } from "@/lib/cms-field";
 import { useSmoothParallax } from "@/lib/parallax-motion";
 import styles from "./contact.module.css";
 
-export default function ContactClient({ copy }) {
+export default function ContactClient({ copy, footer }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const bannerRef = useRef(null);
@@ -57,7 +57,7 @@ export default function ContactClient({ copy }) {
 
         <div className={styles.content}>
           <ContactForm copy={copy} />
-          <ContactInfo copy={copy} />
+          <ContactInfo copy={copy} footer={footer} />
         </div>
       </div>
     </>

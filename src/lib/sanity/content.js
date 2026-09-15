@@ -12,8 +12,10 @@ import {
   blogPostBySlugQuery,
   blogPostsQuery,
   contactPageSettingsQuery,
+  footerSettingsQuery,
   galleryPageSettingsQuery,
   homePageSettingsQuery,
+  navSettingsQuery,
   reviewsQuery,
   publishedVillaCommentsQuery,
   publishedGuestExperiencesQuery,
@@ -46,10 +48,12 @@ import {
   BLOG_PAGE_DEFAULTS,
   VILLAS_PAGE_DEFAULTS,
   CONTACT_PAGE_DEFAULTS,
+  FOOTER_SETTINGS_DEFAULTS,
   GALLERY_PAGE_DEFAULTS,
   HOME_PAGE_DEFAULTS,
   HOME_THINGS_TO_DO,
   HOME_FEATURED_ITEMS,
+  NAV_SETTINGS_DEFAULTS,
 } from "@/data/page-defaults";
 import {
   PVG_PAGE_DEFAULTS,
@@ -321,9 +325,99 @@ export async function getAboutPageSettings() {
   return mapPageSettings(raw, ABOUT_PAGE_DEFAULTS);
 }
 
+function normalizePhones(rawPhones, fallbackPhones) {
+  const source =
+    Array.isArray(rawPhones) && rawPhones.length > 0
+      ? rawPhones
+      : fallbackPhones;
+  return source
+    .map((phone) => {
+      const label = String(phone?.label || "").trim();
+      const tel = String(phone?.tel || "")
+        .replace(/[^\d+]/g, "")
+        .trim();
+      if (!label || !tel) return null;
+      return {
+        label,
+        tel: tel.startsWith("+") ? tel : `+${tel}`,
+      };
+    })
+    .filter(Boolean);
+}
+
+function normalizeLinks(rawLinks, fallbackLinks) {
+  const source =
+    Array.isArray(rawLinks) && rawLinks.length > 0 ? rawLinks : fallbackLinks;
+  return source
+    .map((link, index) => {
+      const href = String(link?.href || "").trim();
+      const label = String(link?.label || "").trim();
+      if (!href || !label || link?.enabled === false) return null;
+      return {
+        key: link._key || `${href}-${index}`,
+        label,
+        href,
+      };
+    })
+    .filter(Boolean);
+}
+
+function normalizeSocialLinks(rawLinks, fallbackLinks) {
+  const source =
+    Array.isArray(rawLinks) && rawLinks.length > 0 ? rawLinks : fallbackLinks;
+  return source
+    .map((link, index) => {
+      const url = String(link?.url || "").trim();
+      const network = String(link?.network || "").trim();
+      const label = String(link?.label || network || "").trim();
+      if (!url || !network || link?.enabled === false) return null;
+      const iconUrl = String(link?.iconUrl || "").trim();
+      return {
+        key: link._key || `${network}-${index}`,
+        network,
+        url,
+        label,
+        iconUrl: iconUrl || null,
+        iconAlt: String(link?.iconAlt || label || network).trim(),
+      };
+    })
+    .filter(Boolean);
+}
+
 export async function getContactPageSettings() {
   const raw = await sanityFetch(contactPageSettingsQuery);
   return mapPageSettings(raw, CONTACT_PAGE_DEFAULTS);
+}
+
+export async function getNavSettings() {
+  const raw = await sanityFetch(navSettingsQuery);
+  return {
+    brandName: cmsField(raw?.brandName, NAV_SETTINGS_DEFAULTS.brandName),
+    links: normalizeLinks(raw?.links, NAV_SETTINGS_DEFAULTS.links),
+    fromCms: Boolean(raw),
+  };
+}
+
+export async function getFooterSettings() {
+  const raw = await sanityFetch(footerSettingsQuery);
+  const defaults = FOOTER_SETTINGS_DEFAULTS;
+  return {
+    brandName: cmsField(raw?.brandName, defaults.brandName),
+    locationLine: cmsField(raw?.locationLine, defaults.locationLine),
+    tagline: cmsField(raw?.tagline, defaults.tagline),
+    email: cmsField(raw?.email, defaults.email),
+    addressLine: cmsField(raw?.addressLine, defaults.addressLine),
+    copyright: cmsField(raw?.copyright, defaults.copyright),
+    phones: normalizePhones(raw?.phones, defaults.phones),
+    quickLinks: normalizeLinks(raw?.quickLinks, defaults.quickLinks),
+    socialLinks: normalizeSocialLinks(raw?.socialLinks, defaults.socialLinks),
+    fromCms: Boolean(raw),
+  };
+}
+
+export async function getSitePhones() {
+  const footer = await getFooterSettings();
+  return footer.phones;
 }
 
 export async function getGalleryPageSettings() {

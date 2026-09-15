@@ -659,6 +659,7 @@ export const translations = {
       home: "Home",
       email: "Email",
       phone: "Phone",
+      or: "or",
       learnMore: "Learn More",
       viewAll: "View All",
       selectLanguage: "Select Language"
@@ -1389,6 +1390,7 @@ export const translations = {
       home: "Inicio",
       email: "Correo",
       phone: "Teléfono",
+      or: "o",
       learnMore: "Saber Más",
       viewAll: "Ver Todo",
       selectLanguage: "Seleccionar Idioma"
@@ -2047,6 +2049,7 @@ export const translations = {
       home: "Startseite",
       email: "E-Mail",
       phone: "Telefon",
+      or: "oder",
       learnMore: "Mehr Erfahren",
       viewAll: "Alle Anzeigen",
       selectLanguage: "Sprache Auswählen"
@@ -2675,6 +2678,7 @@ export const translations = {
       home: "Home",
       email: "E-mail",
       phone: "Telefoon",
+      or: "of",
       learnMore: "Meer Weten",
       viewAll: "Alles Bekijken",
       selectLanguage: "Taal Selecteren"
@@ -3303,6 +3307,7 @@ export const translations = {
       home: "Accueil",
       email: "E-mail",
       phone: "Téléphone",
+      or: "ou",
       learnMore: "En Savoir Plus",
       viewAll: "Voir Tout",
       selectLanguage: "Sélectionner la Langue"
@@ -3931,6 +3936,7 @@ export const translations = {
       home: "ホーム",
       email: "メール",
       phone: "電話",
+      or: "または",
       learnMore: "詳細を見る",
       viewAll: "すべて表示",
       selectLanguage: "言語を選択"
@@ -4560,6 +4566,7 @@ export const translations = {
       home: "Início",
       email: "E-mail",
       phone: "Telefone",
+      or: "ou",
       learnMore: "Saber Mais",
       viewAll: "Ver Tudo",
       selectLanguage: "Selecionar Idioma"

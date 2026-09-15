@@ -5,7 +5,7 @@ export const systemSettings = defineType({
   title: "System Settings",
   type: "document",
   description:
-    "Global commercial knobs shared by every property: taxes, fees, listing tags, careers catalogs, and payment toggles. Keep API secrets in env vars, not here.",
+    "Global commercial knobs shared by every property: taxes, fees, listing tags, and payment toggles. Keep API secrets in env vars, not here.",
   fields: [
     defineField({
       name: "taxRate",
@@ -256,133 +256,12 @@ export const systemSettings = defineType({
         },
       ],
     }),
-    defineField({
-      name: "careersLocationCatalog",
-      title: "Careers locations",
-      type: "array",
-      description:
-        "Offices or meeting points for job postings. Usually one Blessed House address. Example: blessed-house-pv → Blessed House, Puerto Viejo.",
-      of: [
-        {
-          type: "object",
-          fields: [
-            defineField({
-              name: "locationId",
-              title: "Location ID",
-              type: "string",
-              description:
-                "Stable key on job postings. Lowercase letters, numbers, and hyphens. Example: blessed-house-pv.",
-              validation: (Rule) =>
-                Rule.required().regex(/^[a-z0-9-]+$/, {
-                  name: "slug",
-                  invert: false,
-                }),
-            }),
-            defineField({
-              name: "labelEn",
-              title: "Label (English)",
-              type: "string",
-              description:
-                "English label on the careers page. Example: Blessed House, Puerto Viejo.",
-              validation: (Rule) => Rule.required().min(2),
-            }),
-            defineField({
-              name: "labelEs",
-              title: "Label (Spanish)",
-              type: "string",
-              description:
-                "Optional Spanish label. Example: Blessed House, Puerto Viejo. Falls back to English when empty.",
-            }),
-            defineField({
-              name: "coordinates",
-              title: "Coordinates",
-              type: "geopoint",
-              description:
-                "Optional map pin for filtering or future maps. Example: drag onto the lodge entrance.",
-            }),
-            defineField({
-              name: "notes",
-              title: "Internal notes",
-              type: "text",
-              rows: 2,
-              description:
-                "Editor reminder only. Example: Primary interview location, ask for reception.",
-            }),
-          ],
-          preview: {
-            select: { title: "labelEn", subtitle: "locationId" },
-            prepare({ title, subtitle }) {
-              return { title: title || "Location", subtitle };
-            },
-          },
-        },
-      ],
-    }),
-    defineField({
-      name: "jobListingTagCatalog",
-      title: "Job listing tags",
-      type: "array",
-      description:
-        "Tags for job postings. Jobs reference these by Tag ID. Example: urgent with a red chip.",
-      of: [
-        {
-          type: "object",
-          fields: [
-            defineField({
-              name: "tagId",
-              title: "Tag ID",
-              type: "string",
-              description:
-                "Stable key on job postings. Example: new or urgent.",
-              validation: (Rule) =>
-                Rule.required().regex(/^[a-z0-9-]+$/, {
-                  name: "slug",
-                  invert: false,
-                }),
-            }),
-            defineField({
-              name: "labelEn",
-              title: "Label (English)",
-              type: "string",
-              description: "English chip label. Example: Urgent.",
-              validation: (Rule) => Rule.required().min(1),
-            }),
-            defineField({
-              name: "labelEs",
-              title: "Label (Spanish)",
-              type: "string",
-              description: "Optional Spanish chip label. Example: Urgente.",
-            }),
-            defineField({
-              name: "backgroundColor",
-              title: "Background color",
-              type: "string",
-              description: "CSS color for the chip. Example: #9a3412.",
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: "textColor",
-              title: "Text color",
-              type: "string",
-              description: "CSS color for the chip text. Example: #ffffff.",
-              validation: (Rule) => Rule.required(),
-            }),
-          ],
-          preview: {
-            select: { title: "labelEn", subtitle: "tagId" },
-            prepare({ title, subtitle }) {
-              return { title: title || "Tag", subtitle };
-            },
-          },
-        },
-      ],
-    }),
   ],
   preview: {
     prepare() {
       return {
         title: "System Settings",
-        subtitle: "Taxes, fees, tags, payments, careers catalogs",
+        subtitle: "Taxes, fees, tags, payments",
       };
     },
   },

@@ -3,6 +3,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import PostHogProvider from "@/components/posthog-provider";
 import SiteChrome from "@/components/site-chrome";
 import { Analytics } from "@vercel/analytics/react";
+import { getFooterSettings, getNavSettings } from "@/lib/sanity/content";
 import {
   SITE_DESCRIPTION,
   SITE_URL,
@@ -42,8 +43,12 @@ export const viewport = {
   themeColor: "#0a4c3a",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   const cmsDebug = process.env.NODE_ENV === "development" ? "true" : undefined;
+  const [nav, footer] = await Promise.all([
+    getNavSettings(),
+    getFooterSettings(),
+  ]);
 
   return (
     <html lang="en" data-cms-debug={cmsDebug}>
@@ -71,7 +76,9 @@ export default function RootLayout({ children }) {
 
         <LanguageProvider>
           <PostHogProvider>
-            <SiteChrome>{children}</SiteChrome>
+            <SiteChrome nav={nav} footer={footer}>
+              {children}
+            </SiteChrome>
           </PostHogProvider>
         </LanguageProvider>
 

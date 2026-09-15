@@ -22,6 +22,8 @@ export const IMAGE_GUIDE = {
     "Small villa teaser image on the homepage. Best size: 1200 × 900 pixels (4:3) or 1200 × 675 (16:9). Landscape works best.",
   homeIcon:
     "Small icon for a homepage card. Best size: 512 × 512 pixels (square). Simple graphics work best; avoid busy photos.",
+  socialIcon:
+    "Footer social icon. Must be square (1:1). Best size: 512 × 512 pixels. The site will resize the asset to fit the footer icon.",
   general:
     "Upload high quality JPG or PNG. Prefer landscape (wide) photos. Recommended: at least 1600 pixels wide. After uploading, drag the focus point (hotspot) onto the most important part of the photo so cropping stays smart on phones.",
 };

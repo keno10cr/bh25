@@ -6,14 +6,13 @@ import { blog } from "./blog";
 import { blogPageSettings } from "./blogPageSettings";
 import { blockContent } from "./blockContent";
 import { contactPageSettings } from "./contactPageSettings";
+import { footerSettings } from "./footerSettings";
 import { formSubmission } from "./formSubmission";
 import { galleryPageSettings } from "./galleryPageSettings";
 import { homePageSettings } from "./homePageSettings";
-import { jobApplication } from "./jobApplication";
-import { jobPosting } from "./jobPosting";
-import { jobsPage } from "./jobsPage";
 import { legendItem } from "./legendItem";
 import { location } from "./location";
+import { navSettings } from "./navSettings";
 import { property } from "./property";
 import { propertyKind } from "./propertyKind";
 import { review } from "./review";
@@ -33,10 +32,6 @@ export const schemaTypes = [
   blockedDate,
   stayBooking,
   systemSettings,
-  // Careers
-  jobsPage,
-  jobPosting,
-  jobApplication,
   // Existing marketing / content
   activity,
   villa,
@@ -53,4 +48,6 @@ export const schemaTypes = [
   blogPageSettings,
   villasPageSettings,
   pvgPageSettings,
+  navSettings,
+  footerSettings,
 ];

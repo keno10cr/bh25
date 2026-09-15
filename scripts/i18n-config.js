@@ -70,6 +70,11 @@ export const DOCUMENT_FIELDS = {
     { name: "formTitle", kind: "string" },
     { name: "infoTitle", kind: "string" },
   ],
+  footerSettings: [
+    { name: "locationLine", kind: "string" },
+    { name: "tagline", kind: "string" },
+    { name: "copyright", kind: "string" },
+  ],
   galleryPageSettings: [
     { name: "title", kind: "string" },
     { name: "description", kind: "string" },

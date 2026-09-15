@@ -1,9 +1,12 @@
-import { getContactPageSettings } from "@/lib/sanity/content";
+import { getContactPageSettings, getFooterSettings } from "@/lib/sanity/content";
 import ContactClient from "./contact-client";
 
 export const revalidate = 60;
 
 export default async function ContactPage() {
-  const copy = await getContactPageSettings();
-  return <ContactClient copy={copy} />;
+  const [copy, footer] = await Promise.all([
+    getContactPageSettings(),
+    getFooterSettings(),
+  ]);
+  return <ContactClient copy={copy} footer={footer} />;
 }

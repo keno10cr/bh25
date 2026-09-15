@@ -105,6 +105,71 @@ export const CONTACT_PAGE_DEFAULTS = {
   heroImageAlt: "View from El Mirador over Blessed House and the Caribbean",
 };
 
+export const NAV_SETTINGS_DEFAULTS = {
+  brandName: "Blessed House",
+  links: [
+    { _key: "gallery", label: "Gallery", href: "/gallery", enabled: true },
+    { _key: "villas", label: "Villas", href: "/villas", enabled: true },
+    {
+      _key: "activities",
+      label: "Activities",
+      href: "/activities",
+      enabled: true,
+    },
+    { _key: "blog", label: "Blog", href: "/blog", enabled: true },
+    { _key: "contact", label: "Contact", href: "/contact", enabled: true },
+  ],
+};
+
+export const FOOTER_SETTINGS_DEFAULTS = {
+  brandName: "Blessed House",
+  locationLine: "Puerto Viejo, Costa Rica",
+  tagline:
+    "Southern Caribbean Living: Close to the Coast, Close to Everything.",
+  email: "blessedhousecr@gmail.com",
+  phones: [
+    { _key: "cr", label: "+506 8926 2639", tel: "+50689262639" },
+    { _key: "us", label: "+1 (754) 610 4710", tel: "+17546104710" },
+  ],
+  addressLine: "Puerto Viejo, Limón, Costa Rica",
+  quickLinks: [
+    { _key: "gallery", label: "Gallery", href: "/gallery", enabled: true },
+    { _key: "villas", label: "Villas", href: "/villas", enabled: true },
+    {
+      _key: "activities",
+      label: "Activities",
+      href: "/activities",
+      enabled: true,
+    },
+    { _key: "blog", label: "Blog", href: "/blog", enabled: true },
+    { _key: "contact", label: "Contact", href: "/contact", enabled: true },
+  ],
+  socialLinks: [
+    {
+      _key: "instagram",
+      network: "instagram",
+      url: "https://www.instagram.com/blessedhouse",
+      label: "Instagram",
+      enabled: true,
+    },
+    {
+      _key: "airbnb",
+      network: "airbnb",
+      url: "https://www.airbnb.com/users/show/549621434",
+      label: "Airbnb",
+      enabled: true,
+    },
+    {
+      _key: "youtube",
+      network: "youtube",
+      url: "https://www.youtube.com/@blessedhouse3354",
+      label: "YouTube",
+      enabled: true,
+    },
+  ],
+  copyright: "All rights reserved.",
+};
+
 export const GALLERY_PAGE_DEFAULTS = {
   title: "Discover Paradise at Blessed House",
   description:
