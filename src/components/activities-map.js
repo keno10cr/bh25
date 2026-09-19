@@ -8,6 +8,8 @@ const FALLBACK_COLORS = {
   "Blessed House": "#0a4c3a",
   Waterfalls: "#3d8b6e",
   Tours: "#e8a838",
+  Transport: "#3d5a73",
+  Dining: "#c4783a",
 };
 
 const MAP_STYLE = {

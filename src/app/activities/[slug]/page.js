@@ -18,7 +18,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const activity = await getActivityBySlug(slug);
-  if (!activity) return { title: "Activity not found" };
+  if (!activity || activity.groupOnly) return { title: "Activity not found" };
 
   const description = (activity.description || activity.fullDescription || "")
     .replace(/\s+/g, " ")
@@ -60,7 +60,7 @@ export default async function ActivityPage({ params }) {
     getActivityBySlug(slug),
     getLegendItems(),
   ]);
-  if (!activity) notFound();
+  if (!activity || activity.groupOnly) notFound();
 
   const pageUrl = `${SITE_URL}/activities/${activity.slug}`;
   const images = activityStructuredImages(activity, activity.name);

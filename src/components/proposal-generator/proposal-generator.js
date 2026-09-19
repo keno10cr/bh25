@@ -1,6 +1,12 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import { translations } from "@/lib/translations";
+import {
+  formatCoordinates,
+  mapsUrl,
+  splitProposalActivities,
+} from "@/lib/activity-groups";
 import { PROPOSAL_COPY } from "./copy";
 import styles from "./proposal-generator.module.css";
 
@@ -19,7 +25,100 @@ function safeFilename(value) {
     .slice(0, 60) || "proposal";
 }
 
-export default function ProposalGenerator({ locale = "en" }) {
+function localizeActivity(activity, locale) {
+  const pack = activity.translationKey
+    ? translations[locale]?.activitiesPage?.[activity.translationKey]
+    : null;
+  const es = locale === "es";
+  const included = es
+    ? activity.whatsIncludedEs?.length
+      ? activity.whatsIncludedEs
+      : pack?.highlights
+    : activity.whatsIncluded?.length
+      ? activity.whatsIncluded
+      : pack?.highlights;
+
+  return {
+    ...activity,
+    displayTitle:
+      (es
+        ? activity.titleEs || pack?.name
+        : activity.title || pack?.name) ||
+      activity.name ||
+      "",
+    displayDescription:
+      (es
+        ? activity.descriptionEs || pack?.fullDescription || pack?.description
+        : activity.fullDescription ||
+          pack?.fullDescription ||
+          activity.description) || "",
+    displayIncluded: Array.isArray(included) ? included : [],
+    displayDuration: es
+      ? activity.durationEs || activity.duration
+      : activity.duration,
+    displayGroupSize: es
+      ? activity.groupSizeEs || activity.groupSize
+      : activity.groupSize,
+  };
+}
+
+function ServiceCard({
+  activity,
+  pickupLabel,
+  specsLine,
+  showPickup,
+}) {
+  const coords = formatCoordinates(activity.coordinates);
+  const mapHref = mapsUrl(activity.coordinates);
+
+  return (
+    <article className={styles.serviceCard}>
+      {activity.image ? (
+        <img
+          src={activity.image}
+          alt={activity.imageAlt || activity.displayTitle}
+          className={styles.serviceImage}
+        />
+      ) : null}
+      <div className={styles.serviceBody}>
+        <h3>{activity.displayTitle}</h3>
+        {activity.displayDescription ? (
+          <p>{activity.displayDescription}</p>
+        ) : null}
+        {specsLine ? <p className={styles.specsLine}>{specsLine}</p> : null}
+        <p className={styles.serviceMeta}>
+          {[activity.displayDuration, activity.displayGroupSize]
+            .filter(Boolean)
+            .join(" · ")}
+        </p>
+        {activity.displayIncluded.length > 0 ? (
+          <ul className={styles.includeList}>
+            {activity.displayIncluded.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        ) : null}
+        {showPickup && coords ? (
+          <p className={styles.pickup}>
+            <strong>{pickupLabel}:</strong>{" "}
+            {mapHref ? (
+              <a href={mapHref} target="_blank" rel="noopener noreferrer">
+                {coords}
+              </a>
+            ) : (
+              coords
+            )}
+          </p>
+        ) : null}
+      </div>
+    </article>
+  );
+}
+
+export default function ProposalGenerator({
+  locale = "en",
+  activities = [],
+}) {
   const copy = PROPOSAL_COPY[locale] || PROPOSAL_COPY.en;
   const documentRef = useRef(null);
   const [form, setForm] = useState(EMPTY);
@@ -34,6 +133,16 @@ export default function ProposalGenerator({ locale = "en" }) {
   const paxValid =
     Number.isFinite(paxNumber) && paxNumber >= 20 && paxNumber <= 45;
   const pax = paxValid ? String(Math.round(paxNumber)) : "30";
+
+  const localized = useMemo(
+    () => activities.map((activity) => localizeActivity(activity, locale)),
+    [activities, locale]
+  );
+  const { transport, meals, local } = useMemo(
+    () => splitProposalActivities(localized),
+    [localized]
+  );
+  const localPreview = local.slice(0, 8);
 
   const documentTitle = useMemo(
     () => `${copy.titlePrefix} ${organization}`,
@@ -200,17 +309,67 @@ export default function ProposalGenerator({ locale = "en" }) {
           <h1 className={styles.docTitle}>{documentTitle}</h1>
           <p className={styles.capacity}>{copy.capacity(pax)}</p>
 
-          <section className={styles.block}>
+          <section className={`${styles.block} ${styles.keepTogether}`}>
             <h2>{copy.valueTitle}</h2>
             <p>{copy.valueBody}</p>
           </section>
 
-          <section className={styles.block}>
+          <section className={`${styles.block} ${styles.keepTogether}`}>
             <h2>{copy.includesTitle}</h2>
             <p>{copy.includesBody}</p>
           </section>
 
-          <section className={`${styles.block} ${styles.pageTwo}`}>
+          {transport.length > 0 ? (
+            <section className={styles.block}>
+              <h2>{copy.transportTitle}</h2>
+              {transport.map((activity) => (
+                <ServiceCard
+                  key={activity.slug || activity.id}
+                  activity={activity}
+                  pickupLabel={copy.pickupLabel}
+                  specsLine={copy.transportSpecs}
+                  showPickup
+                />
+              ))}
+            </section>
+          ) : null}
+
+          {meals.length > 0 ? (
+            <section className={styles.block}>
+              <h2>{copy.mealsTitle}</h2>
+              {meals.map((activity) => (
+                <ServiceCard
+                  key={activity.slug || activity.id}
+                  activity={activity}
+                  pickupLabel={copy.pickupLabel}
+                />
+              ))}
+            </section>
+          ) : null}
+
+          {localPreview.length > 0 ? (
+            <section className={styles.block}>
+              <h2>{copy.localTitle}</h2>
+              <div className={styles.localGrid}>
+                {localPreview.map((activity) => (
+                  <article
+                    key={activity.slug || activity.id}
+                    className={styles.localItem}
+                  >
+                    {activity.image ? (
+                      <img
+                        src={activity.image}
+                        alt={activity.imageAlt || activity.displayTitle}
+                      />
+                    ) : null}
+                    <p>{activity.displayTitle}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          <section className={`${styles.block} ${styles.keepTogether}`}>
             <h2>{copy.focusTitle}</h2>
             <p>{note}</p>
           </section>

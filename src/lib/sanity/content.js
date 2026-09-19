@@ -86,13 +86,14 @@ function mergeBySlug(sanityItems, fallbackItems, mapFn) {
   return mapped;
 }
 
-export async function getActivities() {
+export async function getActivities({ includeGroupOnly = false } = {}) {
   const raw = await sanityFetch(activitiesQuery);
   const staticOrder = new Map(
     STATIC_ACTIVITIES.map((item, index) => [item.slug, index])
   );
 
   return mergeBySlug(raw, STATIC_ACTIVITIES, mapActivity)
+    .filter((activity) => includeGroupOnly || !activity.groupOnly)
     .sort((a, b) => {
       if (a.slug === "pool") return -1;
       if (b.slug === "pool") return 1;
@@ -123,14 +124,8 @@ export async function getActivityBySlug(slug) {
 }
 
 export async function getActivitySlugs() {
-  const raw = await sanityFetch(activitySlugsQuery);
-  const slugs = new Set(
-    [
-      ...STATIC_ACTIVITIES.map((item) => item.slug),
-      ...((Array.isArray(raw) && raw) || []),
-    ].filter(Boolean)
-  );
-  return [...slugs];
+  const activities = await getActivities({ includeGroupOnly: false });
+  return activities.map((item) => item.slug).filter(Boolean);
 }
 
 export async function getLegendItems() {
@@ -141,6 +136,8 @@ export async function getLegendItems() {
     { title: "Blessed House", slug: "blessed-house", color: "#0a4c3a" },
     { title: "Waterfalls", slug: "waterfalls", color: "#3d8b6e" },
     { title: "Tours", slug: "tours", color: "#e8a838" },
+    { title: "Transport", slug: "transport", color: "#3d5a73" },
+    { title: "Dining", slug: "dining", color: "#c4783a" },
   ];
 }
 

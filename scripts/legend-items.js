@@ -27,6 +27,20 @@ export const LEGEND_ITEMS = [
     color: "#e8a838",
     sortOrder: 4,
   },
+  {
+    _id: "legendItem-transport",
+    title: "Transport",
+    slug: "transport",
+    color: "#3d5a73",
+    sortOrder: 5,
+  },
+  {
+    _id: "legendItem-dining",
+    title: "Dining",
+    slug: "dining",
+    color: "#c4783a",
+    sortOrder: 6,
+  },
 ];
 
 export const CATEGORY_TO_LEGEND_ID = {
@@ -34,6 +48,8 @@ export const CATEGORY_TO_LEGEND_ID = {
   "Blessed House": "legendItem-blessed-house",
   Waterfalls: "legendItem-waterfalls",
   Tours: "legendItem-tours",
+  Transport: "legendItem-transport",
+  Dining: "legendItem-dining",
 };
 
 export function legendRefsForCategory(category) {

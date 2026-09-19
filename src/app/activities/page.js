@@ -16,11 +16,17 @@ export default async function ActivitiesPage() {
   const mapActivities = activities.filter(
     (activity) => activity.coordinates?.lat && activity.coordinates?.lng
   );
+  const usedLegends = new Set(
+    activities.flatMap((activity) =>
+      (activity.legendItems || []).map((item) => item.slug).filter(Boolean)
+    )
+  );
+  const visibleLegends = legendItems.filter((item) => usedLegends.has(item.slug));
   return (
     <ActivitiesClient
       activities={activities}
       mapActivities={mapActivities}
-      legendItems={legendItems}
+      legendItems={visibleLegends.length ? visibleLegends : legendItems}
       copy={copy}
     />
   );

@@ -15,7 +15,9 @@ export const CONTACT_VILLAS = [
 ];
 
 /** Activity options for contact form selection (synced with static activities) */
-export const CONTACT_ACTIVITIES = STATIC_ACTIVITIES.map((activity) => ({
+export const CONTACT_ACTIVITIES = STATIC_ACTIVITIES.filter(
+  (activity) => !activity.groupOnly
+).map((activity) => ({
   id: activity.id,
   slug: activity.slug,
   translationKey: activity.translationKey,

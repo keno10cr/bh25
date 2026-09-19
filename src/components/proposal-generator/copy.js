@@ -23,6 +23,12 @@ export const PROPOSAL_COPY = {
     includesTitle: "Included specs",
     includesBody:
       "Private villas, swimming pool, open air gathering areas, high speed Wi Fi, and custom group dining coordination.",
+    transportTitle: "Private airport shuttle",
+    transportSpecs:
+      "Hyundai Staria wagon · up to 9 passengers · 5,253 × 1,997 × 2,000 mm",
+    pickupLabel: "Pickup / drop-off",
+    mealsTitle: "Meals and breakfast",
+    localTitle: "Local activities",
     focusTitle: "Group focus",
     nextTitle: "Next step",
     nextBody:
@@ -63,6 +69,12 @@ export const PROPOSAL_COPY = {
     includesTitle: "Incluye",
     includesBody:
       "Villas privadas, piscina, áreas al aire libre para reuniones, internet de alta velocidad y opciones de alimentación para grupos.",
+    transportTitle: "Traslado privado al aeropuerto",
+    transportSpecs:
+      "Hyundai Staria wagon · hasta 9 pasajeros · 5.253 × 1.997 × 2.000 mm",
+    pickupLabel: "Recogida / entrega",
+    mealsTitle: "Desayuno y comidas",
+    localTitle: "Actividades locales",
     focusTitle: "Enfoque del grupo",
     nextTitle: "Siguiente paso",
     nextBody:

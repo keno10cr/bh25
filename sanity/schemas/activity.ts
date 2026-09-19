@@ -67,6 +67,14 @@ export const activity = defineType({
       validation: (Rule) => Rule.min(1).unique(),
     }),
     defineField({
+      name: "groupOnly",
+      title: "Group only",
+      type: "boolean",
+      initialValue: false,
+      description:
+        "If on, this activity is hidden from the public /activities catalog and only shown on Puerto Viejo Groups (/pvg) and the internal proposal generators (/ccen, /cces).",
+    }),
+    defineField({
       name: "category",
       title: "Legacy category",
       type: "string",
@@ -91,7 +99,8 @@ export const activity = defineType({
       name: "coordinates",
       title: "Coordinates",
       type: "geopoint",
-      description: "Used for the activities map. Leave empty to hide this pin.",
+      description:
+        "Map pin and pickup / drop-off coordinates. Leave empty to hide this pin.",
     }),
     defineField({
       name: "image",
@@ -140,6 +149,18 @@ export const activity = defineType({
     }),
   ],
   preview: {
-    select: { title: "title", subtitle: "legendItems.0.title", media: "image" },
+    select: {
+      title: "title",
+      subtitle: "legendItems.0.title",
+      media: "image",
+      groupOnly: "groupOnly",
+    },
+    prepare: ({ title, subtitle, media, groupOnly }) => ({
+      title,
+      subtitle: groupOnly
+        ? `${subtitle || "Activity"} · Group only`
+        : subtitle,
+      media,
+    }),
   },
 });

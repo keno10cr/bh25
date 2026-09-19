@@ -7,6 +7,8 @@ const LEGEND_COLORS = {
   "Blessed House": "#0a4c3a",
   Waterfalls: "#3d8b6e",
   Tours: "#e8a838",
+  Transport: "#3d5a73",
+  Dining: "#c4783a",
 };
 
 export function portableTextToPlain(value) {
@@ -64,11 +66,18 @@ export function mapActivity(raw, fallback = null) {
     title: raw?.title || base.title || base.name,
     category: primaryLegend?.title || fallbackCategory,
     legendItems: mappedLegend,
+    groupOnly: Boolean(raw?.groupOnly ?? base.groupOnly),
     pinColor:
       primaryLegend?.color || LEGEND_COLORS[fallbackCategory] || "#0a4c3a",
     difficulty: raw?.difficulty || base.difficulty || "N/A",
     duration: raw?.duration || base.duration,
+    durationEs: raw?.durationEs || base.durationEs,
     groupSize: raw?.groupSize || base.groupSize,
+    groupSizeEs: raw?.groupSizeEs || base.groupSizeEs,
+    titleEs: raw?.titleEs || base.titleEs,
+    descriptionEs: raw?.descriptionEs
+      ? portableTextToPlain(raw.descriptionEs)
+      : base.descriptionEs,
     coordinates,
     image:
       (raw?.slug || base.slug) === "punta-mona" ||

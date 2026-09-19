@@ -90,7 +90,9 @@ export const translations = {
         "4-6 hours": "4 to 6 hours",
         "10 - 30 minutes": "10 to 30 minutes",
         "Half day - Full day": "Half day to Full day",
-        "Half day to Full day": "Half day to Full day"
+        "Half day to Full day": "Half day to Full day",
+        "Airport transfer": "Airport transfer",
+        "Daily during stay": "Daily during stay"
       },
       groupSizes: {
         "10": "10",
@@ -105,7 +107,9 @@ export const translations = {
         "Up to 12 people": "Up to 12 people",
         Unlimited: "Unlimited",
         "2-4 people": "2 to 4 people",
-        Any: "Any"
+        Any: "Any",
+        "Up to 9 passengers": "Up to 9 passengers",
+        "20 to 45 guests": "20 to 45 guests"
       },
       prices: {
         contactUs: "Contact Us",
@@ -358,11 +362,37 @@ export const translations = {
           "Wildlife along the shore"
         ]
       },
+      airportShuttle: {
+        name: "Private Airport Shuttle",
+        description: "Private Hyundai Staria transfer between the airport and Blessed House",
+        fullDescription: "Blessed House operates a private airport shuttle in a Hyundai Staria passenger van. The Staria wagon seats up to 9 passengers and measures 5,253 mm long, 1,997 mm wide, and 2,000 mm high, with air conditioning and luggage space for group arrivals. Pickup and drop-off at the property: 9.64735, -82.77697. We collect groups at Juan Santamaría International Airport (SJO) or Limón Airport (LIO) and drive you to the villas, or reverse the run for departure.",
+        highlights: [
+          "Hyundai Staria, up to 9 passengers",
+          "SJO or LIO airport pickup",
+          "Property pin 9.64735, -82.77697",
+          "Air conditioning and luggage space",
+          "Private, not a shared shuttle"
+        ]
+      },
+      groupMeals: {
+        name: "Private Group Meals & Breakfast",
+        description: "Custom breakfast and catering for exclusive group buyouts",
+        fullDescription: "Private estate groups can keep breakfast and meals on the property. We coordinate daily breakfast and custom catering so a group of 20 to 45 can eat together without leaving the villas. Menus can follow dietary needs, and dining uses the open-air gathering areas already included in the buyout.",
+        highlights: [
+          "Daily breakfast on property",
+          "Custom group catering",
+          "Dietary accommodations",
+          "Open-air dining areas",
+          "Planned for 20 to 45 guests"
+        ]
+      },
       legend: {
         beaches: "Beaches",
         "blessed-house": "Blessed House",
         waterfalls: "Waterfalls",
-        tours: "Tours"
+        tours: "Tours",
+        transport: "Transport",
+        dining: "Dining"
       }
     },
     activities: {
@@ -846,7 +876,9 @@ export const translations = {
         "3-4 hours": "3-4 horas",
         "4-6 hours": "4-6 horas",
         "10 - 30 minutes": "10 - 30 minutos",
-        "Half day - Full day": "Medio día - Día completo"
+        "Half day - Full day": "Medio día - Día completo",
+        "Airport transfer": "Traslado al aeropuerto",
+        "Daily during stay": "Diario durante la estadía"
       },
       groupSizes: {
         "10": "10",
@@ -861,7 +893,9 @@ export const translations = {
         "Up to 12 people": "Hasta 12 personas",
         Unlimited: "Ilimitado",
         "2-4 people": "2-4 personas",
-        Any: "Cualquiera"
+        Any: "Cualquiera",
+        "Up to 9 passengers": "Hasta 9 pasajeros",
+        "20 to 45 guests": "20 a 45 personas"
       },
       prices: {
         contactUs: "Contáctanos",
@@ -1103,11 +1137,37 @@ export const translations = {
           "Avistamiento de Fauna"
         ]
       },
+      airportShuttle: {
+        name: "Traslado privado al aeropuerto",
+        description: "Traslado privado en Hyundai Staria entre el aeropuerto y Blessed House",
+        fullDescription: "Blessed House opera un traslado privado al aeropuerto en una van Hyundai Staria. La Staria wagon admite hasta 9 pasajeros y mide 5.253 mm de largo, 1.997 mm de ancho y 2.000 mm de alto, con aire acondicionado y espacio para maletas. Recogida y entrega en la propiedad: 9.64735, -82.77697. Recogemos grupos en el Aeropuerto Internacional Juan Santamaría (SJO) o en el Aeropuerto de Limón (LIO) y los llevamos a las villas, o hacemos el viaje de salida.",
+        highlights: [
+          "Hyundai Staria, hasta 9 pasajeros",
+          "Recogida en SJO o LIO",
+          "Pin de la propiedad 9.64735, -82.77697",
+          "Aire acondicionado y maletas",
+          "Privado, no es un shuttle compartido"
+        ]
+      },
+      groupMeals: {
+        name: "Desayuno y comidas privadas para grupos",
+        description: "Desayuno y catering a medida para alquiler exclusivo",
+        fullDescription: "Los grupos con la propiedad exclusiva pueden desayunar y comer en el lugar. Coordinamos desayuno diario y catering a medida para 20 a 45 personas, sin salir de las villas. Los menús pueden adaptarse a necesidades alimentarias y se sirven en las áreas abiertas ya incluidas en el alquiler.",
+        highlights: [
+          "Desayuno diario en la propiedad",
+          "Catering a medida para el grupo",
+          "Opciones alimentarias especiales",
+          "Comedor al aire libre",
+          "Pensado para 20 a 45 personas"
+        ]
+      },
       legend: {
         beaches: "Playas",
         "blessed-house": "Blessed House",
         waterfalls: "Cascadas",
-        tours: "Tours"
+        tours: "Tours",
+        transport: "Transporte",
+        dining: "Comidas"
       }
     },
     activities: {
@@ -1804,11 +1864,37 @@ export const translations = {
           "Lokaler Vermietungsservice"
         ]
       },
+      airportShuttle: {
+        name: "Privater Flughafentransfer",
+        description: "Privater Hyundai Staria Transfer zwischen Flughafen und Blessed House",
+        fullDescription: "Blessed House betreibt einen privaten Flughafentransfer im Hyundai Staria. Der Staria Wagon bietet Platz für bis zu 9 Passagiere (5.253 × 1.997 × 2.000 mm), mit Klimaanlage und Gepäckraum. Abholung und Bringdienst an der Unterkunft: 9.64735, -82.77697. Wir holen Gruppen am Juan Santamaría International Airport (SJO) oder am Flughafen Limón (LIO) ab.",
+        highlights: [
+          "Hyundai Staria, bis 9 Passagiere",
+          "Abholung SJO oder LIO",
+          "Standort 9.64735, -82.77697",
+          "Klimaanlage und Gepäckraum",
+          "Privat, kein Sammelshuttle"
+        ]
+      },
+      groupMeals: {
+        name: "Privates Gruppenfrühstück und Mahlzeiten",
+        description: "Frühstück und Catering für exklusive Gruppen",
+        fullDescription: "Bei einer kompletten Anmietung bleiben Frühstück und Mahlzeiten auf dem Gelände. Wir koordinieren tägliches Frühstück und Catering für 20 bis 45 Gäste, mit Rücksicht auf Ernährungsbedürfnisse.",
+        highlights: [
+          "Tägliches Frühstück vor Ort",
+          "Gruppen-Catering",
+          "Ernährungswünsche",
+          "Offene Essbereiche",
+          "Für 20 bis 45 Gäste"
+        ]
+      },
       legend: {
         beaches: "Strände",
         "blessed-house": "Blessed House",
         waterfalls: "Wasserfälle",
-        tours: "Touren"
+        tours: "Touren",
+        transport: "Transfer",
+        dining: "Speisen"
       }
     },
     activities: {
@@ -2433,11 +2519,37 @@ export const translations = {
           "Lokale Verhuurservice"
         ]
       },
+      airportShuttle: {
+        name: "Privé luchthaventransfer",
+        description: "Privé Hyundai Staria transfer tussen luchthaven en Blessed House",
+        fullDescription: "Blessed House rijdt een privé luchthaventransfer in een Hyundai Staria. De Staria wagon heeft plaats voor tot 9 passagiers (5.253 × 1.997 × 2.000 mm), met airconditioning en bagageruimte. Ophaal- en afzetpunt op de lodge: 9.64735, -82.77697. We halen groepen op van Juan Santamaría (SJO) of Limón (LIO).",
+        highlights: [
+          "Hyundai Staria, tot 9 passagiers",
+          "Ophalen SJO of LIO",
+          "Pin 9.64735, -82.77697",
+          "Airconditioning en bagage",
+          "Privé, geen deellijn"
+        ]
+      },
+      groupMeals: {
+        name: "Privé groepsontbijt en maaltijden",
+        description: "Ontbijt en catering voor exclusieve groepen",
+        fullDescription: "Bij een volledige afhuur blijven ontbijt en maaltijden op het terrein. We regelen dagelijks ontbijt en catering voor 20 tot 45 gasten, inclusief dieetwensen.",
+        highlights: [
+          "Dagelijks ontbijt op locatie",
+          "Groepscatering",
+          "Dieetwensen",
+          "Openlucht dineren",
+          "Voor 20 tot 45 gasten"
+        ]
+      },
       legend: {
         beaches: "Stranden",
         "blessed-house": "Blessed House",
         waterfalls: "Watervallen",
-        tours: "Tours"
+        tours: "Tours",
+        transport: "Vervoer",
+        dining: "Dineren"
       }
     },
     activities: {
@@ -3062,11 +3174,37 @@ export const translations = {
           "Service de Location Local"
         ]
       },
+      airportShuttle: {
+        name: "Navette privée aéroport",
+        description: "Transfert privé Hyundai Staria entre l'aéroport et Blessed House",
+        fullDescription: "Blessed House assure une navette aéroport privée en Hyundai Staria. Le Staria wagon accueille jusqu'à 9 passagers (5 253 × 1 997 × 2 000 mm), avec climatisation et espace bagages. Prise en charge à la propriété : 9.64735, -82.77697. Nous récupérons les groupes à Juan Santamaría (SJO) ou à Limón (LIO).",
+        highlights: [
+          "Hyundai Staria, jusqu'à 9 passagers",
+          "Prise en charge SJO ou LIO",
+          "Repère 9.64735, -82.77697",
+          "Climatisation et bagages",
+          "Privé, pas de navette partagée"
+        ]
+      },
+      groupMeals: {
+        name: "Petit-déjeuner et repas privés pour groupes",
+        description: "Petit-déjeuner et traiteur pour les locations exclusives",
+        fullDescription: "Les groupes en location exclusive prennent petit-déjeuner et repas sur place. Nous coordonnons un petit-déjeuner quotidien et un traiteur pour 20 à 45 personnes, selon les régimes alimentaires.",
+        highlights: [
+          "Petit-déjeuner quotidien sur place",
+          "Traiteur de groupe",
+          "Régimes alimentaires",
+          "Espaces de repas en plein air",
+          "Pour 20 à 45 personnes"
+        ]
+      },
       legend: {
         beaches: "Plages",
         "blessed-house": "Blessed House",
         waterfalls: "Cascades",
-        tours: "Tours"
+        tours: "Tours",
+        transport: "Transport",
+        dining: "Restauration"
       }
     },
     activities: {
@@ -3691,11 +3829,37 @@ export const translations = {
           "地元のレンタルサービス"
         ]
       },
+      airportShuttle: {
+        name: "プライベート空港送迎",
+        description: "空港とBlessed Houseを結ぶHyundai Stariaの専用送迎",
+        fullDescription: "Blessed HouseはHyundai Stariaで専用空港送迎を行います。Stariaワゴンは最大9名、全長5,253 mm、全幅1,997 mm、全高2,000 mmで、エアコンと荷物スペースがあります。施設の乗降地点は 9.64735, -82.77697。フアン・サンタマリーア国際空港（SJO）またはリモン空港（LIO）でお迎えします。",
+        highlights: [
+          "Hyundai Staria、最大9名",
+          "SJOまたはLIOでの送迎",
+          "施設ピン 9.64735, -82.77697",
+          "エアコンと荷物スペース",
+          "専用、相乗りではありません"
+        ]
+      },
+      groupMeals: {
+        name: "グループ専用の朝食と食事",
+        description: "貸切グループ向けの朝食とケータリング",
+        fullDescription: "貸切グループは施設内で朝食と食事を取れます。20〜45名向けに毎日の朝食とケータリングを手配し、食事制限にも対応します。",
+        highlights: [
+          "施設内の毎日の朝食",
+          "グループケータリング",
+          "食事制限への対応",
+          "屋外の食事スペース",
+          "20〜45名向け"
+        ]
+      },
       legend: {
         beaches: "ビーチ",
         "blessed-house": "Blessed House",
         waterfalls: "滝",
-        tours: "ツアー"
+        tours: "ツアー",
+        transport: "送迎",
+        dining: "食事"
       }
     },
     activities: {
@@ -4438,11 +4602,37 @@ export const translations = {
           "Serviço de Aluguel Local"
         ]
       },
+      airportShuttle: {
+        name: "Transfer privado ao aeroporto",
+        description: "Transfer privado de Hyundai Staria entre o aeroporto e a Blessed House",
+        fullDescription: "A Blessed House opera um transfer privado ao aeroporto em uma Hyundai Staria. A Staria wagon leva até 9 passageiros (5.253 × 1.997 × 2.000 mm), com ar-condicionado e espaço para bagagem. Embarque e desembarque na propriedade: 9.64735, -82.77697. Buscamos grupos no Aeroporto Internacional Juan Santamaría (SJO) ou no Aeroporto de Limón (LIO).",
+        highlights: [
+          "Hyundai Staria, até 9 passageiros",
+          "Recolha em SJO ou LIO",
+          "Pin 9.64735, -82.77697",
+          "Ar-condicionado e bagagem",
+          "Privado, não é van compartilhada"
+        ]
+      },
+      groupMeals: {
+        name: "Café da manhã e refeições privadas para grupos",
+        description: "Café da manhã e catering para locação exclusiva",
+        fullDescription: "Grupos com a propriedade exclusiva podem tomar café da manhã e refeições no local. Coordenamos café da manhã diário e catering para 20 a 45 pessoas, com opções alimentares.",
+        highlights: [
+          "Café da manhã diário na propriedade",
+          "Catering para o grupo",
+          "Opções alimentares",
+          "Refeições ao ar livre",
+          "Para 20 a 45 hóspedes"
+        ]
+      },
       legend: {
         beaches: "Praias",
         "blessed-house": "Blessed House",
         waterfalls: "Cachoeiras",
-        tours: "Passeios"
+        tours: "Passeios",
+        transport: "Transporte",
+        dining: "Refeições"
       }
     },
     contact: {

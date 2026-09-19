@@ -41,7 +41,7 @@ export default async function PvgPage() {
   let copy = null;
   try {
     const [cmsActivities, settings] = await Promise.all([
-      getActivities(),
+      getActivities({ includeGroupOnly: true }),
       getPvgPageSettings(),
     ]);
     if (Array.isArray(cmsActivities) && cmsActivities.length) {

@@ -24,7 +24,8 @@
     "webhook:blog": "node --env-file=.env.local scripts/setup-blog-webhook.mjs",
     "patch:blog-alts": "node --env-file=.env.local scripts/patch-blog-image-alts.js",
     "patch:blog-social": "node --env-file=.env.local scripts/patch-blog-social.js",
-    "create:punta-mona": "node --env-file=.env.local scripts/create-punta-mona-activity.js"
+    "create:punta-mona": "node --env-file=.env.local scripts/create-punta-mona-activity.js",
+    "seed:group-services": "node --env-file=.env.local scripts/seed-group-services.js"
   },
   "dependencies": {
     "@maptiler/sdk": "^4.1.0",
