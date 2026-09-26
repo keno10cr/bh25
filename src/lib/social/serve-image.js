@@ -11,7 +11,7 @@ import { renderSocialPost } from "@/lib/social/render-post";
 export function parseSocialImageFileName(file) {
   return String(file || "")
     .trim()
-    .replace(/\.jpe?g$/i, "");
+    .replace(/\.(jpe?g|png)$/i, "");
 }
 
 export async function serveSocialJpeg({

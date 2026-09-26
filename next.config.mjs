@@ -3,7 +3,7 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-  serverExternalPackages: ["maplibre-gl", "sharp"],
+  serverExternalPackages: ["maplibre-gl"],
   images: {
     remotePatterns: [
       {

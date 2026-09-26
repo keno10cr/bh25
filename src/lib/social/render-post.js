@@ -2,8 +2,6 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { ImageResponse } from "next/og";
-import { NextResponse } from "next/server";
-import sharp from "sharp";
 import { getSocialPlatform, SOCIAL_SHARED_PHOTO } from "./platforms";
 
 export const SOCIAL_COLORS = {
@@ -52,22 +50,6 @@ async function loadAssets() {
   return { fonts: fontCache, logoSrc: logoCache };
 }
 
-async function toDataUri(imageUrl) {
-  if (!imageUrl) return null;
-  if (String(imageUrl).startsWith("data:")) return imageUrl;
-  try {
-    const res = await fetch(imageUrl, {
-      headers: { Accept: "image/*" },
-      cache: "force-cache",
-    });
-    if (!res.ok) return null;
-    const buffer = Buffer.from(await res.arrayBuffer());
-    const jpeg = await sharp(buffer).jpeg({ quality: 86 }).toBuffer();
-    return `data:image/jpeg;base64,${jpeg.toString("base64")}`;
-  } catch {
-    return null;
-  }
-}
 
 function clipText(value, max) {
   const text = String(value || "").trim();
@@ -453,14 +435,13 @@ export async function renderSocialPost({ platformKey, post, imageUrl }) {
   }
 
   const { fonts, logoSrc } = await loadAssets();
-  const photoSrc = (await toDataUri(imageUrl)) || imageUrl;
 
   const pngResponse = new ImageResponse(
     (
       <SocialCard
         platform={platform}
         post={post}
-        imageUrl={photoSrc}
+        imageUrl={imageUrl}
         logoSrc={logoSrc}
       />
     ),
@@ -475,24 +456,10 @@ export async function renderSocialPost({ platformKey, post, imageUrl }) {
     }
   );
 
-  const png = Buffer.from(await pngResponse.arrayBuffer());
-  let body = png;
-  let contentType = "image/png";
-  let extension = "png";
-  try {
-    body = await sharp(png).jpeg({ quality: 86, mozjpeg: true }).toBuffer();
-    contentType = "image/jpeg";
-    extension = "jpg";
-  } catch (error) {
-    console.error("[social/render] sharp jpeg failed", error);
-  }
-
-  return new NextResponse(body, {
-    headers: {
-      "Content-Type": contentType,
-      "Cache-Control": "no-store",
-      "Access-Control-Allow-Origin": "*",
-      "Content-Disposition": `inline; filename="bh-${platform.key}-${post.slug || "sample"}.${extension}"`,
-    },
-  });
+  pngResponse.headers.set("Access-Control-Allow-Origin", "*");
+  pngResponse.headers.set(
+    "Content-Disposition",
+    `inline; filename="bh-${platform.key}-${post.slug || "sample"}.png"`
+  );
+  return pngResponse;
 }
