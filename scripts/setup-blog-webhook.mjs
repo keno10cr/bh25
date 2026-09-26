@@ -37,9 +37,9 @@ const PROJECTION = `{
   category,
   "packUrl": "${PACK_URL}" + slug.current,
   "images": {
-    "feed": "${IMAGE_URL}/instagram/" + slug.current + ".jpg",
-    "tiktok": "${IMAGE_URL}/tiktok/" + slug.current + ".jpg",
-    "pinterest": "${IMAGE_URL}/pinterest/" + slug.current + ".jpg"
+    "feed": "${IMAGE_URL}/instagram/" + slug.current + ".png",
+    "tiktok": "${IMAGE_URL}/tiktok/" + slug.current + ".png",
+    "pinterest": "${IMAGE_URL}/pinterest/" + slug.current + ".png"
   }
 }`;
 

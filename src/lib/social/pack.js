@@ -57,7 +57,7 @@ export function socialPublicImageUrl({
   slug,
 }) {
   const safeSlug = encodeURIComponent(String(slug || "").trim());
-  return `${trimSlash(origin)}${SOCIAL_IMAGE_PATH}/${platform}/${safeSlug}.jpg`;
+  return `${trimSlash(origin)}${SOCIAL_IMAGE_PATH}/${platform}/${safeSlug}.png`;
 }
 
 export function socialPreviewUrl({ origin = SITE_URL, platform, slug }) {
