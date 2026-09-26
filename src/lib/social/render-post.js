@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { ImageResponse } from "next/og";
 import { NextResponse } from "next/server";
 import sharp from "sharp";
@@ -24,23 +25,48 @@ const TIKTOK_TOP_INSET = 88;
 let fontCache = null;
 let logoCache = null;
 
+async function readBundledAsset(relativeFromHere, relativeFromCwd) {
+  try {
+    return await readFile(fileURLToPath(new URL(relativeFromHere, import.meta.url)));
+  } catch {
+    return readFile(path.join(process.cwd(), relativeFromCwd));
+  }
+}
+
 async function loadAssets() {
   if (!fontCache) {
-    const fontsDir = path.join(process.cwd(), "public/fonts");
     const [regular, semibold, bold] = await Promise.all([
-      readFile(path.join(fontsDir, "REM-Regular.ttf")),
-      readFile(path.join(fontsDir, "REM-SemiBold.ttf")),
-      readFile(path.join(fontsDir, "REM-Bold.ttf")),
+      readBundledAsset("../../../public/fonts/REM-Regular.ttf", "public/fonts/REM-Regular.ttf"),
+      readBundledAsset("../../../public/fonts/REM-SemiBold.ttf", "public/fonts/REM-SemiBold.ttf"),
+      readBundledAsset("../../../public/fonts/REM-Bold.ttf", "public/fonts/REM-Bold.ttf"),
     ]);
     fontCache = { regular, semibold, bold };
   }
   if (!logoCache) {
-    const logo = await readFile(
-      path.join(process.cwd(), "public/blessedhouse_logo25.png")
+    const logo = await readBundledAsset(
+      "../../../public/blessedhouse_logo25.png",
+      "public/blessedhouse_logo25.png"
     );
     logoCache = `data:image/png;base64,${logo.toString("base64")}`;
   }
   return { fonts: fontCache, logoSrc: logoCache };
+}
+
+async function toDataUri(imageUrl) {
+  if (!imageUrl) return null;
+  if (String(imageUrl).startsWith("data:")) return imageUrl;
+  try {
+    const res = await fetch(imageUrl, {
+      headers: { Accept: "image/*" },
+      cache: "force-cache",
+    });
+    if (!res.ok) return null;
+    const buffer = Buffer.from(await res.arrayBuffer());
+    const jpeg = await sharp(buffer).jpeg({ quality: 86 }).toBuffer();
+    return `data:image/jpeg;base64,${jpeg.toString("base64")}`;
+  } catch {
+    return null;
+  }
 }
 
 function clipText(value, max) {
@@ -427,13 +453,14 @@ export async function renderSocialPost({ platformKey, post, imageUrl }) {
   }
 
   const { fonts, logoSrc } = await loadAssets();
+  const photoSrc = (await toDataUri(imageUrl)) || imageUrl;
 
   const pngResponse = new ImageResponse(
     (
       <SocialCard
         platform={platform}
         post={post}
-        imageUrl={imageUrl}
+        imageUrl={photoSrc}
         logoSrc={logoSrc}
       />
     ),
@@ -448,15 +475,24 @@ export async function renderSocialPost({ platformKey, post, imageUrl }) {
     }
   );
 
-  const jpeg = await sharp(Buffer.from(await pngResponse.arrayBuffer()))
-    .jpeg({ quality: 86, mozjpeg: true })
-    .toBuffer();
+  const png = Buffer.from(await pngResponse.arrayBuffer());
+  let body = png;
+  let contentType = "image/png";
+  let extension = "png";
+  try {
+    body = await sharp(png).jpeg({ quality: 86, mozjpeg: true }).toBuffer();
+    contentType = "image/jpeg";
+    extension = "jpg";
+  } catch (error) {
+    console.error("[social/render] sharp jpeg failed", error);
+  }
 
-  return new NextResponse(jpeg, {
+  return new NextResponse(body, {
     headers: {
-      "Content-Type": "image/jpeg",
+      "Content-Type": contentType,
       "Cache-Control": "no-store",
-      "Content-Disposition": `inline; filename="bh-${platform.key}-${post.slug || "sample"}.jpg"`,
+      "Access-Control-Allow-Origin": "*",
+      "Content-Disposition": `inline; filename="bh-${platform.key}-${post.slug || "sample"}.${extension}"`,
     },
   });
 }

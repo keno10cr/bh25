@@ -36,13 +36,20 @@ export async function serveSocialJpeg({
   }
 
   const imageUrl = resolveSocialImageUrl(post.mainImageUrl, origin);
-  const response = await renderSocialPost({
-    platformKey,
-    post,
-    imageUrl,
-  });
-
-  response.headers.set("Cache-Control", cacheControl);
-  response.headers.set("Access-Control-Allow-Origin", "*");
-  return response;
+  try {
+    const response = await renderSocialPost({
+      platformKey,
+      post,
+      imageUrl,
+    });
+    response.headers.set("Cache-Control", cacheControl);
+    response.headers.set("Access-Control-Allow-Origin", "*");
+    return response;
+  } catch (error) {
+    console.error("[social/image]", platformKey, slug, error);
+    return NextResponse.json(
+      { error: "Could not render social image." },
+      { status: 500 }
+    );
+  }
 }
