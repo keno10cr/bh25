@@ -3,6 +3,7 @@ import { SOCIAL_PLATFORMS } from "@/lib/social/platforms";
 
 export const SOCIAL_PACK_PATH = "/api/social/pack";
 export const SOCIAL_PREVIEW_PATH = "/api/social/preview";
+export const SOCIAL_IMAGE_PATH = "/api/social/image";
 
 export const SOCIAL_IMAGE_PACKS = {
   feed: {
@@ -50,17 +51,17 @@ function trimSlash(origin) {
   return String(origin || SITE_URL).replace(/\/$/, "");
 }
 
-export function socialPreviewUrl({
+export function socialPublicImageUrl({
   origin = SITE_URL,
   platform,
   slug,
-  secret = "",
 }) {
-  const url = new URL(SOCIAL_PREVIEW_PATH, `${trimSlash(origin)}/`);
-  url.searchParams.set("platform", platform);
-  url.searchParams.set("slug", slug);
-  if (secret) url.searchParams.set("secret", secret);
-  return url.toString();
+  const safeSlug = encodeURIComponent(String(slug || "").trim());
+  return `${trimSlash(origin)}${SOCIAL_IMAGE_PATH}/${platform}/${safeSlug}.jpg`;
+}
+
+export function socialPreviewUrl({ origin = SITE_URL, platform, slug }) {
+  return socialPublicImageUrl({ origin, platform, slug });
 }
 
 export function socialPackUrl({ origin = SITE_URL, slug, secret = "" }) {
@@ -91,7 +92,7 @@ export function blogPostUrl(slug, origin = SITE_URL) {
  * }} input
  * @returns {SocialPack | null}
  */
-export function buildSocialPack({ post, origin = SITE_URL, secret = "" }) {
+export function buildSocialPack({ post, origin = SITE_URL }) {
   const slug = String(post?.slug || "").trim();
   if (!slug) return null;
 
@@ -105,11 +106,10 @@ export function buildSocialPack({ post, origin = SITE_URL, secret = "" }) {
     platforms: pack.platforms,
     width: pack.width,
     height: pack.height,
-    url: socialPreviewUrl({
+    url: socialPublicImageUrl({
       origin,
       platform: pack.platform,
       slug,
-      secret,
     }),
   });
 

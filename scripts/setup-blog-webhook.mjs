@@ -24,7 +24,7 @@ const HOOKS_URL = `https://${sanityProjectId}.api.sanity.io/${API_VERSION}/hooks
 const FILTER = '_type == "blog"';
 
 const PACK_URL = `${SITE_URL}/api/social/pack?slug=`;
-const PREVIEW_URL = `${SITE_URL}/api/social/preview`;
+const IMAGE_URL = `${SITE_URL}/api/social/image`;
 
 const PROJECTION = `{
   title,
@@ -37,9 +37,9 @@ const PROJECTION = `{
   category,
   "packUrl": "${PACK_URL}" + slug.current,
   "images": {
-    "feed": "${PREVIEW_URL}?platform=instagram&slug=" + slug.current,
-    "tiktok": "${PREVIEW_URL}?platform=tiktok&slug=" + slug.current,
-    "pinterest": "${PREVIEW_URL}?platform=pinterest&slug=" + slug.current
+    "feed": "${IMAGE_URL}/instagram/" + slug.current + ".jpg",
+    "tiktok": "${IMAGE_URL}/tiktok/" + slug.current + ".jpg",
+    "pinterest": "${IMAGE_URL}/pinterest/" + slug.current + ".jpg"
   }
 }`;
 

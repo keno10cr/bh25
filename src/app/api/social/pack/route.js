@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 import { loadSocialPost } from "@/lib/social/load-post";
-import {
-  requestOrigin,
-  socialRequestAllowed,
-  socialSecretFromRequest,
-} from "@/lib/social/auth";
+import { requestOrigin, socialRequestAllowed } from "@/lib/social/auth";
 import { buildSocialPack } from "@/lib/social/pack";
 import { SITE_URL } from "@/lib/siteMetadata";
 
@@ -36,7 +32,6 @@ export async function GET(request) {
   const pack = buildSocialPack({
     post,
     origin: packOrigin(request),
-    secret: socialSecretFromRequest(request),
   });
 
   return NextResponse.json(pack);

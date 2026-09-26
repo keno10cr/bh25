@@ -1,13 +1,8 @@
 import { NextResponse } from "next/server";
-import {
-  loadSocialPost,
-  resolveSocialImageUrl,
-  SOCIAL_SAMPLE_POST,
-  toSocialPost,
-} from "@/lib/social/load-post";
+import { SOCIAL_SAMPLE_POST } from "@/lib/social/load-post";
 import { getSocialPlatform, SOCIAL_PLATFORM_KEYS } from "@/lib/social/platforms";
-import { renderSocialPost } from "@/lib/social/render-post";
 import { requestOrigin, socialRequestAllowed } from "@/lib/social/auth";
+import { serveSocialJpeg } from "@/lib/social/serve-image";
 
 export const runtime = "nodejs";
 
@@ -26,32 +21,28 @@ export async function GET(request) {
   }
 
   const slug = searchParams.get("slug") || "";
-  const post = slug
-    ? await loadSocialPost(slug)
-    : toSocialPost({
-        title: searchParams.get("title") || SOCIAL_SAMPLE_POST.title,
-        socialTitle:
-          searchParams.get("socialTitle") || searchParams.get("title"),
-        socialHook:
-          searchParams.get("socialHook") || searchParams.get("description"),
-        category: searchParams.get("category") || SOCIAL_SAMPLE_POST.category,
-        description:
-          searchParams.get("description") || SOCIAL_SAMPLE_POST.description,
-        mainImageUrl: searchParams.get("image") || searchParams.get("mainImageUrl"),
-        slug: "sample",
-      });
-
-  if (!post) {
-    return NextResponse.json({ error: "Blog post not found." }, { status: 404 });
-  }
-
-  const imageUrl = resolveSocialImageUrl(post.mainImageUrl, requestOrigin(request));
 
   try {
-    return renderSocialPost({
+    return await serveSocialJpeg({
       platformKey,
-      post,
-      imageUrl,
+      slug,
+      origin: requestOrigin(request),
+      fallbackParams: slug
+        ? null
+        : {
+            title: searchParams.get("title") || SOCIAL_SAMPLE_POST.title,
+            socialTitle:
+              searchParams.get("socialTitle") || searchParams.get("title"),
+            socialHook:
+              searchParams.get("socialHook") || searchParams.get("description"),
+            category: searchParams.get("category") || SOCIAL_SAMPLE_POST.category,
+            description:
+              searchParams.get("description") || SOCIAL_SAMPLE_POST.description,
+            mainImageUrl:
+              searchParams.get("image") || searchParams.get("mainImageUrl"),
+            slug: "sample",
+          },
+      cacheControl: "no-store",
     });
   } catch (error) {
     console.error("[social/preview]", error);
