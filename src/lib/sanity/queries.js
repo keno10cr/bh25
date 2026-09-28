@@ -169,8 +169,9 @@ export const publishedGuestExperiencesQuery = `*[_type == "formSubmission" && fo
   submittedAt
 }`;
 
-export const blogPostsQuery = `*[_type == "blog"] | order(publishedAt desc) {
+export const blogPostsQuery = `*[_type in ["blog", "familyBlog"]] | order(publishedAt desc) {
   _id,
+  _type,
   title,
   titleEs,
   titleDe,
@@ -195,7 +196,7 @@ export const blogPostsQuery = `*[_type == "blog"] | order(publishedAt desc) {
   socialTitleFr,
   socialTitleJa,
   socialTitlePt,
-  socialHook,
+  "socialHook": coalesce(socialHook, excerpt),
   socialHookEs,
   socialHookDe,
   socialHookNl,
@@ -206,8 +207,9 @@ export const blogPostsQuery = `*[_type == "blog"] | order(publishedAt desc) {
   "featuredImageAlt": featuredImage.alt
 }`;
 
-export const blogPostBySlugQuery = `*[_type == "blog" && slug.current == $slug][0] {
+export const blogPostBySlugQuery = `*[_type in ["blog", "familyBlog"] && slug.current == $slug][0] {
   _id,
+  _type,
   title,
   titleEs,
   titleDe,
@@ -232,7 +234,7 @@ export const blogPostBySlugQuery = `*[_type == "blog" && slug.current == $slug][
   socialTitleFr,
   socialTitleJa,
   socialTitlePt,
-  socialHook,
+  "socialHook": coalesce(socialHook, excerpt),
   socialHookEs,
   socialHookDe,
   socialHookNl,
@@ -241,6 +243,7 @@ export const blogPostBySlugQuery = `*[_type == "blog" && slug.current == $slug][
   socialHookPt,
   "featuredImage": featuredImage.asset->url,
   "featuredImageAlt": featuredImage.alt,
+  "gallery": gallery[defined(asset)]{ "url": asset->url, alt },
   content,
   contentEs,
   contentDe,
@@ -250,7 +253,7 @@ export const blogPostBySlugQuery = `*[_type == "blog" && slug.current == $slug][
   contentPt
 }`;
 
-export const blogSlugsQuery = `*[_type == "blog" && defined(slug.current)].slug.current`;
+export const blogSlugsQuery = `*[_type in ["blog", "familyBlog"] && defined(slug.current)].slug.current`;
 
 export const homePageSettingsQuery = `*[_id == "homePageSettings"][0]{
   ...,

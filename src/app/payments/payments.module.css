@@ -44,11 +44,155 @@
   margin-bottom: 3rem;
 }
 
-.bankName {
-  font-size: 1.5rem;
-  color: var(--color-primary);
+.bankHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
   margin-bottom: 1rem;
+}
+
+.bankLogo {
+  width: auto;
+  height: 64px;
+  object-fit: contain;
+}
+
+.bankName {
+  font-size: 1.25rem;
+  color: var(--color-primary);
+  margin: 0;
   text-align: center;
+}
+
+.valueCell {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.value {
+  flex: 1;
+  min-width: 0;
+}
+
+.copyButton {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid #d9e3dc;
+  border-radius: 8px;
+  background: #f6f9f7;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.copyButton:hover,
+.copyButton:focus-visible {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  outline: none;
+}
+
+.whatsappLink {
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.whatsappLink:hover {
+  text-decoration: underline;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(10, 40, 30, 0.45);
+  animation: fadeIn 0.15s ease;
+}
+
+.modal {
+  width: 100%;
+  max-width: 340px;
+  padding: 2rem 1.5rem 1.5rem;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.modalLogo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  margin: 0 auto 0.75rem;
+}
+
+.modalTitle {
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+  color: var(--color-primary);
+}
+
+.modalMessage {
+  margin: 0;
+  color: #535353;
+  line-height: 1.5;
+}
+
+.modalValue {
+  margin: 0.75rem 0 1.25rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  background: #f6f9f7;
+  color: #1f2d27;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.modalButton {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modalButton:hover,
+.modalButton:focus-visible {
+  background: var(--color-primary-light, #0d6249);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.sinpeBadge {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 .accountTable {
@@ -89,30 +233,14 @@
   background-color: #f9f9f9;
 }
 
-.sinpeContainer {
-  display: flex;
-  justify-content: center;
-  margin: 3rem 0;
-}
-
-.sinpeWrapper {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: inline-block;
-}
-
-.sinpeLogo {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
-  display: block;
-}
-
 .contactInfo {
   text-align: center;
-  margin: 3rem 0;
+  margin: 0 auto 2.5rem;
+  padding: 1rem 1.25rem;
+  max-width: 640px;
+  border-radius: 12px;
+  background: #f6f9f7;
+  border: 1px solid #e1ebe4;
 }
 
 .tel {
@@ -133,7 +261,7 @@
   font-size: 0.95rem;
   color: #535353;
   line-height: 1.6;
-  margin-top: 1rem;
+  margin: 0;
 }
 
 .footer {
@@ -158,8 +286,26 @@
     font-size: 1.75rem;
   }
 
+  .bankLogo {
+    height: 48px;
+  }
+
   .bankName {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+  }
+
+  .sinpeBadge {
+    width: 32px;
+    height: 32px;
+  }
+
+  .valueCell {
+    gap: 0.35rem;
+  }
+
+  .copyButton {
+    width: 30px;
+    height: 30px;
   }
 
   .accountTable {
@@ -182,11 +328,6 @@
     display: table;
     width: 100%;
     table-layout: fixed;
-  }
-
-  .sinpeLogo {
-    width: 100%;
-    max-width: 300px;
   }
 }
 

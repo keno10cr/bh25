@@ -1,10 +1,22 @@
 import { defineField, defineType } from "sanity";
 import { i18nFieldset, localizedField } from "./i18n";
 import { IMAGE_GUIDE } from "./imageGuides";
+import { isUniqueBlogSlug } from "../lib/blogSlug";
+
+export const BLOG_CATEGORIES = [
+  { title: "Flora", value: "Flora" },
+  { title: "Fauna", value: "Fauna" },
+  { title: "Local Spot", value: "Local Spot" },
+  { title: "Retreats", value: "Retreats" },
+  { title: "National Parks", value: "National Parks" },
+  { title: "Blessed House", value: "Blessed House" },
+  { title: "Properties", value: "Properties" },
+  { title: "Tips", value: "Tips" },
+];
 
 export const blog = defineType({
   name: "blog",
-  title: "Blog post",
+  title: "Blog post (automated)",
   type: "document",
   fieldsets: [i18nFieldset],
   fields: [
@@ -18,7 +30,7 @@ export const blog = defineType({
       name: "slug",
       title: "Slug",
       type: "slug",
-      options: { source: "title", maxLength: 96 },
+      options: { source: "title", maxLength: 96, isUnique: isUniqueBlogSlug },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -26,13 +38,7 @@ export const blog = defineType({
       title: "Category",
       type: "string",
       options: {
-        list: [
-          { title: "Flora", value: "Flora" },
-          { title: "Fauna", value: "Fauna" },
-          { title: "Local Spot", value: "Local Spot" },
-          { title: "Retreats", value: "Retreats" },
-          { title: "National Parks", value: "National Parks" },
-        ],
+        list: BLOG_CATEGORIES,
         layout: "dropdown",
       },
       validation: (Rule) => Rule.required(),

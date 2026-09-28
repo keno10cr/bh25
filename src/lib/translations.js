@@ -429,6 +429,8 @@ export const translations = {
       subtitle: "Flora, fauna, local spots, and retreat notes from Puerto Viejo and Blessed House.",
       empty: "New stories are on the way. Check back soon.",
       readPost: "Read Post",
+      gallery: "Photo gallery",
+      openPhoto: "Open photo {n} of {total}",
       back: "Back to blog",
       published: "Published",
       authorLabel: "Author",
@@ -502,6 +504,7 @@ export const translations = {
       contactInfo: "Contact Info",
       socialMedia: "Social Media",
       copyright: "All rights reserved.",
+      legal: "Legal",
       parkingFee: "Additional cost for vehicle charging. Please inquire."
     },
     payments: {
@@ -513,6 +516,8 @@ export const translations = {
       labels: {
         nombre: "Name",
         cedulaJuridica: "Legal ID",
+        cedulaFisica: "Personal ID",
+        swift: "SWIFT/BIC Code",
         sinpe: "SINPE",
         ibanColones: "IBAN COLONES",
         ibanDolares: "IBAN DOLLARS"
@@ -523,12 +528,13 @@ export const translations = {
         cedulaJuridica: "3-101-333674",
         sinpe: "8926 2630",
         ibanColones: "CR6401 0200 0095 7723 1902",
-        ibanDolares: "CR2001 0200 0095 7723 1821"
+        ibanDolares: "CR2001 0200 0095 7723 1821",
+        swift: "BSNJCRSJXXX"
       },
       bankNacional: {
         title: "Banco Nacional",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "8301 3705",
         ibanColones: "CR6001 5103 2200 1030 3322",
         ibanDolares: "CR5001 5103 2200 2506 0888"
@@ -536,15 +542,21 @@ export const translations = {
       bankBCR: {
         title: "Banco de Costa Rica",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "",
         ibanColones: "CR7401 5201 0010 4412 5248",
         ibanDolares: "CR7401 5201 0010 4363 4022"
       },
       tel: "TEL: ####-####",
       contactSubtitle: "Blessed House S.A.",
-      contactText: "Please send proof of deposit to WhatsApp +1 (754) 610-4710 or email blessedhousecr@gmail.com",
-      footer: "Tel. +1 (754) 610-4710 - www.blessedhouse.info - Puerto Viejo, Talamanca, Costa Rica"
+      contactText: "Please send your proof of deposit only on WhatsApp, with a message that includes the name the reservation is under, to either +506 8926 2639 or +1 (754) 610 4710. Thank you!",
+      copy: {
+        button: "Copy {label}",
+        title: "Copied!",
+        message: "{label} is copied to your clipboard.",
+        ok: "OK"
+      },
+      footer: "Tel. +506 8926 2639 · +1 (754) 610 4710 · www.blessedhouse.info · Puerto Viejo, Talamanca, Costa Rica"
     },
     gallery: {
       title: "Discover Paradise at Blessed House",
@@ -1263,6 +1275,7 @@ export const translations = {
       contactInfo: "Información de Contacto",
       socialMedia: "Redes Sociales",
       copyright: "Todos los derechos reservados.",
+      legal: "Legal",
       parkingFee: "Costo adicional p/carga vehicular. Consultas por favor."
     },
     payments: {
@@ -1274,6 +1287,8 @@ export const translations = {
       labels: {
         nombre: "Nombre",
         cedulaJuridica: "Cédula Jurídica",
+        cedulaFisica: "Cédula Física",
+        swift: "Código SWIFT/BIC",
         sinpe: "SINPE",
         ibanColones: "IBAN COLONES",
         ibanDolares: "IBAN DÓLARES"
@@ -1284,12 +1299,13 @@ export const translations = {
         cedulaJuridica: "3-101-333674",
         sinpe: "8926 2630",
         ibanColones: "CR6401 0200 0095 7723 1902",
-        ibanDolares: "CR2001 0200 0095 7723 1821"
+        ibanDolares: "CR2001 0200 0095 7723 1821",
+        swift: "BSNJCRSJXXX"
       },
       bankNacional: {
         title: "Banco Nacional",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "8301 3705",
         ibanColones: "CR6001 5103 2200 1030 3322",
         ibanDolares: "CR5001 5103 2200 2506 0888"
@@ -1297,15 +1313,21 @@ export const translations = {
       bankBCR: {
         title: "Banco de Costa Rica",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "",
         ibanColones: "CR7401 5201 0010 4412 5248",
         ibanDolares: "CR7401 5201 0010 4363 4022"
       },
       tel: "TEL: ####-####",
       contactSubtitle: "Blessed House S.A.",
-      contactText: "Por favor enviar comprobante de depósito al whatsapp +1 (754) 610-4710 o al correo blessedhousecr@gmail.com",
-      footer: "Tel. +1 (754) 610-4710 - www.blessedhouse.info - Puerto Viejo, Talamanca, Costa Rica"
+      contactText: "Por favor enviar el comprobante de depósito solo por WhatsApp, con un mensaje que contenga el nombre de a quien está la reserva, a cualquiera de estos números: +506 8926 2639 o +1 (754) 610 4710. ¡Muchas gracias!",
+      copy: {
+        button: "Copiar {label}",
+        title: "¡Copiado!",
+        message: "{label} quedó copiado en tu portapapeles.",
+        ok: "OK"
+      },
+      footer: "Tel. +506 8926 2639 · +1 (754) 610 4710 · www.blessedhouse.info · Puerto Viejo, Talamanca, Costa Rica"
     },
     gallery: {
       title: "Descubre el Paraíso en Blessed House",
@@ -1460,6 +1482,8 @@ export const translations = {
       subtitle: "Flora, fauna, lugares locales y notas del retiro desde Puerto Viejo y Blessed House.",
       empty: "Pronto habrá nuevas historias. Vuelve pronto.",
       readPost: "Leer artículo",
+      gallery: "Galería de fotos",
+      openPhoto: "Abrir foto {n} de {total}",
       back: "Volver al blog",
       published: "Publicado",
       authorLabel: "Autor",
@@ -1990,6 +2014,7 @@ export const translations = {
       contactInfo: "Kontaktinformationen",
       socialMedia: "Soziale Medien",
       copyright: "Alle Rechte vorbehalten.",
+      legal: "Rechtliches",
       parkingFee: "Zusätzliche Kosten für Fahrzeugaufladung. Bitte anfragen."
     },
     gallery: {
@@ -2145,6 +2170,8 @@ export const translations = {
       subtitle: "Flora, Fauna, lokale Orte und Retreat Notizen aus Puerto Viejo und Blessed House.",
       empty: "Neue Geschichten sind unterwegs. Schauen Sie bald wieder vorbei.",
       readPost: "Beitrag lesen",
+      gallery: "Fotogalerie",
+      openPhoto: "Foto {n} von {total} öffnen",
       back: "Zurück zum Blog",
       published: "Veröffentlicht",
       authorLabel: "Autor",
@@ -2163,6 +2190,8 @@ export const translations = {
       labels: {
         nombre: "Name",
         cedulaJuridica: "Handelsregister",
+        cedulaFisica: "Ausweisnummer",
+        swift: "SWIFT/BIC Code",
         sinpe: "SINPE",
         ibanColones: "IBAN COLONES",
         ibanDolares: "IBAN DOLLARS"
@@ -2173,12 +2202,13 @@ export const translations = {
         cedulaJuridica: "3-101-333674",
         sinpe: "8926 2630",
         ibanColones: "CR6401 0200 0095 7723 1902",
-        ibanDolares: "CR2001 0200 0095 7723 1821"
+        ibanDolares: "CR2001 0200 0095 7723 1821",
+        swift: "BSNJCRSJXXX"
       },
       bankNacional: {
         title: "Banco Nacional",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "8301 3705",
         ibanColones: "CR6001 5103 2200 1030 3322",
         ibanDolares: "CR5001 5103 2200 2506 0888"
@@ -2186,7 +2216,7 @@ export const translations = {
       bankBCR: {
         title: "Banco de Costa Rica",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "",
         ibanColones: "CR7401 5201 0010 4412 5248",
         ibanDolares: "CR7401 5201 0010 4363 4022"
@@ -2645,6 +2675,7 @@ export const translations = {
       contactInfo: "Contactgegevens",
       socialMedia: "Sociale Media",
       copyright: "Alle rechten voorbehouden.",
+      legal: "Juridisch",
       parkingFee: "Extra kosten voor voertuigopladen. Vraag alstublieft."
     },
     gallery: {
@@ -2800,6 +2831,8 @@ export const translations = {
       subtitle: "Flora, fauna, lokale plekken en retreat notities uit Puerto Viejo en Blessed House.",
       empty: "Nieuwe verhalen komen eraan. Kom snel terug.",
       readPost: "Bericht lezen",
+      gallery: "Fotogalerij",
+      openPhoto: "Foto {n} van {total} openen",
       back: "Terug naar blog",
       published: "Gepubliceerd",
       authorLabel: "Auteur",
@@ -2818,6 +2851,8 @@ export const translations = {
       labels: {
         nombre: "Naam",
         cedulaJuridica: "KvK nummer",
+        cedulaFisica: "Identiteitsnummer",
+        swift: "SWIFT/BIC code",
         sinpe: "SINPE",
         ibanColones: "IBAN COLONES",
         ibanDolares: "IBAN DOLLARS"
@@ -2828,12 +2863,13 @@ export const translations = {
         cedulaJuridica: "3-101-333674",
         sinpe: "8926 2630",
         ibanColones: "CR6401 0200 0095 7723 1902",
-        ibanDolares: "CR2001 0200 0095 7723 1821"
+        ibanDolares: "CR2001 0200 0095 7723 1821",
+        swift: "BSNJCRSJXXX"
       },
       bankNacional: {
         title: "Banco Nacional",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "8301 3705",
         ibanColones: "CR6001 5103 2200 1030 3322",
         ibanDolares: "CR5001 5103 2200 2506 0888"
@@ -2841,7 +2877,7 @@ export const translations = {
       bankBCR: {
         title: "Banco de Costa Rica",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "",
         ibanColones: "CR7401 5201 0010 4412 5248",
         ibanDolares: "CR7401 5201 0010 4363 4022"
@@ -3300,6 +3336,7 @@ export const translations = {
       contactInfo: "Informations de Contact",
       socialMedia: "Réseaux Sociaux",
       copyright: "Tous droits réservés.",
+      legal: "Mentions légales",
       parkingFee: "Coût supplémentaire pour la recharge des véhicules. Veuillez vous renseigner."
     },
     gallery: {
@@ -3455,6 +3492,8 @@ export const translations = {
       subtitle: "Flore, faune, lieux locaux et notes de retraite depuis Puerto Viejo et Blessed House.",
       empty: "De nouvelles histoires arrivent bientôt. Revenez vite.",
       readPost: "Lire l'article",
+      gallery: "Galerie photos",
+      openPhoto: "Ouvrir la photo {n} sur {total}",
       back: "Retour au blog",
       published: "Publié",
       authorLabel: "Auteur",
@@ -3473,6 +3512,8 @@ export const translations = {
       labels: {
         nombre: "Nom",
         cedulaJuridica: "ID légal",
+        cedulaFisica: "Pièce d'identité",
+        swift: "Code SWIFT/BIC",
         sinpe: "SINPE",
         ibanColones: "IBAN COLONES",
         ibanDolares: "IBAN DOLLARS"
@@ -3483,12 +3524,13 @@ export const translations = {
         cedulaJuridica: "3-101-333674",
         sinpe: "8926 2630",
         ibanColones: "CR6401 0200 0095 7723 1902",
-        ibanDolares: "CR2001 0200 0095 7723 1821"
+        ibanDolares: "CR2001 0200 0095 7723 1821",
+        swift: "BSNJCRSJXXX"
       },
       bankNacional: {
         title: "Banco Nacional",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "8301 3705",
         ibanColones: "CR6001 5103 2200 1030 3322",
         ibanDolares: "CR5001 5103 2200 2506 0888"
@@ -3496,7 +3538,7 @@ export const translations = {
       bankBCR: {
         title: "Banco de Costa Rica",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "",
         ibanColones: "CR7401 5201 0010 4412 5248",
         ibanDolares: "CR7401 5201 0010 4363 4022"
@@ -3955,6 +3997,7 @@ export const translations = {
       contactInfo: "連絡先情報",
       socialMedia: "ソーシャルメディア",
       copyright: "全著作権所有。",
+      legal: "法的情報",
       parkingFee: "車両充電の追加費用。お問い合わせください。"
     },
     gallery: {
@@ -4110,6 +4153,8 @@ export const translations = {
       subtitle: "プエルトビエホとBlessed Houseからの植物、動物、地元スポット、リトリートノート。",
       empty: "新しいストーリーを準備中です。またすぐチェックしてください。",
       readPost: "記事を読む",
+      gallery: "フォトギャラリー",
+      openPhoto: "写真 {n} / {total} を開く",
       back: "ブログに戻る",
       published: "公開日",
       authorLabel: "著者",
@@ -4128,6 +4173,8 @@ export const translations = {
       labels: {
         nombre: "名義",
         cedulaJuridica: "法人番号",
+        cedulaFisica: "個人番号",
+        swift: "SWIFT/BICコード",
         sinpe: "SINPE",
         ibanColones: "IBAN COLONES",
         ibanDolares: "IBAN DOLLARS"
@@ -4138,12 +4185,13 @@ export const translations = {
         cedulaJuridica: "3-101-333674",
         sinpe: "8926 2630",
         ibanColones: "CR6401 0200 0095 7723 1902",
-        ibanDolares: "CR2001 0200 0095 7723 1821"
+        ibanDolares: "CR2001 0200 0095 7723 1821",
+        swift: "BSNJCRSJXXX"
       },
       bankNacional: {
         title: "Banco Nacional",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "8301 3705",
         ibanColones: "CR6001 5103 2200 1030 3322",
         ibanDolares: "CR5001 5103 2200 2506 0888"
@@ -4151,7 +4199,7 @@ export const translations = {
       bankBCR: {
         title: "Banco de Costa Rica",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "",
         ibanColones: "CR7401 5201 0010 4412 5248",
         ibanDolares: "CR7401 5201 0010 4363 4022"
@@ -4346,6 +4394,7 @@ export const translations = {
       contactInfo: "Informações de Contato",
       socialMedia: "Redes Sociais",
       copyright: "Todos os direitos reservados.",
+      legal: "Aviso legal",
       parkingFee: "Custo adicional para carga de veículos. Por favor, consulte."
     },
     activitiesPage: {
@@ -4766,6 +4815,8 @@ export const translations = {
       subtitle: "Flora, fauna, lugares locais e notas de retiro de Puerto Viejo e Blessed House.",
       empty: "Novas histórias estão a caminho. Volte em breve.",
       readPost: "Ler artigo",
+      gallery: "Galeria de fotos",
+      openPhoto: "Abrir foto {n} de {total}",
       back: "Voltar ao blog",
       published: "Publicado",
       authorLabel: "Autor",
@@ -4784,6 +4835,8 @@ export const translations = {
       labels: {
         nombre: "Nome",
         cedulaJuridica: "ID legal",
+        cedulaFisica: "Documento pessoal",
+        swift: "Código SWIFT/BIC",
         sinpe: "SINPE",
         ibanColones: "IBAN COLONES",
         ibanDolares: "IBAN DOLLARS"
@@ -4794,12 +4847,13 @@ export const translations = {
         cedulaJuridica: "3-101-333674",
         sinpe: "8926 2630",
         ibanColones: "CR6401 0200 0095 7723 1902",
-        ibanDolares: "CR2001 0200 0095 7723 1821"
+        ibanDolares: "CR2001 0200 0095 7723 1821",
+        swift: "BSNJCRSJXXX"
       },
       bankNacional: {
         title: "Banco Nacional",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "8301 3705",
         ibanColones: "CR6001 5103 2200 1030 3322",
         ibanDolares: "CR5001 5103 2200 2506 0888"
@@ -4807,7 +4861,7 @@ export const translations = {
       bankBCR: {
         title: "Banco de Costa Rica",
         nombre: "Floribel Fadel Cartín",
-        cedulaJuridica: "203300387",
+        cedulaFisica: "203300387",
         sinpe: "",
         ibanColones: "CR7401 5201 0010 4412 5248",
         ibanDolares: "CR7401 5201 0010 4363 4022"

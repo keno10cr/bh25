@@ -8,6 +8,7 @@ const HIDDEN_FROM_DEFAULT = [
   "legendItem",
   "review",
   "blog",
+  "familyBlog",
   "formSubmission",
   "blockContent",
   "homePageSettings",
@@ -55,6 +56,17 @@ export const deskStructure = (S) =>
             .schemaType("systemSettings")
             .documentId(SYSTEM_SETTINGS_ID)
             .title("System Settings")
+        ),
+
+      S.divider(),
+
+      S.listItem()
+        .title("Family Blog")
+        .schemaType("familyBlog")
+        .child(
+          S.documentTypeList("familyBlog")
+            .title("Family Blog")
+            .defaultOrdering([{ field: "publishedAt", direction: "desc" }])
         ),
 
       S.divider(),
@@ -208,7 +220,7 @@ export const deskStructure = (S) =>
               S.documentTypeListItem("activity").title("Activities"),
               S.documentTypeListItem("legendItem").title("Legend items"),
               S.documentTypeListItem("review").title("Reviews"),
-              S.documentTypeListItem("blog").title("Blog"),
+              S.documentTypeListItem("blog").title("Blog (automated)"),
               S.listItem()
                 .title("Navigation")
                 .child(

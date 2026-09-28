@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./villa-gallery-modal.module.css";
 
@@ -14,6 +14,23 @@ export default function VillaGalleryModal({
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const touchStart = useRef(null);
+
+  const handleTouchStart = (e) => {
+    const touch = e.touches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!touchStart.current || images.length < 2) return;
+    const touch = e.changedTouches[0];
+    const dx = touch.clientX - touchStart.current.x;
+    const dy = touch.clientY - touchStart.current.y;
+    touchStart.current = null;
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+    if (dx < 0) goToNext();
+    else goToPrevious();
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -95,7 +112,11 @@ export default function VillaGalleryModal({
           >
             ‹
           </button>
-          <div className={styles.slide}>
+          <div
+            className={styles.slide}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             <img
               src={images[currentIndex]}
               alt={captions[currentIndex] || `${villa.name} photo ${currentIndex + 1}`}

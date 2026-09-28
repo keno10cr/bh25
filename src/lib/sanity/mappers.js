@@ -194,6 +194,7 @@ export function mapBlogPost(raw, fallback = null) {
     socialHookPt: raw?.socialHookPt,
     featuredImage: raw?.featuredImage || base.featuredImage || null,
     featuredImageAlt: raw?.featuredImageAlt || base.featuredImageAlt || "",
+    gallery: Array.isArray(raw?.gallery) ? raw.gallery.filter((img) => img?.url) : [],
     content: raw?.content || base.content || [],
     contentEs: raw?.contentEs,
     contentDe: raw?.contentDe,

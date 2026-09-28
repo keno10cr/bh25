@@ -6,6 +6,7 @@ import { blog } from "./blog";
 import { blogPageSettings } from "./blogPageSettings";
 import { blockContent } from "./blockContent";
 import { contactPageSettings } from "./contactPageSettings";
+import { familyBlog } from "./familyBlog";
 import { footerSettings } from "./footerSettings";
 import { formSubmission } from "./formSubmission";
 import { galleryPageSettings } from "./galleryPageSettings";
@@ -37,6 +38,7 @@ export const schemaTypes = [
   villa,
   legendItem,
   blog,
+  familyBlog,
   review,
   formSubmission,
   blockContent,

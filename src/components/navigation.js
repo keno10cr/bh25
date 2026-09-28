@@ -156,7 +156,7 @@ export default function Navigation({ nav }) {
           {isPaymentsPage && (language === "en" || language === "es") && (
             <li>
               <Link
-                href="/payments"
+                href={language === "es" ? "/pagos" : "/payments"}
                 onClick={handleLinkClick}
                 className={styles.active}
               >

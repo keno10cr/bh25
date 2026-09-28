@@ -191,10 +191,31 @@
 }
 
 .copyright {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 1.25rem;
   text-align: center;
   padding: 1.5rem 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 0.9rem;
+}
+
+.copyright p {
+  margin: 0;
+}
+
+.legalLink {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 0.9;
+}
+
+.legalLink:hover {
+  opacity: 1;
 }
 
 @media (max-width: 768px) {

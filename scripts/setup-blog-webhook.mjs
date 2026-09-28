@@ -1,6 +1,7 @@
 /**
  * Create or replace the Sanity webhook that notifies Make.com when a
  * blog document is first published (not drafts, not later edits).
+ * Family Blog posts are included only when publishMode is "makeRepost".
  *
  * Requires a Sanity token with webhook manage access. The dataset write
  * token is not enough. This script uses SANITY_AUTH_TOKEN if set, otherwise
@@ -21,12 +22,14 @@ const MAKE_WEBHOOK_URL = process.env.MAKE_BLOG_WEBHOOK_URL;
 const API_VERSION = "v2025-02-19";
 const HOOKS_URL = `https://${sanityProjectId}.api.sanity.io/${API_VERSION}/hooks/projects/${sanityProjectId}`;
 
-const FILTER = '_type == "blog"';
+const FILTER =
+  '_type == "blog" || (_type == "familyBlog" && publishMode == "makeRepost")';
 
 const PACK_URL = `${SITE_URL}/api/social/pack?slug=`;
 const IMAGE_URL = `${SITE_URL}/api/social/image`;
 
 const PROJECTION = `{
+  "source": _type,
   title,
   "socialTitle": coalesce(socialTitle, title),
   "socialHook": coalesce(socialHook, excerpt, title),
@@ -128,9 +131,11 @@ async function main() {
   console.log(`  id:       ${created.id}`);
   console.log(`  name:     ${created.name}`);
   console.log(`  dataset:  ${created.dataset}`);
-  console.log(`  trigger:  first publish of _type == "blog"`);
   console.log(
-    "  payload:  title, socialTitle, socialHook, slug, url, category, packUrl, images"
+    `  trigger:  first publish of blog, or familyBlog with publishMode "makeRepost"`
+  );
+  console.log(
+    "  payload:  source, title, socialTitle, socialHook, slug, url, category, packUrl, images"
   );
   console.log(
     "  Make.com: GET packUrl with header x-social-secret = SOCIAL_PREVIEW_SECRET"

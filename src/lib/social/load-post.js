@@ -2,10 +2,10 @@ import { sanityFetch } from "@/lib/sanity/fetch";
 import { STATIC_BLOG_POSTS } from "@/data/blog";
 import { socialCopyFor } from "@/data/blog-social";
 
-const SOCIAL_POST_QUERY = `*[_type == "blog" && slug.current == $slug][0]{
+const SOCIAL_POST_QUERY = `*[_type in ["blog", "familyBlog"] && slug.current == $slug][0]{
   title,
   socialTitle,
-  socialHook,
+  "socialHook": coalesce(socialHook, excerpt),
   "slug": slug.current,
   category,
   excerpt,

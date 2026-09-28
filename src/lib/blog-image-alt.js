@@ -10,6 +10,9 @@ const CATEGORY_PHRASE = {
   "Local Spot": "a local spot near Puerto Viejo, Costa Rica",
   Retreats: "Blessed House in Puerto Viejo, Costa Rica",
   "National Parks": "a Costa Rica national park near the Caribbean",
+  "Blessed House": "Blessed House in Puerto Viejo, Costa Rica",
+  Properties: "a Blessed House villa in Puerto Viejo, Costa Rica",
+  Tips: "travel tips for Puerto Viejo, Costa Rica",
 };
 
 const SLUG_OVERRIDES = {
