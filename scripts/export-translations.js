@@ -131,7 +131,7 @@ async function main() {
     dataset: sanityDataset,
     locales: ["en", ...LOCALES.map((l) => l.code)],
     note:
-      "Fill empty locale strings (es, de, nl, fr, ja, pt). Keep en as the source. For kind=blocks, use blank lines between paragraphs. Re-import with pnpm i18n:import.",
+      "Fill empty locale strings (es, de, nl, fr, ja, pt, ar). Keep en as the source. For kind=blocks, use blank lines between paragraphs. Re-import with pnpm i18n:import.",
     documents: (docs || []).map(exportDocument),
   };
 

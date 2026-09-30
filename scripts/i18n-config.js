@@ -1,6 +1,6 @@
 /**
  * Shared locale + field maps for Sanity translation export/import.
- * English is the source field (no suffix). Locales use Es/De/Nl/Fr/Ja/Pt.
+ * English is the source field (no suffix). Locales use Es/De/Nl/Fr/Ja/Pt/Ar.
  */
 
 import { whatsIncludedLabels } from "./whats-included.js";
@@ -12,6 +12,7 @@ export const LOCALES = [
   { code: "fr", suffix: "Fr", title: "French" },
   { code: "ja", suffix: "Ja", title: "Japanese" },
   { code: "pt", suffix: "Pt", title: "Portuguese" },
+  { code: "ar", suffix: "Ar", title: "Arabic" },
 ];
 
 /** Top-level localizable fields per document type. */

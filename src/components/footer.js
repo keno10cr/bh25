@@ -12,9 +12,14 @@ import { FOOTER_SETTINGS_DEFAULTS } from "@/data/page-defaults";
 import styles from "./footer.module.css";
 
 const SOCIAL_ICONS = {
-  instagram: "/social/instagram.png",
-  airbnb: "/social/airbnb.png",
-  youtube: "/social/youtube.png",
+  instagram: "/social/2026/IGBH.png",
+  facebook: "/social/2026/fbBH.png",
+  youtube: "/social/2026/ytBH.png",
+  tiktok: "/social/2026/tiktokBH.png",
+  whatsapp: "/social/2026/whatappBH.png",
+  pinterest: "/social/2026/pintBH.png",
+  bluesky: "/social/2026/BlueSkyBH.png",
+  airbnb: "/social/2026/abnbBH.png",
 };
 
 const NAV_KEY_BY_HREF = {
@@ -161,7 +166,7 @@ export default function Footer({ footer }) {
             <h4>{t("footer.socialMedia")}</h4>
             <div className={styles.socialRow}>
               {socialLinks.map((link) => {
-                const icon = link.iconUrl || SOCIAL_ICONS[link.network];
+                const icon = SOCIAL_ICONS[link.network] || link.iconUrl;
                 if (!icon) return null;
                 const isAirbnb = link.network === "airbnb";
                 return (

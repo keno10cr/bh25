@@ -82,7 +82,7 @@
 .guestField {
   width: 100%;
   min-width: 0;
-  text-align: left;
+  text-align: start;
   background: #fff;
   color: var(--color-neutral-dark, #1a1a18);
   border: none;

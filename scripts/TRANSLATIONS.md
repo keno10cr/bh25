@@ -2,7 +2,7 @@
 
 ## Audit summary (schemas)
 
-All editable content types use `i18nFieldset` (`Translations`, collapsible + collapsed) and `localizedField()` companions for **es / de / nl / fr / ja / pt**:
+All editable content types use `i18nFieldset` (`Translations`, collapsible + collapsed) and `localizedField()` companions for **es / de / nl / fr / ja / pt / ar**:
 
 | Schema | Localized fields |
 |--------|------------------|
@@ -64,13 +64,14 @@ Edit the JSON. Each field looks like:
   "nl": "",
   "fr": "",
   "ja": "",
-  "pt": ""
+  "pt": "",
+  "ar": ""
 }
 ```
 
 For `kind: "blocks"`, write plain text; separate paragraphs with a blank line. Import converts them back to Portable Text.
 
-Keep `en` unchanged. Fill the six locale keys.
+Keep `en` unchanged. Fill the locale keys, including `ar` for Arabic (Saudi Arabia).
 
 ### 3. Import (dry run first)
 

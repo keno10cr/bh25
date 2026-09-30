@@ -7,7 +7,7 @@ import { useSmoothParallax } from "@/lib/parallax-motion";
 import DateRangePicker, {
   formatRangeLabel,
 } from "@/components/date-range-picker";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { languages, useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import { resolveCopy } from "@/lib/cms-field";
 import {
@@ -88,7 +88,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
 
   useEffect(() => {
     const lang = String(searchParams.get("lang") || "").toLowerCase();
-    if (lang === "es" || lang === "en") {
+    if (languages[lang]) {
       changeLanguage(lang);
     }
   }, [searchParams, changeLanguage]);

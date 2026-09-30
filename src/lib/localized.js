@@ -5,6 +5,7 @@ const LOCALE_SUFFIX = {
   fr: "Fr",
   ja: "Ja",
   pt: "Pt",
+  ar: "Ar",
 };
 
 export function localizedField(doc, field, language = "en") {

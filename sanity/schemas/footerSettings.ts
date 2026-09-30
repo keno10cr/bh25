@@ -138,7 +138,7 @@ export const footerSettings = defineType({
       title: "Social links",
       type: "array",
       description:
-        "Footer social icons. Upload a square icon for each link. Network is used for tracking and as a fallback icon if no image is uploaded.",
+        "Footer social icons. Add one row per profile: pick the network, paste the link, and set a short label. Instagram, Facebook, YouTube, TikTok, WhatsApp, Pinterest, Bluesky, and Airbnb already have Blessed House icons. Turn a row off to hide it. Drag rows to change the order.",
       of: [
         {
           type: "object",
@@ -150,8 +150,13 @@ export const footerSettings = defineType({
               options: {
                 list: [
                   { title: "Instagram", value: "instagram" },
-                  { title: "Airbnb", value: "airbnb" },
+                  { title: "Facebook", value: "facebook" },
                   { title: "YouTube", value: "youtube" },
+                  { title: "TikTok", value: "tiktok" },
+                  { title: "WhatsApp", value: "whatsapp" },
+                  { title: "Pinterest", value: "pinterest" },
+                  { title: "Bluesky", value: "bluesky" },
+                  { title: "Airbnb", value: "airbnb" },
                 ],
                 layout: "radio",
               },
@@ -161,7 +166,8 @@ export const footerSettings = defineType({
               name: "icon",
               title: "Icon image",
               type: "image",
-              description: IMAGE_GUIDE.socialIcon,
+              description:
+                "Leave this empty for the networks above. The site uses the Blessed House icon for them. Upload a square image only for a network that is not in that list.",
               options: { hotspot: true },
               fields: [
                 defineField({

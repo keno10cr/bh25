@@ -21,6 +21,7 @@ const CONTENT_FIELDS = [
   "contentFr",
   "contentJa",
   "contentPt",
+  "contentAr",
 ];
 
 async function getClient() {
@@ -71,7 +72,8 @@ async function patchBlogImageAlts() {
       contentNl,
       contentFr,
       contentJa,
-      contentPt
+      contentPt,
+      contentAr
     }`
   );
 

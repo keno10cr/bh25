@@ -131,7 +131,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  text-align: left;
+  text-align: start;
   width: 100%;
   font-size: 1rem;
 }
@@ -140,6 +140,10 @@
   border-color: var(--color-primary, #0a4c3a);
   background-color: #f8f9fa;
   transform: translateX(4px);
+}
+
+:global(html[dir="rtl"]) .languageOption:hover {
+  transform: translateX(-4px);
 }
 
 .languageOption.active {

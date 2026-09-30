@@ -7,6 +7,7 @@ export const TRANSLATION_LOCALES = [
   { code: "Fr", title: "French" },
   { code: "Ja", title: "Japanese" },
   { code: "Pt", title: "Portuguese" },
+  { code: "Ar", title: "Arabic" },
 ];
 
 export const i18nFieldset = {

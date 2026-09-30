@@ -78,6 +78,11 @@ export const systemSettings = defineType({
               type: "string",
             }),
             defineField({
+              name: "titleAr",
+              title: "Title (Arabic)",
+              type: "string",
+            }),
+            defineField({
               name: "feeType",
               title: "Fee type",
               type: "string",

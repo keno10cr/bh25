@@ -48,7 +48,18 @@ export const languages = {
     flag: "/info/flag-brazil-sm.png",
     nativeName: "Português",
   },
+  ar: {
+    code: "ar",
+    name: "Arabic",
+    flag: "/info/flag-arabiasaudita-sm.png",
+    nativeName: "العربية",
+  },
 };
+
+function applyDocumentLanguage(langCode) {
+  document.documentElement.lang = langCode === "ar" ? "ar-SA" : langCode;
+  document.documentElement.dir = langCode === "ar" ? "rtl" : "ltr";
+}
 
 export function LanguageProvider({ children }) {
   const [language, setLanguage] = useState("en");
@@ -58,11 +69,13 @@ export function LanguageProvider({ children }) {
     const savedLanguage = localStorage.getItem("blessedhouse-language");
     if (savedLanguage && languages[savedLanguage]) {
       setLanguage(savedLanguage);
+      applyDocumentLanguage(savedLanguage);
     } else {
-      // Try to detect browser language
+      // Try to detect browser language. ar-SA maps to Arabic.
       const browserLang = navigator.language.split("-")[0];
       if (languages[browserLang]) {
         setLanguage(browserLang);
+        applyDocumentLanguage(browserLang);
       }
     }
   }, []);
@@ -78,7 +91,7 @@ export function LanguageProvider({ children }) {
       }
 
       localStorage.setItem("blessedhouse-language", langCode);
-      document.documentElement.lang = langCode;
+      applyDocumentLanguage(langCode);
       trackLanguageSwitched({
         previous_language: previous,
         new_language: langCode,

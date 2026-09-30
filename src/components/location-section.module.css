@@ -76,6 +76,9 @@
   font-style: italic;
   display: inline-block;
   min-height: 1.5em;
+  /* Each letter is its own box for the typewriter. Keep this name left to right so Arabic pages do not spell it backwards. */
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 .char {

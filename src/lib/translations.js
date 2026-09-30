@@ -1,6 +1,7 @@
 // Translation files for all languages
 
 import { PVG_I18N } from "../data/pvg-i18n.js";
+import { arTranslations } from "./translations-ar.js";
 
 export const translations = {
   en: {
@@ -4894,7 +4895,8 @@ export const translations = {
       close: "Fechar",
       error: "Não foi possível salvar sua mensagem. Tente novamente."
     }
-  }
+  },
+  ar: arTranslations
 };
 
 for (const [lang, copy] of Object.entries(PVG_I18N)) {

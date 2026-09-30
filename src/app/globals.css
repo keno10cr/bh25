@@ -177,6 +177,12 @@ body {
   background-color: var(--color-neutral-light);
 }
 
+/* REM has no Arabic glyphs. Prefer a system Arabic face while this language is active. */
+html[lang="ar"] body,
+html[lang="ar-SA"] body {
+  font-family: "SF Arabic", "Geeza Pro", "Noto Naskh Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
 button,
 input,
 select,

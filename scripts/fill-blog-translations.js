@@ -15,6 +15,7 @@ const LOCALES = [
   { code: "fr", suffix: "Fr", target: "fr" },
   { code: "ja", suffix: "Ja", target: "ja" },
   { code: "pt", suffix: "Pt", target: "pt" },
+  { code: "ar", suffix: "Ar", target: "ar" },
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -125,11 +126,11 @@ async function main() {
     socialTitle,
     socialHook,
     content,
-    titleEs, titleDe, titleNl, titleFr, titleJa, titlePt,
-    excerptEs, excerptDe, excerptNl, excerptFr, excerptJa, excerptPt,
-    socialTitleEs, socialTitleDe, socialTitleNl, socialTitleFr, socialTitleJa, socialTitlePt,
-    socialHookEs, socialHookDe, socialHookNl, socialHookFr, socialHookJa, socialHookPt,
-    contentEs, contentDe, contentNl, contentFr, contentJa, contentPt
+    titleEs, titleDe, titleNl, titleFr, titleJa, titlePt, titleAr,
+    excerptEs, excerptDe, excerptNl, excerptFr, excerptJa, excerptPt, excerptAr,
+    socialTitleEs, socialTitleDe, socialTitleNl, socialTitleFr, socialTitleJa, socialTitlePt, socialTitleAr,
+    socialHookEs, socialHookDe, socialHookNl, socialHookFr, socialHookJa, socialHookPt, socialHookAr,
+    contentEs, contentDe, contentNl, contentFr, contentJa, contentPt, contentAr
   }`);
 
   console.log(`Translating ${posts.length} posts (resume safe)...`);

@@ -7,6 +7,7 @@ export const activitiesQuery = `*[_type == "activity" && !(_id in path("drafts.*
   titleFr,
   titleJa,
   titlePt,
+  titleAr,
   "slug": slug.current,
   groupOnly,
   category,
@@ -18,6 +19,7 @@ export const activitiesQuery = `*[_type == "activity" && !(_id in path("drafts.*
   durationFr,
   durationJa,
   durationPt,
+  durationAr,
   groupSize,
   groupSizeEs,
   groupSizeDe,
@@ -25,6 +27,7 @@ export const activitiesQuery = `*[_type == "activity" && !(_id in path("drafts.*
   groupSizeFr,
   groupSizeJa,
   groupSizePt,
+  groupSizeAr,
   coordinates,
   "image": image.asset->url,
   "imageAlt": image.alt,
@@ -37,6 +40,7 @@ export const activitiesQuery = `*[_type == "activity" && !(_id in path("drafts.*
   "whatsIncludedFr": whatsIncludedFr[]{"label": coalesce(label, @)}.label,
   "whatsIncludedJa": whatsIncludedJa[]{"label": coalesce(label, @)}.label,
   "whatsIncludedPt": whatsIncludedPt[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedAr": whatsIncludedAr[]{"label": coalesce(label, @)}.label,
   gallery[]{
     "url": asset->url,
     alt
@@ -58,6 +62,7 @@ export const activityBySlugQuery = `*[_type == "activity" && slug.current == $sl
   titleFr,
   titleJa,
   titlePt,
+  titleAr,
   "slug": slug.current,
   groupOnly,
   category,
@@ -69,6 +74,7 @@ export const activityBySlugQuery = `*[_type == "activity" && slug.current == $sl
   durationFr,
   durationJa,
   durationPt,
+  durationAr,
   groupSize,
   groupSizeEs,
   groupSizeDe,
@@ -76,6 +82,7 @@ export const activityBySlugQuery = `*[_type == "activity" && slug.current == $sl
   groupSizeFr,
   groupSizeJa,
   groupSizePt,
+  groupSizeAr,
   coordinates,
   "image": image.asset->url,
   "imageAlt": image.alt,
@@ -86,6 +93,7 @@ export const activityBySlugQuery = `*[_type == "activity" && slug.current == $sl
   descriptionFr,
   descriptionJa,
   descriptionPt,
+  descriptionAr,
   "whatsIncluded": whatsIncluded[]{"label": coalesce(label, @)}.label,
   "whatsIncludedEs": whatsIncludedEs[]{"label": coalesce(label, @)}.label,
   "whatsIncludedDe": whatsIncludedDe[]{"label": coalesce(label, @)}.label,
@@ -93,6 +101,7 @@ export const activityBySlugQuery = `*[_type == "activity" && slug.current == $sl
   "whatsIncludedFr": whatsIncludedFr[]{"label": coalesce(label, @)}.label,
   "whatsIncludedJa": whatsIncludedJa[]{"label": coalesce(label, @)}.label,
   "whatsIncludedPt": whatsIncludedPt[]{"label": coalesce(label, @)}.label,
+  "whatsIncludedAr": whatsIncludedAr[]{"label": coalesce(label, @)}.label,
   gallery[]{
     "url": asset->url,
     alt
@@ -179,6 +188,7 @@ export const blogPostsQuery = `*[_type in ["blog", "familyBlog"]] | order(publis
   titleFr,
   titleJa,
   titlePt,
+  titleAr,
   "slug": slug.current,
   category,
   publishedAt,
@@ -189,6 +199,7 @@ export const blogPostsQuery = `*[_type in ["blog", "familyBlog"]] | order(publis
   excerptFr,
   excerptJa,
   excerptPt,
+  excerptAr,
   socialTitle,
   socialTitleEs,
   socialTitleDe,
@@ -196,6 +207,7 @@ export const blogPostsQuery = `*[_type in ["blog", "familyBlog"]] | order(publis
   socialTitleFr,
   socialTitleJa,
   socialTitlePt,
+  socialTitleAr,
   "socialHook": coalesce(socialHook, excerpt),
   socialHookEs,
   socialHookDe,
@@ -203,6 +215,7 @@ export const blogPostsQuery = `*[_type in ["blog", "familyBlog"]] | order(publis
   socialHookFr,
   socialHookJa,
   socialHookPt,
+  socialHookAr,
   "featuredImage": featuredImage.asset->url,
   "featuredImageAlt": featuredImage.alt
 }`;
@@ -217,6 +230,7 @@ export const blogPostBySlugQuery = `*[_type in ["blog", "familyBlog"] && slug.cu
   titleFr,
   titleJa,
   titlePt,
+  titleAr,
   "slug": slug.current,
   category,
   publishedAt,
@@ -227,6 +241,7 @@ export const blogPostBySlugQuery = `*[_type in ["blog", "familyBlog"] && slug.cu
   excerptFr,
   excerptJa,
   excerptPt,
+  excerptAr,
   socialTitle,
   socialTitleEs,
   socialTitleDe,
@@ -234,6 +249,7 @@ export const blogPostBySlugQuery = `*[_type in ["blog", "familyBlog"] && slug.cu
   socialTitleFr,
   socialTitleJa,
   socialTitlePt,
+  socialTitleAr,
   "socialHook": coalesce(socialHook, excerpt),
   socialHookEs,
   socialHookDe,
@@ -241,6 +257,7 @@ export const blogPostBySlugQuery = `*[_type in ["blog", "familyBlog"] && slug.cu
   socialHookFr,
   socialHookJa,
   socialHookPt,
+  socialHookAr,
   "featuredImage": featuredImage.asset->url,
   "featuredImageAlt": featuredImage.alt,
   "gallery": gallery[defined(asset)]{ "url": asset->url, alt },
@@ -250,7 +267,8 @@ export const blogPostBySlugQuery = `*[_type in ["blog", "familyBlog"] && slug.cu
   contentNl,
   contentFr,
   contentJa,
-  contentPt
+  contentPt,
+  contentAr
 }`;
 
 export const blogSlugsQuery = `*[_type in ["blog", "familyBlog"] && defined(slug.current)].slug.current`;

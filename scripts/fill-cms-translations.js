@@ -24,6 +24,7 @@ const LOCALES = [
   { lang: "fr", suffix: "Fr" },
   { lang: "ja", suffix: "Ja" },
   { lang: "pt", suffix: "Pt" },
+  { lang: "ar", suffix: "Ar" },
 ];
 
 function toBlocks(text, prefix) {

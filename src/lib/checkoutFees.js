@@ -9,6 +9,7 @@ const LOCALE_TITLE_KEYS = {
   fr: "titleFr",
   ja: "titleJa",
   pt: "titlePt",
+  ar: "titleAr",
 };
 
 /** Normalize Sanity catalog + legacy single service fee fallback. */
@@ -25,6 +26,7 @@ export function normalizeCheckoutFees(settings = {}) {
         titleFr: row.titleFr,
         titleJa: row.titleJa,
         titlePt: row.titlePt,
+        titleAr: row.titleAr,
         feeType: row.feeType === "flat" ? "flat" : "percentage",
         amount: Number(row.amount) || 0,
         application: row.application === "perNight" ? "perNight" : "perStay",
@@ -80,6 +82,7 @@ export function calculateCheckoutFeeLines(fees, { staySubtotal, nights }) {
       titleFr: fee.titleFr,
       titleJa: fee.titleJa,
       titlePt: fee.titlePt,
+      titleAr: fee.titleAr,
       feeType: fee.feeType,
       amount: fee.amount,
       application: fee.application,

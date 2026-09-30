@@ -187,6 +187,7 @@ export default function LocationSection({ copy }) {
             className={`${styles.mapsQuery}${
               mapsQuery.fromCms ? "" : " cms-fallback"
             }`}
+            dir="ltr"
             ref={textRef}
           >
             {fullText.split("").map((char, index) => (

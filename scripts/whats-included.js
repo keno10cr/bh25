@@ -1,4 +1,4 @@
-const WHATS_INCLUDED_LOCALE_SUFFIXES = ["", "Es", "De", "Nl", "Fr", "Ja", "Pt"];
+const WHATS_INCLUDED_LOCALE_SUFFIXES = ["", "Es", "De", "Nl", "Fr", "Ja", "Pt", "Ar"];
 
 export function whatsIncludedKey(label, index, prefix = "wi") {
   const slug = String(label || "")

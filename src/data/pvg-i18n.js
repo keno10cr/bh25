@@ -428,4 +428,65 @@ export const PVG_I18N = {
       tennisNearPlayaNegra: "Quadra de tênis perto de Playa Negra",
     },
   },
+  ar: {
+    heroBrandLine: "Blessed House",
+    heroHeadline:
+      "استئجار حصري للعقار بأكمله للقيادات والفرق ومجموعات الأداء العالي",
+    heroSubtitle:
+      "عقار خاص واحد في Puerto Viejo، كوستاريكا، لمجموعات من 20 إلى 45 شخصاً.",
+    heroCta: "أرسل طلباً",
+    guaranteeTitle: "ضمان المجموعة الواحدة",
+    guaranteeBody:
+      "تحصل مجموعتكم على العقار بالكامل: الفلل والمسبح ومساحات العمل في الهواء الطلق وقاعة الطعام المشتركة. لا توجد مساحات مشتركة مع نزلاء من خارج المجموعة.",
+    pillarsTitle: "مصمم للتركيز والعمل العميق وتوافق الفريق",
+    pillars: [
+      {
+        title: "الخصوصية والأمان",
+        body: "عزل كامل للعقار للتخطيط الاستراتيجي أو النقاشات السرية أو اللقاءات الخاصة بالفريق.",
+      },
+      {
+        title: "بيئة للتوافق",
+        body: "إنترنت عالي السرعة ومساحات تعاون في الهواء الطلق وإحاطة هادئة من الغابة المطيرة.",
+      },
+      {
+        title: "ضيافة متكاملة",
+        body: "خطط وجبات حسب الطلب ونقل من المطار وتنسيق الجولات المحلية، وكلها مشمولة.",
+      },
+    ],
+    capacityTitle: "السعة والإعداد",
+    capacitySpecs: [
+      {
+        label: "الإشغال الكلي",
+        text: "من 20 إلى 45 نزيلاً في فلل خاصة",
+      },
+      {
+        label: "المرافق",
+        text: "مسبح ومساحات تجمع مخصصة ومسارات طبيعية وقرب من شواطئ الكاريبي",
+      },
+    ],
+    locationTitle: "الموقع",
+    locationLead:
+      "Puerto Viejo، Limón، كوستاريكا. عقار خاص واحد في غابة الكاريبي المطيرة.",
+    locationLegendLabel: "Blessed House",
+    activitiesTitle: "أنشطة حول العقار",
+    inquiryTitle: "أرسل طلباً",
+    inquiryLead:
+      "أخبرونا بمن سيأتي وبخيارات التواريخ المفضلة. سنرد بخطوات المتابعة.",
+    inquirySubmitLabel: "إرسال الطلب",
+    inquirySubmittingLabel: "جارٍ الإرسال...",
+    inquirySuccessMessage:
+      "شكراً لكم. وصل طلبكم وسنتابع عبر البريد الإلكتروني قريباً.",
+    organizationLabel: "اسم الجهة",
+    attendeesLabel: "عدد الحضور المتوقع (من 20 إلى 45)",
+    datesLabel: "التواريخ المستهدفة",
+    datesHint:
+      "اختاروا حتى 3 فترات مفضلة. أضيفوا فترة أخرى بعد تأكيد الفترة الحالية.",
+    addRangeLabel: "إضافة فترة أخرى",
+    contactNameLabel: "اسمكم",
+    emailLabel: "البريد الإلكتروني للتواصل",
+    optionLabel: "خيار",
+    activityLabels: {
+      tennisNearPlayaNegra: "ملعب تنس قرب Playa Negra",
+    },
+  },
 };
