@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useSmoothParallax } from "@/lib/parallax-motion";
 import DateRangePicker, {
@@ -31,6 +32,11 @@ const EMPTY_FORM = {
 
 const EMPTY_RANGE = { checkIn: "", checkOut: "" };
 
+const ATTENDEE_RANGE_IDS = ["20-29", "30-39", "40-45"];
+const ATTENDEE_RANGE_FALLBACK = ["20 to 29", "30 to 39", "40 to 45"];
+
+const DRAG_CLICK_THRESHOLD = 6;
+
 function resolveActivityLabel(image, t) {
   if (image.labelKey) {
     const labeled = t(`pvg.activityLabels.${image.labelKey}`);
@@ -58,8 +64,59 @@ function resolveActivityLabel(image, t) {
   return raw;
 }
 
+function resolveActivityDescription(image, t, language) {
+  const translated = image.translationKey
+    ? t(`activitiesPage.${image.translationKey}.description`)
+    : "";
+  const fromTranslation =
+    translated && !String(translated).startsWith("activitiesPage.")
+      ? translated
+      : "";
+  if (language !== "en" && fromTranslation) return fromTranslation;
+  return image.description || fromTranslation || "";
+}
+
+function shortDescription(text, max = 220) {
+  const clean = String(text || "").replace(/\s+/g, " ").trim();
+  if (!clean) return "";
+  const sentences = clean.match(/[^.!?。]+[.!?。]+/g) || [clean];
+  let out = "";
+  for (const sentence of sentences) {
+    const next = `${out} ${sentence}`.trim();
+    if (out && next.length > max) break;
+    out = next;
+    if (out.length >= max * 0.6) break;
+  }
+  if (out.length > max + 40) {
+    out = `${out.slice(0, max).replace(/\s+\S*$/, "")}…`;
+  }
+  return out;
+}
+
 function textValue(field, fallback, language, tKey, t) {
   return resolveCopy(field, t(tKey) || fallback, language).value;
+}
+
+function PawIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+      <g fill="currentColor">
+        <ellipse cx="6" cy="9.5" rx="2.1" ry="2.6" />
+        <ellipse cx="10" cy="5.6" rx="2.1" ry="2.7" />
+        <ellipse cx="14" cy="5.6" rx="2.1" ry="2.7" />
+        <ellipse cx="18" cy="9.5" rx="2.1" ry="2.6" />
+        <path d="M12 11c-2.9 0-6 3.4-6 6.2 0 1.8 1.4 2.8 3 2.8 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.6 0 3-1 3-2.8 0-2.8-3.1-6.2-6-6.2z" />
+      </g>
+    </svg>
+  );
+}
+
+function StepBadge({ n }) {
+  return (
+    <span className={styles.stepBadge} aria-hidden="true">
+      {n}
+    </span>
+  );
 }
 
 export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
@@ -69,13 +126,18 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
   const heroRef = useRef(null);
   const imageRef = useRef(null);
   const formRef = useRef(null);
+  const capacityRef = useRef(null);
   const trackRef = useRef(null);
   const offsetRef = useRef(0);
+  const modalOpenRef = useRef(false);
+  const [petsOpen, setPetsOpen] = useState(false);
   const dragState = useRef({
     active: false,
     pointerId: null,
     startX: 0,
     baseX: 0,
+    moved: false,
+    index: null,
   });
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [ranges, setRanges] = useState([{ ...EMPTY_RANGE }]);
@@ -83,8 +145,13 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState("");
+  const [showFixHint, setShowFixHint] = useState(false);
   const [errors, setErrors] = useState({});
   const [marqueeDragging, setMarqueeDragging] = useState(false);
+  const [capacityVisible, setCapacityVisible] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(null);
+
+  modalOpenRef.current = activeImageIndex !== null;
 
   useEffect(() => {
     const lang = String(searchParams.get("lang") || "").toLowerCase();
@@ -102,6 +169,17 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
       return;
     }
     loop.set(imageRef.current, { y: -rect.top * 0.35, lerp: 0.16 });
+  }, []);
+
+  useEffect(() => {
+    const el = capacityRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => setCapacityVisible(entry.intersectionRatio >= 0.3),
+      { threshold: [0, 0.3] }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -126,7 +204,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
       const dt = Math.min((ts - lastTs) / 1000, 0.05);
       lastTs = ts;
 
-      if (!dragState.current.active) {
+      if (!dragState.current.active && !modalOpenRef.current) {
         offsetRef.current = wrapOffset(offsetRef.current - speedPxPerSec * dt);
         track.style.transform = `translate3d(${offsetRef.current}px, 0, 0)`;
       }
@@ -138,6 +216,49 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
     return () => window.cancelAnimationFrame(frameId);
   }, [galleryImages.length]);
 
+  const closeModal = useCallback(() => setActiveImageIndex(null), []);
+  const stepModal = useCallback(
+    (delta) => {
+      if (galleryImages.length === 0) return;
+      setActiveImageIndex((index) =>
+        index === null
+          ? index
+          : (index + delta + galleryImages.length) % galleryImages.length
+      );
+    },
+    [galleryImages.length]
+  );
+
+  useEffect(() => {
+    if (activeImageIndex === null) return undefined;
+    const onKey = (event) => {
+      if (event.key === "Escape") closeModal();
+      if (event.key === "ArrowRight") stepModal(1);
+      if (event.key === "ArrowLeft") stepModal(-1);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [activeImageIndex, closeModal, stepModal]);
+
+  useEffect(() => {
+    if (!petsOpen) return undefined;
+    const onKey = (event) => {
+      if (event.key === "Escape") setPetsOpen(false);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [petsOpen]);
+
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -147,6 +268,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
     setFormError("");
+    setShowFixHint(false);
   };
 
   const updateRange = (index, nextRange) => {
@@ -154,6 +276,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
       prev.map((range, i) => (i === index ? nextRange : range))
     );
     setErrors((prev) => ({ ...prev, dateRanges: "" }));
+    setShowFixHint(false);
   };
 
   const clearRange = (index) => {
@@ -184,11 +307,14 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
     const track = trackRef.current;
     if (!track) return;
 
+    const item = event.target.closest?.("[data-gallery-index]");
     dragState.current = {
       active: true,
       pointerId: event.pointerId,
       startX: event.clientX,
       baseX: offsetRef.current,
+      moved: false,
+      index: item ? Number(item.dataset.galleryIndex) : null,
     };
     setMarqueeDragging(true);
     event.currentTarget.setPointerCapture?.(event.pointerId);
@@ -205,8 +331,9 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
     const track = trackRef.current;
     if (!track) return;
 
-    const nextX =
-      dragState.current.baseX + (event.clientX - dragState.current.startX);
+    const dx = event.clientX - dragState.current.startX;
+    if (Math.abs(dx) > DRAG_CLICK_THRESHOLD) dragState.current.moved = true;
+    const nextX = dragState.current.baseX + dx;
     offsetRef.current = nextX;
     track.style.transform = `translate3d(${nextX}px, 0, 0)`;
   };
@@ -230,10 +357,17 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
       if (track) track.style.transform = `translate3d(${next}px, 0, 0)`;
     }
 
+    const { moved, index } = dragState.current;
+    const isTap = event.type === "pointerup" && !moved && index !== null;
+
     dragState.current.active = false;
     dragState.current.pointerId = null;
     setMarqueeDragging(false);
     event.currentTarget.releasePointerCapture?.(event.pointerId);
+
+    if (isTap && galleryImages.length > 0) {
+      setActiveImageIndex(index % galleryImages.length);
+    }
   };
 
   const validate = () => {
@@ -241,13 +375,8 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
     if (!formData.organizationName.trim()) {
       next.organizationName = "Organization name is required.";
     }
-    if (!formData.attendees) {
-      next.attendees = "Estimated attendees is required.";
-    } else {
-      const count = Number(formData.attendees);
-      if (!Number.isFinite(count) || count < 20 || count > 45) {
-        next.attendees = "Enter a number between 20 and 45.";
-      }
+    if (!ATTENDEE_RANGE_IDS.includes(formData.attendees)) {
+      next.attendees = "Choose your group size.";
     }
 
     const completeRanges = visibleRanges.filter((r) => r.checkIn && r.checkOut);
@@ -276,12 +405,16 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!validate()) return;
+    if (!validate()) {
+      setShowFixHint(true);
+      return;
+    }
 
     const dateRanges = visibleRanges.filter((r) => r.checkIn && r.checkOut);
 
     setLoading(true);
     setFormError("");
+    setShowFixHint(false);
 
     try {
       const response = await fetch("/api/group-inquiry", {
@@ -301,6 +434,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
       setFormData(EMPTY_FORM);
       setRanges([{ ...EMPTY_RANGE }]);
       setRangeCount(1);
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch {
       setFormError("Something went wrong. Please try again.");
     } finally {
@@ -389,10 +523,6 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
     "pvg.capacityTitle",
     t
   );
-  const capacityImage =
-    copy?.capacityImage?.value || PVG_PAGE_DEFAULTS.capacityImage;
-  const capacityImageAlt =
-    copy?.capacityImageAlt?.value || PVG_PAGE_DEFAULTS.capacityImageAlt;
   const specsSource =
     copy?.capacitySpecs?.length > 0
       ? copy.capacitySpecs
@@ -426,6 +556,21 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
     "pvg.locationLead",
     t
   );
+  const petsTitle = textValue(
+    copy?.petsTitle,
+    PVG_PAGE_DEFAULTS.petsTitle,
+    language,
+    "pvg.petsTitle",
+    t
+  );
+  const petsNote = textValue(
+    copy?.petsNote,
+    PVG_PAGE_DEFAULTS.petsNote,
+    language,
+    "pvg.petsNote",
+    t
+  );
+  const petsLinkLabel = t("pvg.petsLinkLabel");
   const locationLegendLabel = textValue(
     copy?.locationLegendLabel,
     PVG_PAGE_DEFAULTS.locationLegendLabel,
@@ -440,6 +585,34 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
     "pvg.activitiesTitle",
     t
   );
+
+  const mapViewLabelsRaw = t("pvg.mapViews");
+  const mapViewLabels =
+    mapViewLabelsRaw && typeof mapViewLabelsRaw === "object"
+      ? mapViewLabelsRaw
+      : {};
+  const mapViews = mapPin
+    ? [
+        {
+          id: "costaRica",
+          label: mapViewLabels.costaRica || "Costa Rica",
+          center: [-84.15, 9.75],
+          zoom: 6.3,
+        },
+        {
+          id: "caribeSur",
+          label: mapViewLabels.caribeSur || "Caribe Sur",
+          center: [-82.78, 9.65],
+          zoom: 10.2,
+        },
+        {
+          id: "blessedHouse",
+          label: mapViewLabels.blessedHouse || locationLegendLabel,
+          center: [mapPin.coordinates.lng, mapPin.coordinates.lat],
+          zoom: 13,
+        },
+      ]
+    : [];
 
   const inquiryTitle = textValue(
     copy?.inquiryTitle,
@@ -476,6 +649,38 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
     "pvg.inquirySuccessMessage",
     t
   );
+
+  const hostImage = copy?.hostImage?.value || PVG_PAGE_DEFAULTS.hostImage;
+  const hostImageAlt =
+    copy?.hostImageAlt?.value || PVG_PAGE_DEFAULTS.hostImageAlt;
+  const hostQuote = textValue(
+    copy?.hostQuote,
+    PVG_PAGE_DEFAULTS.hostQuote,
+    language,
+    "pvg.hostQuote",
+    t
+  );
+  const hostName = copy?.hostName?.value || PVG_PAGE_DEFAULTS.hostName;
+  const hostRole = textValue(
+    copy?.hostRole,
+    PVG_PAGE_DEFAULTS.hostRole,
+    language,
+    "pvg.hostRole",
+    t
+  );
+
+  const attendeeLabelsRaw = t("pvg.attendeeRanges");
+  const attendeeLabels = Array.isArray(attendeeLabelsRaw)
+    ? attendeeLabelsRaw
+    : ATTENDEE_RANGE_FALLBACK;
+  const attendeeUnit = t("pvg.attendeeUnit");
+
+  const activeImage =
+    activeImageIndex !== null ? galleryImages[activeImageIndex] : null;
+  const activeImageLabel = activeImage ? resolveActivityLabel(activeImage, t) : "";
+  const activeImageDescription = activeImage
+    ? shortDescription(resolveActivityDescription(activeImage, t, language))
+    : "";
 
   return (
     <main className={styles.page}>
@@ -532,54 +737,70 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
         </div>
       </section>
 
-      <section className={styles.capacity}>
+      <section
+        ref={capacityRef}
+        className={`${styles.capacity} ${
+          capacityVisible ? styles.capacityVisible : ""
+        }`}
+      >
         <div className={styles.container}>
           <div className={styles.capacityGrid}>
-            <div className={styles.capacityCopy}>
-              <h2>{capacityTitle}</h2>
-              <ul className={styles.specList}>
-                {capacitySpecs.map((spec) => (
-                  <li key={spec.id}>
-                    <strong>{spec.label}:</strong> {spec.text}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className={styles.capacityMedia}>
-              <img
-                src={capacityImage}
-                alt={capacityImageAlt}
-                className={styles.capacityImage}
-              />
-            </div>
+            <h2 className={styles.capacityTitle}>{capacityTitle}</h2>
+            <ul className={styles.specList}>
+              {capacitySpecs.map((spec, index) => (
+                <li key={spec.id} style={{ "--i": index }}>
+                  <span className={styles.specLabel}>{spec.label}</span>
+                  <span className={styles.specText}>{spec.text}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
       <section className={styles.location}>
-        <div className={styles.container}>
-          <h2>{locationTitle}</h2>
-          <p className={styles.locationLead}>{locationLead}</p>
-          {mapPin ? (
-            <div className={styles.mapWrap}>
-              <ActivitiesMap
-                activities={[
-                  {
-                    ...mapPin,
-                    title: locationLegendLabel,
-                    name: locationLegendLabel,
-                  },
-                ]}
-                legendItems={[
-                  { title: locationLegendLabel, color: "#0a4c3a" },
-                ]}
-                selectedSlug={mapPin.slug}
-                showCoordinates={mapPin.coordinates}
-                fitToPins
-                showLegend
-              />
+        <div className={styles.containerWide}>
+          <div className={styles.locationGrid}>
+            <div className={styles.locationCopy}>
+              <h2>{locationTitle}</h2>
+              <p className={styles.locationLead}>{locationLead}</p>
+              {petsTitle ? (
+                <button
+                  type="button"
+                  className={styles.petsTrigger}
+                  onClick={() => setPetsOpen(true)}
+                  aria-haspopup="dialog"
+                >
+                  <span className={styles.petsIcon}>
+                    <PawIcon />
+                  </span>
+                  <span>{petsTitle}</span>
+                  <span className={styles.petsInfo} aria-hidden="true">
+                    i
+                  </span>
+                </button>
+              ) : null}
             </div>
-          ) : null}
+            {mapPin ? (
+              <div className={styles.mapWrap}>
+                <ActivitiesMap
+                  activities={[
+                    {
+                      ...mapPin,
+                      title: locationLegendLabel,
+                      name: locationLegendLabel,
+                    },
+                  ]}
+                  selectedSlug={mapPin.slug}
+                  showCoordinates={mapPin.coordinates}
+                  fitToPins
+                  showLegend={false}
+                  views={mapViews}
+                  initialViewId="blessedHouse"
+                />
+              </div>
+            ) : null}
+          </div>
         </div>
 
         {galleryImages.length > 0 ? (
@@ -600,14 +821,24 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
               <div className={styles.marqueeTrack} ref={trackRef}>
                 {loopImages.map((image, index) => {
                   const label = resolveActivityLabel(image, t);
+                  const isClone = index >= galleryImages.length;
                   return (
-                    <div
+                    <button
+                      type="button"
                       key={`${image.src}-${index}`}
                       className={styles.marqueeItem}
+                      data-gallery-index={index}
+                      tabIndex={isClone ? -1 : 0}
+                      aria-hidden={isClone || undefined}
+                      onClick={(event) => {
+                        if (event.detail === 0) {
+                          setActiveImageIndex(index % galleryImages.length);
+                        }
+                      }}
                     >
                       <img src={image.src} alt={label} draggable={false} />
-                      <p className={styles.marqueeCaption}>{label}</p>
-                    </div>
+                      <span className={styles.marqueeCaption}>{label}</span>
+                    </button>
                   );
                 })}
               </div>
@@ -617,176 +848,330 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
       </section>
 
       <section className={styles.inquiry} ref={formRef} id="inquiry">
-        <div className={styles.containerNarrow}>
-          <h2>{inquiryTitle}</h2>
-          <p className={styles.inquiryLead}>{inquiryLead}</p>
+        <div className={styles.container}>
+          <div className={styles.inquiryGrid}>
+            <div className={styles.inquiryMain}>
+              <h2>{inquiryTitle}</h2>
+              <p className={styles.inquiryLead}>{inquiryLead}</p>
 
-          {submitted ? (
-            <div className={styles.successMessage} role="status">
-              <p>{inquirySuccessMessage}</p>
-            </div>
-          ) : (
-            <form className={styles.form} onSubmit={handleSubmit} noValidate>
-              {formError ? (
-                <div className={styles.errorBanner} role="alert">
-                  <p>{formError}</p>
+              {submitted ? (
+                <div className={styles.successMessage} role="status">
+                  <p>{inquirySuccessMessage}</p>
                 </div>
-              ) : null}
-
-              <div className={styles.honeypot} aria-hidden="true">
-                <label htmlFor="website">Website</label>
-                <input
-                  id="website"
-                  name="website"
-                  value={formData.website}
-                  onChange={handleChange}
-                  tabIndex={-1}
-                  autoComplete="off"
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="organizationName">
-                  {t("pvg.organizationLabel")}{" "}
-                  <span className={styles.required}>*</span>
-                </label>
-                <input
-                  id="organizationName"
-                  name="organizationName"
-                  value={formData.organizationName}
-                  onChange={handleChange}
-                  autoComplete="organization"
-                />
-                {errors.organizationName ? (
-                  <span className={styles.fieldError}>
-                    {errors.organizationName}
-                  </span>
-                ) : null}
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="attendees">
-                  {t("pvg.attendeesLabel")}{" "}
-                  <span className={styles.required}>*</span>
-                </label>
-                <input
-                  id="attendees"
-                  name="attendees"
-                  type="number"
-                  min={20}
-                  max={45}
-                  value={formData.attendees}
-                  onChange={handleChange}
-                />
-                {errors.attendees ? (
-                  <span className={styles.fieldError}>{errors.attendees}</span>
-                ) : null}
-              </div>
-
-              <div className={styles.dateRanges}>
-                <p className={styles.dateRangesLabel}>
-                  {t("pvg.datesLabel")}{" "}
-                  <span className={styles.required}>*</span>
-                </p>
-                <p className={styles.dateRangesHint}>{t("pvg.datesHint")}</p>
-
-                {visibleRanges.map((range, index) => (
-                  <div key={`range-${index}`} className={styles.dateRangeRow}>
-                    <DateRangePicker
-                      label={`${t("pvg.optionLabel")} ${index + 1}${
-                        range.checkIn && range.checkOut
-                          ? ` · ${formatRangeLabel(range)}`
-                          : ""
-                      }`}
-                      checkIn={range.checkIn}
-                      checkOut={range.checkOut}
-                      onChange={(next) => updateRange(index, next)}
-                      onClear={
-                        index === 0 && rangeCount === 1
-                          ? () => clearRange(0)
-                          : index > 0
-                            ? () => {
-                                setRanges((prev) => {
-                                  const next = prev.filter((_, i) => i !== index);
-                                  while (next.length < 1) {
-                                    next.push({ ...EMPTY_RANGE });
-                                  }
-                                  return next;
-                                });
-                                setRangeCount((n) => Math.max(1, n - 1));
-                              }
-                            : () => clearRange(index)
-                      }
-                      error={
-                        index === 0 && errors.dateRanges
-                          ? errors.dateRanges
-                          : ""
-                      }
+              ) : (
+                <form className={styles.form} onSubmit={handleSubmit} noValidate>
+                  <div className={styles.honeypot} aria-hidden="true">
+                    <label htmlFor="website">Website</label>
+                    <input
+                      id="website"
+                      name="website"
+                      value={formData.website}
+                      onChange={handleChange}
+                      tabIndex={-1}
+                      autoComplete="off"
                     />
                   </div>
-                ))}
 
-                {canAddAnother ? (
-                  <button
-                    type="button"
-                    className={styles.addRangeBtn}
-                    onClick={addRange}
-                  >
-                    {t("pvg.addRangeLabel")}
-                  </button>
-                ) : null}
-              </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="organizationName">
+                      <StepBadge n={1} />
+                      <span>{t("pvg.organizationLabel")}</span>
+                      <span className={styles.required}>*</span>
+                    </label>
+                    <input
+                      id="organizationName"
+                      name="organizationName"
+                      value={formData.organizationName}
+                      onChange={handleChange}
+                      autoComplete="organization"
+                      aria-invalid={Boolean(errors.organizationName)}
+                    />
+                    {errors.organizationName ? (
+                      <span className={styles.fieldError}>
+                        {errors.organizationName}
+                      </span>
+                    ) : null}
+                  </div>
 
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="contactName">
-                    {t("pvg.contactNameLabel")}{" "}
-                    <span className={styles.required}>*</span>
-                  </label>
-                  <input
-                    id="contactName"
-                    name="contactName"
-                    value={formData.contactName}
-                    onChange={handleChange}
-                    autoComplete="name"
-                  />
-                  {errors.contactName ? (
-                    <span className={styles.fieldError}>
-                      {errors.contactName}
-                    </span>
-                  ) : null}
-                </div>
+                  <fieldset className={styles.fieldset}>
+                    <legend className={styles.groupLabel}>
+                      <StepBadge n={2} />
+                      <span>{t("pvg.attendeesLabel")}</span>
+                      <span className={styles.required}>*</span>
+                    </legend>
+                    <div className={styles.rangeCards}>
+                      {ATTENDEE_RANGE_IDS.map((id, index) => {
+                        const selected = formData.attendees === id;
+                        return (
+                          <label
+                            key={id}
+                            className={`${styles.rangeCard} ${
+                              selected ? styles.rangeCardActive : ""
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="attendees"
+                              value={id}
+                              checked={selected}
+                              onChange={handleChange}
+                              className={styles.srOnly}
+                            />
+                            <span className={styles.rangeValue}>
+                              {attendeeLabels[index] ||
+                                ATTENDEE_RANGE_FALLBACK[index]}
+                            </span>
+                            <span className={styles.rangeUnit}>
+                              {attendeeUnit}
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                    {errors.attendees ? (
+                      <span className={styles.fieldError}>
+                        {errors.attendees}
+                      </span>
+                    ) : null}
+                  </fieldset>
 
-                <div className={styles.formGroup}>
-                  <label htmlFor="email">
-                    {t("pvg.emailLabel")}{" "}
-                    <span className={styles.required}>*</span>
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    autoComplete="email"
-                  />
-                  {errors.email ? (
-                    <span className={styles.fieldError}>{errors.email}</span>
-                  ) : null}
-                </div>
-              </div>
+                  <div className={styles.dateRanges}>
+                    <p className={styles.groupLabel}>
+                      <StepBadge n={3} />
+                      <span>{t("pvg.datesLabel")}</span>
+                      <span className={styles.required}>*</span>
+                    </p>
+                    <p className={styles.dateRangesHint}>{t("pvg.datesHint")}</p>
 
-              <button
-                type="submit"
-                className={styles.submit}
-                disabled={loading}
-              >
-                {loading ? inquirySubmittingLabel : inquirySubmitLabel}
-              </button>
-            </form>
-          )}
+                    {visibleRanges.map((range, index) => (
+                      <div key={`range-${index}`} className={styles.dateRangeRow}>
+                        <DateRangePicker
+                          label={`${t("pvg.optionLabel")} ${index + 1}${
+                            range.checkIn && range.checkOut
+                              ? ` · ${formatRangeLabel(range)}`
+                              : ""
+                          }`}
+                          checkIn={range.checkIn}
+                          checkOut={range.checkOut}
+                          onChange={(next) => updateRange(index, next)}
+                          onClear={
+                            index === 0 && rangeCount === 1
+                              ? () => clearRange(0)
+                              : index > 0
+                                ? () => {
+                                    setRanges((prev) => {
+                                      const next = prev.filter((_, i) => i !== index);
+                                      while (next.length < 1) {
+                                        next.push({ ...EMPTY_RANGE });
+                                      }
+                                      return next;
+                                    });
+                                    setRangeCount((n) => Math.max(1, n - 1));
+                                  }
+                                : () => clearRange(index)
+                          }
+                          error={
+                            index === 0 && errors.dateRanges
+                              ? errors.dateRanges
+                              : ""
+                          }
+                        />
+                      </div>
+                    ))}
+
+                    {canAddAnother ? (
+                      <button
+                        type="button"
+                        className={styles.addRangeBtn}
+                        onClick={addRange}
+                      >
+                        {t("pvg.addRangeLabel")}
+                      </button>
+                    ) : null}
+                  </div>
+
+                  <div className={styles.formRow}>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="contactName">
+                        <StepBadge n={4} />
+                        <span>{t("pvg.contactNameLabel")}</span>
+                        <span className={styles.required}>*</span>
+                      </label>
+                      <input
+                        id="contactName"
+                        name="contactName"
+                        value={formData.contactName}
+                        onChange={handleChange}
+                        autoComplete="name"
+                        aria-invalid={Boolean(errors.contactName)}
+                      />
+                      {errors.contactName ? (
+                        <span className={styles.fieldError}>
+                          {errors.contactName}
+                        </span>
+                      ) : null}
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label htmlFor="email">
+                        <StepBadge n={5} />
+                        <span>{t("pvg.emailLabel")}</span>
+                        <span className={styles.required}>*</span>
+                      </label>
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        autoComplete="email"
+                        aria-invalid={Boolean(errors.email)}
+                      />
+                      {errors.email ? (
+                        <span className={styles.fieldError}>{errors.email}</span>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  <div className={styles.formFooter}>
+                    {showFixHint ? (
+                      <p className={styles.formHint} role="alert">
+                        {t("pvg.fixErrors")}
+                      </p>
+                    ) : null}
+                    {formError ? (
+                      <div className={styles.errorBanner} role="alert">
+                        <p>{formError}</p>
+                      </div>
+                    ) : null}
+                    <button
+                      type="submit"
+                      className={styles.submit}
+                      disabled={loading}
+                    >
+                      {loading ? inquirySubmittingLabel : inquirySubmitLabel}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+
+            <aside className={styles.hostCard}>
+              {hostQuote ? (
+                <blockquote className={styles.hostQuote}>
+                  <p>“{hostQuote}”</p>
+                  <footer>
+                    <strong>{hostName}</strong>
+                    {hostRole ? <span>{hostRole}</span> : null}
+                  </footer>
+                </blockquote>
+              ) : null}
+              {hostImage ? (
+                <img
+                  src={hostImage}
+                  alt={hostImageAlt}
+                  className={styles.hostImage}
+                  loading="lazy"
+                />
+              ) : null}
+            </aside>
+          </div>
         </div>
       </section>
+
+      {activeImage ? (
+        <div
+          className={styles.modalBackdrop}
+          role="presentation"
+          onClick={closeModal}
+        >
+          <div
+            className={styles.modal}
+            role="dialog"
+            aria-modal="true"
+            aria-label={activeImageLabel}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className={styles.modalClose}
+              onClick={closeModal}
+              aria-label={t("pvg.galleryClose")}
+            >
+              ×
+            </button>
+            <div className={styles.modalMedia}>
+              <img src={activeImage.src} alt={activeImageLabel} />
+              {galleryImages.length > 1 ? (
+                <>
+                  <button
+                    type="button"
+                    className={`${styles.modalNav} ${styles.modalPrev}`}
+                    onClick={() => stepModal(-1)}
+                    aria-label={t("gallery.previousImage")}
+                  >
+                    ‹
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.modalNav} ${styles.modalNext}`}
+                    onClick={() => stepModal(1)}
+                    aria-label={t("gallery.nextImage")}
+                  >
+                    ›
+                  </button>
+                </>
+              ) : null}
+            </div>
+            <div className={styles.modalBody}>
+              <h3>{activeImageLabel}</h3>
+              {activeImageDescription ? <p>{activeImageDescription}</p> : null}
+              <span className={styles.modalCount}>
+                {activeImageIndex + 1} / {galleryImages.length}
+              </span>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {petsOpen ? (
+        <div
+          className={styles.modalBackdrop}
+          role="presentation"
+          onClick={() => setPetsOpen(false)}
+        >
+          <div
+            className={`${styles.modal} ${styles.petsModal}`}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="pets-modal-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className={styles.modalClose}
+              onClick={() => setPetsOpen(false)}
+              aria-label={t("pvg.galleryClose")}
+            >
+              ×
+            </button>
+            <div className={styles.petsModalBody}>
+              <span className={styles.petsModalIcon}>
+                <PawIcon size={26} />
+              </span>
+              <h3 id="pets-modal-title">{petsTitle}</h3>
+              {petsNote ? <p>{petsNote}</p> : null}
+              <Link
+                href="/villas"
+                className={styles.petsLink}
+                onClick={() => setPetsOpen(false)}
+              >
+                {petsLinkLabel} →
+              </Link>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }

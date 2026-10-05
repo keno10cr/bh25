@@ -99,6 +99,9 @@ export default async function PvgPage() {
                 "",
               labelKey,
               title: labelKey ? "" : fallbackTitle,
+              description: String(
+                activity.description || activity.fullDescription || ""
+              ).trim(),
               alt:
                 fallbackTitle ||
                 activity.title ||

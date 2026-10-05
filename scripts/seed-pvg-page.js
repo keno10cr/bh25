@@ -39,8 +39,8 @@ async function seed() {
     heroImage: _heroImage,
     heroImageAlt: _heroImageAlt,
     guaranteeLogo: _guaranteeLogo,
-    capacityImage: _capacityImage,
-    capacityImageAlt: _capacityImageAlt,
+    hostImage: _hostImage,
+    hostImageAlt: _hostImageAlt,
     ...copy
   } = PVG_PAGE_DEFAULTS;
 

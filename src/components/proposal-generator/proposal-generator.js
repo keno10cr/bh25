@@ -2,11 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import { translations } from "@/lib/translations";
-import {
-  formatCoordinates,
-  mapsUrl,
-  splitProposalActivities,
-} from "@/lib/activity-groups";
+import { splitProposalActivities } from "@/lib/activity-groups";
 import { PROPOSAL_COPY } from "./copy";
 import styles from "./proposal-generator.module.css";
 
@@ -48,10 +44,10 @@ function localizeActivity(activity, locale) {
       "",
     displayDescription:
       (es
-        ? activity.descriptionEs || pack?.fullDescription || pack?.description
-        : activity.fullDescription ||
-          pack?.fullDescription ||
-          activity.description) || "",
+        ? activity.descriptionEs || pack?.description || pack?.fullDescription
+        : activity.description ||
+          pack?.description ||
+          activity.fullDescription) || "",
     displayIncluded: Array.isArray(included) ? included : [],
     displayDuration: es
       ? activity.durationEs || activity.duration
@@ -62,15 +58,7 @@ function localizeActivity(activity, locale) {
   };
 }
 
-function ServiceCard({
-  activity,
-  pickupLabel,
-  specsLine,
-  showPickup,
-}) {
-  const coords = formatCoordinates(activity.coordinates);
-  const mapHref = mapsUrl(activity.coordinates);
-
+function ServiceCard({ activity }) {
   return (
     <article className={styles.serviceCard}>
       {activity.image ? (
@@ -85,7 +73,6 @@ function ServiceCard({
         {activity.displayDescription ? (
           <p>{activity.displayDescription}</p>
         ) : null}
-        {specsLine ? <p className={styles.specsLine}>{specsLine}</p> : null}
         <p className={styles.serviceMeta}>
           {[activity.displayDuration, activity.displayGroupSize]
             .filter(Boolean)
@@ -98,20 +85,25 @@ function ServiceCard({
             ))}
           </ul>
         ) : null}
-        {showPickup && coords ? (
-          <p className={styles.pickup}>
-            <strong>{pickupLabel}:</strong>{" "}
-            {mapHref ? (
-              <a href={mapHref} target="_blank" rel="noopener noreferrer">
-                {coords}
-              </a>
-            ) : (
-              coords
-            )}
-          </p>
-        ) : null}
       </div>
     </article>
+  );
+}
+
+function ServiceSection({ title, items }) {
+  if (items.length === 0) return null;
+  const [first, ...rest] = items;
+
+  return (
+    <section className={styles.block}>
+      <div className={styles.keepTogether}>
+        <h2>{title}</h2>
+        <ServiceCard activity={first} />
+      </div>
+      {rest.map((activity) => (
+        <ServiceCard key={activity.slug || activity.id} activity={activity} />
+      ))}
+    </section>
   );
 }
 
@@ -319,36 +311,11 @@ export default function ProposalGenerator({
             <p>{copy.includesBody}</p>
           </section>
 
-          {transport.length > 0 ? (
-            <section className={styles.block}>
-              <h2>{copy.transportTitle}</h2>
-              {transport.map((activity) => (
-                <ServiceCard
-                  key={activity.slug || activity.id}
-                  activity={activity}
-                  pickupLabel={copy.pickupLabel}
-                  specsLine={copy.transportSpecs}
-                  showPickup
-                />
-              ))}
-            </section>
-          ) : null}
-
-          {meals.length > 0 ? (
-            <section className={styles.block}>
-              <h2>{copy.mealsTitle}</h2>
-              {meals.map((activity) => (
-                <ServiceCard
-                  key={activity.slug || activity.id}
-                  activity={activity}
-                  pickupLabel={copy.pickupLabel}
-                />
-              ))}
-            </section>
-          ) : null}
+          <ServiceSection title={copy.transportTitle} items={transport} />
+          <ServiceSection title={copy.mealsTitle} items={meals} />
 
           {localPreview.length > 0 ? (
-            <section className={styles.block}>
+            <section className={`${styles.block} ${styles.keepTogether}`}>
               <h2>{copy.localTitle}</h2>
               <div className={styles.localGrid}>
                 {localPreview.map((activity) => (

@@ -112,12 +112,9 @@ function localizedCopy(service) {
   return {
     title: en.name || service.slug,
     titleEs: es.name || "",
-    description: toBlocks(
-      [en.description, en.fullDescription].filter(Boolean).join("\n\n"),
-      service.slug
-    ),
+    description: toBlocks(en.fullDescription || en.description, service.slug),
     descriptionEs: toBlocks(
-      [es.description, es.fullDescription].filter(Boolean).join("\n\n"),
+      es.fullDescription || es.description,
       `${service.slug}-es`
     ),
     whatsIncluded: toWhatsIncludedItems(en.highlights, service.slug),
@@ -125,8 +122,38 @@ function localizedCopy(service) {
   };
 }
 
+async function patchCopyOnly(client) {
+  for (const service of SERVICES) {
+    const existing = await client.fetch(
+      `*[_type == "activity" && (slug.current == $slug || _id == $id)]._id`,
+      { slug: service.slug, id: service.id }
+    );
+    if (existing.length === 0) {
+      console.warn(`Skipping ${service.slug}: no document found.`);
+      continue;
+    }
+    const copy = localizedCopy(service);
+    for (const id of existing) {
+      await client
+        .patch(id)
+        .set({
+          description: copy.description,
+          descriptionEs: copy.descriptionEs,
+          whatsIncluded: copy.whatsIncluded,
+          whatsIncludedEs: copy.whatsIncludedEs,
+        })
+        .commit();
+      console.log(`Copy updated for ${service.slug} (${id}).`);
+    }
+  }
+}
+
 async function seed() {
   const client = await getClient();
+  if (process.argv.includes("--copy-only")) {
+    await patchCopyOnly(client);
+    return;
+  }
   const extraLegends = LEGEND_ITEMS.filter((item) =>
     ["transport", "dining"].includes(item.slug)
   );

@@ -9,7 +9,8 @@ export default function SiteChrome({ children, nav, footer }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
   const isProposalTool = pathname === "/ccen" || pathname === "/cces";
-  const hideChrome = isAdmin || isProposalTool;
+  const isBusinessCard = pathname === "/bc" || pathname === "/t";
+  const hideChrome = isAdmin || isProposalTool || isBusinessCard;
 
   useEffect(() => {
     const root = document.documentElement;

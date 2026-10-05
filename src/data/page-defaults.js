@@ -21,7 +21,7 @@ export const HOME_PAGE_DEFAULTS = {
     "From the crossroad at Hone Creek, keep on straight towards Puerto Viejo for 2.5kms, our entrance is on the right side of the road.",
   locationMapsInfo: "You can find us on Google Maps:",
   locationMapsQuery: "Blessed House Puerto Viejo de Talamanca",
-  locationCta: "Contact Us",
+  locationCta: "Get Directions",
   activitiesTitle: "Things to Do",
   activitiesSubtitle: "Unforgettable experiences in paradise",
   activitiesCta: "Explore All Activities",
@@ -143,6 +143,7 @@ export const FOOTER_SETTINGS_DEFAULTS = {
     },
     { _key: "blog", label: "Blog", href: "/blog", enabled: true },
     { _key: "contact", label: "Contact", href: "/contact", enabled: true },
+    { _key: "groups", label: "Book Groups", href: "/pvg", enabled: true },
   ],
   socialLinks: [
     {

@@ -1,6 +1,8 @@
 "use client";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import MapLockButton from "@/components/map-lock-button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import CmsText from "@/components/cms-text";
@@ -10,6 +12,7 @@ import styles from "./contact-info.module.css";
 export default function ContactInfo({ copy, footer }) {
     const { language } = useLanguage();
     const t = useTranslation(language);
+    const [mapLocked, setMapLocked] = useState(true);
     const infoTitle = resolveCopy(
         copy?.infoTitle,
         t("contactPage.contactInfo.title"),
@@ -146,7 +149,13 @@ export default function ContactInfo({ copy, footer }) {
                 {/* <iframe src="" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
 
                 <div className={styles.map}>
+                    <MapLockButton
+                        locked={mapLocked}
+                        onToggle={() => setMapLocked((value) => !value)}
+                        className={styles.mapLock}
+                    />
                     <iframe
+                        className={mapLocked ? styles.mapLocked : ""}
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3933.3938841788026!2d-82.77954832426032!3d9.647345590440827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa65a801c5aaaab%3A0xfe3832c538d76ec3!2sBlessed%20House%20Puerto%20Viejo%20de%20Talamanca!5e0!3m2!1ses-419!2scr!4v1762142170514!5m2!1ses-419!2scr"
                         width="100%"
                         height="300"

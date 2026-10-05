@@ -210,7 +210,7 @@ async function seed() {
         locationTitle: "location.title",
         locationDescription: "location.description",
         locationMapsInfo: "location.mapsInfo",
-        locationCta: "location.contactUs",
+        locationCta: "location.getDirections",
         activitiesTitle: "activities.title",
         activitiesSubtitle: "activities.subtitle",
         activitiesCta: "activities.exploreAll",

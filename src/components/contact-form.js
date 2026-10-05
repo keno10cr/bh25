@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
@@ -31,12 +31,24 @@ const EMPTY_FORM = {
 export default function ContactForm({ copy }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
-  const formTitle = resolveCopy(copy?.formTitle, t("contactPage.formTitle"), language);
+  const formTitle = resolveCopy(
+    copy?.formTitle,
+    t("contactPage.formTitle"),
+    language,
+  );
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
+  const successRef = useRef(null);
+  const hasFieldErrors = Object.values(errors).some(Boolean);
+
+  useEffect(() => {
+    if (!submitted || !successRef.current) return;
+    successRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    successRef.current.focus({ preventScroll: true });
+  }, [submitted]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -53,13 +65,13 @@ export default function ContactForm({ copy }) {
     let villaId = "";
     if (villaParam) {
       const villaExists = CONTACT_VILLAS.some(
-        (villa) => String(villa.id) === String(villaParam)
+        (villa) => String(villa.id) === String(villaParam),
       );
       if (villaExists) villaId = String(villaParam);
     }
     if (!villaId && propertyParam) {
       const bySlug = CONTACT_VILLAS.find(
-        (villa) => villa.slug === propertyParam
+        (villa) => villa.slug === propertyParam,
       );
       if (bySlug) villaId = String(bySlug.id);
     }
@@ -74,7 +86,7 @@ export default function ContactForm({ copy }) {
         (activity) =>
           String(activity.id) === String(activityParam) ||
           activity.slug === activityParam ||
-          activity.translationKey === activityParam
+          activity.translationKey === activityParam,
       );
       setFormData((prev) => ({
         ...prev,
@@ -103,7 +115,7 @@ export default function ContactForm({ copy }) {
     const messageParts = [];
     if (checkInParam || checkOutParam) {
       messageParts.push(
-        `Requested dates: ${checkInParam || "TBD"} to ${checkOutParam || "TBD"}.`
+        `Requested dates: ${checkInParam || "TBD"} to ${checkOutParam || "TBD"}.`,
       );
     }
     if (guestParts.length) {
@@ -188,7 +200,10 @@ export default function ContactForm({ copy }) {
     }
 
     if (message.length > 5 && !message.includes(" ")) {
-      return { field: "message", message: "Spam detected: Invalid message format." };
+      return {
+        field: "message",
+        message: "Spam detected: Invalid message format.",
+      };
     }
 
     const midCaps = (str) => {
@@ -271,10 +286,10 @@ export default function ContactForm({ copy }) {
     }
 
     const selectedVilla = CONTACT_VILLAS.find(
-      (villa) => String(villa.id) === String(formData.villaId)
+      (villa) => String(villa.id) === String(formData.villaId),
     );
     const selectedActivity = CONTACT_ACTIVITIES.find(
-      (activity) => String(activity.id) === String(formData.activityId)
+      (activity) => String(activity.id) === String(formData.activityId),
     );
 
     const payload = {
@@ -311,8 +326,6 @@ export default function ContactForm({ copy }) {
       setSubmitted(true);
       setErrors({});
       setFormData(EMPTY_FORM);
-
-      setTimeout(() => setSubmitted(false), 5000);
     } catch (error) {
       console.error("Contact form submission failed:", error);
       setFormError(t("contactPage.errorMessage"));
@@ -355,256 +368,287 @@ export default function ContactForm({ copy }) {
         <CmsText fromCms={formTitle.fromCms}>{formTitle.value}</CmsText>
       </h2>
 
-      {submitted && (
-        <div className={styles.successMessage}>
+      {submitted ? (
+        <div
+          ref={successRef}
+          className={styles.successMessage}
+          role="status"
+          tabIndex={-1}
+        >
           <p>{t("contactPage.successMessage")}</p>
-        </div>
-      )}
-
-      {formError && (
-        <div className={styles.errorBanner}>
-          <p>{formError}</p>
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.formGroup}>
-          <label htmlFor="name">
-            {t("contact.name")} <span className={styles.required}>*</span>
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder={t("contact.name")}
-            className={errors.name ? styles.inputError : ""}
-          />
-          {errors.name && <span className={styles.errorText}>{errors.name}</span>}
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="email">
-            {t("contact.email")} <span className={styles.required}>*</span>
-          </label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder={t("contact.email")}
-            className={errors.email ? styles.inputError : ""}
-          />
-          {errors.email && <span className={styles.errorText}>{errors.email}</span>}
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="phone">{t("contact.phone")}</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder={t("contact.phone")}
-            className={errors.phone ? styles.inputError : ""}
-          />
-          {errors.phone && <span className={styles.errorText}>{errors.phone}</span>}
-        </div>
-
-        <div className={styles.formGroup}>
-          <span className={styles.groupLabel}>
-            {t("contact.subject")} <span className={styles.required}>*</span>
-          </span>
-          <div
-            className={`${styles.subjectOptions} ${
-              errors.subject ? styles.subjectOptionsError : ""
-            }`}
-            role="radiogroup"
-            aria-label={t("contact.subject")}
+          <button
+            type="button"
+            className={styles.successAction}
+            onClick={() => setSubmitted(false)}
           >
-            {SUBJECT_OPTIONS.map((option) => {
-              const isSelected = formData.subject === option.value;
-              return (
-                <button
-                  key={option.value}
-                  type="button"
-                  role="radio"
-                  aria-checked={isSelected}
-                  className={`${styles.subjectOption} ${
-                    isSelected ? styles.subjectOptionSelected : ""
-                  }`}
-                  onClick={() => handleSubjectSelect(option.value)}
-                  data-track={`contact-subject-${option.value}`}
-                >
-                  <span className={styles.subjectIcon}>
-                    <img src={option.icon} alt="" width={48} height={48} />
-                  </span>
-                  <span className={styles.subjectLabel}>
-                    {t(`contact.${option.labelKey}`)}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-          {errors.subject && (
-            <span className={styles.errorText}>{errors.subject}</span>
-          )}
+            {t("contactPage.sendAnother")}
+          </button>
         </div>
+      ) : (
+        <form onSubmit={handleSubmit} className={styles.form} noValidate>
+          <div className={styles.formGroup}>
+            <label htmlFor="name">
+              {t("contact.name")} <span className={styles.required}>*</span>
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder={t("contact.name")}
+              className={errors.name ? styles.inputError : ""}
+            />
+            {errors.name && (
+              <span className={styles.errorText}>{errors.name}</span>
+            )}
+          </div>
 
-        {formData.subject === "booking" && (
-          <>
-            <div className={styles.formGroup}>
-              <label htmlFor="villaId">
-                {t("contact.selectVilla")}{" "}
-                <span className={styles.required}>*</span>
-              </label>
-              <select
-                id="villaId"
-                name="villaId"
-                value={formData.villaId}
-                onChange={handleChange}
-                className={errors.villaId ? styles.inputError : ""}
-              >
-                <option value="">{t("contact.selectVillaPlaceholder")}</option>
-                {CONTACT_VILLAS.map((villa) => (
-                  <option key={villa.id} value={villa.id}>
-                    {villa.name} ({peopleLabel}: {villa.maxPeople})
-                  </option>
-                ))}
-              </select>
-              {errors.villaId && (
-                <span className={styles.errorText}>{errors.villaId}</span>
-              )}
+          <div className={styles.formGroup}>
+            <label htmlFor="email">
+              {t("contact.email")} <span className={styles.required}>*</span>
+            </label>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder={t("contact.email")}
+              className={errors.email ? styles.inputError : ""}
+            />
+            {errors.email && (
+              <span className={styles.errorText}>{errors.email}</span>
+            )}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="phone">{t("contact.phone")}</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder={t("contact.phone")}
+              className={errors.phone ? styles.inputError : ""}
+            />
+            {errors.phone && (
+              <span className={styles.errorText}>{errors.phone}</span>
+            )}
+          </div>
+
+          <div className={styles.formGroup}>
+            <span className={styles.groupLabel}>
+              {t("contact.subject")} <span className={styles.required}>*</span>
+            </span>
+            <div
+              className={`${styles.subjectOptions} ${
+                errors.subject ? styles.subjectOptionsError : ""
+              }`}
+              role="radiogroup"
+              aria-label={t("contact.subject")}
+            >
+              {SUBJECT_OPTIONS.map((option) => {
+                const isSelected = formData.subject === option.value;
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    className={`${styles.subjectOption} ${
+                      isSelected ? styles.subjectOptionSelected : ""
+                    }`}
+                    onClick={() => handleSubjectSelect(option.value)}
+                    data-track={`contact-subject-${option.value}`}
+                  >
+                    <span className={styles.subjectIcon}>
+                      <img src={option.icon} alt="" width={48} height={48} />
+                    </span>
+                    <span className={styles.subjectLabel}>
+                      {t(`contact.${option.labelKey}`)}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
+            {errors.subject && (
+              <span className={styles.errorText}>{errors.subject}</span>
+            )}
+          </div>
 
-            {formData.villaId && (
+          {formData.subject === "booking" && (
+            <>
               <div className={styles.formGroup}>
-                <span className={styles.groupLabel}>
-                  {t("contact.possibleDates")}{" "}
+                <label htmlFor="villaId">
+                  {t("contact.selectVilla")}{" "}
+                  <span className={styles.required}>*</span>
+                </label>
+                <select
+                  id="villaId"
+                  name="villaId"
+                  value={formData.villaId}
+                  onChange={handleChange}
+                  className={errors.villaId ? styles.inputError : ""}
+                >
+                  <option value="">
+                    {t("contact.selectVillaPlaceholder")}
+                  </option>
+                  {CONTACT_VILLAS.map((villa) => (
+                    <option key={villa.id} value={villa.id}>
+                      {villa.name} ({peopleLabel}: {villa.maxPeople})
+                    </option>
+                  ))}
+                </select>
+                {errors.villaId && (
+                  <span className={styles.errorText}>{errors.villaId}</span>
+                )}
+              </div>
+
+              {formData.villaId && (
+                <div className={styles.formGroup}>
+                  <span className={styles.groupLabel}>
+                    {t("contact.possibleDates")}{" "}
+                    <span className={styles.optional}>
+                      ({t("contact.optional")})
+                    </span>
+                  </span>
+                  <div className={styles.dateRow}>
+                    <div className={styles.dateField}>
+                      <label htmlFor="checkIn">{t("contact.checkIn")}</label>
+                      <input
+                        type="date"
+                        id="checkIn"
+                        name="checkIn"
+                        value={formData.checkIn}
+                        onChange={handleChange}
+                        min={new Date().toISOString().split("T")[0]}
+                      />
+                    </div>
+                    <div className={styles.dateField}>
+                      <label htmlFor="checkOut">{t("contact.checkOut")}</label>
+                      <input
+                        type="date"
+                        id="checkOut"
+                        name="checkOut"
+                        value={formData.checkOut}
+                        onChange={handleChange}
+                        min={
+                          formData.checkIn ||
+                          new Date().toISOString().split("T")[0]
+                        }
+                        className={errors.checkOut ? styles.inputError : ""}
+                      />
+                      {errors.checkOut && (
+                        <span className={styles.errorText}>
+                          {errors.checkOut}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          {formData.subject === "activities" && (
+            <>
+              <div className={styles.formGroup}>
+                <label htmlFor="activityId">
+                  {t("contact.selectActivity")}{" "}
+                  <span className={styles.required}>*</span>
+                </label>
+                <select
+                  id="activityId"
+                  name="activityId"
+                  value={formData.activityId}
+                  onChange={handleChange}
+                  className={errors.activityId ? styles.inputError : ""}
+                >
+                  <option value="">
+                    {t("contact.selectActivityPlaceholder")}
+                  </option>
+                  {CONTACT_ACTIVITIES.map((activity) => (
+                    <option key={activity.id} value={activity.id}>
+                      {t(`activitiesPage.${activity.translationKey}.name`)}
+                    </option>
+                  ))}
+                </select>
+                {errors.activityId && (
+                  <span className={styles.errorText}>{errors.activityId}</span>
+                )}
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="activityDate">
+                  {t("contact.possibleActivityDate")}{" "}
                   <span className={styles.optional}>
                     ({t("contact.optional")})
                   </span>
-                </span>
-                <div className={styles.dateRow}>
-                  <div className={styles.dateField}>
-                    <label htmlFor="checkIn">{t("contact.checkIn")}</label>
-                    <input
-                      type="date"
-                      id="checkIn"
-                      name="checkIn"
-                      value={formData.checkIn}
-                      onChange={handleChange}
-                      min={new Date().toISOString().split("T")[0]}
-                    />
-                  </div>
-                  <div className={styles.dateField}>
-                    <label htmlFor="checkOut">{t("contact.checkOut")}</label>
-                    <input
-                      type="date"
-                      id="checkOut"
-                      name="checkOut"
-                      value={formData.checkOut}
-                      onChange={handleChange}
-                      min={
-                        formData.checkIn ||
-                        new Date().toISOString().split("T")[0]
-                      }
-                      className={errors.checkOut ? styles.inputError : ""}
-                    />
-                    {errors.checkOut && (
-                      <span className={styles.errorText}>{errors.checkOut}</span>
-                    )}
-                  </div>
-                </div>
+                </label>
+                <input
+                  type="date"
+                  id="activityDate"
+                  name="activityDate"
+                  value={formData.activityDate}
+                  onChange={handleChange}
+                  min={new Date().toISOString().split("T")[0]}
+                />
+              </div>
+            </>
+          )}
+
+          <div className={styles.formGroup}>
+            <label htmlFor="message">
+              {t("contact.message")} <span className={styles.required}>*</span>
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              placeholder={t("contact.message")}
+              rows={6}
+              className={errors.message ? styles.inputError : ""}
+            />
+            {errors.message && (
+              <span className={styles.errorText}>{errors.message}</span>
+            )}
+          </div>
+
+          <div className={styles.honeypot}>
+            <label htmlFor="website">Website</label>
+            <input
+              type="text"
+              id="website"
+              name="website"
+              value={formData.website}
+              onChange={handleChange}
+              autoComplete="off"
+              tabIndex={-1}
+            />
+          </div>
+
+          <div className={styles.formFooter} aria-live="polite">
+            {hasFieldErrors && (
+              <p className={styles.formHint}>{t("contactPage.fixErrors")}</p>
+            )}
+            {formError && (
+              <div className={styles.errorBanner}>
+                <p>{formError}</p>
               </div>
             )}
-          </>
-        )}
-
-        {formData.subject === "activities" && (
-          <>
-            <div className={styles.formGroup}>
-              <label htmlFor="activityId">
-                {t("contact.selectActivity")}{" "}
-                <span className={styles.required}>*</span>
-              </label>
-              <select
-                id="activityId"
-                name="activityId"
-                value={formData.activityId}
-                onChange={handleChange}
-                className={errors.activityId ? styles.inputError : ""}
-              >
-                <option value="">{t("contact.selectActivityPlaceholder")}</option>
-                {CONTACT_ACTIVITIES.map((activity) => (
-                  <option key={activity.id} value={activity.id}>
-                    {t(`activitiesPage.${activity.translationKey}.name`)}
-                  </option>
-                ))}
-              </select>
-              {errors.activityId && (
-                <span className={styles.errorText}>{errors.activityId}</span>
-              )}
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="activityDate">
-                {t("contact.possibleActivityDate")}{" "}
-                <span className={styles.optional}>
-                  ({t("contact.optional")})
-                </span>
-              </label>
-              <input
-                type="date"
-                id="activityDate"
-                name="activityDate"
-                value={formData.activityDate}
-                onChange={handleChange}
-                min={new Date().toISOString().split("T")[0]}
-              />
-            </div>
-          </>
-        )}
-
-        <div className={styles.formGroup}>
-          <label htmlFor="message">
-            {t("contact.message")} <span className={styles.required}>*</span>
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            placeholder={t("contact.message")}
-            rows={6}
-            className={errors.message ? styles.inputError : ""}
-          />
-          {errors.message && (
-            <span className={styles.errorText}>{errors.message}</span>
-          )}
-        </div>
-
-        <div className={styles.honeypot}>
-          <label htmlFor="website">Website</label>
-          <input
-            type="text"
-            id="website"
-            name="website"
-            value={formData.website}
-            onChange={handleChange}
-            autoComplete="off"
-            tabIndex={-1}
-          />
-        </div>
-
-        {formError && <p className={styles.errorText}>{formError}</p>}
-        <button type="submit" className={styles.submitBtn} disabled={loading}>
-          {loading ? t("contact.sending") : t("contact.send")}
-        </button>
-      </form>
+            <button
+              type="submit"
+              className={styles.submitBtn}
+              disabled={loading}
+            >
+              {loading ? t("contact.sending") : t("contact.send")}
+            </button>
+          </div>
+        </form>
+      )}
 
       <div className={styles.chargingNote}>
         <div className={styles.chargingIconWrapper}>

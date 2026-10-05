@@ -46,18 +46,7 @@ function formatFeeLineLabel(fee, language, money) {
   return title;
 }
 
-const BILLING_COUNTRIES = [
-  { code: "CR", label: "Costa Rica" },
-  { code: "US", label: "United States" },
-  { code: "CA", label: "Canada" },
-  { code: "MX", label: "Mexico" },
-  { code: "GB", label: "United Kingdom" },
-  { code: "DE", label: "Germany" },
-  { code: "FR", label: "France" },
-  { code: "ES", label: "Spain" },
-  { code: "NL", label: "Netherlands" },
-  { code: "Other", label: "Other" },
-];
+const TOTAL_STEPS = 2;
 
 export default function CheckoutClient({
   property,
@@ -75,21 +64,11 @@ export default function CheckoutClient({
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [confirmationCode, setConfirmationCode] = useState("");
-  const [paymentMode, setPaymentMode] = useState("now");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [cardholderName, setCardholderName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiry, setExpiry] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [billingAddress, setBillingAddress] = useState("");
-  const [billingCity, setBillingCity] = useState("");
-  const [billingRegion, setBillingRegion] = useState("");
-  const [billingPostal, setBillingPostal] = useState("");
-  const [billingCountry, setBillingCountry] = useState("");
 
   const guests = useMemo(
     () =>
@@ -169,18 +148,6 @@ export default function CheckoutClient({
     guests.adults > 0 &&
     nights > 0;
 
-  const isPaymentValid =
-    paymentMode === "later" ||
-    (billingAddress.trim().length > 0 &&
-      billingCity.trim().length > 0 &&
-      billingRegion.trim().length > 0 &&
-      billingPostal.trim().length > 0 &&
-      billingCountry.trim().length > 0 &&
-      cardholderName.trim().length > 0 &&
-      cardNumber.trim().length >= 12 &&
-      expiry.trim().length >= 4 &&
-      cvv.trim().length >= 3);
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentStep, success]);
@@ -206,12 +173,7 @@ export default function CheckoutClient({
       setCurrentStep(2);
       return;
     }
-    if (currentStep === 2) {
-      if (!termsAccepted) return;
-      setCurrentStep(3);
-      return;
-    }
-    if (!isPaymentValid || submitting) return;
+    if (!termsAccepted || submitting) return;
 
     setSubmitting(true);
     setSubmitError("");
@@ -253,7 +215,8 @@ export default function CheckoutClient({
           petsCount: guests.pets || 0,
           nights,
           pricing,
-          paymentProvider: paymentMode === "later" ? "none" : "stripe",
+          paymentProvider: "none",
+          language,
           source: "web",
         }),
       });
@@ -280,16 +243,14 @@ export default function CheckoutClient({
         ? true
         : currentStep === 1
           ? !isGuestInfoValid
-          : currentStep === 2
-            ? !termsAccepted
-            : !isPaymentValid;
+          : !termsAccepted;
 
   const primaryLabel = success
-    ? t("checkout.backToProperty")
+    ? t("checkout.ok")
     : submitting
       ? t("checkout.submitting")
-      : currentStep === 3
-        ? t("checkout.bookNow")
+      : currentStep === TOTAL_STEPS
+        ? t("checkout.sendRequest")
         : t("checkout.continue");
 
   const money = (amount) => formatMoney(amount, priceSummary.currency);
@@ -309,19 +270,19 @@ export default function CheckoutClient({
             className={styles.progressWrap}
             aria-label={interpolate(t("checkout.stepOf"), {
               current: currentStep,
-              total: 3,
+              total: TOTAL_STEPS,
             })}
           >
             <p className={styles.progressLabel}>
               {interpolate(t("checkout.stepOf"), {
                 current: currentStep,
-                total: 3,
+                total: TOTAL_STEPS,
               })}
             </p>
             <div className={styles.progressTrack}>
               <span
                 className={styles.progressFill}
-                style={{ width: `${(currentStep / 3) * 100}%` }}
+                style={{ width: `${(currentStep / TOTAL_STEPS) * 100}%` }}
               />
             </div>
           </div>
@@ -511,154 +472,10 @@ export default function CheckoutClient({
                       />
                       <span>{t("checkout.termsAccept")}</span>
                     </label>
-                  </div>
-                </>
-              ) : null}
-
-              {currentStep === 3 ? (
-                <>
-                  <div className={styles.panelHeader}>
-                    <div className={styles.panelIcon} aria-hidden>
-                      3
-                    </div>
-                    <div>
-                      <h1 className={styles.panelTitle}>{t("checkout.paymentTitle")}</h1>
-                      <p className={styles.panelSubtitle}>
-                        {t("checkout.paymentSubtitle")}
-                      </p>
+                    <div className={styles.requestNote}>
+                      <p>{t("checkout.requestNote")}</p>
                     </div>
                   </div>
-
-                  <div className={styles.formGrid}>
-                    <label className={`${styles.field} ${styles.fieldFull}`}>
-                      <span className={styles.fieldLabel}>{t("checkout.billingAddress")}</span>
-                      <input
-                        className={styles.input}
-                        value={billingAddress}
-                        onChange={(e) => setBillingAddress(e.target.value)}
-                        autoComplete="street-address"
-                      />
-                    </label>
-                    <label className={styles.field}>
-                      <span className={styles.fieldLabel}>{t("checkout.city")}</span>
-                      <input
-                        className={styles.input}
-                        value={billingCity}
-                        onChange={(e) => setBillingCity(e.target.value)}
-                        autoComplete="address-level2"
-                      />
-                    </label>
-                    <label className={styles.field}>
-                      <span className={styles.fieldLabel}>{t("checkout.stateRegion")}</span>
-                      <input
-                        className={styles.input}
-                        value={billingRegion}
-                        onChange={(e) => setBillingRegion(e.target.value)}
-                        autoComplete="address-level1"
-                      />
-                    </label>
-                    <label className={styles.field}>
-                      <span className={styles.fieldLabel}>{t("checkout.postalCode")}</span>
-                      <input
-                        className={styles.input}
-                        value={billingPostal}
-                        onChange={(e) => setBillingPostal(e.target.value)}
-                        autoComplete="postal-code"
-                      />
-                    </label>
-                    <label className={styles.field}>
-                      <span className={styles.fieldLabel}>{t("checkout.country")}</span>
-                      <select
-                        className={styles.input}
-                        value={billingCountry}
-                        onChange={(e) => setBillingCountry(e.target.value)}
-                        autoComplete="country"
-                      >
-                        <option value="">{t("checkout.selectCountry")}</option>
-                        {BILLING_COUNTRIES.map((country) => (
-                          <option key={country.code} value={country.code}>
-                            {country.label}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </div>
-
-                  <div
-                    className={styles.segmentedControl}
-                    role="tablist"
-                    aria-label="Payment timing"
-                  >
-                    <button
-                      type="button"
-                      className={`${styles.segmentButton} ${
-                        paymentMode === "now" ? styles.segmentButtonActive : ""
-                      }`}
-                      onClick={() => setPaymentMode("now")}
-                    >
-                      {t("checkout.payNow")}
-                    </button>
-                    <button
-                      type="button"
-                      className={`${styles.segmentButton} ${
-                        paymentMode === "later" ? styles.segmentButtonActive : ""
-                      }`}
-                      onClick={() => setPaymentMode("later")}
-                    >
-                      {t("checkout.payLater")}
-                    </button>
-                  </div>
-
-                  {paymentMode === "later" ? (
-                    <div className={styles.payLaterCard}>
-                      <p>{t("checkout.payLaterNote")}</p>
-                    </div>
-                  ) : (
-                    <div className={styles.formGrid}>
-                      <label className={`${styles.field} ${styles.fieldFull}`}>
-                        <span className={styles.fieldLabel}>{t("checkout.cardholderName")}</span>
-                        <input
-                          className={styles.input}
-                          value={cardholderName}
-                          onChange={(e) => setCardholderName(e.target.value)}
-                          autoComplete="cc-name"
-                        />
-                      </label>
-                      <label className={`${styles.field} ${styles.fieldFull}`}>
-                        <span className={styles.fieldLabel}>{t("checkout.cardNumber")}</span>
-                        <input
-                          className={styles.input}
-                          value={cardNumber}
-                          onChange={(e) => setCardNumber(e.target.value)}
-                          placeholder="4242 4242 4242 4242"
-                          autoComplete="cc-number"
-                          inputMode="numeric"
-                        />
-                      </label>
-                      <label className={styles.field}>
-                        <span className={styles.fieldLabel}>{t("checkout.expiry")}</span>
-                        <input
-                          className={styles.input}
-                          value={expiry}
-                          onChange={(e) => setExpiry(e.target.value)}
-                          placeholder="MM/YY"
-                          autoComplete="cc-exp"
-                          inputMode="numeric"
-                        />
-                      </label>
-                      <label className={styles.field}>
-                        <span className={styles.fieldLabel}>{t("checkout.cvv")}</span>
-                        <input
-                          className={styles.input}
-                          value={cvv}
-                          onChange={(e) => setCvv(e.target.value)}
-                          placeholder="123"
-                          autoComplete="cc-csc"
-                          inputMode="numeric"
-                        />
-                      </label>
-                    </div>
-                  )}
                 </>
               ) : null}
 

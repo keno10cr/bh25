@@ -1,7 +1,29 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import MapLockButton from "@/components/map-lock-button";
 import styles from "./activities-map.module.css";
+
+const GESTURE_HANDLERS = [
+  "dragPan",
+  "scrollZoom",
+  "touchZoomRotate",
+  "doubleClickZoom",
+  "dragRotate",
+  "touchPitch",
+  "boxZoom",
+  "keyboard",
+];
+
+function applyLock(map, locked) {
+  if (!map) return;
+  GESTURE_HANDLERS.forEach((name) => {
+    const handler = map[name];
+    if (!handler) return;
+    if (locked) handler.disable?.();
+    else handler.enable?.();
+  });
+}
 
 const FALLBACK_COLORS = {
   Beaches: "#2e86ab",
@@ -85,6 +107,8 @@ export default function ActivitiesMap({
   fitToPins = true,
   showLegend = true,
   showCoordinates = null,
+  views = [],
+  initialViewId = "",
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -93,7 +117,28 @@ export default function ActivitiesMap({
   const onSelectRef = useRef(onSelect);
   const selectedSlugRef = useRef(selectedSlug);
   const prevSlugRef = useRef("");
+  const lockedRef = useRef(true);
   const [coordsCopied, setCoordsCopied] = useState(false);
+  const [locked, setLocked] = useState(true);
+  const [activeViewId, setActiveViewId] = useState(initialViewId);
+
+  lockedRef.current = locked;
+
+  useEffect(() => {
+    applyLock(mapRef.current, locked);
+  }, [locked]);
+
+  const goToView = (view) => {
+    const map = mapRef.current;
+    if (!map?.flyTo || !view) return;
+    setActiveViewId(view.id);
+    map.flyTo({
+      center: view.center,
+      zoom: view.zoom,
+      duration: 1400,
+      essential: true,
+    });
+  };
 
   const coordsText =
     showCoordinates?.lat != null && showCoordinates?.lng != null
@@ -149,6 +194,7 @@ export default function ActivitiesMap({
         zoom: useIntroZoom ? CENTRAL_AMERICA.zoom : 9.6,
         attributionControl: false,
       });
+      applyLock(map, lockedRef.current);
       map.addControl(
         new maplibre.NavigationControl({ visualizePitch: false }),
         "top-right"
@@ -334,10 +380,33 @@ export default function ActivitiesMap({
 
   return (
     <div className={styles.mapPane}>
-      <div ref={containerRef} className={styles.map} />
-      {showLegend ? (
+      <div className={styles.mapFrame}>
+        <div ref={containerRef} className={styles.map} />
+        <MapLockButton
+          locked={locked}
+          onToggle={() => setLocked((value) => !value)}
+        />
+      </div>
+      {showLegend || views.length > 0 ? (
         <div className={styles.legend}>
-          {legend.map((item) => (
+          {views.length > 0 ? (
+            <div className={styles.viewSwitch} role="group">
+              {views.map((view) => (
+                <button
+                  key={view.id}
+                  type="button"
+                  className={`${styles.viewBtn} ${
+                    activeViewId === view.id ? styles.viewBtnActive : ""
+                  }`}
+                  aria-pressed={activeViewId === view.id}
+                  onClick={() => goToView(view)}
+                >
+                  {view.label}
+                </button>
+              ))}
+            </div>
+          ) : null}
+          {showLegend && legend.map((item) => (
             <button
               key={item.slug || item.title}
               type="button"

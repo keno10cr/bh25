@@ -85,6 +85,48 @@
   display: inline-block;
 }
 
+.queryRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.queryRow .mapsQuery {
+  margin-bottom: 0;
+}
+
+.copyButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.8rem;
+  border: 1.5px solid #0a4c3a;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  color: #0a4c3a;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.copyButton:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.copyButtonDone {
+  background: #0a4c3a;
+  color: #fff;
+}
+
+.copyButtonDone:hover {
+  background: #0a4c3a;
+}
+
 @media (min-width: 1400px) {
   .content {
     max-width: 1400px;

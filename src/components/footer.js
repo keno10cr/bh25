@@ -11,7 +11,7 @@ import { useSmoothParallax } from "@/lib/parallax-motion";
 import { FOOTER_SETTINGS_DEFAULTS } from "@/data/page-defaults";
 import styles from "./footer.module.css";
 
-const SOCIAL_ICONS = {
+export const SOCIAL_ICONS = {
   instagram: "/social/2026/IGBH.png",
   facebook: "/social/2026/fbBH.png",
   youtube: "/social/2026/ytBH.png",
@@ -31,6 +31,7 @@ const NAV_KEY_BY_HREF = {
 };
 
 function linkLabel(link, t, language) {
+  if (link.href === "/pvg" && language !== "en") return t("pvg.promoCta");
   const key = NAV_KEY_BY_HREF[link.href];
   if (key && language !== "en") return t(`nav.${key}`);
   return link.label || (key ? t(`nav.${key}`) : link.href);
@@ -45,11 +46,6 @@ export default function Footer({ footer }) {
   const layer2Ref = useRef(null);
 
   const brandName = footer?.brandName?.value || FOOTER_SETTINGS_DEFAULTS.brandName;
-  const locationLine = resolveCopy(
-    footer?.locationLine,
-    t("footer.location"),
-    language
-  );
   const tagline = resolveCopy(footer?.tagline, t("footer.tagline"), language);
   const email = footer?.email?.value || FOOTER_SETTINGS_DEFAULTS.email;
   const addressLine =
@@ -116,13 +112,48 @@ export default function Footer({ footer }) {
             height={150}
             className={styles.logo}
           />
-          <p className={styles.location}>{locationLine.value}</p>
         </div>
 
         <div className={styles.container}>
           <div className={styles.section}>
             <h3>{brandName}</h3>
             <p>{tagline.value}</p>
+
+            <h4 className={styles.socialTitle}>{t("footer.socialMedia")}</h4>
+            <div className={styles.socialRow}>
+              {socialLinks.map((link) => {
+                const icon = SOCIAL_ICONS[link.network] || link.iconUrl;
+                if (!icon) return null;
+                const isAirbnb = link.network === "airbnb";
+                return (
+                  <a
+                    key={link.key || link.url}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.label}
+                    className={styles.socialIcon}
+                    onClick={
+                      isAirbnb
+                        ? () =>
+                            trackAirbnbRedirectClicked({
+                              villa_id: null,
+                              villa_name: null,
+                              destination_url: link.url || AIRBNB_PROFILE_URL,
+                            })
+                        : undefined
+                    }
+                  >
+                    <Image
+                      src={icon}
+                      alt={link.iconAlt || link.label}
+                      width={50}
+                      height={50}
+                    />
+                  </a>
+                );
+              })}
+            </div>
           </div>
 
           <div className={styles.section}>
@@ -161,51 +192,17 @@ export default function Footer({ footer }) {
             </p>
             <p>{addressLine}</p>
           </div>
-
-          <div className={styles.section}>
-            <h4>{t("footer.socialMedia")}</h4>
-            <div className={styles.socialRow}>
-              {socialLinks.map((link) => {
-                const icon = SOCIAL_ICONS[link.network] || link.iconUrl;
-                if (!icon) return null;
-                const isAirbnb = link.network === "airbnb";
-                return (
-                  <a
-                    key={link.key || link.url}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={link.label}
-                    className={styles.socialIcon}
-                    onClick={
-                      isAirbnb
-                        ? () =>
-                            trackAirbnbRedirectClicked({
-                              villa_id: null,
-                              villa_name: null,
-                              destination_url: link.url || AIRBNB_PROFILE_URL,
-                            })
-                        : undefined
-                    }
-                  >
-                    <Image
-                      src={icon}
-                      alt={link.iconAlt || link.label}
-                      width={50}
-                      height={50}
-                    />
-                  </a>
-                );
-              })}
-            </div>
-          </div>
         </div>
 
         <div className={styles.copyright}>
           <p>
             &copy; {currentYear} {brandName} Villas. {copyright.value}
           </p>
-          <Link href="/legal" className={styles.legalLink}>
+          <Link
+            href="/legal"
+            className={styles.legalLink}
+            data-text={t("footer.legal")}
+          >
             {t("footer.legal")}
           </Link>
         </div>

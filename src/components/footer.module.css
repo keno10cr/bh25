@@ -96,12 +96,6 @@
   margin: 0 auto;
 }
 
-.location {
-  margin-top: 1rem;
-  font-size: 1rem;
-  color: var(--color-neutral-light);
-}
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -150,9 +144,14 @@
   color: var(--color-accent);
 }
 
+.section .socialTitle {
+  margin-top: 1.75rem;
+  margin-bottom: 0;
+}
+
 .socialRow {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-top: 1rem;
   flex-wrap: wrap;
 }
@@ -192,10 +191,9 @@
 
 .copyright {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.35rem 1.25rem;
+  gap: 0.5rem;
   text-align: center;
   padding: 1.5rem 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -207,15 +205,29 @@
 }
 
 .legalLink {
+  display: inline-grid;
   color: inherit;
-  font-weight: 600;
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 3px;
   opacity: 0.9;
+  transition: opacity 0.2s ease;
 }
 
-.legalLink:hover {
+/* Reserves the bold width so the hover state doesn't shift the layout */
+.legalLink::after {
+  content: attr(data-text);
+  font-weight: 600;
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.legalLink:hover,
+.legalLink:focus-visible {
   opacity: 1;
+  font-weight: 600;
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {

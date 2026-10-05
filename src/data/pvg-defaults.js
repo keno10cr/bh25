@@ -13,11 +13,12 @@ export const PVG_PAGE_DEFAULTS = {
     "Your group gets 100% of the estate: villas, pool, open air workspaces, and communal dining. No shared spaces with outside hotel guests.",
   pillarsTitle: "Built for focus, deep work, and team alignment",
   capacityTitle: "Capacity & Settings",
-  capacityImage: "/FloribelFadelBH.jpg",
-  capacityImageAlt: "Floribel Fadel at Blessed House reception",
   locationTitle: "Location",
   locationLead:
     "Puerto Viejo, Limón, Costa Rica. One private compound in the Caribbean rainforest.",
+  petsTitle: "Pets are welcome at Blessed House.",
+  petsNote:
+    "Please review our house rules before you bring them, and keep in mind that pets are not allowed inside national parks such as Cahuita.",
   locationLat: 9.64735,
   locationLng: -82.77697,
   locationLegendLabel: "Blessed House",
@@ -29,6 +30,12 @@ export const PVG_PAGE_DEFAULTS = {
   inquirySubmittingLabel: "Sending...",
   inquirySuccessMessage:
     "Thank you. Your request is in. We will follow up by email shortly.",
+  hostImage: "/FloribelFadelBH.jpg",
+  hostImageAlt: "Floribel Fadel smiling at the Blessed House reception",
+  hostQuote:
+    "At Blessed House, groups find a quiet place to reconnect with nature and with each other. It would be an honor to welcome yours.",
+  hostName: "Floribel Fadel",
+  hostRole: "Owner of Blessed House",
 };
 
 export const PVG_PILLARS_DEFAULTS = [

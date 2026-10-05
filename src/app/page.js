@@ -5,6 +5,7 @@ import FeaturedVillas from "@/components/featured-villas";
 import LocationSection from "@/components/location-section";
 import ActivityPreview from "@/components/activity-preview";
 import ReviewsSection from "@/components/reviews-section";
+import GroupsCta from "@/components/groups-cta";
 import {
   getAboutPageSettings,
   getHomePageSettings,
@@ -41,6 +42,7 @@ export default async function Home() {
       <LocationSection copy={home} />
       <ActivityPreview copy={home} />
       <ReviewsSection reviews={reviews} copy={home} />
+      <GroupsCta />
     </main>
   );
 }

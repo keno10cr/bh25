@@ -50,7 +50,7 @@ export const PVG_I18N = {
     inquirySuccessMessage:
       "Thank you. Your request is in. We will follow up by email shortly.",
     organizationLabel: "Organization Name",
-    attendeesLabel: "Estimated Attendees (20 to 45)",
+    attendeesLabel: "Estimated attendees",
     datesLabel: "Target dates",
     datesHint:
       "Pick up to 3 preferred ranges. Add another after you confirm the current one.",
@@ -58,6 +58,28 @@ export const PVG_I18N = {
     contactNameLabel: "Your Name",
     emailLabel: "Contact email",
     optionLabel: "Option",
+    attendeeRanges: ["20 to 29", "30 to 39", "40 to 45"],
+    attendeeUnit: "guests",
+    hostQuote:
+      "At Blessed House, groups find a quiet place to reconnect with nature and with each other. It would be an honor to welcome yours.",
+    hostName: "Floribel Fadel",
+    hostRole: "Owner of Blessed House",
+    petsTitle: "Pets are welcome at Blessed House.",
+    petsNote:
+      "Please review our house rules before you bring them, and keep in mind that pets are not allowed inside national parks such as Cahuita.",
+    petsLinkLabel: "Read the house rules",
+    mapViews: {
+      costaRica: "Costa Rica",
+      caribeSur: "Caribe Sur",
+      blessedHouse: "Blessed House",
+    },
+    galleryClose: "Close",
+    fixErrors: "Please complete the highlighted fields above.",
+    promoEyebrow: "Groups of 20 to 45",
+    promoTitle: "Bring your whole group to Blessed House",
+    promoBody:
+      "Book the entire estate for retreats, teams, families, and celebrations. Private villas, pool, gathering spaces, meals, and airport shuttle, all for your group only.",
+    promoCta: "Book Groups",
     activityLabels: {
       tennisNearPlayaNegra: "Tennis court near Playa Negra",
     },
@@ -111,7 +133,7 @@ export const PVG_I18N = {
     inquirySuccessMessage:
       "Gracias. Recibimos su solicitud. Le responderemos por correo pronto.",
     organizationLabel: "Nombre de la organización",
-    attendeesLabel: "Personas estimadas (20 a 45)",
+    attendeesLabel: "Personas estimadas",
     datesLabel: "Fechas deseadas",
     datesHint:
       "Elija hasta 3 rangos preferidos. Agregue otro después de confirmar el actual.",
@@ -119,6 +141,28 @@ export const PVG_I18N = {
     contactNameLabel: "Su nombre",
     emailLabel: "Correo de contacto",
     optionLabel: "Opción",
+    attendeeRanges: ["20 a 29", "30 a 39", "40 a 45"],
+    attendeeUnit: "personas",
+    hostQuote:
+      "En Blessed House, los grupos encuentran un lugar tranquilo para reconectar con la naturaleza y entre sí. Sería un honor recibir al suyo.",
+    hostName: "Floribel Fadel",
+    hostRole: "Propietaria de Blessed House",
+    petsTitle: "Las mascotas son bienvenidas en Blessed House.",
+    petsNote:
+      "Revise nuestras reglas de la casa antes de traerlas y tenga en cuenta que no se permiten mascotas dentro de parques nacionales como Cahuita.",
+    petsLinkLabel: "Ver reglas de la casa",
+    mapViews: {
+      costaRica: "Costa Rica",
+      caribeSur: "Caribe Sur",
+      blessedHouse: "Blessed House",
+    },
+    galleryClose: "Cerrar",
+    fixErrors: "Complete los campos marcados arriba.",
+    promoEyebrow: "Grupos de 20 a 45",
+    promoTitle: "Traiga a todo su grupo a Blessed House",
+    promoBody:
+      "Reserve toda la propiedad para retiros, equipos, familias y celebraciones. Villas privadas, piscina, áreas de reunión, comidas y traslado al aeropuerto, solo para su grupo.",
+    promoCta: "Reservar para grupos",
     activityLabels: {
       tennisNearPlayaNegra: "Cancha de tenis cerca de Playa Negra",
     },
@@ -172,7 +216,7 @@ export const PVG_I18N = {
     inquirySuccessMessage:
       "Danke. Ihre Anfrage ist eingegangen. Wir melden uns in Kürze per E Mail.",
     organizationLabel: "Name der Organisation",
-    attendeesLabel: "Geschätzte Teilnehmer (20 bis 45)",
+    attendeesLabel: "Geschätzte Teilnehmer",
     datesLabel: "Wunschdaten",
     datesHint:
       "Wählen Sie bis zu 3 bevorzugte Zeiträume. Fügen Sie einen weiteren hinzu, nachdem der aktuelle bestätigt ist.",
@@ -180,6 +224,28 @@ export const PVG_I18N = {
     contactNameLabel: "Ihr Name",
     emailLabel: "Kontakt E Mail",
     optionLabel: "Option",
+    attendeeRanges: ["20 bis 29", "30 bis 39", "40 bis 45"],
+    attendeeUnit: "Gäste",
+    hostQuote:
+      "Im Blessed House finden Gruppen einen ruhigen Ort, um wieder Verbindung zur Natur und zueinander zu finden. Es wäre mir eine Ehre, Ihre Gruppe willkommen zu heißen.",
+    hostName: "Floribel Fadel",
+    hostRole: "Inhaberin von Blessed House",
+    petsTitle: "Haustiere sind in Blessed House willkommen.",
+    petsNote:
+      "Bitte lesen Sie vorher unsere Hausregeln und beachten Sie, dass Haustiere in Nationalparks wie Cahuita nicht erlaubt sind.",
+    petsLinkLabel: "Hausregeln ansehen",
+    mapViews: {
+      costaRica: "Costa Rica",
+      caribeSur: "Caribe Sur",
+      blessedHouse: "Blessed House",
+    },
+    galleryClose: "Schließen",
+    fixErrors: "Bitte füllen Sie die markierten Felder oben aus.",
+    promoEyebrow: "Gruppen von 20 bis 45",
+    promoTitle: "Bringen Sie Ihre ganze Gruppe ins Blessed House",
+    promoBody:
+      "Buchen Sie das gesamte Anwesen für Retreats, Teams, Familien und Feiern. Private Villen, Pool, Gemeinschaftsräume, Mahlzeiten und Flughafentransfer, nur für Ihre Gruppe.",
+    promoCta: "Gruppen buchen",
     activityLabels: {
       tennisNearPlayaNegra: "Tennisplatz bei Playa Negra",
     },
@@ -233,7 +299,7 @@ export const PVG_I18N = {
     inquirySuccessMessage:
       "Dank u. Uw verzoek is binnengekomen. Wij volgen per e mail op.",
     organizationLabel: "Naam van de organisatie",
-    attendeesLabel: "Geschat aantal gasten (20 tot 45)",
+    attendeesLabel: "Geschat aantal gasten",
     datesLabel: "Gewenste data",
     datesHint:
       "Kies tot 3 voorkeursperiodes. Voeg een volgende toe nadat de huidige is bevestigd.",
@@ -241,6 +307,28 @@ export const PVG_I18N = {
     contactNameLabel: "Uw naam",
     emailLabel: "Contact e mail",
     optionLabel: "Optie",
+    attendeeRanges: ["20 tot 29", "30 tot 39", "40 tot 45"],
+    attendeeUnit: "gasten",
+    hostQuote:
+      "Bij Blessed House vinden groepen een rustige plek om opnieuw verbinding te maken met de natuur en met elkaar. Het zou een eer zijn om uw groep te verwelkomen.",
+    hostName: "Floribel Fadel",
+    hostRole: "Eigenaar van Blessed House",
+    petsTitle: "Huisdieren zijn welkom in Blessed House.",
+    petsNote:
+      "Lees vooraf onze huisregels en houd er rekening mee dat huisdieren niet zijn toegestaan in nationale parken zoals Cahuita.",
+    petsLinkLabel: "Bekijk de huisregels",
+    mapViews: {
+      costaRica: "Costa Rica",
+      caribeSur: "Caribe Sur",
+      blessedHouse: "Blessed House",
+    },
+    galleryClose: "Sluiten",
+    fixErrors: "Vul de gemarkeerde velden hierboven in.",
+    promoEyebrow: "Groepen van 20 tot 45",
+    promoTitle: "Breng je hele groep naar Blessed House",
+    promoBody:
+      "Boek het volledige landgoed voor retraites, teams, families en feesten. Privé villa's, zwembad, ontmoetingsruimtes, maaltijden en luchthaventransfer, alleen voor jouw groep.",
+    promoCta: "Groepen boeken",
     activityLabels: {
       tennisNearPlayaNegra: "Tennisbaan bij Playa Negra",
     },
@@ -294,7 +382,7 @@ export const PVG_I18N = {
     inquirySuccessMessage:
       "Merci. Votre demande est bien reçue. Nous vous répondrons bientôt par e mail.",
     organizationLabel: "Nom de l’organisation",
-    attendeesLabel: "Nombre estimé de participants (20 à 45)",
+    attendeesLabel: "Nombre estimé de participants",
     datesLabel: "Dates souhaitées",
     datesHint:
       "Choisissez jusqu’à 3 plages préférées. Ajoutez en une autre après avoir confirmé la plage actuelle.",
@@ -302,6 +390,28 @@ export const PVG_I18N = {
     contactNameLabel: "Votre nom",
     emailLabel: "E mail de contact",
     optionLabel: "Option",
+    attendeeRanges: ["20 à 29", "30 à 39", "40 à 45"],
+    attendeeUnit: "personnes",
+    hostQuote:
+      "À Blessed House, les groupes trouvent un lieu paisible pour se reconnecter à la nature et les uns aux autres. Ce serait un honneur d'accueillir le vôtre.",
+    hostName: "Floribel Fadel",
+    hostRole: "Propriétaire de Blessed House",
+    petsTitle: "Les animaux sont les bienvenus à Blessed House.",
+    petsNote:
+      "Consultez notre règlement intérieur avant de venir et sachez que les animaux ne sont pas admis dans les parcs nationaux comme Cahuita.",
+    petsLinkLabel: "Voir le règlement intérieur",
+    mapViews: {
+      costaRica: "Costa Rica",
+      caribeSur: "Caribe Sur",
+      blessedHouse: "Blessed House",
+    },
+    galleryClose: "Fermer",
+    fixErrors: "Veuillez compléter les champs indiqués ci dessus.",
+    promoEyebrow: "Groupes de 20 à 45",
+    promoTitle: "Venez avec tout votre groupe à Blessed House",
+    promoBody:
+      "Réservez tout le domaine pour vos retraites, équipes, familles et célébrations. Villas privées, piscine, espaces de réunion, repas et navette aéroport, uniquement pour votre groupe.",
+    promoCta: "Réserver en groupe",
     activityLabels: {
       tennisNearPlayaNegra: "Court de tennis près de Playa Negra",
     },
@@ -355,7 +465,7 @@ export const PVG_I18N = {
     inquirySuccessMessage:
       "ありがとうございます。リクエストを受け付けました。メールでご連絡します。",
     organizationLabel: "組織名",
-    attendeesLabel: "予定人数（20〜45）",
+    attendeesLabel: "予定人数",
     datesLabel: "希望日程",
     datesHint:
       "希望期間は最大3つまで。現在の期間を確定してから次を追加できます。",
@@ -363,6 +473,28 @@ export const PVG_I18N = {
     contactNameLabel: "お名前",
     emailLabel: "連絡用メール",
     optionLabel: "候補",
+    attendeeRanges: ["20〜29", "30〜39", "40〜45"],
+    attendeeUnit: "名",
+    hostQuote:
+      "Blessed Houseは、グループが自然と、そしてお互いとつながり直せる静かな場所です。皆さまをお迎えできれば光栄です。",
+    hostName: "Floribel Fadel",
+    hostRole: "Blessed House オーナー",
+    petsTitle: "Blessed Houseではペットを歓迎しています。",
+    petsNote:
+      "ご来訪前にハウスルールをご確認ください。なお、カウイタなどの国立公園ではペットの入場はできません。",
+    petsLinkLabel: "ハウスルールを見る",
+    mapViews: {
+      costaRica: "コスタリカ",
+      caribeSur: "南カリブ",
+      blessedHouse: "Blessed House",
+    },
+    galleryClose: "閉じる",
+    fixErrors: "上の表示された項目をご入力ください。",
+    promoEyebrow: "20〜45名のグループ",
+    promoTitle: "グループ全員でBlessed Houseへ",
+    promoBody:
+      "リトリート、チーム、ご家族、お祝いのために敷地全体を貸切できます。専用ヴィラ、プール、集いのスペース、食事、空港送迎をグループだけでご利用いただけます。",
+    promoCta: "グループ予約",
     activityLabels: {
       tennisNearPlayaNegra: "プラヤネグラ近くのテニスコート",
     },
@@ -416,7 +548,7 @@ export const PVG_I18N = {
     inquirySuccessMessage:
       "Obrigado. Recebemos seu pedido. Responderemos por e mail em breve.",
     organizationLabel: "Nome da organização",
-    attendeesLabel: "Participantes estimados (20 a 45)",
+    attendeesLabel: "Participantes estimados",
     datesLabel: "Datas desejadas",
     datesHint:
       "Escolha até 3 períodos preferidos. Adicione outro depois de confirmar o atual.",
@@ -424,6 +556,28 @@ export const PVG_I18N = {
     contactNameLabel: "Seu nome",
     emailLabel: "E mail de contato",
     optionLabel: "Opção",
+    attendeeRanges: ["20 a 29", "30 a 39", "40 a 45"],
+    attendeeUnit: "pessoas",
+    hostQuote:
+      "Na Blessed House, os grupos encontram um lugar tranquilo para se reconectar com a natureza e uns com os outros. Seria uma honra receber o seu.",
+    hostName: "Floribel Fadel",
+    hostRole: "Proprietária da Blessed House",
+    petsTitle: "Animais de estimação são bem vindos na Blessed House.",
+    petsNote:
+      "Leia nossas regras da casa antes da viagem e lembre que animais não são permitidos em parques nacionais como Cahuita.",
+    petsLinkLabel: "Ver regras da casa",
+    mapViews: {
+      costaRica: "Costa Rica",
+      caribeSur: "Caribe Sur",
+      blessedHouse: "Blessed House",
+    },
+    galleryClose: "Fechar",
+    fixErrors: "Preencha os campos destacados acima.",
+    promoEyebrow: "Grupos de 20 a 45",
+    promoTitle: "Traga todo o seu grupo para a Blessed House",
+    promoBody:
+      "Reserve a propriedade inteira para retiros, equipes, famílias e celebrações. Villas privadas, piscina, espaços de encontro, refeições e transfer do aeroporto, só para o seu grupo.",
+    promoCta: "Reservar para grupos",
     activityLabels: {
       tennisNearPlayaNegra: "Quadra de tênis perto de Playa Negra",
     },
@@ -477,7 +631,7 @@ export const PVG_I18N = {
     inquirySuccessMessage:
       "شكراً لكم. وصل طلبكم وسنتابع عبر البريد الإلكتروني قريباً.",
     organizationLabel: "اسم الجهة",
-    attendeesLabel: "عدد الحضور المتوقع (من 20 إلى 45)",
+    attendeesLabel: "عدد الحضور المتوقع",
     datesLabel: "التواريخ المستهدفة",
     datesHint:
       "اختاروا حتى 3 فترات مفضلة. أضيفوا فترة أخرى بعد تأكيد الفترة الحالية.",
@@ -485,6 +639,28 @@ export const PVG_I18N = {
     contactNameLabel: "اسمكم",
     emailLabel: "البريد الإلكتروني للتواصل",
     optionLabel: "خيار",
+    attendeeRanges: ["من 20 إلى 29", "من 30 إلى 39", "من 40 إلى 45"],
+    attendeeUnit: "شخصاً",
+    hostQuote:
+      "في Blessed House تجد المجموعات مكانًا هادئًا للتواصل من جديد مع الطبيعة ومع بعضها البعض. سيكون من دواعي سروري استقبال مجموعتكم.",
+    hostName: "Floribel Fadel",
+    hostRole: "مالكة Blessed House",
+    petsTitle: "الحيوانات الأليفة مرحب بها في Blessed House.",
+    petsNote:
+      "يرجى مراجعة قواعد المنزل قبل إحضارها، مع العلم أنها غير مسموحة داخل المحميات الوطنية مثل Cahuita.",
+    petsLinkLabel: "قواعد المنزل",
+    mapViews: {
+      costaRica: "كوستاريكا",
+      caribeSur: "جنوب الكاريبي",
+      blessedHouse: "Blessed House",
+    },
+    galleryClose: "إغلاق",
+    fixErrors: "يرجى إكمال الحقول المحددة أعلاه.",
+    promoEyebrow: "مجموعات من 20 إلى 45",
+    promoTitle: "أحضر مجموعتك بالكامل إلى Blessed House",
+    promoBody:
+      "احجز العقار بالكامل للخلوات والفرق والعائلات والاحتفالات. فلل خاصة ومسبح ومساحات للتجمع ووجبات ونقل من المطار، لمجموعتك فقط.",
+    promoCta: "احجز للمجموعات",
     activityLabels: {
       tennisNearPlayaNegra: "ملعب تنس قرب Playa Negra",
     },

@@ -359,8 +359,8 @@ export const pvgPageSettingsQuery = `*[_id == "pvgPageSettings"][0]{
   "heroImage": heroImage.asset->url,
   "heroImageAlt": heroImage.alt,
   "guaranteeLogo": guaranteeLogo.asset->url,
-  "capacityImage": capacityImage.asset->url,
-  "capacityImageAlt": capacityImage.alt,
+  "hostImage": coalesce(hostImage.asset->url, capacityImage.asset->url),
+  "hostImageAlt": coalesce(hostImage.alt, capacityImage.alt),
   pillars[]{
     _key,
     title,

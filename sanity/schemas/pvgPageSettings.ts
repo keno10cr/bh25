@@ -153,22 +153,6 @@ export const pvgPageSettings = defineType({
       group: "capacity",
       of: [capacitySpecItem],
     }),
-    defineField({
-      name: "capacityImage",
-      title: "Photo",
-      type: "image",
-      group: "capacity",
-      description:
-        "Photo beside the specs (about 40% width). Best size: 1600 × 1200 pixels (4:3).",
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: "alt",
-          title: "Alt text",
-          type: "string",
-        }),
-      ],
-    }),
 
     ...localizedField({
       name: "locationTitle",
@@ -196,6 +180,23 @@ export const pvgPageSettings = defineType({
       type: "number",
       group: "location",
       validation: (Rule) => Rule.min(-180).max(180),
+    }),
+    ...localizedField({
+      name: "petsTitle",
+      title: "Pets line",
+      type: "string",
+      group: "location",
+      description:
+        "One short line under the location text. Clicking it opens the pets details. Example: Pets are welcome at Blessed House.",
+    }),
+    ...localizedField({
+      name: "petsNote",
+      title: "Pets details",
+      type: "text",
+      rows: 3,
+      group: "location",
+      description:
+        "Shown in the pets popup with a link to the villas house rules. Example: Check the house rules, and pets are not allowed inside national parks.",
     }),
     ...localizedField({
       name: "locationLegendLabel",
@@ -243,6 +244,46 @@ export const pvgPageSettings = defineType({
       type: "text",
       rows: 3,
       group: "inquiry",
+    }),
+    defineField({
+      name: "hostImage",
+      title: "Host photo",
+      type: "image",
+      group: "inquiry",
+      description:
+        "Photo beside the request form on desktop and under it on mobile. Best size: 1600 × 1200 pixels (4:3 landscape). Drag the focus point onto the face.",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          description: "Example: Floribel Fadel smiling at the Blessed House reception.",
+        }),
+      ],
+    }),
+    ...localizedField({
+      name: "hostQuote",
+      title: "Host quote",
+      type: "text",
+      rows: 3,
+      group: "inquiry",
+      description:
+        "Short personal invitation shown above the host photo. Keep it to one or two sentences.",
+    }),
+    defineField({
+      name: "hostName",
+      title: "Host name",
+      type: "string",
+      group: "inquiry",
+      description: "Example: Floribel Fadel",
+    }),
+    ...localizedField({
+      name: "hostRole",
+      title: "Host role",
+      type: "string",
+      group: "inquiry",
+      description: "Example: Your host at Blessed House",
     }),
   ],
   preview: {

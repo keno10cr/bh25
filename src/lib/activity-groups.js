@@ -50,16 +50,3 @@ export function splitProposalActivities(activities = []) {
 
   return { transport, meals, local };
 }
-
-export function formatCoordinates(coordinates) {
-  const lat = Number(coordinates?.lat);
-  const lng = Number(coordinates?.lng);
-  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return "";
-  return `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-}
-
-export function mapsUrl(coordinates) {
-  const formatted = formatCoordinates(coordinates);
-  if (!formatted) return "";
-  return `https://www.google.com/maps?q=${formatted.replace(/\s/g, "")}`;
-}

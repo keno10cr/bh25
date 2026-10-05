@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import CmsText from "@/components/cms-text";
 import { resolveCopy } from "@/lib/cms-field";
 import { useSmoothParallax } from "@/lib/parallax-motion";
 import styles from "./location-section.module.css";
+
+const DIRECTIONS_URL =
+  "https://www.google.com/maps/dir/?api=1&destination=9.64735,-82.77697";
 
 export default function LocationSection({ copy }) {
   const { language } = useLanguage();
@@ -28,7 +30,13 @@ export default function LocationSection({ copy }) {
     "Blessed House Puerto Viejo de Talamanca",
     language
   );
-  const cta = resolveCopy(copy?.locationCta, t("location.contactUs"), language);
+  const cta = resolveCopy(
+    copy?.locationCta,
+    t("location.getDirections"),
+    language
+  );
+  const [copied, setCopied] = useState(false);
+  const copiedTimerRef = useRef(null);
   const imageRef = useRef(null);
   const sectionRef = useRef(null);
   const textRef = useRef(null);
@@ -41,6 +49,27 @@ export default function LocationSection({ copy }) {
 
   const fullText = `"${mapsQuery.value}"`;
   const totalChars = fullText.length;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(mapsQuery.value);
+    } catch {
+      const field = document.createElement("textarea");
+      field.value = mapsQuery.value;
+      field.setAttribute("readonly", "");
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      document.execCommand("copy");
+      field.remove();
+    }
+    setCopied(true);
+    clearTimeout(copiedTimerRef.current);
+    copiedTimerRef.current = setTimeout(() => setCopied(false), 2000);
+  };
+
+  useEffect(() => () => clearTimeout(copiedTimerRef.current), []);
 
   useSmoothParallax((loop) => {
     const getCenterOffset = () => {
@@ -183,29 +212,54 @@ export default function LocationSection({ copy }) {
           <p className={styles.mapsInfo}>
             <CmsText fromCms={mapsInfo.fromCms}>{mapsInfo.value}</CmsText>
           </p>
-          <p
-            className={`${styles.mapsQuery}${
-              mapsQuery.fromCms ? "" : " cms-fallback"
-            }`}
-            dir="ltr"
-            ref={textRef}
+          <div className={styles.queryRow}>
+            <p
+              className={`${styles.mapsQuery}${
+                mapsQuery.fromCms ? "" : " cms-fallback"
+              }`}
+              dir="ltr"
+              ref={textRef}
+            >
+              {fullText.split("").map((char, index) => (
+                <span
+                  key={index}
+                  className={styles.char}
+                  style={{
+                    opacity: index < visibleChars ? 1 : 0,
+                    transition: "opacity 0.1s ease-in",
+                  }}
+                >
+                  {char === " " ? "\u00A0" : char}
+                </span>
+              ))}
+            </p>
+            <button
+              type="button"
+              className={`${styles.copyButton} ${copied ? styles.copyButtonDone : ""}`}
+              onClick={handleCopy}
+              aria-live="polite"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                {copied ? (
+                  <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                ) : (
+                  <>
+                    <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="2" />
+                    <path d="M5 15V6a2 2 0 0 1 2-2h9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  </>
+                )}
+              </svg>
+              <span>{copied ? t("location.copied") : t("location.copy")}</span>
+            </button>
+          </div>
+          <a
+            href={DIRECTIONS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.ctaButton}
           >
-            {fullText.split("").map((char, index) => (
-              <span
-                key={index}
-                className={styles.char}
-                style={{
-                  opacity: index < visibleChars ? 1 : 0,
-                  transition: "opacity 0.1s ease-in",
-                }}
-              >
-                {char === " " ? "\u00A0" : char}
-              </span>
-            ))}
-          </p>
-          <Link href="/contact" className={styles.ctaButton}>
             <CmsText fromCms={cta.fromCms}>{cta.value}</CmsText>
-          </Link>
+          </a>
         </div>
       </div>
     </section>

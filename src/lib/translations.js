@@ -33,7 +33,10 @@ export const translations = {
       title: "Location",
       description: "From the crossroad at Hone Creek, keep on straight towards Puerto Viejo for 2.5kms, our entrance is on the right side of the road.",
       mapsInfo: "You can find us Google Maps:",
-      contactUs: "Contact Us"
+      contactUs: "Contact Us",
+      getDirections: "Get Directions",
+      copy: "Copy",
+      copied: "Copied"
     },
     featuredVillas: {
       title: "Featured Villas",
@@ -365,26 +368,22 @@ export const translations = {
       },
       airportShuttle: {
         name: "Private Airport Shuttle",
-        description: "Private Hyundai Staria transfer between the airport and Blessed House",
-        fullDescription: "Blessed House operates a private airport shuttle in a Hyundai Staria passenger van. The Staria wagon seats up to 9 passengers and measures 5,253 mm long, 1,997 mm wide, and 2,000 mm high, with air conditioning and luggage space for group arrivals. Pickup and drop-off at the property: 9.64735, -82.77697. We collect groups at Juan Santamaría International Airport (SJO) or Limón Airport (LIO) and drive you to the villas, or reverse the run for departure.",
+        description: "Private van transfer between the airport and Blessed House",
+        fullDescription: "Our private Hyundai Staria van seats up to 9 passengers, with air conditioning and room for luggage. We pick up your group at SJO or Limón airport and drive you straight to the villas.",
         highlights: [
-          "Hyundai Staria, up to 9 passengers",
-          "SJO or LIO airport pickup",
-          "Property pin 9.64735, -82.77697",
-          "Air conditioning and luggage space",
-          "Private, not a shared shuttle"
+          "Private van, up to 9 passengers",
+          "SJO or Limón airport pickup",
+          "Air conditioning and luggage space"
         ]
       },
       groupMeals: {
         name: "Private Group Meals & Breakfast",
-        description: "Custom breakfast and catering for exclusive group buyouts",
-        fullDescription: "Private estate groups can keep breakfast and meals on the property. We coordinate daily breakfast and custom catering so a group of 20 to 45 can eat together without leaving the villas. Menus can follow dietary needs, and dining uses the open-air gathering areas already included in the buyout.",
+        description: "Daily breakfast and custom catering on the property",
+        fullDescription: "We serve daily breakfast and custom group meals on the property, so your team can eat together without leaving the villas. Menus adapt to dietary needs.",
         highlights: [
           "Daily breakfast on property",
           "Custom group catering",
-          "Dietary accommodations",
-          "Open-air dining areas",
-          "Planned for 20 to 45 guests"
+          "Dietary accommodations"
         ]
       },
       legend: {
@@ -476,6 +475,8 @@ export const translations = {
       formTitle: "Send us a Message",
       successMessage: "Thank you for your message! We'll get back to you soon.",
       errorMessage: "We couldn't send your message right now. Please try again.",
+      fixErrors: "Please complete the highlighted fields above.",
+      sendAnother: "Send another message",
       contactInfo: {
         title: "Contact Information",
         address: "Address",
@@ -735,9 +736,13 @@ export const translations = {
       stepOf: "Step {current} of {total}",
       minStayBanner:
         "Minimum stay is {nights} nights. Please adjust your dates on the property page.",
-      thankYouTitle: "Thank you",
+      thankYouTitle: "Request received",
       thankYouBody:
-        "Your reservation request was received. Our team will review it and email you at {email} once it is confirmed.",
+        "Thank you! We received your booking request and will confirm availability within 24 hours by email at {email}. No payment is needed right now.",
+      requestNote:
+        "This is a booking request, so no payment is needed now. We will confirm availability within 24 hours and email you the next steps.",
+      sendRequest: "Send booking request",
+      ok: "OK",
       confirmationCode: "Confirmation code",
       guests: "Guests",
       dates: "Dates",
@@ -764,22 +769,6 @@ export const translations = {
       quietHours: "Quiet hours",
       termsAccept:
         "I agree to the house rules and understand this booking request is subject to host confirmation.",
-      paymentTitle: "Payment",
-      paymentSubtitle: "Secure mock payment step for this prototype.",
-      billingAddress: "Billing address",
-      city: "City",
-      stateRegion: "State / region",
-      postalCode: "Postal code",
-      country: "Country",
-      selectCountry: "Select a country",
-      payNow: "Pay now",
-      payLater: "Pay later",
-      payLaterNote:
-        "You can complete payment after we confirm availability. No card details are required for this mock step.",
-      cardholderName: "Cardholder name",
-      cardNumber: "Card number",
-      expiry: "Expiry",
-      cvv: "CVV",
       checkIn: "Check in",
       checkOut: "Check out",
       viewProperty: "View property",
@@ -832,7 +821,10 @@ export const translations = {
       title: "Ubicación",
       description: "Desde el cruce en Hone Creek, continúa recto hacia Puerto Viejo por 2.5 km, nuestra entrada está en el lado derecho de la carretera.",
       mapsInfo: "Puedes encontrarnos en Google Maps:",
-      contactUs: "Contáctanos"
+      contactUs: "Contáctanos",
+      getDirections: "Cómo llegar",
+      copy: "Copiar",
+      copied: "Copiado"
     },
     featuredVillas: {
       title: "Villas Destacadas",
@@ -1152,26 +1144,22 @@ export const translations = {
       },
       airportShuttle: {
         name: "Traslado privado al aeropuerto",
-        description: "Traslado privado en Hyundai Staria entre el aeropuerto y Blessed House",
-        fullDescription: "Blessed House opera un traslado privado al aeropuerto en una van Hyundai Staria. La Staria wagon admite hasta 9 pasajeros y mide 5.253 mm de largo, 1.997 mm de ancho y 2.000 mm de alto, con aire acondicionado y espacio para maletas. Recogida y entrega en la propiedad: 9.64735, -82.77697. Recogemos grupos en el Aeropuerto Internacional Juan Santamaría (SJO) o en el Aeropuerto de Limón (LIO) y los llevamos a las villas, o hacemos el viaje de salida.",
+        description: "Traslado privado en van entre el aeropuerto y Blessed House",
+        fullDescription: "Nuestra van privada Hyundai Staria lleva hasta 9 pasajeros, con aire acondicionado y espacio para maletas. Recogemos a su grupo en el aeropuerto SJO o en Limón y lo llevamos directo a las villas.",
         highlights: [
-          "Hyundai Staria, hasta 9 pasajeros",
-          "Recogida en SJO o LIO",
-          "Pin de la propiedad 9.64735, -82.77697",
-          "Aire acondicionado y maletas",
-          "Privado, no es un shuttle compartido"
+          "Van privada, hasta 9 pasajeros",
+          "Recogida en SJO o Limón",
+          "Aire acondicionado y maletas"
         ]
       },
       groupMeals: {
         name: "Desayuno y comidas privadas para grupos",
-        description: "Desayuno y catering a medida para alquiler exclusivo",
-        fullDescription: "Los grupos con la propiedad exclusiva pueden desayunar y comer en el lugar. Coordinamos desayuno diario y catering a medida para 20 a 45 personas, sin salir de las villas. Los menús pueden adaptarse a necesidades alimentarias y se sirven en las áreas abiertas ya incluidas en el alquiler.",
+        description: "Desayuno diario y catering a medida en la propiedad",
+        fullDescription: "Servimos desayuno diario y comidas a medida en la propiedad, para que su equipo coma junto sin salir de las villas. Los menús se adaptan a necesidades alimentarias.",
         highlights: [
           "Desayuno diario en la propiedad",
           "Catering a medida para el grupo",
-          "Opciones alimentarias especiales",
-          "Comedor al aire libre",
-          "Pensado para 20 a 45 personas"
+          "Opciones alimentarias especiales"
         ]
       },
       legend: {
@@ -1247,6 +1235,8 @@ export const translations = {
       formTitle: "Envíanos un Mensaje",
       successMessage: "¡Gracias por tu mensaje! Te responderemos pronto.",
       errorMessage: "No pudimos enviar tu mensaje en este momento. Por favor, inténtalo de nuevo.",
+      fixErrors: "Completa los campos marcados arriba.",
+      sendAnother: "Enviar otro mensaje",
       contactInfo: {
         title: "Información de Contacto",
         address: "Dirección",
@@ -1499,9 +1489,13 @@ export const translations = {
       stepOf: "Paso {current} de {total}",
       minStayBanner:
         "La estadía mínima es de {nights} noches. Ajusta tus fechas en la página de la propiedad.",
-      thankYouTitle: "Gracias",
+      thankYouTitle: "Solicitud recibida",
       thankYouBody:
-        "Recibimos tu solicitud de reserva. Nuestro equipo la revisará y te escribirá a {email} cuando esté confirmada.",
+        "¡Gracias! Recibimos tu solicitud de reserva y te confirmaremos la disponibilidad en un máximo de 24 horas por correo a {email}. No necesitas pagar nada ahora.",
+      requestNote:
+        "Esta es una solicitud de reserva, así que no necesitas pagar ahora. Confirmaremos la disponibilidad en un máximo de 24 horas y te enviaremos los siguientes pasos por correo.",
+      sendRequest: "Enviar solicitud de reserva",
+      ok: "OK",
       confirmationCode: "Código de confirmación",
       guests: "Huéspedes",
       dates: "Fechas",
@@ -1528,22 +1522,6 @@ export const translations = {
       quietHours: "Horario de silencio",
       termsAccept:
         "Acepto las reglas de la casa y entiendo que esta solicitud está sujeta a confirmación del anfitrión.",
-      paymentTitle: "Pago",
-      paymentSubtitle: "Paso de pago simulado para este prototipo.",
-      billingAddress: "Dirección de facturación",
-      city: "Ciudad",
-      stateRegion: "Provincia / región",
-      postalCode: "Código postal",
-      country: "País",
-      selectCountry: "Selecciona un país",
-      payNow: "Pagar ahora",
-      payLater: "Pagar después",
-      payLaterNote:
-        "Puedes completar el pago después de confirmar disponibilidad. No se requieren datos de tarjeta en este paso simulado.",
-      cardholderName: "Nombre en la tarjeta",
-      cardNumber: "Número de tarjeta",
-      expiry: "Vencimiento",
-      cvv: "CVV",
       checkIn: "Entrada",
       checkOut: "Salida",
       viewProperty: "Ver propiedad",
@@ -1619,7 +1597,10 @@ export const translations = {
       title: "Standort",
       description: "Von der Kreuzung in Hone Creek fahren Sie geradeaus in Richtung Puerto Viejo für 2,5 km, unser Eingang befindet sich auf der rechten Seite der Straße.",
       mapsInfo: "Sie können uns auf Google Maps finden:",
-      contactUs: "Kontaktieren Sie uns"
+      contactUs: "Kontaktieren Sie uns",
+      getDirections: "Route planen",
+      copy: "Kopieren",
+      copied: "Kopiert"
     },
     featuredVillas: {
       title: "Ausgewählte Villen",
@@ -1891,26 +1872,22 @@ export const translations = {
       },
       airportShuttle: {
         name: "Privater Flughafentransfer",
-        description: "Privater Hyundai Staria Transfer zwischen Flughafen und Blessed House",
-        fullDescription: "Blessed House betreibt einen privaten Flughafentransfer im Hyundai Staria. Der Staria Wagon bietet Platz für bis zu 9 Passagiere (5.253 × 1.997 × 2.000 mm), mit Klimaanlage und Gepäckraum. Abholung und Bringdienst an der Unterkunft: 9.64735, -82.77697. Wir holen Gruppen am Juan Santamaría International Airport (SJO) oder am Flughafen Limón (LIO) ab.",
+        description: "Privater Van Transfer zwischen Flughafen und Blessed House",
+        fullDescription: "Unser privater Hyundai Staria Van bietet Platz für bis zu 9 Passagiere, mit Klimaanlage und Gepäckraum. Wir holen Ihre Gruppe am Flughafen SJO oder Limón ab und bringen Sie direkt zu den Villen.",
         highlights: [
-          "Hyundai Staria, bis 9 Passagiere",
-          "Abholung SJO oder LIO",
-          "Standort 9.64735, -82.77697",
-          "Klimaanlage und Gepäckraum",
-          "Privat, kein Sammelshuttle"
+          "Privater Van, bis 9 Passagiere",
+          "Abholung SJO oder Limón",
+          "Klimaanlage und Gepäckraum"
         ]
       },
       groupMeals: {
         name: "Privates Gruppenfrühstück und Mahlzeiten",
-        description: "Frühstück und Catering für exklusive Gruppen",
-        fullDescription: "Bei einer kompletten Anmietung bleiben Frühstück und Mahlzeiten auf dem Gelände. Wir koordinieren tägliches Frühstück und Catering für 20 bis 45 Gäste, mit Rücksicht auf Ernährungsbedürfnisse.",
+        description: "Tägliches Frühstück und Catering auf dem Gelände",
+        fullDescription: "Wir servieren tägliches Frühstück und Gruppenmahlzeiten auf dem Gelände, damit Ihr Team gemeinsam essen kann, ohne die Villen zu verlassen. Menüs richten sich nach Ernährungswünschen.",
         highlights: [
           "Tägliches Frühstück vor Ort",
-          "Gruppen-Catering",
-          "Ernährungswünsche",
-          "Offene Essbereiche",
-          "Für 20 bis 45 Gäste"
+          "Catering für die Gruppe",
+          "Ernährungswünsche"
         ]
       },
       legend: {
@@ -1986,6 +1963,8 @@ export const translations = {
       formTitle: "Senden Sie uns eine Nachricht",
       successMessage: "Vielen Dank für Ihre Nachricht! Wir werden uns bald bei Ihnen melden.",
       errorMessage: "Wir konnten Ihre Nachricht derzeit nicht senden. Bitte versuchen Sie es erneut.",
+      fixErrors: "Bitte füllen Sie die markierten Felder oben aus.",
+      sendAnother: "Weitere Nachricht senden",
       contactInfo: {
         title: "Kontaktinformationen",
         address: "Adresse",
@@ -2280,7 +2259,10 @@ export const translations = {
       title: "Locatie",
       description: "Vanaf het kruispunt bij Hone Creek, blijf rechtdoor richting Puerto Viejo voor 2,5 km, onze ingang is aan de rechterkant van de weg.",
       mapsInfo: "U kunt ons vinden op Google Maps:",
-      contactUs: "Neem Contact Op"
+      contactUs: "Neem Contact Op",
+      getDirections: "Routebeschrijving",
+      copy: "Kopiëren",
+      copied: "Gekopieerd"
     },
     featuredVillas: {
       title: "Uitgelichte Villa's",
@@ -2552,26 +2534,22 @@ export const translations = {
       },
       airportShuttle: {
         name: "Privé luchthaventransfer",
-        description: "Privé Hyundai Staria transfer tussen luchthaven en Blessed House",
-        fullDescription: "Blessed House rijdt een privé luchthaventransfer in een Hyundai Staria. De Staria wagon heeft plaats voor tot 9 passagiers (5.253 × 1.997 × 2.000 mm), met airconditioning en bagageruimte. Ophaal- en afzetpunt op de lodge: 9.64735, -82.77697. We halen groepen op van Juan Santamaría (SJO) of Limón (LIO).",
+        description: "Privé busjestransfer tussen luchthaven en Blessed House",
+        fullDescription: "Ons privé Hyundai Staria busje biedt plaats aan maximaal 9 passagiers, met airconditioning en bagageruimte. We halen je groep op bij luchthaven SJO of Limón en rijden direct naar de villa's.",
         highlights: [
-          "Hyundai Staria, tot 9 passagiers",
-          "Ophalen SJO of LIO",
-          "Pin 9.64735, -82.77697",
-          "Airconditioning en bagage",
-          "Privé, geen deellijn"
+          "Privé busje, tot 9 passagiers",
+          "Ophalen bij SJO of Limón",
+          "Airconditioning en bagageruimte"
         ]
       },
       groupMeals: {
         name: "Privé groepsontbijt en maaltijden",
-        description: "Ontbijt en catering voor exclusieve groepen",
-        fullDescription: "Bij een volledige afhuur blijven ontbijt en maaltijden op het terrein. We regelen dagelijks ontbijt en catering voor 20 tot 45 gasten, inclusief dieetwensen.",
+        description: "Dagelijks ontbijt en catering op het terrein",
+        fullDescription: "We serveren dagelijks ontbijt en groepsmaaltijden op het terrein, zodat je team samen kan eten zonder de villa's te verlaten. Menu's passen zich aan dieetwensen aan.",
         highlights: [
           "Dagelijks ontbijt op locatie",
           "Groepscatering",
-          "Dieetwensen",
-          "Openlucht dineren",
-          "Voor 20 tot 45 gasten"
+          "Dieetwensen"
         ]
       },
       legend: {
@@ -2647,6 +2625,8 @@ export const translations = {
       formTitle: "Stuur Ons een Bericht",
       successMessage: "Bedankt voor uw bericht! We nemen binnenkort contact met u op.",
       errorMessage: "We konden uw bericht nu niet verzenden. Probeer het opnieuw.",
+      fixErrors: "Vul de gemarkeerde velden hierboven in.",
+      sendAnother: "Nog een bericht sturen",
       contactInfo: {
         title: "Contactgegevens",
         address: "Adres",
@@ -2941,7 +2921,10 @@ export const translations = {
       title: "Emplacement",
       description: "Depuis le carrefour à Hone Creek, continuez tout droit vers Puerto Viejo sur 2,5 km, notre entrée est sur le côté droit de la route.",
       mapsInfo: "Vous pouvez nous trouver sur Google Maps:",
-      contactUs: "Nous Contacter"
+      contactUs: "Nous Contacter",
+      getDirections: "Itinéraire",
+      copy: "Copier",
+      copied: "Copié"
     },
     featuredVillas: {
       title: "Villas en Vedette",
@@ -3213,26 +3196,22 @@ export const translations = {
       },
       airportShuttle: {
         name: "Navette privée aéroport",
-        description: "Transfert privé Hyundai Staria entre l'aéroport et Blessed House",
-        fullDescription: "Blessed House assure une navette aéroport privée en Hyundai Staria. Le Staria wagon accueille jusqu'à 9 passagers (5 253 × 1 997 × 2 000 mm), avec climatisation et espace bagages. Prise en charge à la propriété : 9.64735, -82.77697. Nous récupérons les groupes à Juan Santamaría (SJO) ou à Limón (LIO).",
+        description: "Transfert privé en van entre l'aéroport et Blessed House",
+        fullDescription: "Notre van privé Hyundai Staria accueille jusqu'à 9 passagers, avec climatisation et espace bagages. Nous récupérons votre groupe à l'aéroport SJO ou Limón et vous conduisons directement aux villas.",
         highlights: [
-          "Hyundai Staria, jusqu'à 9 passagers",
-          "Prise en charge SJO ou LIO",
-          "Repère 9.64735, -82.77697",
-          "Climatisation et bagages",
-          "Privé, pas de navette partagée"
+          "Van privé, jusqu'à 9 passagers",
+          "Prise en charge SJO ou Limón",
+          "Climatisation et bagages"
         ]
       },
       groupMeals: {
-        name: "Petit-déjeuner et repas privés pour groupes",
-        description: "Petit-déjeuner et traiteur pour les locations exclusives",
-        fullDescription: "Les groupes en location exclusive prennent petit-déjeuner et repas sur place. Nous coordonnons un petit-déjeuner quotidien et un traiteur pour 20 à 45 personnes, selon les régimes alimentaires.",
+        name: "Petit déjeuner et repas privés pour groupes",
+        description: "Petit déjeuner quotidien et traiteur sur place",
+        fullDescription: "Nous servons le petit déjeuner chaque jour et des repas de groupe sur place, pour que votre équipe mange ensemble sans quitter les villas. Les menus s'adaptent aux régimes alimentaires.",
         highlights: [
-          "Petit-déjeuner quotidien sur place",
+          "Petit déjeuner quotidien sur place",
           "Traiteur de groupe",
-          "Régimes alimentaires",
-          "Espaces de repas en plein air",
-          "Pour 20 à 45 personnes"
+          "Régimes alimentaires"
         ]
       },
       legend: {
@@ -3308,6 +3287,8 @@ export const translations = {
       formTitle: "Envoyez-nous un Message",
       successMessage: "Merci pour votre message! Nous vous répondrons bientôt.",
       errorMessage: "Nous n'avons pas pu envoyer votre message pour le moment. Veuillez réessayer.",
+      fixErrors: "Veuillez compléter les champs indiqués ci dessus.",
+      sendAnother: "Envoyer un autre message",
       contactInfo: {
         title: "Informations de Contact",
         address: "Adresse",
@@ -3602,7 +3583,10 @@ export const translations = {
       title: "場所",
       description: "ホーンクリークの交差点から、プエルトビエホに向かって2.5キロメートル直進してください。入り口は道路の右側にあります。",
       mapsInfo: "Googleマップで見つけることができます：",
-      contactUs: "お問い合わせ"
+      contactUs: "お問い合わせ",
+      getDirections: "道順を見る",
+      copy: "コピー",
+      copied: "コピーしました"
     },
     featuredVillas: {
       title: "おすすめのヴィラ",
@@ -3874,26 +3858,22 @@ export const translations = {
       },
       airportShuttle: {
         name: "プライベート空港送迎",
-        description: "空港とBlessed Houseを結ぶHyundai Stariaの専用送迎",
-        fullDescription: "Blessed HouseはHyundai Stariaで専用空港送迎を行います。Stariaワゴンは最大9名、全長5,253 mm、全幅1,997 mm、全高2,000 mmで、エアコンと荷物スペースがあります。施設の乗降地点は 9.64735, -82.77697。フアン・サンタマリーア国際空港（SJO）またはリモン空港（LIO）でお迎えします。",
+        description: "空港とBlessed Houseを結ぶ専用バン送迎",
+        fullDescription: "専用のHyundai Stariaバンは最大9名まで乗車でき、エアコンと荷物スペースを備えています。SJOまたはリモン空港でグループをお迎えし、ヴィラまで直接お送りします。",
         highlights: [
-          "Hyundai Staria、最大9名",
-          "SJOまたはLIOでの送迎",
-          "施設ピン 9.64735, -82.77697",
-          "エアコンと荷物スペース",
-          "専用、相乗りではありません"
+          "専用バン、最大9名",
+          "SJOまたはリモン空港でお迎え",
+          "エアコンと荷物スペース"
         ]
       },
       groupMeals: {
         name: "グループ専用の朝食と食事",
-        description: "貸切グループ向けの朝食とケータリング",
-        fullDescription: "貸切グループは施設内で朝食と食事を取れます。20〜45名向けに毎日の朝食とケータリングを手配し、食事制限にも対応します。",
+        description: "施設内での毎日の朝食とケータリング",
+        fullDescription: "施設内で毎日の朝食とグループ向けの食事をご用意し、ヴィラを出ずにチーム全員で食事ができます。食事制限にも対応します。",
         highlights: [
           "施設内の毎日の朝食",
           "グループケータリング",
-          "食事制限への対応",
-          "屋外の食事スペース",
-          "20〜45名向け"
+          "食事制限への対応"
         ]
       },
       legend: {
@@ -3969,6 +3949,8 @@ export const translations = {
       formTitle: "メッセージを送る",
       successMessage: "メッセージありがとうございます！近日中にご連絡いたします。",
       errorMessage: "現在、メッセージを送信できませんでした。もう一度お試しください。",
+      fixErrors: "上の表示された項目をご入力ください。",
+      sendAnother: "別のメッセージを送る",
       contactInfo: {
         title: "連絡先情報",
         address: "住所",
@@ -4263,7 +4245,10 @@ export const translations = {
       title: "Localização",
       description: "Do cruzamento em Hone Creek, continue reto em direção a Puerto Viejo por 2,5 km, nossa entrada está no lado direito da estrada.",
       mapsInfo: "Você pode nos encontrar no Google Maps:",
-      contactUs: "Entre em Contato"
+      contactUs: "Entre em Contato",
+      getDirections: "Como chegar",
+      copy: "Copiar",
+      copied: "Copiado"
     },
     featuredVillas: {
       title: "Vilas em Destaque",
@@ -4654,26 +4639,22 @@ export const translations = {
       },
       airportShuttle: {
         name: "Transfer privado ao aeroporto",
-        description: "Transfer privado de Hyundai Staria entre o aeroporto e a Blessed House",
-        fullDescription: "A Blessed House opera um transfer privado ao aeroporto em uma Hyundai Staria. A Staria wagon leva até 9 passageiros (5.253 × 1.997 × 2.000 mm), com ar-condicionado e espaço para bagagem. Embarque e desembarque na propriedade: 9.64735, -82.77697. Buscamos grupos no Aeroporto Internacional Juan Santamaría (SJO) ou no Aeroporto de Limón (LIO).",
+        description: "Transfer privado de van entre o aeroporto e a Blessed House",
+        fullDescription: "Nossa van privada Hyundai Staria leva até 9 passageiros, com ar condicionado e espaço para bagagem. Buscamos seu grupo no aeroporto SJO ou Limón e levamos direto às villas.",
         highlights: [
-          "Hyundai Staria, até 9 passageiros",
-          "Recolha em SJO ou LIO",
-          "Pin 9.64735, -82.77697",
-          "Ar-condicionado e bagagem",
-          "Privado, não é van compartilhada"
+          "Van privada, até 9 passageiros",
+          "Busca em SJO ou Limón",
+          "Ar condicionado e bagagem"
         ]
       },
       groupMeals: {
         name: "Café da manhã e refeições privadas para grupos",
-        description: "Café da manhã e catering para locação exclusiva",
-        fullDescription: "Grupos com a propriedade exclusiva podem tomar café da manhã e refeições no local. Coordenamos café da manhã diário e catering para 20 a 45 pessoas, com opções alimentares.",
+        description: "Café da manhã diário e catering na propriedade",
+        fullDescription: "Servimos café da manhã diário e refeições para o grupo na propriedade, para sua equipe comer junta sem sair das villas. Os cardápios se adaptam a restrições alimentares.",
         highlights: [
           "Café da manhã diário na propriedade",
           "Catering para o grupo",
-          "Opções alimentares",
-          "Refeições ao ar livre",
-          "Para 20 a 45 hóspedes"
+          "Opções alimentares"
         ]
       },
       legend: {
@@ -4724,6 +4705,8 @@ export const translations = {
       formTitle: "Envie-nos uma Mensagem",
       successMessage: "Obrigado pela sua mensagem! Entraremos em contato em breve.",
       errorMessage: "Não foi possível enviar sua mensagem no momento. Por favor, tente novamente.",
+      fixErrors: "Preencha os campos destacados acima.",
+      sendAnother: "Enviar outra mensagem",
       contactInfo: {
         title: "Informações de Contato",
         address: "Endereço",
