@@ -11,6 +11,8 @@ const LEGEND_COLORS = {
   Dining: "#c4783a",
 };
 
+const LOCALE_SUFFIXES = ["Es", "De", "Nl", "Fr", "Ja", "Pt", "Ar"];
+
 export function portableTextToPlain(value) {
   if (!value) return "";
   if (typeof value === "string") return value;
@@ -58,6 +60,18 @@ export function mapActivity(raw, fallback = null) {
         }))
     : [];
 
+  const localeFields = {};
+  for (const suffix of LOCALE_SUFFIXES) {
+    for (const field of ["title", "duration", "groupSize"]) {
+      const key = `${field}${suffix}`;
+      localeFields[key] = raw?.[key] || base[key];
+    }
+    const descriptionKey = `description${suffix}`;
+    localeFields[descriptionKey] = raw?.[descriptionKey]
+      ? portableTextToPlain(raw[descriptionKey])
+      : base[descriptionKey];
+  }
+
   return {
     ...base,
     id: raw?._id || base.id,
@@ -71,13 +85,8 @@ export function mapActivity(raw, fallback = null) {
       primaryLegend?.color || LEGEND_COLORS[fallbackCategory] || "#0a4c3a",
     difficulty: raw?.difficulty || base.difficulty || "N/A",
     duration: raw?.duration || base.duration,
-    durationEs: raw?.durationEs || base.durationEs,
     groupSize: raw?.groupSize || base.groupSize,
-    groupSizeEs: raw?.groupSizeEs || base.groupSizeEs,
-    titleEs: raw?.titleEs || base.titleEs,
-    descriptionEs: raw?.descriptionEs
-      ? portableTextToPlain(raw.descriptionEs)
-      : base.descriptionEs,
+    ...localeFields,
     coordinates,
     image:
       (raw?.slug || base.slug) === "punta-mona" ||

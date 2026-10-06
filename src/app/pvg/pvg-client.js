@@ -11,6 +11,7 @@ import DateRangePicker, {
 import { languages, useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import { resolveCopy } from "@/lib/cms-field";
+import { localizedOnly } from "@/lib/localized";
 import {
   PVG_PILLARS_DEFAULTS,
   PVG_CAPACITY_SPECS_DEFAULTS,
@@ -37,7 +38,7 @@ const ATTENDEE_RANGE_FALLBACK = ["20 to 29", "30 to 39", "40 to 45"];
 
 const DRAG_CLICK_THRESHOLD = 6;
 
-function resolveActivityLabel(image, t) {
+function resolveActivityLabel(image, t, language) {
   if (image.labelKey) {
     const labeled = t(`pvg.activityLabels.${image.labelKey}`);
     if (labeled && !String(labeled).startsWith("pvg.")) return labeled;
@@ -48,7 +49,12 @@ function resolveActivityLabel(image, t) {
     : "";
   const fromTranslation =
     translated && !translated.startsWith("activitiesPage.") ? translated : "";
-  const raw = fromTranslation || image.title || image.alt || "Activity";
+  const raw =
+    fromTranslation ||
+    localizedOnly(image, "title", language) ||
+    image.title ||
+    image.alt ||
+    "Activity";
   const lower = String(raw).toLowerCase();
 
   // CMS titles like "Playa Negra @ Tennis" without a translation key
@@ -73,7 +79,12 @@ function resolveActivityDescription(image, t, language) {
       ? translated
       : "";
   if (language !== "en" && fromTranslation) return fromTranslation;
-  return image.description || fromTranslation || "";
+  return (
+    localizedOnly(image, "description", language) ||
+    image.description ||
+    fromTranslation ||
+    ""
+  );
 }
 
 function shortDescription(text, max = 220) {
@@ -679,7 +690,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
 
   const activeImage =
     activeImageIndex !== null ? galleryImages[activeImageIndex] : null;
-  const activeImageLabel = activeImage ? resolveActivityLabel(activeImage, t) : "";
+  const activeImageLabel = activeImage ? resolveActivityLabel(activeImage, t, language) : "";
   const activeImageDescription = activeImage
     ? shortDescription(resolveActivityDescription(activeImage, t, language))
     : "";
@@ -822,7 +833,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
             >
               <div className={styles.marqueeTrack} ref={trackRef}>
                 {loopImages.map((image, index) => {
-                  const label = resolveActivityLabel(image, t);
+                  const label = resolveActivityLabel(image, t, language);
                   const isClone = index >= galleryImages.length;
                   return (
                     <button

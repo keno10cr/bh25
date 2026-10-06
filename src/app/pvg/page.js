@@ -31,6 +31,19 @@ function isTennisNearPlayaNegra(activity) {
   return raw.includes("tennis") && raw.includes("negra");
 }
 
+const LOCALE_SUFFIXES = ["Es", "De", "Nl", "Fr", "Ja", "Pt", "Ar"];
+
+function localeCopy(activity) {
+  const out = {};
+  for (const suffix of LOCALE_SUFFIXES) {
+    for (const field of ["title", "description"]) {
+      const value = activity?.[`${field}${suffix}`];
+      if (value) out[`${field}${suffix}`] = String(value).trim();
+    }
+  }
+  return out;
+}
+
 function galleryLabelKey(activity) {
   if (isTennisNearPlayaNegra(activity)) return "tennisNearPlayaNegra";
   return "";
@@ -102,6 +115,7 @@ export default async function PvgPage() {
               description: String(
                 activity.description || activity.fullDescription || ""
               ).trim(),
+              ...localeCopy(activity),
               alt:
                 fallbackTitle ||
                 activity.title ||

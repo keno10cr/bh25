@@ -12,6 +12,7 @@ import {
   resolveWhatsIncluded,
 } from "@/lib/activity-content";
 import { displayMeta } from "@/lib/display-copy";
+import { localizedOnly } from "@/lib/localized";
 import { useTranslation } from "@/lib/translations";
 import styles from "./activity-page.module.css";
 
@@ -45,16 +46,19 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
   const useTranslatedName = Boolean(key) && (preferUi || !activity.nameFromCms);
   const useTranslatedBody =
     Boolean(key) && (preferUi || !activity.descriptionFromCms);
-  const name = useTranslatedName ? translatedName : activity.name;
+  const name = useTranslatedName
+    ? translatedName
+    : localizedOnly(activity, "title", language) || activity.name;
+  const cmsLocalBody = localizedOnly(activity, "description", language);
   const body = useTranslatedBody
     ? translatedFull
-    : activity.fullDescription || activity.description;
-  const duration = displayMeta(t, "activitiesPage.durations", activity.duration);
-  const groupSize = displayMeta(
-    t,
-    "activitiesPage.groupSizes",
-    activity.groupSize
-  );
+    : cmsLocalBody || activity.fullDescription || activity.description;
+  const duration =
+    localizedOnly(activity, "duration", language) ||
+    displayMeta(t, "activitiesPage.durations", activity.duration);
+  const groupSize =
+    localizedOnly(activity, "groupSize", language) ||
+    displayMeta(t, "activitiesPage.groupSizes", activity.groupSize);
   const price = activity.priceKey
     ? t(`activitiesPage.prices.${activity.priceKey}`)
     : activity.price;
@@ -99,7 +103,7 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
           </ul>
         ) : null}
       </header>
-      {!useTranslatedBody && activity.descriptionBlocks ? (
+      {!useTranslatedBody && !cmsLocalBody && activity.descriptionBlocks ? (
         <PortableBody value={activity.descriptionBlocks} />
       ) : (
         <p className={styles.copy}>

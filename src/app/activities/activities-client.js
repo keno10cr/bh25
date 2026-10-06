@@ -9,6 +9,7 @@ import { useTranslation } from "@/lib/translations";
 import { resolveCopy, useUiCopy } from "@/lib/cms-field";
 import { displayMeta } from "@/lib/display-copy";
 import { resolveWhatsIncluded } from "@/lib/activity-content";
+import { localizedOnly } from "@/lib/localized";
 import styles from "./activities.module.css";
 
 const ActivitiesMap = dynamic(() => import("@/components/activities-map"), {
@@ -65,18 +66,20 @@ export default function ActivitiesClient({
         const useTranslatedName = Boolean(key) && (preferUi || !activity.nameFromCms);
         const useTranslatedBody =
           Boolean(key) && (preferUi || !activity.descriptionFromCms);
+        const cmsName = localizedOnly(activity, "title", language);
+        const cmsDescription = localizedOnly(activity, "description", language);
         return {
           ...activity,
-          name: useTranslatedName ? translatedName : activity.name,
+          name: useTranslatedName ? translatedName : cmsName || activity.name,
           title: useTranslatedName
             ? translatedName
-            : activity.title || activity.name,
+            : cmsName || activity.title || activity.name,
           description: useTranslatedBody
             ? translatedDescription
-            : activity.description,
+            : cmsDescription || activity.description,
           fullDescription: useTranslatedBody
             ? translatedFull
-            : activity.fullDescription || activity.description,
+            : cmsDescription || activity.fullDescription || activity.description,
           nameFromCms: useTranslatedName ? false : activity.nameFromCms,
           descriptionFromCms: useTranslatedBody
             ? false
@@ -86,19 +89,15 @@ export default function ActivitiesClient({
           price: activity.priceKey
             ? t(`activitiesPage.prices.${activity.priceKey}`)
             : activity.price,
-          duration: displayMeta(
-            t,
-            "activitiesPage.durations",
-            activity.duration
-          ),
-          groupSize: displayMeta(
-            t,
-            "activitiesPage.groupSizes",
-            activity.groupSize
-          ),
+          duration:
+            localizedOnly(activity, "duration", language) ||
+            displayMeta(t, "activitiesPage.durations", activity.duration),
+          groupSize:
+            localizedOnly(activity, "groupSize", language) ||
+            displayMeta(t, "activitiesPage.groupSizes", activity.groupSize),
         };
       }),
-    [cmsActivities, t, preferUi]
+    [cmsActivities, t, preferUi, language]
   );
 
   const translatedLegend = useMemo(

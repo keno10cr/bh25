@@ -16,6 +16,12 @@ export function localizedField(doc, field, language = "en") {
   return doc[`${field}${suffix}`] || doc[field] || "";
 }
 
+export function localizedOnly(doc, field, language = "en") {
+  if (!doc || !language || language === "en") return "";
+  const suffix = LOCALE_SUFFIX[language];
+  return (suffix && doc[`${field}${suffix}`]) || "";
+}
+
 export function localizedArray(doc, field, language = "en") {
   if (!doc) return [];
   if (!language || language === "en") {
