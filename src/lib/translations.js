@@ -551,14 +551,14 @@ export const translations = {
       },
       tel: "TEL: ####-####",
       contactSubtitle: "Blessed House S.A.",
-      contactText: "Please send your proof of deposit only on WhatsApp, with a message that includes the name the reservation is under, to either +506 8926 2639 or +1 (754) 610 4710. Thank you!",
+      contactText: "Please send your proof of deposit only on WhatsApp, with a message that includes the name the reservation is under, to either +506 8926 2630 or +1 (754) 610 4710. Thank you!",
       copy: {
         button: "Copy {label}",
         title: "Copied!",
         message: "{label} is copied to your clipboard.",
         ok: "OK"
       },
-      footer: "Tel. +506 8926 2639 · +1 (754) 610 4710 · www.blessedhouse.info · Puerto Viejo, Talamanca, Costa Rica"
+      footer: "Tel. +506 8926 2630 · +1 (754) 610 4710 · www.blessedhouse.info · Puerto Viejo, Talamanca, Costa Rica"
     },
     gallery: {
       title: "Discover Paradise at Blessed House",
@@ -1311,14 +1311,14 @@ export const translations = {
       },
       tel: "TEL: ####-####",
       contactSubtitle: "Blessed House S.A.",
-      contactText: "Por favor enviar el comprobante de depósito solo por WhatsApp, con un mensaje que contenga el nombre de a quien está la reserva, a cualquiera de estos números: +506 8926 2639 o +1 (754) 610 4710. ¡Muchas gracias!",
+      contactText: "Por favor enviar el comprobante de depósito solo por WhatsApp, con un mensaje que contenga el nombre de a quien está la reserva, a cualquiera de estos números: +506 8926 2630 o +1 (754) 610 4710. ¡Muchas gracias!",
       copy: {
         button: "Copiar {label}",
         title: "¡Copiado!",
         message: "{label} quedó copiado en tu portapapeles.",
         ok: "OK"
       },
-      footer: "Tel. +506 8926 2639 · +1 (754) 610 4710 · www.blessedhouse.info · Puerto Viejo, Talamanca, Costa Rica"
+      footer: "Tel. +506 8926 2630 · +1 (754) 610 4710 · www.blessedhouse.info · Puerto Viejo, Talamanca, Costa Rica"
     },
     gallery: {
       title: "Descubre el Paraíso en Blessed House",

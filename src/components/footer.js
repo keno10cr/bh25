@@ -22,6 +22,9 @@ export const SOCIAL_ICONS = {
   airbnb: "/social/2026/abnbBH.png",
 };
 
+const DIRECTIONS_URL =
+  "https://www.google.com/maps/dir/?api=1&destination=9.64735,-82.77697";
+
 const NAV_KEY_BY_HREF = {
   "/gallery": "gallery",
   "/villas": "villas",
@@ -171,26 +174,48 @@ export default function Footer({ footer }) {
 
           <div className={styles.section}>
             <h4>{t("footer.contactInfo")}</h4>
-            <p>
-              {t("common.email")}:{" "}
-              <a href={`mailto:${email}`}>{email}</a>
-            </p>
-            <p>
-              {t("common.phone")}:{" "}
-              {phones.map((phone, index) => (
-                <Fragment key={`${phone.tel}-${index}`}>
-                  {index > 0 && (
-                    <>
+            <ul className={styles.contactList}>
+              <li className={styles.contactItem}>
+                <Image
+                  src="/social/iconEmail.png"
+                  alt=""
+                  width={22}
+                  height={22}
+                  className={styles.contactIcon}
+                />
+                <a href={`mailto:${email}`}>{email}</a>
+              </li>
+              <li className={styles.contactItem}>
+                <Image
+                  src="/social/iConWhatapp.png"
+                  alt=""
+                  width={22}
+                  height={22}
+                  className={styles.contactIcon}
+                />
+                <span>
+                  {t("common.phone")}/WhatsApp:
+                  {phones.map((phone, index) => (
+                    <Fragment key={`${phone.tel}-${index}`}>
                       <br />
-                      {t("common.or")}
-                      <br />
-                    </>
-                  )}
-                  <a href={`tel:${phone.tel}`}>{phone.label}</a>
-                </Fragment>
-              ))}
-            </p>
-            <p>{addressLine}</p>
+                      <a href={`tel:${phone.tel}`}>{phone.label}</a>
+                    </Fragment>
+                  ))}
+                </span>
+              </li>
+              <li className={styles.contactItem}>
+                <Image
+                  src="/social/iconMap.png"
+                  alt=""
+                  width={22}
+                  height={22}
+                  className={styles.contactIcon}
+                />
+                <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer">
+                  {addressLine}
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 

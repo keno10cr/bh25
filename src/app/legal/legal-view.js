@@ -34,8 +34,8 @@ export default function LegalView() {
       <footer className={styles.contact}>
         <p>{content.contactLabel}</p>
         <p>
-          <a href="https://wa.me/50689262639" target="_blank" rel="noopener noreferrer">
-            +506 8926 2639
+          <a href="https://wa.me/50689262630" target="_blank" rel="noopener noreferrer">
+            +506 8926 2630
           </a>
           {" · "}
           <a href="https://wa.me/17546104710" target="_blank" rel="noopener noreferrer">

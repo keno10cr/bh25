@@ -546,14 +546,14 @@ export const arTranslations = {
     },
     tel: "هاتف: ####-####",
     contactSubtitle: "Blessed House S.A.",
-    contactText: "يرجى إرسال إثبات الإيداع عبر WhatsApp فقط، مع رسالة تتضمن الاسم المسجل للحجز، إلى +506 8926 2639 أو +1 (754) 610 4710. شكراً لكم.",
+    contactText: "يرجى إرسال إثبات الإيداع عبر WhatsApp فقط، مع رسالة تتضمن الاسم المسجل للحجز، إلى +506 8926 2630 أو +1 (754) 610 4710. شكراً لكم.",
     copy: {
       button: "نسخ {label}",
       title: "تم النسخ",
       message: "تم نسخ {label} إلى الحافظة.",
       ok: "حسناً"
     },
-    footer: "هاتف +506 8926 2639 · +1 (754) 610 4710 · www.blessedhouse.info · Puerto Viejo, Talamanca, Costa Rica"
+    footer: "هاتف +506 8926 2630 · +1 (754) 610 4710 · www.blessedhouse.info · Puerto Viejo, Talamanca, Costa Rica"
   },
   gallery: {
     title: "اكتشفوا الجنة في Blessed House",

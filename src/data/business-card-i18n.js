@@ -2,7 +2,7 @@
 
 export const BUSINESS_CARD_I18N = {
   en: {
-    tagline: "Private villas in the Caribbean rainforest of Puerto Viejo, Costa Rica.",
+    tagline: "Private villas in\nthe Caribbean rainforest",
     call: "Call",
     whatsapp: "WhatsApp",
     email: "Email",
@@ -18,7 +18,7 @@ export const BUSINESS_CARD_I18N = {
     language: "Language",
   },
   es: {
-    tagline: "Villas privadas en el bosque tropical caribeño de Puerto Viejo, Costa Rica.",
+    tagline: "Villas privadas en\nel bosque tropical caribeño",
     call: "Llamar",
     whatsapp: "WhatsApp",
     email: "Correo",
@@ -34,7 +34,7 @@ export const BUSINESS_CARD_I18N = {
     language: "Idioma",
   },
   de: {
-    tagline: "Private Villen im karibischen Regenwald von Puerto Viejo, Costa Rica.",
+    tagline: "Private Villen im\nkaribischen Regenwald",
     call: "Anrufen",
     whatsapp: "WhatsApp",
     email: "Mail",
@@ -50,7 +50,7 @@ export const BUSINESS_CARD_I18N = {
     language: "Sprache",
   },
   nl: {
-    tagline: "Privé villa's in het Caribische regenwoud van Puerto Viejo, Costa Rica.",
+    tagline: "Privé villa's in\nhet Caribische regenwoud",
     call: "Bellen",
     whatsapp: "WhatsApp",
     email: "Mail",
@@ -66,7 +66,7 @@ export const BUSINESS_CARD_I18N = {
     language: "Taal",
   },
   fr: {
-    tagline: "Villas privées dans la forêt tropicale caribéenne de Puerto Viejo, Costa Rica.",
+    tagline: "Villas privées dans\nla forêt tropicale caribéenne",
     call: "Appeler",
     whatsapp: "WhatsApp",
     email: "Email",
@@ -82,7 +82,7 @@ export const BUSINESS_CARD_I18N = {
     language: "Langue",
   },
   ja: {
-    tagline: "コスタリカ、プエルト・ビエホのカリブ海の熱帯雨林に佇むプライベートヴィラ。",
+    tagline: "カリブ海の熱帯雨林に佇む\nプライベートヴィラ",
     call: "電話",
     whatsapp: "WhatsApp",
     email: "メール",
@@ -98,7 +98,7 @@ export const BUSINESS_CARD_I18N = {
     language: "言語",
   },
   pt: {
-    tagline: "Villas privadas na floresta tropical caribenha de Puerto Viejo, Costa Rica.",
+    tagline: "Villas privadas na\nfloresta tropical caribenha",
     call: "Ligar",
     whatsapp: "WhatsApp",
     email: "Email",
@@ -114,7 +114,7 @@ export const BUSINESS_CARD_I18N = {
     language: "Idioma",
   },
   ar: {
-    tagline: "فلل خاصة في الغابة الاستوائية الكاريبية في بويرتو فيخو، كوستاريكا.",
+    tagline: "فلل خاصة في\nالغابة الاستوائية الكاريبية",
     call: "اتصال",
     whatsapp: "واتساب",
     email: "البريد",

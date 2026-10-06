@@ -128,7 +128,7 @@ export const FOOTER_SETTINGS_DEFAULTS = {
     "Southern Caribbean Living: Close to the Coast, Close to Everything.",
   email: "blessedhousecr@gmail.com",
   phones: [
-    { _key: "cr", label: "+506 8926 2639", tel: "+50689262639" },
+    { _key: "cr", label: "+506 8926 2630", tel: "+50689262630" },
     { _key: "us", label: "+1 (754) 610 4710", tel: "+17546104710" },
   ],
   addressLine: "Puerto Viejo, Limón, Costa Rica",

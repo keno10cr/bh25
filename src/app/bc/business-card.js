@@ -95,7 +95,7 @@ export default function BusinessCard({ footer }) {
     const url = window.location.href;
     if (navigator.share) {
       try {
-        await navigator.share({ title: `${brandName} Villas`, text: copy.tagline, url });
+        await navigator.share({ title: `${brandName} Villas`, text: copy.tagline.replace(/\n/g, " "), url });
         return;
       } catch (error) {
         if (error?.name === "AbortError") return;
@@ -110,9 +110,21 @@ export default function BusinessCard({ footer }) {
     }
   };
 
+  const reveal = (step) => ({
+    className: styles.reveal,
+    style: { "--d": step },
+  });
+  const socialStart = 13;
+  const afterSocial = socialStart + socialLinks.length * 0.5 + 0.5;
+
   return (
     <main className={styles.page}>
-      <div className={styles.langRow} role="group" aria-label={copy.language}>
+      <div
+        className={`${styles.langRow} ${styles.reveal}`}
+        style={{ "--d": 0 }}
+        role="group"
+        aria-label={copy.language}
+      >
         {Object.values(languages).map((lang) => (
           <button
             key={lang.code}
@@ -129,32 +141,45 @@ export default function BusinessCard({ footer }) {
 
       <article className={styles.card}>
         <header className={styles.hero}>
-          <Image
-            src="/BannerVilla4.jpg"
-            alt=""
-            fill
-            priority
-            sizes="440px"
-            className={styles.heroImage}
-          />
+          <div className={styles.heroMedia}>
+            <Image
+              src="/BannerVilla4.jpg"
+              alt=""
+              fill
+              priority
+              sizes="440px"
+              className={styles.heroImage}
+            />
+          </div>
           <div className={styles.logoWrap}>
             <Image
-              src="/blessedhouse_logo25.png"
+              src="/logoSM.jpg"
               alt={`${brandName} logo`}
-              width={96}
-              height={96}
+              width={112}
+              height={112}
+              priority
               className={styles.logo}
             />
           </div>
         </header>
 
         <div className={styles.body}>
-          <h1 className={styles.brand}>{brandName}</h1>
-          <p className={styles.location}>{locationLine.value}</p>
-          <p className={styles.tagline}>{copy.tagline}</p>
+          <h1 className={`${styles.brand} ${styles.reveal}`} style={{ "--d": 3 }}>
+            {brandName}
+          </h1>
+          <p className={`${styles.location} ${styles.reveal}`} style={{ "--d": 4 }}>
+            {locationLine.value}
+          </p>
+          <p className={`${styles.tagline} ${styles.reveal}`} style={{ "--d": 5 }}>
+            {copy.tagline}
+          </p>
 
           <div className={styles.quickActions}>
-            <a href={`tel:${phones[0]?.tel}`} className={styles.quickAction}>
+            <a
+              href={`tel:${phones[0]?.tel}`}
+              className={`${styles.quickAction} ${styles.reveal}`}
+              style={{ "--d": 6 }}
+            >
               <Icon name="phone" />
               <span>{copy.call}</span>
             </a>
@@ -162,12 +187,17 @@ export default function BusinessCard({ footer }) {
               href={`https://wa.me/${String(phones[0]?.tel || "").replace(/\D/g, "")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.quickAction}
+              className={`${styles.quickAction} ${styles.reveal}`}
+              style={{ "--d": 6.5 }}
             >
               <Icon name="whatsapp" />
               <span>{copy.whatsapp}</span>
             </a>
-            <a href={`mailto:${email}`} className={styles.quickAction}>
+            <a
+              href={`mailto:${email}`}
+              className={`${styles.quickAction} ${styles.reveal}`}
+              style={{ "--d": 7 }}
+            >
               <Icon name="mail" />
               <span>{copy.email}</span>
             </a>
@@ -175,7 +205,8 @@ export default function BusinessCard({ footer }) {
               href={DIRECTIONS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.quickAction}
+              className={`${styles.quickAction} ${styles.reveal}`}
+              style={{ "--d": 7.5 }}
             >
               <Icon name="pin" />
               <span>{copy.directions}</span>
@@ -183,10 +214,16 @@ export default function BusinessCard({ footer }) {
           </div>
 
           <section className={styles.block}>
-            <h2 className={styles.blockTitle}>{copy.phones}</h2>
+            <h2 className={`${styles.blockTitle} ${styles.reveal}`} style={{ "--d": 8.5 }}>
+              {copy.phones}
+            </h2>
             <ul className={styles.list}>
-              {phones.map((phone) => (
-                <li key={phone.tel} className={styles.phoneRow}>
+              {phones.map((phone, index) => (
+                <li
+                  key={phone.tel}
+                  className={`${styles.phoneRow} ${styles.reveal}`}
+                  style={{ "--d": 9 + index * 0.5 }}
+                >
                   <a href={`tel:${phone.tel}`} className={styles.phoneLink}>
                     <Icon name="phone" />
                     <span dir="ltr">{phone.label}</span>
@@ -207,19 +244,19 @@ export default function BusinessCard({ footer }) {
 
           <section className={styles.block}>
             <ul className={styles.list}>
-              <li>
+              <li {...reveal(11)}>
                 <a href={`mailto:${email}`} className={styles.infoRow}>
                   <Icon name="mail" />
                   <span>{email}</span>
                 </a>
               </li>
-              <li>
+              <li {...reveal(11.5)}>
                 <a href={SITE_URL} className={styles.infoRow}>
                   <Icon name="globe" />
                   <span>{SITE_LABEL}</span>
                 </a>
               </li>
-              <li>
+              <li {...reveal(12)}>
                 <a
                   href={DIRECTIONS_URL}
                   target="_blank"
@@ -235,9 +272,14 @@ export default function BusinessCard({ footer }) {
 
           {socialLinks.length > 0 ? (
             <section className={styles.block}>
-              <h2 className={styles.blockTitle}>{copy.follow}</h2>
+              <h2
+                className={`${styles.blockTitle} ${styles.reveal}`}
+                style={{ "--d": socialStart - 0.5 }}
+              >
+                {copy.follow}
+              </h2>
               <div className={styles.socialRow}>
-                {socialLinks.map((link) => {
+                {socialLinks.map((link, index) => {
                   const icon = SOCIAL_ICONS[link.network] || link.iconUrl;
                   if (!icon) return null;
                   return (
@@ -247,7 +289,8 @@ export default function BusinessCard({ footer }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={link.label}
-                      className={styles.socialIcon}
+                      className={`${styles.socialIcon} ${styles.reveal}`}
+                      style={{ "--d": socialStart + index * 0.5 }}
                     >
                       <Image src={icon} alt={link.iconAlt || link.label || ""} width={44} height={44} />
                     </a>
@@ -257,7 +300,10 @@ export default function BusinessCard({ footer }) {
             </section>
           ) : null}
 
-          <div className={styles.ctaRow}>
+          <div
+            className={`${styles.ctaRow} ${styles.reveal}`}
+            style={{ "--d": afterSocial }}
+          >
             <Link href="/villas" className={styles.ctaPrimary}>
               {copy.bookStay}
             </Link>
@@ -266,7 +312,10 @@ export default function BusinessCard({ footer }) {
             </Link>
           </div>
 
-          <div className={styles.utilityRow}>
+          <div
+            className={`${styles.utilityRow} ${styles.reveal}`}
+            style={{ "--d": afterSocial + 1 }}
+          >
             <button type="button" className={styles.utilityBtn} onClick={handleSaveContact}>
               <Icon name="save" />
               <span>{copy.saveContact}</span>
