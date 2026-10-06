@@ -1,0 +1,17 @@
+---
+description: Never use the AskQuestion multiple choice popup with this user
+alwaysApply: true
+---
+
+# No question popups
+
+Never use the `AskQuestion` tool (multiple choice forms or questionnaires). The user hates them.
+
+- Make the sensible call yourself and do the work.
+- If something truly needs the user's input, ask one short plain text question at the end of your reply.
+- Never end a turn with a form or a list of options to pick from.
+
+```text
+❌ Calling AskQuestion with "Option A / Option B / Option C"
+✅ "Done. One thing to confirm: is Jaguar 6 or 7 guests?"
+```

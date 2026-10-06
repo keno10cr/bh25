@@ -644,7 +644,7 @@ export const translations = {
         hotWater: "Hot water",
         ac: "AC",
         bbqArea: "BBQ Area",
-        sharedPool: "Shared pool"
+        sharedPool: "Shared Pool"
       },
       bedInfo: {
         bedInfo1: "1 Queen Bed, 1 Single Bed",
@@ -676,7 +676,7 @@ export const translations = {
       },
       villa7: {
         description: "A tranquil space designed for couples seeking genuine relaxation. This locally inspired villa features a comfortable seating area and convenient access to the garden paths and shared amenities.",
-        informativeFact: "The Rana Verde (Red-Eyed Tree Frog) is nocturnal and spends its days perfectly camouflaged on the underside of green leaves, which helps it avoid detection from predators."
+        informativeFact: "The Rana Verde (Red Eyed Tree Frog) is nocturnal and spends its days perfectly camouflaged on the underside of green leaves, which helps it avoid detection from predators."
       },
       villa8: {
         description: "Embrace the Pura Vida lifestyle in this generously sized, beautifully crafted villa. It offers direct, peaceful access to the gardens for spotting local wildlife.",
@@ -1417,7 +1417,7 @@ export const translations = {
       },
       villa4: {
         description: "Ubicada a solo 5 minutos de Puerto Viejo, este espacio está diseñado para parejas que buscan una estancia hermosa, privada y tranquila, o una pequeña familia de tres. Disfruta de vistas increíbles de las copas de los árboles y la costa, con acceso a la piscina compartida y área de BBQ.",
-        informativeFact: "Costa Rica alberga más de 50 especies de Colibrí (Colibríes). Deben alimentarse de néctar cada 10-15 minutos, y sus alas baten tan rápido que pueden flotar perfectamente para sorber néctar."
+        informativeFact: "Costa Rica alberga más de 50 especies de Colibrí (Colibríes). Deben alimentarse de néctar cada 10 a 15 minutos, y sus alas baten tan rápido que pueden flotar perfectamente para sorber néctar."
       },
       villa5: {
         description: "Ven a olvidarte de la realidad y relájate con tu familia y amigos en esta encantadora villa. Disfruta de las amplias áreas al aire libre, jardines bellamente mantenidos, piscina y Wi-Fi. Estamos ubicados a solo 3 minutos de Playa Negra y 5 minutos de Puerto Viejo.",
@@ -2098,7 +2098,7 @@ export const translations = {
       },
       villa4: {
         description: "Nur 5 Minuten von Puerto Viejo entfernt, ist dieser Raum für Paare konzipiert, die einen schönen, privaten und ruhigen Aufenthalt wünschen, oder für eine kleine Familie von drei Personen. Genießen Sie atemberaubende Aussichten auf die Baumkronen und die Küste, mit Zugang zum gemeinsamen Pool und Grillbereich.",
-        informativeFact: "Costa Rica beherbergt über 50 Arten von Colibrí (Kolibris). Sie müssen sich alle 10-15 Minuten von Nektar ernähren, und ihre Flügel schlagen so schnell, dass sie perfekt schweben können, um Nektar zu trinken."
+        informativeFact: "Costa Rica beherbergt über 50 Arten von Colibrí (Kolibris). Sie müssen sich alle 10 bis 15 Minuten von Nektar ernähren, und ihre Flügel schlagen so schnell, dass sie perfekt schweben können, um Nektar zu trinken."
       },
       villa5: {
         description: "Kommen Sie, vergessen Sie die Realität und entspannen Sie sich mit Ihrer Familie und Freunden in dieser charmanten Villa. Genießen Sie die geräumigen Außenbereiche, wunderschön gepflegte Gärten, Pool und Wi-Fi. Wir befinden uns nur 3 Minuten von Playa Negra und 5 Minuten von Puerto Viejo entfernt.",
@@ -2764,7 +2764,7 @@ export const translations = {
       },
       villa4: {
         description: "Gelegen op slechts 5 minuten van Puerto Viejo, is deze ruimte ontworpen voor stellen die een mooi, privé en rustig verblijf willen, of een klein gezin van drie. Geniet van prachtige uitzichten op de boomtoppen en de kust, met toegang tot het gedeelde zwembad en BBQ-gebied.",
-        informativeFact: "Costa Rica is de thuisbasis van meer dan 50 soorten Colibrí (Kolibries). Ze moeten elke 10-15 minuten op nectar voeden, en hun vleugels slaan zo snel dat ze perfect kunnen zweven om nectar te drinken."
+        informativeFact: "Costa Rica is de thuisbasis van meer dan 50 soorten Colibrí (Kolibries). Ze moeten elke 10 tot 15 minuten op nectar voeden, en hun vleugels slaan zo snel dat ze perfect kunnen zweven om nectar te drinken."
       },
       villa5: {
         description: "Kom de realiteit vergeten en ontspan met uw familie en vrienden in deze charmante villa. Geniet van de ruime buitenruimtes, prachtig onderhouden tuinen, zwembad en Wi-Fi. We zijn gelegen op slechts 3 minuten van Playa Negra en 5 minuten van Puerto Viejo.",
@@ -3430,7 +3430,7 @@ export const translations = {
       },
       villa4: {
         description: "Située à seulement 5 minutes de Puerto Viejo, cet espace est conçu pour les couples qui souhaitent un séjour beau, privé et tranquille, ou une petite famille de trois personnes. Profitez de vues incroyables sur les cimes des arbres et la côte, avec accès à la piscine partagée et à la zone BBQ.",
-        informativeFact: "Le Costa Rica abrite plus de 50 espèces de Colibrí (Colibris). Ils doivent se nourrir de nectar toutes les 10-15 minutes, et leurs ailes battent si vite qu'ils peuvent planer parfaitement pour siroter le nectar."
+        informativeFact: "Le Costa Rica abrite plus de 50 espèces de Colibrí (Colibris). Ils doivent se nourrir de nectar toutes les 10 à 15 minutes, et leurs ailes battent si vite qu'ils peuvent planer parfaitement pour siroter le nectar."
       },
       villa5: {
         description: "Venez oublier la réalité et détendez-vous avec votre famille et vos amis dans cette charmante villa. Profitez des vastes espaces extérieurs, des jardins magnifiquement entretenus, de la piscine et du Wi-Fi. Nous sommes situés à seulement 3 minutes de Playa Negra et 5 minutes de Puerto Viejo.",
@@ -4070,7 +4070,7 @@ export const translations = {
         hideDetails: "詳細を隠す"
       },
       amenities: {
-        wifi: "Wi-Fi",
+        wifi: "WiFi",
         kitchen: "キッチン",
         parking: "駐車場",
         hotWater: "お湯",
@@ -4096,7 +4096,7 @@ export const translations = {
       },
       villa4: {
         description: "プエルトビエホからわずか5分の場所にあり、このスペースは美しく、プライベートで静かな滞在を望むカップル、または3人の小さな家族のために設計されています。樹冠と海岸の素晴らしい景色をお楽しみください。共有プールとBBQエリアへのアクセスがあります。",
-        informativeFact: "コスタリカには50種以上のコリブリ（ハチドリ）が生息しています。彼らは10-15分ごとに蜜を摂取する必要があり、翼は非常に速く羽ばたき、蜜を飲むために完璧にホバリングできます。"
+        informativeFact: "コスタリカには50種以上のコリブリ（ハチドリ）が生息しています。彼らは10〜15分ごとに蜜を摂取する必要があり、翼は非常に速く羽ばたき、蜜を飲むために完璧にホバリングできます。"
       },
       villa5: {
         description: "現実を忘れて、この魅力的なヴィラでご家族や友人とリラックスしてください。広々とした屋外エリア、美しく手入れされた庭園、プール、Wi-Fiをお楽しみください。プラヤネグラからわずか3分、プエルトビエホから5分の場所にあります。",
@@ -4321,7 +4321,7 @@ export const translations = {
         hideDetails: "Ocultar detalhes"
       },
       amenities: {
-        wifi: "Wi-Fi",
+        wifi: "WiFi",
         kitchen: "Cozinha",
         parking: "Estacionamento",
         hotWater: "Água quente",
@@ -4347,7 +4347,7 @@ export const translations = {
       },
       villa4: {
         description: "Localizada a apenas 5 minutos de Puerto Viejo, este espaço é projetado para casais que querem uma estadia bonita, privada e tranquila, ou uma pequena família de três. Desfrute de vistas incríveis das copas das árvores e da costa, com acesso à piscina compartilhada e área de churrasqueira.",
-        informativeFact: "A Costa Rica abriga mais de 50 espécies de Colibri (Beija-flores). Eles devem se alimentar de néctar a cada 10-15 minutos, e suas asas batem tão rápido que podem pairar perfeitamente para saborear néctar."
+        informativeFact: "A Costa Rica abriga mais de 50 espécies de Colibri (Beija-flores). Eles devem se alimentar de néctar a cada 10 a 15 minutos, e suas asas batem tão rápido que podem pairar perfeitamente para saborear néctar."
       },
       villa5: {
         description: "Venha esquecer a realidade e relaxar com sua família e amigos nesta vila encantadora. Desfrute das áreas externas espaçosas, jardins bem cuidados, piscina e Wi-Fi. Estamos localizados a apenas 3 minutos de Playa Negra e 5 minutos de Puerto Viejo.",

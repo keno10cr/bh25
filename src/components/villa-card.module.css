@@ -104,6 +104,21 @@
   font-weight: 600;
 }
 
+.bedList {
+  margin: 0 0 1rem;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  color: #535353;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.bedList li::marker {
+  color: var(--color-primary);
+}
+
 .amenities {
   display: flex;
   flex-direction: column;

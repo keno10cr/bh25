@@ -9,6 +9,84 @@ import { useTranslation } from "@/lib/translations";
 import { resolveCopy, useUiCopy } from "@/lib/cms-field";
 import styles from "./villas.module.css";
 
+const AMENITY_KEY_BY_NAME = {
+  wifi: "wifi",
+  "wi fi": "wifi",
+  kitchen: "kitchen",
+  parking: "parking",
+  hotwater: "hotWater",
+  "hot water": "hotWater",
+  ac: "ac",
+  "a/c": "ac",
+  bbqarea: "bbqArea",
+  "bbq area": "bbqArea",
+  sharedpool: "sharedPool",
+  "shared pool": "sharedPool",
+};
+
+const BED_TEXT = /\b(bed|beds|bunk|king|queen|single|cama|camas|litera)\b/i;
+
+/**
+ * Sanity stores amenities as typed English labels ("Hot water") while
+ * translations are keyed ("hotWater"). Bed text typed into the list is set
+ * aside because beds come from the villa's bedInfo key.
+ */
+function parseAmenities(values) {
+  const keys = [];
+  let bedText = "";
+  for (const value of Array.isArray(values) ? values : []) {
+    const raw = String(value || "").trim();
+    if (!raw || raw.startsWith("bedInfo")) continue;
+    const key = AMENITY_KEY_BY_NAME[raw.toLowerCase()];
+    if (key) {
+      if (!keys.includes(key)) keys.push(key);
+    } else if (BED_TEXT.test(raw)) {
+      bedText = bedText || raw;
+    } else {
+      keys.push(raw);
+    }
+  }
+  return { keys, bedText };
+}
+
+/**
+ * Bed text is one translated line per villa. Sentences become bullets as they
+ * are ("Bedroom 1: 1 King Bed + 1 Single Bed"); otherwise each bed is a bullet.
+ */
+function splitBedText(text) {
+  const value = String(text || "").trim();
+  if (!value) return [];
+  const sentences = value.split(/(?<=[.。])\s*/).map((part) => part.replace(/[.。]$/, "").trim());
+  const parts = sentences.length > 1 ? sentences : value.split(/\s*[,+،、]\s*/);
+  return parts.map((part) => part.replace(/^و(?=\S)/, "").trim()).filter(Boolean);
+}
+
+function villaNumber(villa) {
+  const match = String(villa.slug || villa.name || "").match(/\d+/);
+  return match ? Number(match[0]) : Number.MAX_SAFE_INTEGER;
+}
+
+/** Hyphens and dashes become spaces so lengths stay aligned for slicing. */
+function looseText(text) {
+  return String(text || "").replace(/[-\u2010-\u2015]/g, " ").toLowerCase();
+}
+
+/**
+ * English CMS descriptions include the villa's fun fact at the end; pull it out
+ * so English shows it in the same highlighted box as the other languages.
+ */
+function splitFact(description, fact) {
+  const text = String(description || "");
+  const firstSentence = String(fact || "").split(/(?<=[.!?])\s/)[0];
+  if (!firstSentence) return { description: text, fact: "" };
+  const index = looseText(text).indexOf(looseText(firstSentence));
+  if (index <= 0) return { description: text, fact: "" };
+  return {
+    description: text.slice(0, index).trim(),
+    fact: text.slice(index).trim(),
+  };
+}
+
 export default function VillasClient({ villas: cmsVillas = [], copy }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
@@ -17,30 +95,36 @@ export default function VillasClient({ villas: cmsVillas = [], copy }) {
   const pageSubtitle = resolveCopy(copy?.subtitle, t("villas.subtitle"), language);
   const [selectedFilter, setSelectedFilter] = useState("all");
 
-  const villas = cmsVillas.map((villa) => {
-    const amenityKeys = Array.isArray(villa.amenities) ? villa.amenities : [];
-    const translatedAmenities = amenityKeys
-      .filter((amenity) => !String(amenity).startsWith("bedInfo"))
-      .map((amenity) => {
-        const translated = t(`villas.amenities.${amenity}`);
-        return translated === `villas.amenities.${amenity}` ? amenity : translated;
-      });
-    if (villa.bedInfo) {
-      translatedAmenities.push(t(`villas.bedInfo.${villa.bedInfo}`));
-    }
+  const sortedVillas = [...cmsVillas].sort((a, b) => villaNumber(a) - villaNumber(b));
+
+  const villas = sortedVillas.map((villa) => {
+    const { keys, bedText } = parseAmenities(villa.amenities);
+    const amenities = keys.map((key) => {
+      const lookup = `villas.amenities.${key}`;
+      const translated = t(lookup);
+      return { key, label: translated === lookup ? key : translated };
+    });
+    const bedList = splitBedText(
+      villa.bedInfo ? t(`villas.bedInfo.${villa.bedInfo}`) : bedText
+    );
+
+    const fact = villa.translationKey
+      ? t(`villas.${villa.translationKey}.informativeFact`)
+      : villa.informativeFact;
     const useTranslatedBody =
       Boolean(villa.translationKey) &&
       (preferUi || !villa.descriptionFromCms);
+    const cmsParts = useTranslatedBody ? null : splitFact(villa.description, fact);
+
     return {
       ...villa,
       description: useTranslatedBody
         ? t(`villas.${villa.translationKey}.description`)
-        : villa.description,
+        : cmsParts.description,
       descriptionFromCms: useTranslatedBody ? false : villa.descriptionFromCms,
-      informativeFact: villa.translationKey
-        ? t(`villas.${villa.translationKey}.informativeFact`)
-        : villa.informativeFact,
-      amenities: preferUi || !villa.fromCms ? translatedAmenities : amenityKeys,
+      informativeFact: fact || cmsParts?.fact || "",
+      amenities,
+      bedList,
       galleryImages: villa.galleryImages,
     };
   });

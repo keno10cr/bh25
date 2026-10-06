@@ -66,7 +66,7 @@ export default function VillaCard({ villa }) {
           </CmsText>
         </p>
 
-        {villa.informativeFact && !villa.descriptionFromCms && (
+        {villa.informativeFact && (
           <p className={styles.informativeFact}>
             <CmsText fromCms={false}>{villa.informativeFact}</CmsText>
           </p>
@@ -116,21 +116,25 @@ export default function VillaCard({ villa }) {
             ) : null}
           </div>
 
+          {villa.bedList?.length > 0 && (
+            <ul className={styles.bedList} aria-label={t("villas.details.bedrooms")}>
+              {villa.bedList.map((bed) => (
+                <li key={bed}>{bed}</li>
+              ))}
+            </ul>
+          )}
+
           {villa.amenities && villa.amenities.length > 0 && (
             <div className={styles.amenities}>
               <span className={styles.amenitiesLabel}>{t("villas.details.amenities")}</span>
               <div className={styles.amenitiesList}>
                 {villa.amenities.map((amenity, index) => {
-                  const parkingTranslations = [
-                    "parking", "estacionamiento", "parkplatz", "parkeren", "駐車場"
-                  ];
-                  const amenityLower = amenity.toLowerCase().trim();
-                  const isParking = parkingTranslations.some((translation) =>
-                    amenityLower === translation.toLowerCase()
-                  );
+                  const label = typeof amenity === "string" ? amenity : amenity.label;
+                  const key = typeof amenity === "string" ? amenity : amenity.key;
+                  const isParking = String(key).trim().toLowerCase() === "parking";
                   return (
                     <span key={index} className={styles.amenityTag}>
-                      {amenity}
+                      {label}
                       {isParking && <span className={styles.asterisk}> *</span>}
                     </span>
                   );
