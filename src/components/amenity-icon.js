@@ -95,6 +95,20 @@ export function AmenityIcon({ name }) {
           <path d="M14 14.5c1.4 0 3 .7 4 2.5" />
         </svg>
       );
+    case "clock":
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3 2" />
+        </svg>
+      );
+    case "dollar":
+      return (
+        <svg {...common}>
+          <path d="M12 3v18" />
+          <path d="M16.5 7.5c-.6-1.5-2.3-2.5-4.5-2.5-2.5 0-4.5 1.3-4.5 3.3 0 4.7 9 2.7 9 7.4 0 2-2 3.3-4.5 3.3-2.3 0-4-1-4.7-2.6" />
+        </svg>
+      );
     case "pets":
       return (
         <svg {...common} fill="currentColor" stroke="none">

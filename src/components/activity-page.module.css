@@ -92,15 +92,35 @@
   margin: 1.5rem 0;
 }
 
-.info div {
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
   background: #f9f7f4;
   border-radius: 10px;
   padding: 0.85rem 1rem;
   min-width: 0;
 }
 
-.info span {
-  display: block;
+.infoIcon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--color-primary);
+}
+
+.infoText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.infoLabel {
   font-size: 0.75rem;
   text-transform: uppercase;
   color: #888;

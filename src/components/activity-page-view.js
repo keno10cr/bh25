@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import ActivityGallery from "@/components/activity-gallery";
 import CmsText from "@/components/cms-text";
+import { AmenityIcon } from "@/components/amenity-icon";
 import PortableBody from "@/components/portable-text";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useUiCopy } from "@/lib/cms-field";
@@ -64,7 +65,9 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
     : activity.price;
   const { items: whatsIncluded, fromCms: whatsIncludedFromCms } =
     resolveWhatsIncluded(activity, language);
-  const galleryImages = activityGalleryImages(activity, name);
+  const galleryImages = activityGalleryImages(activity, name).filter(
+    (image) => image.url !== activity.image
+  );
   const hasMap = Boolean(activity.coordinates?.lat && activity.coordinates?.lng);
   const mapLegend = translateLegendItems(
     activity.legendItems?.length > 0 ? activity.legendItems : legendItems,
@@ -115,26 +118,29 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
       {galleryImages.length > 0 ? (
         <ActivityGallery images={galleryImages} activityName={name} />
       ) : null}
-      <div className={styles.info}>
-        {duration ? (
-          <div>
-            <span>{t("activitiesPage.labels.duration")}</span>
-            <strong>{duration}</strong>
-          </div>
-        ) : null}
-        {groupSize ? (
-          <div>
-            <span>{t("activitiesPage.labels.groupSize")}</span>
-            <strong>{groupSize}</strong>
-          </div>
-        ) : null}
-        {price ? (
-          <div>
-            <span>{t("activitiesPage.labels.price")}</span>
-            <strong>{price}</strong>
-          </div>
-        ) : null}
-      </div>
+      {duration || groupSize || price ? (
+        <div className={styles.info}>
+          {[
+            { key: "duration", icon: "clock", value: duration },
+            { key: "groupSize", icon: "people", value: groupSize },
+            { key: "price", icon: "dollar", value: price },
+          ]
+            .filter((item) => item.value)
+            .map((item) => (
+              <div key={item.key} className={styles.infoItem}>
+                <span className={styles.infoIcon}>
+                  <AmenityIcon name={item.icon} />
+                </span>
+                <span className={styles.infoText}>
+                  <span className={styles.infoLabel}>
+                    {t(`activitiesPage.labels.${item.key}`)}
+                  </span>
+                  <strong>{item.value}</strong>
+                </span>
+              </div>
+            ))}
+        </div>
+      ) : null}
       {hasMap ? (
         <div className={styles.mapWrap}>
           {activity.slug === "e-bike-rental" ? (

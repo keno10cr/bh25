@@ -223,13 +223,6 @@ export default function Footer({ footer }) {
           <p>
             &copy; {currentYear} {brandName} Villas. {copyright.value}
           </p>
-          <Link
-            href="/legal"
-            className={styles.legalLink}
-            data-text={t("footer.legal")}
-          >
-            {t("footer.legal")}
-          </Link>
         </div>
       </div>
     </footer>

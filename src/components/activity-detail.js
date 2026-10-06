@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import CmsText from "@/components/cms-text";
+import { AmenityIcon } from "@/components/amenity-icon";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import styles from "./activity-detail.module.css";
@@ -40,24 +41,28 @@ export default function ActivityDetail({ activity }) {
           </CmsText>
         </p>
 
-        {activity.duration || activity.price || activity.groupSize ? (
+        {activity.duration || activity.groupSize ? (
           <div className={styles.info}>
             {activity.duration && (
               <div className={styles.infoItem}>
-                <span className={styles.label}>{t("activitiesPage.labels.duration")}</span>
-                <span className={styles.value}>{activity.duration}</span>
+                <span className={styles.infoIcon}>
+                  <AmenityIcon name="clock" />
+                </span>
+                <span className={styles.infoText}>
+                  <span className={styles.label}>{t("activitiesPage.labels.duration")}</span>
+                  <span className={styles.value}>{activity.duration}</span>
+                </span>
               </div>
             )}
             {activity.groupSize && (
               <div className={styles.infoItem}>
-                <span className={styles.label}>{t("activitiesPage.labels.groupSize")}</span>
-                <span className={styles.value}>{activity.groupSize}</span>
-              </div>
-            )}
-            {activity.price && (
-              <div className={styles.infoItem}>
-                <span className={styles.label}>{t("activitiesPage.labels.price")}</span>
-                <span className={styles.value}>{activity.price}</span>
+                <span className={styles.infoIcon}>
+                  <AmenityIcon name="people" />
+                </span>
+                <span className={styles.infoText}>
+                  <span className={styles.label}>{t("activitiesPage.labels.groupSize")}</span>
+                  <span className={styles.value}>{activity.groupSize}</span>
+                </span>
               </div>
             )}
           </div>

@@ -38,6 +38,22 @@
   opacity: 0.55;
   bottom: 25px;
   background-image: url("/footerL2.svg");
+  animation: palmSway 16s ease-in-out infinite alternate;
+}
+
+@keyframes palmSway {
+  from {
+    background-position-x: calc(50% - 30px);
+  }
+  to {
+    background-position-x: calc(50% + 30px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layerBack {
+    animation: none;
+  }
 }
 
 .layerFront {
@@ -222,32 +238,6 @@
 
 .copyright p {
   margin: 0;
-}
-
-.legalLink {
-  display: inline-grid;
-  color: inherit;
-  text-decoration: none;
-  text-underline-offset: 3px;
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
-}
-
-/* Reserves the bold width so the hover state doesn't shift the layout */
-.legalLink::after {
-  content: attr(data-text);
-  font-weight: 600;
-  height: 0;
-  visibility: hidden;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.legalLink:hover,
-.legalLink:focus-visible {
-  opacity: 1;
-  font-weight: 600;
-  text-decoration: underline;
 }
 
 @media (max-width: 768px) {
