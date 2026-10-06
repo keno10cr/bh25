@@ -60,6 +60,7 @@ export const pvgPageSettings = defineType({
     { name: "capacity", title: "Capacity & Settings" },
     { name: "location", title: "Location" },
     { name: "inquiry", title: "Send a request" },
+    { name: "promo", title: "Groups promo (Home & Contact)" },
   ],
   fields: [
     ...localizedField({
@@ -199,6 +200,13 @@ export const pvgPageSettings = defineType({
         "Shown in the pets popup with a link to the villas house rules. Example: Check the house rules, and pets are not allowed inside national parks.",
     }),
     ...localizedField({
+      name: "petsLinkLabel",
+      title: "Pets popup link",
+      type: "string",
+      group: "location",
+      description: "Link at the bottom of the pets popup. Example: Read the house rules",
+    }),
+    ...localizedField({
       name: "locationLegendLabel",
       title: "Map legend label",
       type: "string",
@@ -245,6 +253,63 @@ export const pvgPageSettings = defineType({
       rows: 3,
       group: "inquiry",
     }),
+    ...localizedField({
+      name: "organizationLabel",
+      title: "Field 1: Organization label",
+      type: "string",
+      group: "inquiry",
+    }),
+    ...localizedField({
+      name: "attendeesLabel",
+      title: "Field 2: Attendees label",
+      type: "string",
+      group: "inquiry",
+    }),
+    ...localizedField({
+      name: "attendeeUnit",
+      title: "Field 2: Word under each range",
+      type: "string",
+      group: "inquiry",
+      description: "Shown under 20 to 29, 30 to 39, 40 to 45. Example: guests",
+    }),
+    ...localizedField({
+      name: "datesLabel",
+      title: "Field 3: Dates label",
+      type: "string",
+      group: "inquiry",
+    }),
+    ...localizedField({
+      name: "datesHint",
+      title: "Field 3: Dates hint",
+      type: "text",
+      rows: 2,
+      group: "inquiry",
+    }),
+    ...localizedField({
+      name: "optionLabel",
+      title: "Field 3: Date option label",
+      type: "string",
+      group: "inquiry",
+      description: "Followed by the number. Example: Option",
+    }),
+    ...localizedField({
+      name: "addRangeLabel",
+      title: "Field 3: Add range button",
+      type: "string",
+      group: "inquiry",
+    }),
+    ...localizedField({
+      name: "contactNameLabel",
+      title: "Field 4: Name label",
+      type: "string",
+      group: "inquiry",
+    }),
+    ...localizedField({
+      name: "emailLabel",
+      title: "Field 5: Email label",
+      type: "string",
+      group: "inquiry",
+    }),
     defineField({
       name: "hostImage",
       title: "Host photo",
@@ -283,7 +348,51 @@ export const pvgPageSettings = defineType({
       title: "Host role",
       type: "string",
       group: "inquiry",
-      description: "Example: Your host at Blessed House",
+      description: "Example: Owner of Blessed House",
+    }),
+
+    defineField({
+      name: "promoImage",
+      title: "Image",
+      type: "image",
+      group: "promo",
+      description:
+        "Photo on the left of the groups banner shown on the Home and Contact pages. Best size: 1400 × 1000 pixels (landscape).",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+        }),
+      ],
+    }),
+    ...localizedField({
+      name: "promoEyebrow",
+      title: "Small line above the title",
+      type: "string",
+      group: "promo",
+      description: "Example: Groups of 20 to 45",
+    }),
+    ...localizedField({
+      name: "promoTitle",
+      title: "Title",
+      type: "string",
+      group: "promo",
+    }),
+    ...localizedField({
+      name: "promoBody",
+      title: "Body",
+      type: "text",
+      rows: 3,
+      group: "promo",
+    }),
+    ...localizedField({
+      name: "promoCta",
+      title: "Button label",
+      type: "string",
+      group: "promo",
+      description: "Links to the Puerto Viejo Groups page. Example: Book Groups",
     }),
   ],
   preview: {

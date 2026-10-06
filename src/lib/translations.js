@@ -1647,6 +1647,8 @@ export const translations = {
         playTopRecycler: "Top Recycler online spielen"
       },
       durations: {
+        "Airport transfer": "Flughafentransfer",
+        "Daily during stay": "Täglich während des Aufenthalts",
         "Full day": "Ganzer Tag",
         "Half day": "Halber Tag",
         "All day": "Den ganzen Tag",
@@ -1660,6 +1662,8 @@ export const translations = {
         "Half day - Full day": "Halber Tag - Ganzer Tag"
       },
       groupSizes: {
+        "Up to 9 passengers": "Bis zu 9 Fahrgäste",
+        "20 to 45 guests": "20 bis 45 Gäste",
         "10": "10",
         "Up to 45 people": "Bis zu 45 Personen",
         "Up to 50 guests": "Bis zu 50 Gäste",
@@ -2309,6 +2313,8 @@ export const translations = {
         playTopRecycler: "Speel Top Recycler online"
       },
       durations: {
+        "Airport transfer": "Luchthaventransfer",
+        "Daily during stay": "Dagelijks tijdens het verblijf",
         "Full day": "Hele dag",
         "Half day": "Halve dag",
         "All day": "Hele dag",
@@ -2322,6 +2328,8 @@ export const translations = {
         "Half day - Full day": "Halve dag - Hele dag"
       },
       groupSizes: {
+        "Up to 9 passengers": "Tot 9 passagiers",
+        "20 to 45 guests": "20 tot 45 gasten",
         "10": "10",
         "Up to 45 people": "Tot 45 personen",
         "Up to 50 guests": "Tot 50 gasten",
@@ -2971,6 +2979,8 @@ export const translations = {
         playTopRecycler: "Jouer à Top Recycler en ligne"
       },
       durations: {
+        "Airport transfer": "Transfert aéroport",
+        "Daily during stay": "Chaque jour pendant le séjour",
         "Full day": "Journée complète",
         "Half day": "Demi-journée",
         "All day": "Toute la journée",
@@ -2984,6 +2994,8 @@ export const translations = {
         "Half day - Full day": "Demi-journée - Journée complète"
       },
       groupSizes: {
+        "Up to 9 passengers": "Jusqu’à 9 passagers",
+        "20 to 45 guests": "20 à 45 personnes",
         "10": "10",
         "Up to 45 people": "Jusqu'à 45 personnes",
         "Up to 50 guests": "Jusqu'à 50 invités",
@@ -3633,6 +3645,8 @@ export const translations = {
         playTopRecycler: "Top Recyclerをオンラインで遊ぶ"
       },
       durations: {
+        "Airport transfer": "空港送迎",
+        "Daily during stay": "滞在中毎日",
         "Full day": "終日",
         "Half day": "半日",
         "All day": "終日",
@@ -3646,6 +3660,8 @@ export const translations = {
         "Half day - Full day": "半日 - 終日"
       },
       groupSizes: {
+        "Up to 9 passengers": "最大9名",
+        "20 to 45 guests": "20〜45名",
         "10": "10",
         "Up to 45 people": "最大45人",
         "Up to 50 guests": "最大50名",
@@ -4414,6 +4430,8 @@ export const translations = {
         playTopRecycler: "Jogar Top Recycler online"
       },
       durations: {
+        "Airport transfer": "Traslado do aeroporto",
+        "Daily during stay": "Diariamente durante a estadia",
         "Full day": "Dia inteiro",
         "Half day": "Meio dia",
         "All day": "Dia todo",
@@ -4427,6 +4445,8 @@ export const translations = {
         "Half day - Full day": "Meio dia - Dia inteiro"
       },
       groupSizes: {
+        "Up to 9 passengers": "Até 9 passageiros",
+        "20 to 45 guests": "20 a 45 hóspedes",
         "10": "10",
         "Up to 45 people": "Até 45 pessoas",
         "Up to 50 guests": "Até 50 convidados",

@@ -8,6 +8,7 @@ import ReviewsSection from "@/components/reviews-section";
 import GroupsCta from "@/components/groups-cta";
 import {
   getAboutPageSettings,
+  getGroupsPromo,
   getHomePageSettings,
   getReviews,
   getVillas,
@@ -16,11 +17,12 @@ import {
 export const revalidate = 60;
 
 export default async function Home() {
-  const [reviews, home, about, villas] = await Promise.all([
+  const [reviews, home, about, villas, groupsPromo] = await Promise.all([
     getReviews(),
     getHomePageSettings(),
     getAboutPageSettings(),
     getVillas(),
+    getGroupsPromo(),
   ]);
 
   return (
@@ -42,7 +44,7 @@ export default async function Home() {
       <LocationSection copy={home} />
       <ActivityPreview copy={home} />
       <ReviewsSection reviews={reviews} copy={home} />
-      <GroupsCta />
+      <GroupsCta copy={groupsPromo} />
     </main>
   );
 }

@@ -2,23 +2,142 @@
 
 import { useMemo, useState } from "react";
 import { tomorrowIsoDate } from "@/lib/availabilityDates";
+import { useLanguage } from "@/contexts/LanguageContext";
 import styles from "./date-range-picker.module.css";
 
-const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+const COPY = {
+  en: {
+    selectDates: "Select dates",
+    close: "Close",
+    previousMonth: "Previous Month",
+    nextMonth: "Next Month",
+    confirmDates: "Confirm dates",
+    checkIn: "Check in",
+    checkOut: "Check out",
+    selectDate: "Select date",
+    clearRange: "Clear this range",
+    to: "to",
+  },
+  es: {
+    selectDates: "Seleccione las fechas",
+    close: "Cerrar",
+    previousMonth: "Mes anterior",
+    nextMonth: "Mes siguiente",
+    confirmDates: "Confirmar fechas",
+    checkIn: "Llegada",
+    checkOut: "Salida",
+    selectDate: "Elegir fecha",
+    clearRange: "Borrar este rango",
+    to: "al",
+  },
+  de: {
+    selectDates: "Daten auswählen",
+    close: "Schließen",
+    previousMonth: "Vorheriger Monat",
+    nextMonth: "Nächster Monat",
+    confirmDates: "Daten bestätigen",
+    checkIn: "Anreise",
+    checkOut: "Abreise",
+    selectDate: "Datum wählen",
+    clearRange: "Zeitraum löschen",
+    to: "bis",
+  },
+  nl: {
+    selectDates: "Kies data",
+    close: "Sluiten",
+    previousMonth: "Vorige maand",
+    nextMonth: "Volgende maand",
+    confirmDates: "Data bevestigen",
+    checkIn: "Aankomst",
+    checkOut: "Vertrek",
+    selectDate: "Kies datum",
+    clearRange: "Periode wissen",
+    to: "tot",
+  },
+  fr: {
+    selectDates: "Choisir les dates",
+    close: "Fermer",
+    previousMonth: "Mois précédent",
+    nextMonth: "Mois suivant",
+    confirmDates: "Confirmer les dates",
+    checkIn: "Arrivée",
+    checkOut: "Départ",
+    selectDate: "Choisir une date",
+    clearRange: "Effacer cette période",
+    to: "au",
+  },
+  ja: {
+    selectDates: "日程を選択",
+    close: "閉じる",
+    previousMonth: "前の月",
+    nextMonth: "次の月",
+    confirmDates: "日程を確定",
+    checkIn: "チェックイン",
+    checkOut: "チェックアウト",
+    selectDate: "日付を選択",
+    clearRange: "この期間をクリア",
+    to: "〜",
+  },
+  pt: {
+    selectDates: "Selecione as datas",
+    close: "Fechar",
+    previousMonth: "Mês anterior",
+    nextMonth: "Próximo mês",
+    confirmDates: "Confirmar datas",
+    checkIn: "Chegada",
+    checkOut: "Saída",
+    selectDate: "Escolher data",
+    clearRange: "Limpar este período",
+    to: "a",
+  },
+  ar: {
+    selectDates: "اختر التواريخ",
+    close: "إغلاق",
+    previousMonth: "الشهر السابق",
+    nextMonth: "الشهر التالي",
+    confirmDates: "تأكيد التواريخ",
+    checkIn: "الوصول",
+    checkOut: "المغادرة",
+    selectDate: "اختر التاريخ",
+    clearRange: "مسح هذه الفترة",
+    to: "إلى",
+  },
+};
+
+const LOCALE_TAGS = {
+  en: "en-US",
+  es: "es-CR",
+  de: "de-DE",
+  nl: "nl-NL",
+  fr: "fr-FR",
+  ja: "ja-JP",
+  pt: "pt-BR",
+  ar: "ar",
+};
+
+function copyFor(language) {
+  return COPY[language] || COPY.en;
+}
+
+function localeFor(language) {
+  return LOCALE_TAGS[language] || LOCALE_TAGS.en;
+}
+
+function weekdayLabels(locale) {
+  const formatter = new Intl.DateTimeFormat(locale, { weekday: "short" });
+  // 2023-01-01 was a Sunday
+  return Array.from({ length: 7 }, (_, i) =>
+    formatter.format(new Date(2023, 0, 1 + i))
+  );
+}
+
+function monthLabel(year, monthIndex, locale) {
+  const label = new Date(year, monthIndex, 1).toLocaleDateString(locale, {
+    month: "long",
+    year: "numeric",
+  });
+  return label.charAt(0).toLocaleUpperCase(locale) + label.slice(1);
+}
 
 function parseLocalIso(iso) {
   if (!iso) return null;
@@ -31,10 +150,10 @@ function toLocalIso(date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
 
-function formatDisplayDate(iso) {
+function formatDisplayDate(iso, language = "en") {
   const date = parseLocalIso(iso);
-  if (!date) return "Select date";
-  return date.toLocaleDateString("en-US", {
+  if (!date) return copyFor(language).selectDate;
+  return date.toLocaleDateString(localeFor(language), {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -65,15 +184,15 @@ function CalendarMonth({
   checkIn,
   checkOut,
   onDayClick,
+  locale,
+  weekdays,
 }) {
   const cells = buildMonthCells(year, monthIndex);
   return (
     <div className={styles.calendarMonth}>
-      <h4>
-        {MONTHS[monthIndex]} {year}
-      </h4>
+      <h4>{monthLabel(year, monthIndex, locale)}</h4>
       <div className={styles.weekdays}>
-        {WEEKDAYS.map((day) => (
+        {weekdays.map((day) => (
           <span key={day}>{day}</span>
         ))}
       </div>
@@ -112,9 +231,9 @@ function CalendarMonth({
   );
 }
 
-export function formatRangeLabel(range) {
+export function formatRangeLabel(range, language = "en") {
   if (!range?.checkIn || !range?.checkOut) return "";
-  return `${formatDisplayDate(range.checkIn)} to ${formatDisplayDate(range.checkOut)}`;
+  return `${formatDisplayDate(range.checkIn, language)} ${copyFor(language).to} ${formatDisplayDate(range.checkOut, language)}`;
 }
 
 export default function DateRangePicker({
@@ -126,6 +245,10 @@ export default function DateRangePicker({
   minIso: minIsoProp,
   error,
 }) {
+  const { language } = useLanguage();
+  const copy = copyFor(language);
+  const locale = localeFor(language);
+  const weekdays = useMemo(() => weekdayLabels(locale), [locale]);
   const minIso = minIsoProp || tomorrowIsoDate();
   const [open, setOpen] = useState(false);
   const [draftIn, setDraftIn] = useState(checkIn || "");
@@ -173,17 +296,17 @@ export default function DateRangePicker({
       <span className={styles.label}>{label}</span>
       <div className={styles.fields}>
         <button type="button" className={styles.dateBtn} onClick={openModal}>
-          <span>Check in</span>
-          <strong>{formatDisplayDate(checkIn)}</strong>
+          <span>{copy.checkIn}</span>
+          <strong>{formatDisplayDate(checkIn, language)}</strong>
         </button>
         <button type="button" className={styles.dateBtn} onClick={openModal}>
-          <span>Check out</span>
-          <strong>{formatDisplayDate(checkOut)}</strong>
+          <span>{copy.checkOut}</span>
+          <strong>{formatDisplayDate(checkOut, language)}</strong>
         </button>
       </div>
       {checkIn && checkOut && onClear ? (
         <button type="button" className={styles.clearBtn} onClick={onClear}>
-          Clear this range
+          {copy.clearRange}
         </button>
       ) : null}
       {error ? <span className={styles.error}>{error}</span> : null}
@@ -192,9 +315,9 @@ export default function DateRangePicker({
         <div className={styles.modalOverlay} role="dialog" aria-modal="true">
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
-              <h3>Select dates</h3>
+              <h3>{copy.selectDates}</h3>
               <button type="button" onClick={() => setOpen(false)}>
-                Close
+                {copy.close}
               </button>
             </div>
             <div className={styles.months}>
@@ -205,6 +328,8 @@ export default function DateRangePicker({
                 checkIn={draftIn}
                 checkOut={draftOut}
                 onDayClick={handleDayClick}
+                locale={locale}
+                weekdays={weekdays}
               />
               <CalendarMonth
                 year={nextMonth.year}
@@ -213,6 +338,8 @@ export default function DateRangePicker({
                 checkIn={draftIn}
                 checkOut={draftOut}
                 onDayClick={handleDayClick}
+                locale={locale}
+                weekdays={weekdays}
               />
             </div>
             <div className={styles.modalFooter}>
@@ -224,7 +351,7 @@ export default function DateRangePicker({
                   )
                 }
               >
-                Previous
+                {copy.previousMonth}
               </button>
               <button
                 type="button"
@@ -232,7 +359,7 @@ export default function DateRangePicker({
                 disabled={!draftIn || !draftOut}
                 onClick={confirm}
               >
-                Confirm dates
+                {copy.confirmDates}
               </button>
               <button
                 type="button"
@@ -242,7 +369,7 @@ export default function DateRangePicker({
                   )
                 }
               >
-                Next
+                {copy.nextMonth}
               </button>
             </div>
           </div>

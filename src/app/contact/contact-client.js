@@ -10,7 +10,7 @@ import { resolveCopy } from "@/lib/cms-field";
 import { useSmoothParallax } from "@/lib/parallax-motion";
 import styles from "./contact.module.css";
 
-export default function ContactClient({ copy, footer }) {
+export default function ContactClient({ copy, footer, groupsPromo }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const bannerRef = useRef(null);
@@ -62,7 +62,7 @@ export default function ContactClient({ copy, footer }) {
         </div>
       </div>
 
-      <GroupsCta spaced />
+      <GroupsCta copy={groupsPromo} spaced />
     </>
   );
 }

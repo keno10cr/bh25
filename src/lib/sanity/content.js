@@ -25,6 +25,7 @@ import {
   villasPageSettingsQuery,
   villasQuery,
   pvgPageSettingsQuery,
+  groupsPromoQuery,
 } from "./queries";
 import {
   mapActivity,
@@ -474,6 +475,23 @@ export async function getPvgPageSettings() {
   );
 
   return mapped;
+}
+
+const GROUPS_PROMO_KEYS = [
+  "promoEyebrow",
+  "promoTitle",
+  "promoBody",
+  "promoCta",
+  "promoImage",
+  "promoImageAlt",
+];
+
+export async function getGroupsPromo() {
+  const raw = await sanityFetch(groupsPromoQuery);
+  const defaults = Object.fromEntries(
+    GROUPS_PROMO_KEYS.map((key) => [key, PVG_PAGE_DEFAULTS[key]])
+  );
+  return mapPageSettings(raw, defaults);
 }
 
 export async function getBlogSlugs() {

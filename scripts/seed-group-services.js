@@ -46,7 +46,7 @@ const SERVICES = [
     groupSize: "20 to 45 guests",
     imagePath: "activities/all/groupBreakfast.jpg",
     imageAlt:
-      "Private group breakfast table under an open-air pavilion at Blessed House",
+      "Private group breakfast table under an open air pavilion at Blessed House",
     coordinates: { lat: 9.64735, lng: -82.77697 },
   },
 ];
@@ -106,20 +106,51 @@ async function uploadImage(client, relativePath, alt) {
   };
 }
 
+const LOCALES = [
+  { lang: "es", suffix: "Es" },
+  { lang: "de", suffix: "De" },
+  { lang: "nl", suffix: "Nl" },
+  { lang: "fr", suffix: "Fr" },
+  { lang: "ja", suffix: "Ja" },
+  { lang: "pt", suffix: "Pt" },
+  { lang: "ar", suffix: "Ar" },
+];
+
 function localizedCopy(service) {
   const en = translations.en.activitiesPage[service.translationKey] || {};
-  const es = translations.es.activitiesPage[service.translationKey] || {};
-  return {
+  const copy = {
     title: en.name || service.slug,
-    titleEs: es.name || "",
     description: toBlocks(en.fullDescription || en.description, service.slug),
-    descriptionEs: toBlocks(
-      es.fullDescription || es.description,
-      `${service.slug}-es`
-    ),
     whatsIncluded: toWhatsIncludedItems(en.highlights, service.slug),
-    whatsIncludedEs: toWhatsIncludedItems(es.highlights, `${service.slug}-es`),
   };
+  for (const { lang, suffix } of LOCALES) {
+    const page = translations[lang]?.activitiesPage || {};
+    const local = page[service.translationKey];
+    if (!local) continue;
+    const prefix = `${service.slug}-${lang}`;
+    if (local.name) copy[`title${suffix}`] = local.name;
+    if (local.fullDescription || local.description) {
+      copy[`description${suffix}`] = toBlocks(
+        local.fullDescription || local.description,
+        prefix
+      );
+    }
+    if (Array.isArray(local.highlights) && local.highlights.length > 0) {
+      copy[`whatsIncluded${suffix}`] = toWhatsIncludedItems(
+        local.highlights,
+        prefix
+      );
+    }
+    const duration = page.durations?.[service.duration];
+    if (duration && duration !== service.duration) {
+      copy[`duration${suffix}`] = duration;
+    }
+    const groupSize = page.groupSizes?.[service.groupSize];
+    if (groupSize && groupSize !== service.groupSize) {
+      copy[`groupSize${suffix}`] = groupSize;
+    }
+  }
+  return copy;
 }
 
 async function patchCopyOnly(client) {
@@ -136,12 +167,7 @@ async function patchCopyOnly(client) {
     for (const id of existing) {
       await client
         .patch(id)
-        .set({
-          description: copy.description,
-          descriptionEs: copy.descriptionEs,
-          whatsIncluded: copy.whatsIncluded,
-          whatsIncludedEs: copy.whatsIncludedEs,
-        })
+        .set({ ...copy, "image.alt": service.imageAlt })
         .commit();
       console.log(`Copy updated for ${service.slug} (${id}).`);
     }
@@ -175,8 +201,7 @@ async function seed() {
     );
     const copy = localizedCopy(service);
     const fields = {
-      title: copy.title,
-      titleEs: copy.titleEs,
+      ...copy,
       slug: { _type: "slug", current: service.slug },
       category: service.category,
       legendItems: legendRefsForCategory(service.category),
@@ -188,10 +213,6 @@ async function seed() {
         lat: service.coordinates.lat,
         lng: service.coordinates.lng,
       },
-      description: copy.description,
-      descriptionEs: copy.descriptionEs,
-      whatsIncluded: copy.whatsIncluded,
-      whatsIncludedEs: copy.whatsIncludedEs,
     };
     if (service.difficulty) {
       fields.difficulty = service.difficulty;

@@ -570,7 +570,9 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
     "pvg.petsNote",
     t
   );
-  const petsLinkLabel = t("pvg.petsLinkLabel");
+  const pageText = (key) =>
+    textValue(copy?.[key], PVG_PAGE_DEFAULTS[key], language, `pvg.${key}`, t);
+  const petsLinkLabel = pageText("petsLinkLabel");
   const locationLegendLabel = textValue(
     copy?.locationLegendLabel,
     PVG_PAGE_DEFAULTS.locationLegendLabel,
@@ -673,7 +675,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
   const attendeeLabels = Array.isArray(attendeeLabelsRaw)
     ? attendeeLabelsRaw
     : ATTENDEE_RANGE_FALLBACK;
-  const attendeeUnit = t("pvg.attendeeUnit");
+  const attendeeUnit = pageText("attendeeUnit");
 
   const activeImage =
     activeImageIndex !== null ? galleryImages[activeImageIndex] : null;
@@ -875,7 +877,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
                   <div className={styles.formGroup}>
                     <label htmlFor="organizationName">
                       <StepBadge n={1} />
-                      <span>{t("pvg.organizationLabel")}</span>
+                      <span>{pageText("organizationLabel")}</span>
                       <span className={styles.required}>*</span>
                     </label>
                     <input
@@ -896,7 +898,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
                   <fieldset className={styles.fieldset}>
                     <legend className={styles.groupLabel}>
                       <StepBadge n={2} />
-                      <span>{t("pvg.attendeesLabel")}</span>
+                      <span>{pageText("attendeesLabel")}</span>
                       <span className={styles.required}>*</span>
                     </legend>
                     <div className={styles.rangeCards}>
@@ -938,17 +940,17 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
                   <div className={styles.dateRanges}>
                     <p className={styles.groupLabel}>
                       <StepBadge n={3} />
-                      <span>{t("pvg.datesLabel")}</span>
+                      <span>{pageText("datesLabel")}</span>
                       <span className={styles.required}>*</span>
                     </p>
-                    <p className={styles.dateRangesHint}>{t("pvg.datesHint")}</p>
+                    <p className={styles.dateRangesHint}>{pageText("datesHint")}</p>
 
                     {visibleRanges.map((range, index) => (
                       <div key={`range-${index}`} className={styles.dateRangeRow}>
                         <DateRangePicker
-                          label={`${t("pvg.optionLabel")} ${index + 1}${
+                          label={`${pageText("optionLabel")} ${index + 1}${
                             range.checkIn && range.checkOut
-                              ? ` · ${formatRangeLabel(range)}`
+                              ? ` · ${formatRangeLabel(range, language)}`
                               : ""
                           }`}
                           checkIn={range.checkIn}
@@ -985,7 +987,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
                         className={styles.addRangeBtn}
                         onClick={addRange}
                       >
-                        {t("pvg.addRangeLabel")}
+                        {pageText("addRangeLabel")}
                       </button>
                     ) : null}
                   </div>
@@ -994,7 +996,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
                     <div className={styles.formGroup}>
                       <label htmlFor="contactName">
                         <StepBadge n={4} />
-                        <span>{t("pvg.contactNameLabel")}</span>
+                        <span>{pageText("contactNameLabel")}</span>
                         <span className={styles.required}>*</span>
                       </label>
                       <input
@@ -1015,7 +1017,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
                     <div className={styles.formGroup}>
                       <label htmlFor="email">
                         <StepBadge n={5} />
-                        <span>{t("pvg.emailLabel")}</span>
+                        <span>{pageText("emailLabel")}</span>
                         <span className={styles.required}>*</span>
                       </label>
                       <input

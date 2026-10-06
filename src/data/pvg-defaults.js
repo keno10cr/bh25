@@ -19,6 +19,7 @@ export const PVG_PAGE_DEFAULTS = {
   petsTitle: "Pets are welcome at Blessed House.",
   petsNote:
     "Please review our house rules before you bring them, and keep in mind that pets are not allowed inside national parks such as Cahuita.",
+  petsLinkLabel: "Read the house rules",
   locationLat: 9.64735,
   locationLng: -82.77697,
   locationLegendLabel: "Blessed House",
@@ -30,12 +31,29 @@ export const PVG_PAGE_DEFAULTS = {
   inquirySubmittingLabel: "Sending...",
   inquirySuccessMessage:
     "Thank you. Your request is in. We will follow up by email shortly.",
+  organizationLabel: "Organization Name",
+  attendeesLabel: "Estimated attendees",
+  attendeeUnit: "guests",
+  datesLabel: "Target dates",
+  datesHint:
+    "Pick up to 3 preferred ranges. Add another after you confirm the current one.",
+  optionLabel: "Option",
+  addRangeLabel: "Add another date range",
+  contactNameLabel: "Your Name",
+  emailLabel: "Contact email",
   hostImage: "/FloribelFadelBH.jpg",
   hostImageAlt: "Floribel Fadel smiling at the Blessed House reception",
   hostQuote:
     "At Blessed House, groups find a quiet place to reconnect with nature and with each other. It would be an honor to welcome yours.",
   hostName: "Floribel Fadel",
   hostRole: "Owner of Blessed House",
+  promoEyebrow: "Groups of 20 to 45",
+  promoTitle: "Bring your whole group to Blessed House",
+  promoBody:
+    "Book the entire estate for retreats, teams, families, and celebrations. Private villas, pool, gathering spaces, meals, and airport shuttle, all for your group only.",
+  promoCta: "Book Groups",
+  promoImage: "/activities/all/groupBreakfast.jpg",
+  promoImageAlt: "Group breakfast at Blessed House",
 };
 
 export const PVG_PILLARS_DEFAULTS = [

@@ -361,6 +361,8 @@ export const pvgPageSettingsQuery = `*[_id == "pvgPageSettings"][0]{
   "guaranteeLogo": guaranteeLogo.asset->url,
   "hostImage": coalesce(hostImage.asset->url, capacityImage.asset->url),
   "hostImageAlt": coalesce(hostImage.alt, capacityImage.alt),
+  "promoImage": promoImage.asset->url,
+  "promoImageAlt": promoImage.alt,
   pillars[]{
     _key,
     title,
@@ -372,6 +374,15 @@ export const pvgPageSettingsQuery = `*[_id == "pvgPageSettings"][0]{
     label,
     text
   }
+}`;
+export const groupsPromoQuery = `*[_id == "pvgPageSettings"][0]{
+  _id,
+  promoEyebrow,
+  promoTitle,
+  promoBody,
+  promoCta,
+  "promoImage": promoImage.asset->url,
+  "promoImageAlt": promoImage.alt
 }`;
 
 export const propertyBySlugQuery = `*[_type == "property" && slug.current == $slug && listed != false && !(_id in path("drafts.**"))][0]{
