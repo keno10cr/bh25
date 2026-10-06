@@ -233,13 +233,23 @@ export default function LocationSection({ copy }) {
                 </span>
               ))}
             </p>
+          </div>
+          <div className={styles.actions}>
+            <a
+              href={DIRECTIONS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.ctaButton}
+            >
+              <CmsText fromCms={cta.fromCms}>{cta.value}</CmsText>
+            </a>
             <button
               type="button"
               className={`${styles.copyButton} ${copied ? styles.copyButtonDone : ""}`}
               onClick={handleCopy}
               aria-live="polite"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 {copied ? (
                   <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
                 ) : (
@@ -252,14 +262,6 @@ export default function LocationSection({ copy }) {
               <span>{copied ? t("location.copied") : t("location.copy")}</span>
             </button>
           </div>
-          <a
-            href={DIRECTIONS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.ctaButton}
-          >
-            <CmsText fromCms={cta.fromCms}>{cta.value}</CmsText>
-          </a>
         </div>
       </div>
     </section>
