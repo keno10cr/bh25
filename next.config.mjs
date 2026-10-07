@@ -34,6 +34,11 @@ const nextConfig = {
         destination: "/",
         permanent: true,
       },
+      {
+        source: "/tennis",
+        destination: "/activities/playa-negra-tennis",
+        permanent: true,
+      },
     ];
   },
 };

@@ -8,9 +8,12 @@ export const metadata = {
   title: "Puerto Viejo Groups | Blessed House",
   description:
     "Private estate buyouts in Puerto Viejo, Costa Rica for leadership teams, churches, sports groups, and company offsites of 20 to 45 guests.",
+  alternates: {
+    canonical: "/pvg",
+  },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 

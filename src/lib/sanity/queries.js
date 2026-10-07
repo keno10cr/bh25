@@ -285,6 +285,8 @@ export const homePageSettingsQuery = `*[_id == "homePageSettings"][0]{
   "heroImageAlt": heroImage.alt,
   "ourPlaceImage": ourPlaceImage.asset->url,
   "ourPlaceImageAlt": ourPlaceImage.alt,
+  "storyImage": storyImage.asset->url,
+  "storyImageAlt": storyImage.alt,
   "locationImage": locationImage.asset->url,
   "locationImageAlt": locationImage.alt,
   thingsToDoItems[]{

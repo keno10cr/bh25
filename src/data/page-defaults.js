@@ -8,6 +8,12 @@ export const HOME_PAGE_DEFAULTS = {
   heroImageAlt: "Caribbean style villa with jungle view",
   ourPlaceImage: "/villas/general/junglepool.jpg",
   ourPlaceImageAlt: "Blessed House pool area",
+  storyEyebrow: "Why Blessed House",
+  storyTitle: "From desert to rainforest",
+  storyBody:
+    "Much of the world measures life by how little rain falls. Here on the Southern Caribbean coast of Costa Rica, it is the opposite: rivers run all year, the forest drinks the rain, and everything around you grows, blooms, and sings.\n\nLiving in the middle of one of the greenest, most water rich tropical rainforests on earth is not something we take for granted. It is a genuine blessing, and it is the reason behind our name. We built Blessed House so you could wake up inside it too.",
+  storyImage: "/gallery/BHViews.jpg",
+  storyImageAlt: "Rainforest canopy around Blessed House in Puerto Viejo, Costa Rica",
   locationImage: "/info/locationBHmap.jpg",
   locationImageAlt:
     "Satellite map of Blessed House near Puerto Viejo de Talamanca, Playa Cocles, and Punta Uva",

@@ -16,10 +16,12 @@ import {
 const ACTIVITIES = {
   "playa-negra-tennis": {
     whatsIncluded: ["Tennis Rackets", "Tennis Balls"],
+    description:
+      "Bring your tennis or racket club to the Caribbean. Blessed House sits just five minutes from the Playa Negra court, so your team can train in the cool of the morning, rally again in the late afternoon, and still have the whole day for the beach.\n\nBetween sessions, swap the court for jungle runs on quiet coastal roads and rainforest trails, then recover in the shared pool surrounded by green. Evenings are for team dinners by the BBQ area and real rest in private villas.\n\nFor clubs, academies, and team retreats of 20 to 45 people, book the entire estate as a private buyout. Tell us your training plan and we will help you shape the week around court time, meals, and recovery days.",
     es: {
       title: "Tenis en Playa Negra",
       description:
-        "Diviértase a solo cinco minutos por la carretera en una cancha de tenis local impecable, lista para su partido de la mañana o para un peloteo lleno de energía por la tarde bajo el sol tropical.",
+        "Traiga a su club de tenis o de deportes de raqueta al Caribe. Blessed House está a solo cinco minutos de la cancha de Playa Negra, así que su equipo puede entrenar con el fresco de la mañana, volver a pelotear al final de la tarde y aun así tener todo el día para la playa.\n\nEntre sesiones, cambie la cancha por carreras en la selva por caminos costeros tranquilos y senderos del bosque tropical, y luego recupérese en la piscina compartida rodeada de selva. Las noches son para cenas de equipo junto al área de BBQ y descanso real en villas privadas.\n\nPara clubes, academias y retiros de equipo de 20 a 45 personas, reserve toda la propiedad en exclusiva. Cuéntenos su plan de entrenamiento y le ayudamos a organizar la semana alrededor del tiempo en cancha, las comidas y los días de recuperación.",
       duration: "2 horas",
       groupSize: "Hasta 8 personas",
       whatsIncluded: ["Raquetas de tenis", "Pelotas de tenis"],
@@ -27,7 +29,7 @@ const ACTIVITIES = {
     de: {
       title: "Tennis in Playa Negra",
       description:
-        "Nur fünf Minuten die Straße hinunter wartet ein gepflegter Tennisplatz auf Ihr Match am Morgen oder einen energiegeladenen Ballwechsel am Nachmittag unter der tropischen Sonne.",
+        "Bringen Sie Ihren Tennis oder Racketclub in die Karibik. Blessed House liegt nur fünf Minuten vom Platz in Playa Negra entfernt, so kann Ihr Team in der Morgenkühle trainieren, am späten Nachmittag erneut spielen und hat trotzdem den ganzen Tag für den Strand.\n\nZwischen den Einheiten tauschen Sie den Platz gegen Dschungelläufe auf ruhigen Küstenstraßen und Regenwaldpfaden und erholen sich anschließend im Gemeinschaftspool mitten im Grünen. Die Abende gehören Teamessen am Grillbereich und echter Erholung in privaten Villen.\n\nFür Clubs, Akademien und Teamretreats mit 20 bis 45 Personen können Sie das gesamte Anwesen exklusiv buchen. Erzählen Sie uns von Ihrem Trainingsplan, und wir helfen Ihnen, die Woche rund um Platzzeiten, Mahlzeiten und Erholungstage zu gestalten.",
       duration: "2 Stunden",
       groupSize: "Bis zu 8 Personen",
       whatsIncluded: ["Tennisschläger", "Tennisbälle"],
@@ -35,7 +37,7 @@ const ACTIVITIES = {
     nl: {
       title: "Tennis bij Playa Negra",
       description:
-        "Op slechts vijf minuten rijden ligt een verzorgde tennisbaan, klaar voor je ochtendpartij of een energieke rally in de middag onder de tropische zon.",
+        "Breng je tennis of racketclub naar het Caribisch gebied. Blessed House ligt op slechts vijf minuten van de baan in Playa Negra, zodat je team in de koelte van de ochtend kan trainen, laat in de middag opnieuw kan spelen en toch de hele dag tijd heeft voor het strand.\n\nWissel tussen de sessies de baan in voor junglelopen over rustige kustwegen en regenwoudpaden en herstel daarna in het gedeelde zwembad midden in het groen. De avonden zijn voor teamdiners bij de BBQ en echte rust in privévilla's.\n\nVoor clubs, academies en teamretraites van 20 tot 45 personen boek je het hele landgoed exclusief. Vertel ons je trainingsplan en we helpen je de week in te delen rond baantijd, maaltijden en hersteldagen.",
       duration: "2 uur",
       groupSize: "Tot 8 personen",
       whatsIncluded: ["Tennisrackets", "Tennisballen"],
@@ -43,7 +45,7 @@ const ACTIVITIES = {
     fr: {
       title: "Tennis à Playa Negra",
       description:
-        "À seulement cinq minutes sur la route, un court de tennis impeccable vous attend pour un match le matin ou un échange plein d’énergie dans l’après midi sous le soleil tropical.",
+        "Emmenez votre club de tennis ou de sports de raquette dans les Caraïbes. Blessed House se trouve à seulement cinq minutes du court de Playa Negra : votre équipe peut s’entraîner à la fraîche le matin, rejouer en fin de journée et garder toute la journée pour la plage.\n\nEntre les séances, troquez le court contre des footings dans la jungle sur des routes côtières tranquilles et des sentiers de forêt tropicale, puis récupérez dans la piscine partagée entourée de verdure. Les soirées sont consacrées aux dîners d’équipe près de l’espace barbecue et à un vrai repos dans des villas privées.\n\nPour les clubs, académies et retraites d’équipe de 20 à 45 personnes, réservez l’ensemble du domaine en privatisation. Parlez nous de votre programme d’entraînement et nous vous aiderons à organiser la semaine autour du temps de court, des repas et des journées de récupération.",
       duration: "2 heures",
       groupSize: "Jusqu’à 8 personnes",
       whatsIncluded: ["Raquettes de tennis", "Balles de tennis"],
@@ -51,7 +53,7 @@ const ACTIVITIES = {
     ja: {
       title: "プラヤネグラでテニス",
       description:
-        "車でわずか5分の場所に、手入れの行き届いたテニスコートがあります。朝の試合や、南国の太陽の下での午後のラリーをお楽しみください。",
+        "テニスクラブやラケットスポーツのチームをカリブ海へ。Blessed Houseはプラヤネグラのコートから車でわずか5分。涼しい朝に練習し、夕方にもう一度ラリーをしても、日中はたっぷりビーチを楽しめます。\n\n練習の合間には、静かな海沿いの道や熱帯雨林のトレイルでジャングルランを。その後は緑に囲まれた共有プールでリカバリーを。夜はBBQエリアでのチームディナーと、プライベートヴィラでの本当の休息の時間です。\n\n20名から45名のクラブ、アカデミー、チーム合宿には、敷地全体の貸切がおすすめです。練習計画をお聞かせいただければ、コートの時間、食事、リカバリー日を中心に一週間の組み立てをお手伝いします。",
       duration: "2時間",
       groupSize: "最大8名",
       whatsIncluded: ["テニスラケット", "テニスボール"],
@@ -59,7 +61,7 @@ const ACTIVITIES = {
     pt: {
       title: "Tênis em Playa Negra",
       description:
-        "A apenas cinco minutos pela estrada, uma quadra de tênis impecável espera por sua partida pela manhã ou por uma troca de bolas cheia de energia à tarde sob o sol tropical.",
+        "Traga seu clube de tênis ou de esportes de raquete para o Caribe. A Blessed House fica a apenas cinco minutos da quadra de Playa Negra, então sua equipe pode treinar no frescor da manhã, voltar à quadra no fim da tarde e ainda ter o dia inteiro para a praia.\n\nEntre as sessões, troque a quadra por corridas na selva em estradas costeiras tranquilas e trilhas da floresta tropical, e depois recupere na piscina compartilhada cercada de verde. As noites são para jantares em equipe na área de churrasqueira e descanso de verdade em vilas privadas.\n\nPara clubes, academias e retiros de equipe de 20 a 45 pessoas, reserve a propriedade inteira com exclusividade. Conte seu plano de treino e ajudamos a montar a semana em torno do tempo de quadra, das refeições e dos dias de recuperação.",
       duration: "2 horas",
       groupSize: "Até 8 pessoas",
       whatsIncluded: ["Raquetes de tênis", "Bolas de tênis"],
@@ -67,7 +69,7 @@ const ACTIVITIES = {
     ar: {
       title: "تنس في Playa Negra",
       description:
-        "على بعد خمس دقائق فقط على الطريق، ملعب تنس محلي مُعتنى به جاهز لمباراتك الصباحية أو لتبادل كرات مفعم بالحيوية بعد الظهر تحت الشمس الاستوائية.",
+        "أحضر نادي التنس أو رياضات المضرب إلى الكاريبي. يقع Blessed House على بعد خمس دقائق فقط من ملعب Playa Negra، فيستطيع فريقك التدرب في نسمات الصباح الباردة والعودة للعب في آخر النهار مع بقاء اليوم كله للشاطئ.\n\nبين الحصص، استبدل الملعب بالجري في الغابة على طرق ساحلية هادئة ومسارات الغابة المطيرة، ثم استعد نشاطك في المسبح المشترك وسط الخضرة. أما الأمسيات فهي لعشاء الفريق بجوار منطقة الشواء وللراحة الحقيقية في فلل خاصة.\n\nللأندية والأكاديميات ومعسكرات الفرق من 20 إلى 45 شخصاً، احجز العقار بالكامل حصرياً. أخبرنا بخطة تدريبك وسنساعدك على تنظيم الأسبوع حول أوقات الملعب والوجبات وأيام الاستشفاء.",
       duration: "ساعتان",
       groupSize: "حتى 8 أشخاص",
       whatsIncluded: ["مضارب تنس", "كرات تنس"],
@@ -178,6 +180,9 @@ async function run() {
     }
 
     const set = { whatsIncluded: items(data.whatsIncluded, `${slug}-en`) };
+    if (data.description) {
+      set.description = toBlocks(data.description, `${slug}-en`);
+    }
     for (const [lang, suffix] of Object.entries(SUFFIX)) {
       const copy = data[lang];
       set[`title${suffix}`] = copy.title;

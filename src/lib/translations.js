@@ -19,6 +19,11 @@ export const translations = {
       exploreVillas: "Explore Villas",
       getInTouch: "Get in Touch"
     },
+    story: {
+      eyebrow: "Why Blessed House",
+      title: "From desert to rainforest",
+      body: "Much of the world measures life by how little rain falls. Here on the Southern Caribbean coast of Costa Rica, it is the opposite: rivers run all year, the forest drinks the rain, and everything around you grows, blooms, and sings.\n\nLiving in the middle of one of the greenest, most water rich tropical rainforests on earth is not something we take for granted. It is a genuine blessing, and it is the reason behind our name. We built Blessed House so you could wake up inside it too."
+    },
     welcome: {
       title: "Welcome to the Southern Caribbean Paradise",
       description: "Blessed House is the right choice for visitors who are searching for a combination of charm, peace and quiet. Also we are in a convenient position to explore Puerto Viejo and the beautiful places around.",
@@ -687,7 +692,7 @@ export const translations = {
         informativeFact: "The Mono Cariblanco (White Faced Capuchin Monkey) is considered one of the most intelligent New World monkeys and often uses rocks as tools to crack open hard shelled food items."
       },
       villa10: {
-        description: "This compact and highly efficient villa is set up perfectly for adventurers and couples, featuring reliable Wi Fi and close proximity to the main pool deck and lounge area.",
+        description: "This compact and highly efficient villa is set up perfectly for adventurers and small groups, featuring reliable WiFi and close proximity to the main pool deck and lounge area.",
         informativeFact: "The Mono Ardilla (Central American Squirrel Monkey) possesses the largest brain relative to its body size of any primate, making them quick thinkers in the canopy."
       },
       villa11: {
@@ -806,6 +811,11 @@ export const translations = {
       subtitle: "Para huéspedes que buscan paz, tranquilidad y un toque de encanto auténtico, has encontrado tu refugio. Nuestra ubicación ideal garantiza una exploración sin esfuerzo de lo mejor de la costa caribeña sur de Costa Rica.",
       exploreVillas: "Explorar Villas",
       getInTouch: "Contáctanos"
+    },
+    story: {
+      eyebrow: "Por qué Blessed House",
+      title: "Del desierto a la selva tropical",
+      body: "Gran parte del mundo mide la vida por la poca lluvia que cae. Aquí, en el Caribe Sur de Costa Rica, es lo contrario: los ríos corren todo el año, el bosque bebe la lluvia y todo a tu alrededor crece, florece y canta.\n\nVivir en medio de una de las selvas tropicales más verdes y ricas en agua del planeta no es algo que demos por sentado. Es una verdadera bendición, y es la razón de nuestro nombre. Creamos Blessed House para que tú también despiertes dentro de ella."
     },
     welcome: {
       title: "Bienvenido al Paraíso del Caribe Sur",
@@ -1440,7 +1450,7 @@ export const translations = {
         informativeFact: "El Mono Cariblanco (Mono Capuchino de Cara Blanca) se considera uno de los monos del Nuevo Mundo más inteligentes y a menudo usa rocas como herramientas para abrir alimentos de cáscara dura."
       },
       villa10: {
-        description: "Esta villa compacta y altamente eficiente está perfectamente configurada para aventureros y parejas, con Wi-Fi confiable y proximidad al área principal de la piscina y salón.",
+        description: "Esta villa compacta y altamente eficiente está perfectamente configurada para aventureros y grupos pequeños, con WiFi confiable y cerca del área principal de la piscina y la sala.",
         informativeFact: "El Mono Ardilla (Mono Ardilla Centroamericano) posee el cerebro más grande en relación con su tamaño corporal de cualquier primate, lo que los convierte en pensadores rápidos en el dosel."
       },
       villa11: {
@@ -1582,6 +1592,11 @@ export const translations = {
       subtitle: "Für Gäste, die Ruhe, Stille und eine Prise authentischen Charmes suchen, haben Sie Ihr Refugium gefunden. Unsere ideale Lage gewährleistet mühelose Erkundung der besten der südlichen Karibikküste Costa Ricas.",
       exploreVillas: "Villen Erkunden",
       getInTouch: "Kontakt Aufnehmen"
+    },
+    story: {
+      eyebrow: "Warum Blessed House",
+      title: "Von der Wüste in den Regenwald",
+      body: "Vielerorts wird das Leben daran gemessen, wie wenig Regen fällt. Hier an der Südkaribikküste Costa Ricas ist es umgekehrt: Flüsse führen das ganze Jahr Wasser, der Wald trinkt den Regen, und alles um dich herum wächst, blüht und singt.\n\nMitten in einem der grünsten und wasserreichsten tropischen Regenwälder der Erde zu leben, ist für uns keine Selbstverständlichkeit. Es ist ein echter Segen, und genau daher kommt unser Name. Wir haben Blessed House gebaut, damit auch du mittendrin aufwachen kannst."
     },
     welcome: {
       title: "Willkommen im Paradies der Südkaribik",
@@ -2121,7 +2136,7 @@ export const translations = {
         informativeFact: "Der Mono Cariblanco (Weißgesichts-Kapuzineraffe) gilt als einer der intelligentesten Neuweltaffen und verwendet oft Steine als Werkzeuge, um hartschalige Nahrungsmittel zu öffnen."
       },
       villa10: {
-        description: "Diese kompakte und hocheffiziente Villa ist perfekt für Abenteurer und Paare eingerichtet und verfügt über zuverlässiges Wi-Fi und Nähe zum Hauptpooldeck und Aufenthaltsbereich.",
+        description: "Diese kompakte und hocheffiziente Villa ist perfekt für Abenteurer und kleine Gruppen eingerichtet und bietet zuverlässiges WLAN sowie die Nähe zum Hauptpooldeck und Aufenthaltsbereich.",
         informativeFact: "Der Mono Ardilla (Mittelamerikanischer Totenkopfaffe) besitzt das größte Gehirn relativ zu seiner Körpergröße aller Primaten, was sie zu schnellen Denkern im Blätterdach macht."
       },
       villa11: {
@@ -2248,6 +2263,11 @@ export const translations = {
       subtitle: "Voor gasten die vrede, rust en een vleugje authentieke charme zoeken, heeft u uw toevluchtsoord gevonden. Onze ideale locatie zorgt voor moeiteloze verkenning van het beste van de zuidelijke Caribische kust van Costa Rica.",
       exploreVillas: "Villa's Verkennen",
       getInTouch: "Neem Contact Op"
+    },
+    story: {
+      eyebrow: "Waarom Blessed House",
+      title: "Van woestijn naar regenwoud",
+      body: "Op veel plekken in de wereld wordt het leven gemeten aan hoe weinig regen er valt. Hier aan de zuidelijke Caribische kust van Costa Rica is het andersom: rivieren stromen het hele jaar, het bos drinkt de regen en alles om je heen groeit, bloeit en zingt.\n\nWonen midden in een van de groenste en waterrijkste tropische regenwouden ter wereld is voor ons geen vanzelfsprekendheid. Het is een echte zegen, en de reden achter onze naam. We bouwden Blessed House zodat jij er ook middenin wakker kunt worden."
     },
     welcome: {
       title: "Welkom in het Zuid-Caribische Paradijs",
@@ -2787,7 +2807,7 @@ export const translations = {
         informativeFact: "De Mono Cariblanco (Witgezichtkapucijnaap) wordt beschouwd als een van de meest intelligente Nieuwe Wereldapen en gebruikt vaak stenen als gereedschap om harde voedselitems te kraken."
       },
       villa10: {
-        description: "Deze compacte en zeer efficiënte villa is perfect opgezet voor avonturiers en stellen, met betrouwbaar Wi-Fi en nabijheid van het hoofdzwembaddek en loungegebied.",
+        description: "Deze compacte en zeer efficiënte villa is perfect ingericht voor avonturiers en kleine groepen, met betrouwbare WiFi en dicht bij het hoofdzwembaddek en de lounge.",
         informativeFact: "De Mono Ardilla (Midden-Amerikaanse doodshoofdaap) bezit het grootste brein relatief tot zijn lichaamsgrootte van alle primaten, waardoor ze snelle denkers zijn in het bladerdak."
       },
       villa11: {
@@ -2914,6 +2934,11 @@ export const translations = {
       subtitle: "Pour les invités en quête de paix, de tranquillité et d'une touche de charme authentique, vous avez trouvé votre havre. Notre emplacement idéal garantit une exploration sans effort du meilleur de la côte caraïbe sud du Costa Rica.",
       exploreVillas: "Explorer les Villas",
       getInTouch: "Nous Contacter"
+    },
+    story: {
+      eyebrow: "Pourquoi Blessed House",
+      title: "Du désert à la forêt tropicale",
+      body: "Dans bien des régions du monde, on mesure la vie à la rareté de la pluie. Ici, sur la côte caraïbe sud du Costa Rica, c’est l’inverse : les rivières coulent toute l’année, la forêt boit la pluie et tout autour de vous pousse, fleurit et chante.\n\nVivre au cœur de l’une des forêts tropicales les plus vertes et les plus riches en eau de la planète n’a rien d’acquis pour nous. C’est une véritable bénédiction, et c’est l’origine de notre nom. Nous avons créé Blessed House pour que vous puissiez, vous aussi, vous y réveiller."
     },
     welcome: {
       title: "Bienvenue au Paradis des Caraïbes du Sud",
@@ -3453,7 +3478,7 @@ export const translations = {
         informativeFact: "Le Mono Cariblanco (Singe Capucin à Face Blanche) est considéré comme l'un des singes du Nouveau Monde les plus intelligents et utilise souvent des roches comme outils pour ouvrir des aliments à coque dure."
       },
       villa10: {
-        description: "Cette villa compacte et très efficace est parfaitement configurée pour les aventuriers et les couples, avec un Wi-Fi fiable et une proximité du pont de piscine principal et de la zone de détente.",
+        description: "Cette villa compacte et très efficace est parfaitement aménagée pour les aventuriers et les petits groupes, avec un WiFi fiable et à proximité de la terrasse de la piscine principale et du salon.",
         informativeFact: "Le Mono Ardilla (Singe Écureuil d'Amérique Centrale) possède le plus grand cerveau par rapport à sa taille corporelle de tous les primates, ce qui en fait des penseurs rapides dans la canopée."
       },
       villa11: {
@@ -3580,6 +3605,11 @@ export const translations = {
       subtitle: "平和、静けさ、そして本物の魅力を求めるゲストの皆様に、理想的な避難所をご提供します。理想的な立地により、コスタリカの南カリブ海沿岸の最高の場所を簡単に探索できます。",
       exploreVillas: "ヴィラを探索",
       getInTouch: "お問い合わせ"
+    },
+    story: {
+      eyebrow: "ブレッセッドハウスの由来",
+      title: "砂漠から熱帯雨林へ",
+      body: "世界の多くの場所では、雨の少なさで暮らしが語られます。ここコスタリカ南カリブ海沿岸では、その逆です。川は一年中流れ、森は雨を飲み込み、あなたの周りのすべてが育ち、花を咲かせ、歌っています。\n\n地球上で最も緑豊かで水に恵まれた熱帯雨林のひとつに暮らせることを、私たちは当たり前だとは思っていません。それは本当の祝福であり、私たちの名前の由来でもあります。あなたにもこの森の中で目覚めてほしくて、ブレッセッドハウスをつくりました。"
     },
     welcome: {
       title: "南カリブ海の楽園へようこそ",
@@ -4119,7 +4149,7 @@ export const translations = {
         informativeFact: "モノカリブランコ（シロガオオマキザル）は、新世界のサルの中で最も知的なサルの1つと考えられており、硬い殻の食べ物を割るために石を道具として使用することがよくあります。"
       },
       villa10: {
-        description: "このコンパクトで非常に効率的なヴィラは、冒険家やカップルに最適にセットアップされており、信頼性の高いWi-Fiとメインプールデッキとラウンジエリアへの近接性を備えています。",
+        description: "このコンパクトで機能的なヴィラは、冒険好きの方や少人数のグループに最適で、安定したWiFiを備え、メインプールデッキとラウンジエリアのすぐ近くにあります。",
         informativeFact: "モノアルディージャ（中央アメリカリスザル）は、すべての霊長類の中で体のサイズに対する最大の脳を持っており、樹冠で素早い思考者にしています。"
       },
       villa11: {
@@ -4247,6 +4277,11 @@ export const translations = {
       exploreVillas: "Explorar Vilas",
       getInTouch: "Entre em Contato"
     },
+    story: {
+      eyebrow: "Por que Blessed House",
+      title: "Do deserto à floresta tropical",
+      body: "Em grande parte do mundo, a vida é medida pela pouca chuva que cai. Aqui, no Caribe Sul da Costa Rica, é o contrário: os rios correm o ano todo, a floresta bebe a chuva e tudo ao seu redor cresce, floresce e canta.\n\nViver no meio de uma das florestas tropicais mais verdes e ricas em água do planeta não é algo que consideramos garantido. É uma verdadeira bênção, e é a razão do nosso nome. Criamos a Blessed House para que você também possa acordar dentro dela."
+    },
     welcome: {
       title: "Bem-vindo ao Paraíso do Caribe Sul",
       description: "Blessed House é a escolha certa para visitantes que buscam uma combinação de charme, paz e tranquilidade. Também estamos em uma posição conveniente para explorar Puerto Viejo e os lugares bonitos ao redor.",
@@ -4370,7 +4405,7 @@ export const translations = {
         informativeFact: "O Mono Cariblanco (Macaco-prego-de-cara-branca) é considerado um dos macacos do Novo Mundo mais inteligentes e frequentemente usa pedras como ferramentas para abrir alimentos de casca dura."
       },
       villa10: {
-        description: "Esta vila compacta e altamente eficiente está perfeitamente configurada para aventureiros e casais, com Wi-Fi confiável e proximidade da área principal da piscina e lounge.",
+        description: "Esta vila compacta e altamente eficiente está perfeitamente configurada para aventureiros e pequenos grupos, com WiFi confiável e próxima da área principal da piscina e do lounge.",
         informativeFact: "O Mono Ardilla (Macaco-esquilo-centro-americano) possui o maior cérebro em relação ao tamanho do corpo de qualquer primata, tornando-os pensadores rápidos no dossel."
       },
       villa11: {

@@ -109,11 +109,16 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
       {!useTranslatedBody && !cmsLocalBody && activity.descriptionBlocks ? (
         <PortableBody value={activity.descriptionBlocks} />
       ) : (
-        <p className={styles.copy}>
-          <CmsText fromCms={!useTranslatedBody && activity.descriptionFromCms}>
-            {body}
-          </CmsText>
-        </p>
+        String(body || "")
+          .split(/\n{2,}/)
+          .filter(Boolean)
+          .map((paragraph, index) => (
+            <p key={index} className={styles.copy}>
+              <CmsText fromCms={!useTranslatedBody && activity.descriptionFromCms}>
+                {paragraph}
+              </CmsText>
+            </p>
+          ))
       )}
       {galleryImages.length > 0 ? (
         <ActivityGallery images={galleryImages} activityName={name} />

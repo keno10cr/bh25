@@ -93,6 +93,40 @@ export const homePageSettings = defineType({
       ],
     }),
     ...localizedField({
+      name: "storyEyebrow",
+      title: "Why Blessed House small label",
+      type: "string",
+    }),
+    ...localizedField({
+      name: "storyTitle",
+      title: "Why Blessed House title",
+      type: "string",
+    }),
+    ...localizedField({
+      name: "storyBody",
+      title: "Why Blessed House text",
+      type: "text",
+      rows: 6,
+      description: "Leave an empty line between paragraphs.",
+    }),
+    defineField({
+      name: "storyImage",
+      title: "Why Blessed House image",
+      type: "image",
+      description:
+        "Lush rainforest photo beside the story. Best size: 1200 × 1500 pixels (4:5 portrait).",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          description:
+            "Describe the photo. Example: Rainforest canopy around Blessed House after the rain.",
+        }),
+      ],
+    }),
+    ...localizedField({
       name: "featuredTitle",
       title: "Featured villas title",
       type: "string",

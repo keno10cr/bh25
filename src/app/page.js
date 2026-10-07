@@ -1,6 +1,7 @@
 import Hero from "@/components/hero";
 import WelcomeSection from "@/components/welcome-section";
 import OurPlace from "@/components/our-place";
+import StorySection from "@/components/story-section";
 import FeaturedVillas from "@/components/featured-villas";
 import LocationSection from "@/components/location-section";
 import ActivityPreview from "@/components/activity-preview";
@@ -40,6 +41,7 @@ export default async function Home() {
             : about.ourPlaceImageAlt,
         }}
       />
+      <StorySection copy={home} />
       <FeaturedVillas copy={home} villas={villas} />
       <LocationSection copy={home} />
       <ActivityPreview copy={home} />
