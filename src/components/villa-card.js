@@ -24,6 +24,11 @@ export default function VillaCard({ villa }) {
     ? `/villas/${villa.slug}`
     : `/contact?subject=booking&villa=${villa.id || ""}`;
   const petsWelcome = resolvePetsMax(villa) > 0;
+  const villaNumber = String(villa.name || "").match(/#\s*(\d+)/)?.[1] ||
+    String(villa.slug || "").match(/^villa-(\d+)/)?.[1];
+  const detailsLabel = villaNumber
+    ? t("villas.buttons.fullDetailsNumbered").replace("{number}", villaNumber)
+    : t("villas.buttons.fullDetails");
 
   const handleBookClick = () => {
     // Keep analytics event name for continuity; destination is now native booking.
@@ -117,10 +122,17 @@ export default function VillaCard({ villa }) {
           </div>
 
           {villa.bedList?.length > 0 && (
-            <ul className={styles.bedList} aria-label={t("villas.details.bedrooms")}>
-              {villa.bedList.map((bed) => (
-                <li key={bed}>{bed}</li>
-              ))}
+            <ul className={styles.bedList} aria-label={t("villas.details.houseArrangements")}>
+              {villa.bedList.map((room, index) =>
+                typeof room === "string" ? (
+                  <li key={index}>{room}</li>
+                ) : (
+                  <li key={index}>
+                    <span className={styles.roomTitle}>{room.title}</span>
+                    <span className={styles.roomBeds}>{room.beds}</span>
+                  </li>
+                )
+              )}
             </ul>
           )}
 
@@ -134,6 +146,7 @@ export default function VillaCard({ villa }) {
                   const isParking = String(key).trim().toLowerCase() === "parking";
                   return (
                     <span key={index} className={styles.amenityTag}>
+                      <AmenityIcon name={key} />
                       {label}
                       {isParking && <span className={styles.asterisk}> *</span>}
                     </span>
@@ -149,8 +162,9 @@ export default function VillaCard({ villa }) {
             href={bookHref}
             className={styles.btn}
             onClick={handleBookClick}
+            aria-label={villa.name ? `${detailsLabel}: ${villa.name}` : undefined}
           >
-            {t("villas.buttons.checkAvailability")}
+            {detailsLabel}
           </Link>
         </div>
       </div>

@@ -604,6 +604,7 @@ export const arTranslations = {
       bathrooms: "الحمامات:",
       maxPeople: "الحد الأقصى للأشخاص:",
       pets: "الحيوانات الأليفة",
+      petsWelcome: "الحيوانات الأليفة مرحب بها",
       amenities: "المرافق:",
       houseArrangements: "ترتيب المنزل",
       sleeps: "يتسع لـ",
@@ -627,6 +628,8 @@ export const arTranslations = {
       viewVilla: "عرض الفيلا",
       bookNow: "احجزوا الآن",
       checkAvailability: "تحققوا من التوفر",
+      fullDetails: "التفاصيل الكاملة",
+      fullDetailsNumbered: "التفاصيل الكاملة #{number}",
       showDetails: "عرض التفاصيل الكاملة",
       hideDetails: "إخفاء التفاصيل"
     },
@@ -643,6 +646,10 @@ export const arTranslations = {
       parking: "موقف سيارات",
       hotWater: "ماء ساخن",
       ac: "تكييف",
+      acMainBedroom: "تكييف في غرفة النوم الرئيسية",
+      acTwoBedrooms: "تكييف في غرفتي نوم",
+      acLargeBedroom: "تكييف في غرفة نوم كبيرة واحدة",
+      acFullHouse: "تكييف في جميع الغرف",
       bbqArea: "منطقة شواء",
       sharedPool: "مسبح مشترك"
     },

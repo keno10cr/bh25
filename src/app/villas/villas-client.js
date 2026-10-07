@@ -7,6 +7,7 @@ import CmsText from "@/components/cms-text";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import { resolveCopy, useUiCopy } from "@/lib/cms-field";
+import { buildRoomRows } from "@/lib/house-arrangements";
 import styles from "./villas.module.css";
 
 const AMENITY_KEY_BY_NAME = {
@@ -18,6 +19,14 @@ const AMENITY_KEY_BY_NAME = {
   "hot water": "hotWater",
   ac: "ac",
   "a/c": "ac",
+  acmainbedroom: "acMainBedroom",
+  "a/c in main bedroom": "acMainBedroom",
+  actwobedrooms: "acTwoBedrooms",
+  "a/c in 2 bedrooms": "acTwoBedrooms",
+  aclargebedroom: "acLargeBedroom",
+  "a/c in 1 large bedroom": "acLargeBedroom",
+  acfullhouse: "acFullHouse",
+  "a/c in every room": "acFullHouse",
   bbqarea: "bbqArea",
   "bbq area": "bbqArea",
   sharedpool: "sharedPool",
@@ -104,9 +113,10 @@ export default function VillasClient({ villas: cmsVillas = [], copy }) {
       const translated = t(lookup);
       return { key, label: translated === lookup ? key : translated };
     });
-    const bedList = splitBedText(
-      villa.bedInfo ? t(`villas.bedInfo.${villa.bedInfo}`) : bedText
-    );
+    const roomRows = buildRoomRows(villa.houseArrangements, language);
+    const bedList = roomRows.length
+      ? roomRows
+      : splitBedText(villa.bedInfo ? t(`villas.bedInfo.${villa.bedInfo}`) : bedText);
 
     const fact = villa.translationKey
       ? t(`villas.${villa.translationKey}.informativeFact`)

@@ -19,6 +19,7 @@ import {
   reviewsQuery,
   publishedVillaCommentsQuery,
   publishedGuestExperiencesQuery,
+  propertyArrangementsQuery,
   propertyBySlugQuery,
   villaBySlugQuery,
   villaSlugsQuery,
@@ -159,6 +160,17 @@ export async function getVillaBySlug(slug) {
   const fallback = STATIC_VILLAS.find((villa) => villa.slug === slug) || null;
   if (!raw && !fallback) return null;
   return mapVilla(raw, fallback);
+}
+
+export async function getPropertyArrangements() {
+  const rows = await sanityFetch(propertyArrangementsQuery);
+  const bySlug = {};
+  for (const row of Array.isArray(rows) ? rows : []) {
+    if (row?.slug && Array.isArray(row.houseArrangements)) {
+      bySlug[row.slug] = row.houseArrangements;
+    }
+  }
+  return bySlug;
 }
 
 export async function getPropertyBySlug(slug) {

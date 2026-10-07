@@ -12,6 +12,7 @@ import FeedbackModal from "@/components/feedback-modal";
 import PropertyBookingSidebar from "@/components/property-booking-sidebar";
 import ReviewsMarquee from "@/components/reviews-marquee";
 import { AmenityIcon } from "@/components/amenity-icon";
+import { buildRoomRows } from "@/lib/house-arrangements";
 import { villaImageCaption, mergeVillaGallery, isPropertyMapSrc } from "@/lib/villa-gallery";
 import {
   resolveBaseGuestCount,
@@ -125,7 +126,8 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
               </span>
               {petsMax > 0 ? (
                 <span className={styles.badge}>
-                  <strong>{t("villas.houseRules.petsWelcome")}</strong>
+                  <AmenityIcon name="pets" />
+                  <em>{t("villas.details.petsWelcome")}</em>
                 </span>
               ) : null}
             </div>
@@ -171,33 +173,15 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
             <section className={styles.section}>
               <h2>{t("villas.details.houseArrangements")}</h2>
               <div className={styles.arrangementGrid}>
-                {arrangements.map((row, index) => {
-                  const title =
-                    (language === "es"
-                      ? row.customTitleEs || row.roomType?.titleEs
-                      : null) ||
-                    row.customTitleEn ||
-                    row.roomType?.titleEn ||
-                    "Sleeping space";
-                  const bedConfig =
-                    (language === "es"
-                      ? row.roomType?.configEs
-                      : row.roomType?.configEn) ||
-                    row.roomType?.configEn;
-                  const qty = row.quantity > 1 ? `${row.quantity} × ` : "";
-                  return (
-                    <div key={`${title}-${index}`} className={styles.arrangementCard}>
-                      <strong>
-                        {qty}
-                        {title}
-                      </strong>
-                      <span>
-                        {t("villas.details.sleeps")} {row.roomType?.capacity || "?"}
-                        {bedConfig ? ` · ${bedConfig}` : ""}
-                      </span>
-                    </div>
-                  );
-                })}
+                {buildRoomRows(arrangements, language).map((room, index) => (
+                  <div key={`${room.title}-${index}`} className={styles.arrangementCard}>
+                    <strong>{room.title}</strong>
+                    <span>
+                      {t("villas.details.sleeps")} {room.capacity || "?"}
+                      {room.beds ? ` · ${room.beds}` : ""}
+                    </span>
+                  </div>
+                ))}
               </div>
             </section>
           ) : null}

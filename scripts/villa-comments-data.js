@@ -131,9 +131,10 @@ export function pickVillaComments(villa) {
     used.add(commentIndex);
     const guestIndex =
       (hashSeed(`${villa.slug}-${commentIndex}`) + i) % guestSize;
-    const month = 1 + ((hashSeed(`${villa.id}-${i}`) % 12) + 1);
+    const month = 1 + (hashSeed(`${villa.id}-${i}`) % 12);
     const day = 1 + (hashSeed(`${villa.slug}-d-${i}`) % 27);
-    const year = 2024 + (hashSeed(`${villa.id}-y-${i}`) % 3);
+    let year = 2024 + (hashSeed(`${villa.id}-y-${i}`) % 3);
+    if (Date.UTC(year, month - 1, day, 16) > Date.now()) year -= 1;
     comments.push({
       guestName: VILLA_COMMENT_GUESTS[guestIndex],
       rating: hashSeed(`${villa.slug}-r-${i}`) % 5 === 0 ? 4 : 5,

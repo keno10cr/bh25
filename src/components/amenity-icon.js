@@ -42,6 +42,10 @@ export function AmenityIcon({ name }) {
         </svg>
       );
     case "ac":
+    case "acMainBedroom":
+    case "acTwoBedrooms":
+    case "acLargeBedroom":
+    case "acFullHouse":
       return (
         <svg {...common}>
           <path d="M12 4v16" />

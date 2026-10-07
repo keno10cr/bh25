@@ -279,6 +279,21 @@ export const blogPostBySlugQuery = `*[_type in ["blog", "familyBlog"] && slug.cu
 
 export const blogSlugsQuery = `*[_type in ["blog", "familyBlog"] && defined(slug.current)].slug.current`;
 
+export const propertyArrangementsQuery = `*[_type == "property" && defined(slug.current)]{
+  "slug": slug.current,
+  houseArrangements[]{
+    quantity,
+    customTitleEn,
+    customTitleEs,
+    roomType->{
+      titleEn,
+      titleEs,
+      configEn,
+      configEs,
+      capacity
+    }
+  }
+}`;
 export const homePageSettingsQuery = `*[_id == "homePageSettings"][0]{
   ...,
   "heroImage": heroImage.asset->url,
