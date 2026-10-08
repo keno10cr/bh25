@@ -15,6 +15,7 @@ export default function ContactClient({ copy, footer, groupsPromo }) {
   const t = useTranslation(language);
   const bannerRef = useRef(null);
   const imageRef = useRef(null);
+  const headerRef = useRef(null);
   const title = resolveCopy(copy?.title, t("contactPage.title"), language);
   const subtitle = resolveCopy(copy?.subtitle, t("contactPage.subtitle"), language);
 
@@ -26,7 +27,13 @@ export default function ContactClient({ copy, footer, groupsPromo }) {
       loop.set(imageRef.current, { y: 0, lerp: 0.2 });
       return;
     }
-    loop.set(imageRef.current, { y: -rect.top * 0.45, lerp: 0.16 });
+    const scrolled = Math.max(0, window.scrollY);
+    loop.set(imageRef.current, { y: scrolled * 0.45, lerp: 0.16 });
+    loop.set(headerRef.current, { y: scrolled * 0.6, lerp: 0.16 });
+    if (headerRef.current) {
+      const fade = Math.min(1, scrolled / (rect.height * 0.75));
+      headerRef.current.style.opacity = String(1 - fade);
+    }
   }, []);
 
   return (
@@ -44,10 +51,8 @@ export default function ContactClient({ copy, footer, groupsPromo }) {
             />
           </div>
         </div>
-      </section>
-
-      <div className={styles.container}>
-        <div className={styles.header}>
+        <div className={styles.bannerVeil} aria-hidden="true" />
+        <div className={styles.header} ref={headerRef}>
           <h1>
             <CmsText fromCms={title.fromCms}>{title.value}</CmsText>
           </h1>
@@ -55,7 +60,9 @@ export default function ContactClient({ copy, footer, groupsPromo }) {
             <CmsText fromCms={subtitle.fromCms}>{subtitle.value}</CmsText>
           </p>
         </div>
+      </section>
 
+      <div className={styles.container}>
         <div className={styles.content}>
           <ContactForm copy={copy} />
           <ContactInfo copy={copy} footer={footer} />

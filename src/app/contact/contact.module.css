@@ -1,26 +1,23 @@
 .bannerSection {
   position: relative;
   width: 100%;
-  height: 450px;
+  height: clamp(420px, 72vh, 760px);
   overflow: hidden;
-  margin-bottom: 3rem;
+  background: var(--color-primary);
 }
 
 .bannerImageContainer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 120%; /* Extra height to prevent gaps during parallax */
+  inset: 0;
   overflow: hidden;
 }
 
 .bannerImageWrapper {
   position: absolute;
-  top: 6%; /* Start offset to cover parallax movement */
+  top: -10%;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 120%;
   will-change: transform;
 }
 
@@ -31,26 +28,50 @@
   display: block;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
+.bannerVeil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 28, 22, 0.25) 0%,
+    rgba(8, 28, 22, 0.45) 45%,
+    rgba(8, 28, 22, 0.2) 100%
+  );
 }
 
 .header {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem 4rem;
   text-align: center;
-  margin-bottom: 3rem;
+  will-change: transform, opacity;
 }
 
 .header h1 {
-  font-size: 2.5rem;
-  color: var(--color-primary);
-  margin-bottom: 0.5rem;
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  color: #fff;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
 }
 
 .header p {
-  font-size: 1.1rem;
-  color: #535353;
+  max-width: 40rem;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  color: rgba(255, 255, 255, 0.94);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 3rem;
 }
 
 .content {
@@ -68,19 +89,15 @@
 
 @media (max-width: 768px) {
   .bannerSection {
-    height: 300px;
+    height: clamp(340px, 62vh, 520px);
   }
 
   .container {
-    padding: 2rem 1.5rem;
+    padding: 2.5rem 1.5rem 2rem;
   }
 
-  .header h1 {
-    font-size: 1.75rem;
-  }
-
-  .header p {
-    font-size: 1rem;
+  .header {
+    padding: 0 1.5rem 3rem;
   }
 }
 
