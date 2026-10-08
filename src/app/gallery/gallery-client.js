@@ -34,12 +34,15 @@ export default function GalleryClient({ copy }) {
   const [mounted, setMounted] = useState(false);
   const galleryRef = useRef(null);
   const modalRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const triggerRef = useRef(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const openModal = (imageIndex) => {
+    triggerRef.current = document.activeElement;
     setCurrentImageIndex(imageIndex);
     setIsModalOpen(true);
     document.body.style.overflow = "hidden";
@@ -49,6 +52,15 @@ export default function GalleryClient({ copy }) {
     setIsModalOpen(false);
     document.body.style.overflow = "unset";
   };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      closeButtonRef.current?.focus();
+    } else {
+      triggerRef.current?.focus?.();
+      triggerRef.current = null;
+    }
+  }, [isModalOpen]);
 
   const goToPrevious = () => {
     setCurrentImageIndex((prevIndex) => {
@@ -146,7 +158,8 @@ export default function GalleryClient({ copy }) {
         {galleryImages.map((image, index) => {
           const label = galleryLabel(image, t);
           return (
-            <div
+            <button
+              type="button"
               key={image.id}
               data-gallery-item
               data-id={image.id}
@@ -155,24 +168,34 @@ export default function GalleryClient({ copy }) {
               }`}
               style={{ animationDelay: `${index * 0.1}s` }}
               onClick={() => openModal(index)}
+              aria-haspopup="dialog"
             >
               <img
                 src={image.src || "/placeholder.svg"}
                 alt={image.alt || label}
                 loading="lazy"
               />
-              <div className={styles.overlay}>
-                <p>{label}</p>
-              </div>
-            </div>
+              <span className={styles.overlay} aria-hidden="true">
+                <span>{label}</span>
+              </span>
+            </button>
           );
         })}
       </div>
 
       {isModalOpen && galleryImages.length > 0 && mounted && createPortal(
         <div className={styles.modalOverlay} onClick={handleOverlayClick}>
-          <div className={styles.modal} ref={modalRef} onClick={(e) => e.stopPropagation()}>
+          <div
+            className={styles.modal}
+            ref={modalRef}
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="gallery-modal-title"
+          >
             <button
+              ref={closeButtonRef}
+              type="button"
               className={styles.modalCloseButton}
               onClick={closeModal}
               aria-label={t("gallery.close")}
@@ -180,7 +203,7 @@ export default function GalleryClient({ copy }) {
               ×
             </button>
             <div className={styles.modalHeader}>
-              <h2>{currentLabel}</h2>
+              <h2 id="gallery-modal-title">{currentLabel}</h2>
               <p className={styles.modalCounter}>
                 {currentImageIndex + 1} / {galleryImages.length}
               </p>

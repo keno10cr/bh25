@@ -1,6 +1,13 @@
 /** Arabic (Saudi Arabia) UI copy. Keys match the English dictionary in translations.js. */
 
 export const arTranslations = {
+  a11y: {
+    skipToContent: "انتقل إلى المحتوى الرئيسي",
+    menu: "القائمة",
+    openGallery: "فتح معرض الصور",
+    imageNumber: "الصورة {number}",
+    close: "إغلاق"
+  },
   nav: {
     gallery: "المعرض",
     villas: "الفلل",

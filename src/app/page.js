@@ -14,8 +14,40 @@ import {
   getReviews,
   getVillas,
 } from "@/lib/sanity/content";
+import { SITE_DESCRIPTION, SITE_URL } from "@/lib/siteMetadata";
 
 export const revalidate = 60;
+
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
+const lodgingJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LodgingBusiness",
+  name: "Blessed House Villas",
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
+  image: `${SITE_URL}/BannerVilla4.jpg`,
+  logo: `${SITE_URL}/blessedhouse_logo25.png`,
+  telephone: "+50689262630",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Puerto Viejo de Talamanca",
+    addressRegion: "Limón",
+    addressCountry: "CR",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 9.64735,
+    longitude: -82.77697,
+  },
+  amenityFeature: [
+    { "@type": "LocationFeatureSpecification", name: "Shared pool", value: true },
+    { "@type": "LocationFeatureSpecification", name: "Free WiFi", value: true },
+    { "@type": "LocationFeatureSpecification", name: "Parking", value: true },
+  ],
+};
 
 export default async function Home() {
   const [reviews, home, about, villas, groupsPromo] = await Promise.all([
@@ -28,6 +60,10 @@ export default async function Home() {
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(lodgingJsonLd) }}
+      />
       <Hero copy={home} />
       <WelcomeSection copy={about} />
       <OurPlace

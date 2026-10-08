@@ -191,9 +191,9 @@ export default function VillasClient({ villas: cmsVillas = [], copy }) {
       </div>
 
       <div className={styles.grid}>
-        {filteredVillas.map((villa) => (
+        {filteredVillas.map((villa, index) => (
           <div key={villa.id} className={styles.villaWrapper}>
-            <VillaCard villa={villa} />
+            <VillaCard villa={villa} layout="row" reverse={index % 2 === 1} />
           </div>
         ))}
       </div>

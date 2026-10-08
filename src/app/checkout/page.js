@@ -11,6 +11,11 @@ function getSingleParam(value) {
 
 export const dynamic = "force-dynamic";
 
+export const metadata = {
+  title: "Checkout",
+  robots: { index: false, follow: false },
+};
+
 export default async function CheckoutPage({ searchParams }) {
   const query = await searchParams;
   const propertySlug = getSingleParam(query.property);

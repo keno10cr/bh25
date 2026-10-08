@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
   const pageUrl = `${SITE_URL}/blog/${post.slug}`;
 
   return {
-    title: `${post.title} | Blessed House Blog`,
+    title: post.title,
     description: post.excerpt,
     alternates: { canonical: pageUrl },
     openGraph: {

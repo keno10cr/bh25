@@ -5,6 +5,13 @@ import { arTranslations } from "./translations-ar.js";
 
 export const translations = {
   en: {
+    a11y: {
+      skipToContent: "Skip to main content",
+      menu: "Menu",
+      openGallery: "Open photo gallery",
+      imageNumber: "Image {number}",
+      close: "Close"
+    },
     nav: {
       gallery: "Gallery",
       villas: "Villas",
@@ -805,6 +812,13 @@ export const translations = {
     }
   },
   es: {
+    a11y: {
+      skipToContent: "Saltar al contenido principal",
+      menu: "Menú",
+      openGallery: "Abrir galería de fotos",
+      imageNumber: "Imagen {number}",
+      close: "Cerrar"
+    },
     nav: {
       gallery: "Galería",
       villas: "Villas",
@@ -1593,6 +1607,13 @@ export const translations = {
     }
   },
   de: {
+    a11y: {
+      skipToContent: "Zum Hauptinhalt springen",
+      menu: "Menü",
+      openGallery: "Fotogalerie öffnen",
+      imageNumber: "Bild {number}",
+      close: "Schließen"
+    },
     nav: {
       gallery: "Galerie",
       villas: "Villen",
@@ -2271,6 +2292,13 @@ export const translations = {
     }
   },
   nl: {
+    a11y: {
+      skipToContent: "Ga naar de hoofdinhoud",
+      menu: "Menu",
+      openGallery: "Fotogalerij openen",
+      imageNumber: "Afbeelding {number}",
+      close: "Sluiten"
+    },
     nav: {
       gallery: "Galerij",
       villas: "Villa's",
@@ -2949,6 +2977,13 @@ export const translations = {
     }
   },
   fr: {
+    a11y: {
+      skipToContent: "Aller au contenu principal",
+      menu: "Menu",
+      openGallery: "Ouvrir la galerie photo",
+      imageNumber: "Image {number}",
+      close: "Fermer"
+    },
     nav: {
       gallery: "Galerie",
       villas: "Villas",
@@ -3627,6 +3662,13 @@ export const translations = {
     }
   },
   ja: {
+    a11y: {
+      skipToContent: "メインコンテンツへスキップ",
+      menu: "メニュー",
+      openGallery: "フォトギャラリーを開く",
+      imageNumber: "画像 {number}",
+      close: "閉じる"
+    },
     nav: {
       gallery: "ギャラリー",
       villas: "ヴィラ",
@@ -4305,6 +4347,13 @@ export const translations = {
     }
   },
   pt: {
+    a11y: {
+      skipToContent: "Pular para o conteúdo principal",
+      menu: "Menu",
+      openGallery: "Abrir galeria de fotos",
+      imageNumber: "Imagem {number}",
+      close: "Fechar"
+    },
     nav: {
       gallery: "Galeria",
       villas: "Vilas",

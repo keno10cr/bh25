@@ -7,6 +7,13 @@ import ActivitiesClient from "./activities-client";
 
 export const revalidate = 60;
 
+export const metadata = {
+  title: "Things to Do in Puerto Viejo",
+  description:
+    "Beaches, wildlife, waterfalls, tours, and local favorites near Blessed House in Puerto Viejo, Costa Rica, with an interactive map.",
+  alternates: { canonical: "/activities" },
+};
+
 export default async function ActivitiesPage() {
   const [activities, copy, legendItems] = await Promise.all([
     getActivities(),

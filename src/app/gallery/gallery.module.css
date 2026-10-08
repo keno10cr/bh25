@@ -31,13 +31,6 @@
   width: 100%;
 }
 
-/* Center the last item if there are an odd number of items (hanging item) */
-.galleryItem:last-child:nth-child(odd) {
-  grid-column: 1 / -1;
-  justify-self: center;
-  max-width: 300px;
-}
-
 .galleryItem {
   position: relative;
   overflow: hidden;
@@ -48,6 +41,14 @@
   transition: all 0.3s ease;
   opacity: 0;
   transform: translateY(30px);
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: start;
 }
 
 .galleryItem.visible {
@@ -95,11 +96,12 @@
   transition: opacity 0.3s ease;
 }
 
-.galleryItem:hover .overlay {
+.galleryItem:hover .overlay,
+.galleryItem:focus-visible .overlay {
   opacity: 1;
 }
 
-.overlay p {
+.overlay span {
   color: var(--color-neutral-light);
   font-size: 1rem;
   font-weight: 600;
@@ -122,13 +124,6 @@
   .gallery {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 1rem;
-  }
-
-  /* Disable centering of last item on mobile */
-  .galleryItem:last-child:nth-child(odd) {
-    grid-column: auto;
-    justify-self: stretch;
-    max-width: 100%;
   }
 }
 

@@ -57,15 +57,8 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-}
-
-/* Center the last item if it's odd (3rd item when there are 3, etc.) */
-.villaWrapper:last-child:nth-child(odd) {
-  grid-column: 1 / -1;
-  justify-self: center;
-  max-width: calc(50% - 1rem);
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
 }
 
 @media (max-width: 768px) {
@@ -78,15 +71,7 @@
   }
 
   .grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
-  }
-
-  /* Disable centering of last item on mobile */
-  .villaWrapper:last-child:nth-child(odd) {
-    grid-column: 1;
-    justify-self: stretch;
-    max-width: 100%;
   }
 
   .filters {

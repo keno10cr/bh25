@@ -43,7 +43,7 @@ export const defaultOpenGraph = {
   locale: "en_US",
   url: SITE_URL,
   siteName: SITE_NAME,
-  title: "Blessed House Villas - Puerto Viejo",
+  title: "Blessed House Villas, Puerto Viejo, Costa Rica",
   description: SITE_DESCRIPTION,
   images: [
     {
@@ -57,7 +57,7 @@ export const defaultOpenGraph = {
 
 export const defaultTwitter = {
   card: "summary_large_image",
-  title: "Blessed House Villas - Puerto Viejo",
+  title: "Blessed House Villas, Puerto Viejo, Costa Rica",
   description: SITE_DESCRIPTION,
   images: [`${SITE_URL}/favicon/android-chrome-512x512.png`],
 };

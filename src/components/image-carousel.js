@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useSmoothParallax } from "@/lib/parallax-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./image-carousel.module.css";
 
 export default function ImageCarousel({
@@ -12,6 +14,8 @@ export default function ImageCarousel({
   parallax = false,
   controlsPlacement = "overlay",
 }) {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const pics = (images || []).filter(Boolean);
   const [index, setIndex] = useState(0);
   const rootRef = useRef(null);
@@ -46,16 +50,31 @@ export default function ImageCarousel({
     return () => window.removeEventListener("pageshow", refresh);
   }, [current]);
 
+  const image = (
+    <img
+      key={current}
+      src={current}
+      alt={alt}
+      loading="eager"
+      decoding="async"
+    />
+  );
+
   const media = (
     <div ref={mediaRef} className={styles.media}>
-      <img
-        key={current}
-        src={current}
-        alt={alt}
-        loading="eager"
-        decoding="async"
-        onClick={() => onImageClick?.(index)}
-      />
+      {onImageClick ? (
+        <button
+          type="button"
+          className={styles.mediaButton}
+          onClick={() => onImageClick(index)}
+          aria-label={alt ? `${t("a11y.openGallery")}: ${alt}` : t("a11y.openGallery")}
+          aria-haspopup="dialog"
+        >
+          {image}
+        </button>
+      ) : (
+        image
+      )}
     </div>
   );
 
@@ -89,7 +108,8 @@ export default function ImageCarousel({
         event.stopPropagation();
         setIndex(dotIndex);
       }}
-      aria-label={`Image ${dotIndex + 1}`}
+      aria-label={t("a11y.imageNumber").replace("{number}", dotIndex + 1)}
+      aria-current={dotIndex === index ? "true" : undefined}
     />
   ));
 
@@ -106,7 +126,7 @@ export default function ImageCarousel({
             type="button"
             className={`${styles.arrow} ${styles.prev}`}
             onClick={previous}
-            aria-label="Previous image"
+            aria-label={t("gallery.previousImage")}
           >
             ‹
           </button>
@@ -114,13 +134,11 @@ export default function ImageCarousel({
             type="button"
             className={`${styles.arrow} ${styles.next}`}
             onClick={next}
-            aria-label="Next image"
+            aria-label={t("gallery.nextImage")}
           >
             ›
           </button>
-          <div className={styles.dots} aria-hidden="true">
-            {dots}
-          </div>
+          <div className={styles.dots}>{dots}</div>
         </>
       ) : null}
     </div>
@@ -139,7 +157,7 @@ export default function ImageCarousel({
             type="button"
             className={styles.arrowBelow}
             onClick={previous}
-            aria-label="Previous image"
+            aria-label={t("gallery.previousImage")}
           >
             ‹
           </button>
@@ -148,7 +166,7 @@ export default function ImageCarousel({
             type="button"
             className={styles.arrowBelow}
             onClick={next}
-            aria-label="Next image"
+            aria-label={t("gallery.nextImage")}
           >
             ›
           </button>

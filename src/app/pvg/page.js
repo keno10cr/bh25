@@ -5,7 +5,7 @@ import { PVG_PAGE_DEFAULTS } from "@/data/pvg-defaults";
 import PvgClient from "./pvg-client";
 
 export const metadata = {
-  title: "Puerto Viejo Groups | Blessed House",
+  title: "Puerto Viejo Groups",
   description:
     "Private estate buyouts in Puerto Viejo, Costa Rica for leadership teams, churches, sports groups, and company offsites of 20 to 45 guests.",
   alternates: {

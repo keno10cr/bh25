@@ -4,9 +4,10 @@ import GalleryClient from "./gallery-client";
 export const revalidate = 60;
 
 export const metadata = {
-  title: "Gallery | Blessed House Villas",
+  title: "Photo Gallery, Villas and Puerto Viejo",
   description:
     "Photos of Blessed House, the villas, and the Puerto Viejo coast.",
+  alternates: { canonical: "/gallery" },
 };
 
 export default async function GalleryPage() {

@@ -16,7 +16,7 @@ import "./globals.css";
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Blessed House Villas - Puerto Viejo",
+    default: "Blessed House Villas, Puerto Viejo, Costa Rica",
     template: "%s | Blessed House",
   },
   description: SITE_DESCRIPTION,
@@ -33,9 +33,6 @@ export const metadata = {
   robots: {
     index: true,
     follow: true,
-  },
-  alternates: {
-    canonical: SITE_URL,
   },
 };
 

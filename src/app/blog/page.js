@@ -4,9 +4,10 @@ import BlogIndex from "./blog-index";
 export const revalidate = 60;
 
 export const metadata = {
-  title: "Blog | Blessed House Villas",
+  title: "Blog, Puerto Viejo Travel Notes",
   description:
     "Flora, fauna, local spots, and retreat notes from Puerto Viejo and Blessed House.",
+  alternates: { canonical: "/blog" },
 };
 
 export default async function BlogPage() {

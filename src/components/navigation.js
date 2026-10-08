@@ -132,6 +132,7 @@ export default function Navigation({ nav }) {
         </Link>
 
         <ul
+          id="site-nav-links"
           className={`${styles.navLinks} ${
             isOpen && !isClosing
               ? styles.active
@@ -147,6 +148,9 @@ export default function Navigation({ nav }) {
                 onClick={handleLinkClick}
                 className={
                   isActivePath(pathname, link.href) ? styles.active : ""
+                }
+                aria-current={
+                  isActivePath(pathname, link.href) ? "page" : undefined
                 }
               >
                 {linkLabel(link, t, language)}
@@ -175,7 +179,10 @@ export default function Navigation({ nav }) {
           <button
             className={`${styles.hamburger} ${isOpen ? styles.active : ""}`}
             onClick={handleToggle}
-            aria-label="Toggle menu"
+            aria-label={t("a11y.menu")}
+            aria-expanded={isOpen && !isClosing}
+            aria-controls="site-nav-links"
+            type="button"
           >
             <span></span>
             <span></span>

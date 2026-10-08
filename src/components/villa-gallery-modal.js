@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/lib/translations";
 import styles from "./villa-gallery-modal.module.css";
 
 export default function VillaGalleryModal({
@@ -12,7 +14,11 @@ export default function VillaGalleryModal({
   isOpen,
   onClose,
 }) {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const closeButtonRef = useRef(null);
+  const triggerRef = useRef(null);
   const [mounted, setMounted] = useState(false);
   const touchStart = useRef(null);
 
@@ -38,9 +44,12 @@ export default function VillaGalleryModal({
 
   useEffect(() => {
     if (isOpen) {
+      triggerRef.current = document.activeElement;
       document.body.style.overflow = "hidden";
       setCurrentIndex(startIndex || 0);
     } else {
+      triggerRef.current?.focus?.();
+      triggerRef.current = null;
       document.body.style.overflow = "unset";
     }
     return () => {
@@ -90,16 +99,35 @@ export default function VillaGalleryModal({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, images.length]);
 
+  useEffect(() => {
+    if (isOpen && mounted) closeButtonRef.current?.focus();
+  }, [isOpen, mounted]);
+
   if (!isOpen || images.length === 0 || !mounted) return null;
+
+  const imageLabel = (index) =>
+    t("a11y.imageNumber").replace("{number}", index + 1);
 
   const modalContent = (
     <div className={styles.overlay} onClick={handleOverlayClick}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeButton} onClick={onClose} aria-label="Close">
+      <div
+        className={styles.modal}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="villa-gallery-title"
+      >
+        <button
+          ref={closeButtonRef}
+          type="button"
+          className={styles.closeButton}
+          onClick={onClose}
+          aria-label={t("a11y.close")}
+        >
           ×
         </button>
         <div className={styles.header}>
-          <h2>{villa.name}</h2>
+          <h2 id="villa-gallery-title">{villa.name}</h2>
           <p className={styles.counter}>
             {currentIndex + 1} / {images.length}
           </p>
@@ -108,7 +136,8 @@ export default function VillaGalleryModal({
           <button
             className={styles.navButton}
             onClick={goToPrevious}
-            aria-label="Previous image"
+            aria-label={t("gallery.previousImage")}
+            type="button"
           >
             ‹
           </button>
@@ -119,7 +148,7 @@ export default function VillaGalleryModal({
           >
             <img
               src={images[currentIndex]}
-              alt={captions[currentIndex] || `${villa.name} photo ${currentIndex + 1}`}
+              alt={captions[currentIndex] || `${villa.name}, ${imageLabel(currentIndex)}`}
               className={styles.slideImage}
             />
             <p className={styles.caption}>
@@ -129,7 +158,8 @@ export default function VillaGalleryModal({
           <button
             className={styles.navButton}
             onClick={goToNext}
-            aria-label="Next image"
+            aria-label={t("gallery.nextImage")}
+            type="button"
           >
             ›
           </button>
@@ -143,9 +173,11 @@ export default function VillaGalleryModal({
                   index === currentIndex ? styles.active : ""
                 }`}
                 onClick={() => setCurrentIndex(index)}
-                aria-label={`Go to image ${index + 1}`}
+                aria-label={imageLabel(index)}
+                aria-current={index === currentIndex ? "true" : undefined}
+                type="button"
               >
-                <img src={image} alt={`Thumbnail ${index + 1}`} />
+                <img src={image} alt="" />
               </button>
             ))}
           </div>

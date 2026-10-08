@@ -13,7 +13,7 @@ import { trackAirbnbRedirectClicked } from "@/lib/posthog";
 import { resolvePetsMax } from "@/lib/houseRules";
 import styles from "./villa-card.module.css";
 
-export default function VillaCard({ villa }) {
+export default function VillaCard({ villa, layout = "stacked", reverse = false }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,12 +41,21 @@ export default function VillaCard({ villa }) {
 
   return (
     <>
-    <div className={styles.card} id={`villa-${villa.id}`}>
+    <div
+      className={[
+        styles.card,
+        layout === "row" ? styles.cardRow : "",
+        layout === "row" && reverse ? styles.cardReverse : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      id={`villa-${villa.id}`}
+    >
       <div className={styles.imageBlock}>
         <ImageCarousel
           images={gallery}
           alt={villa.name}
-          controlsPlacement="below"
+          controlsPlacement={layout === "row" ? "overlay" : "below"}
           className={styles.imageContainer}
           onImageClick={(index) => {
             setModalIndex(index);
@@ -56,7 +65,7 @@ export default function VillaCard({ villa }) {
       </div>
 
       <div className={styles.content}>
-        <h3>
+        <h2>
           {villa.slug ? (
             <Link href={`/villas/${villa.slug}`} className={styles.titleLink}>
               <CmsText fromCms={villa.nameFromCms}>{villa.name}</CmsText>
@@ -64,7 +73,7 @@ export default function VillaCard({ villa }) {
           ) : (
             <CmsText fromCms={villa.nameFromCms}>{villa.name}</CmsText>
           )}
-        </h3>
+        </h2>
         <p className={styles.description}>
           <CmsText fromCms={villa.descriptionFromCms}>
             {villa.description}
@@ -122,14 +131,25 @@ export default function VillaCard({ villa }) {
           </div>
 
           {villa.bedList?.length > 0 && (
-            <ul className={styles.bedList} aria-label={t("villas.details.houseArrangements")}>
+            <ul className={styles.roomGrid} aria-label={t("villas.details.houseArrangements")}>
               {villa.bedList.map((room, index) =>
                 typeof room === "string" ? (
-                  <li key={index}>{room}</li>
+                  <li key={index} className={styles.roomCard}>
+                    <span className={styles.roomBeds}>{room}</span>
+                  </li>
                 ) : (
-                  <li key={index}>
-                    <span className={styles.roomTitle}>{room.title}</span>
+                  <li key={index} className={styles.roomCard}>
+                    <strong className={styles.roomTitle}>{room.title}</strong>
                     <span className={styles.roomBeds}>{room.beds}</span>
+                    {room.capacity ? (
+                      <span
+                        className={styles.roomSleeps}
+                        aria-label={`${t("villas.details.sleeps")} ${room.capacity}`}
+                      >
+                        <AmenityIcon name="people" />
+                        {room.capacity}
+                      </span>
+                    ) : null}
                   </li>
                 )
               )}

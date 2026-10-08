@@ -107,13 +107,17 @@ export default function LanguageSwitcher() {
             <div
               ref={modalRef}
               className={`${styles.modal} ${isClosing ? styles.closing : ""}`}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="language-dialog-title"
             >
               <div className={styles.modalHeader}>
-                <h3>{t("common.selectLanguage")}</h3>
+                <h3 id="language-dialog-title">{t("common.selectLanguage")}</h3>
                 <button
+                  type="button"
                   className={styles.closeButton}
                   onClick={handleToggle}
-                  aria-label="Close"
+                  aria-label={t("a11y.close")}
                 >
                   ×
                 </button>
@@ -126,22 +130,24 @@ export default function LanguageSwitcher() {
                       language === lang.code ? styles.active : ""
                     }`}
                     onClick={() => handleLanguageSelect(lang.code)}
+                    type="button"
+                    aria-pressed={language === lang.code}
                   >
                     <Image
                       src={lang.flag}
-                      alt={lang.name}
+                      alt=""
                       width={38}
                       height={38}
                       className={styles.flag}
                     />
                     <div className={styles.languageInfo}>
-                      <span className={styles.languageName}>
+                      <span className={styles.languageName} lang={lang.code}>
                         {lang.nativeName}
                       </span>
                       <span className={styles.languageEnglish}>{lang.name}</span>
                     </div>
                     {language === lang.code && (
-                      <span className={styles.checkmark}>✓</span>
+                      <span className={styles.checkmark} aria-hidden="true">✓</span>
                     )}
                   </button>
                 ))}
@@ -158,12 +164,14 @@ export default function LanguageSwitcher() {
         ref={buttonRef}
         className={styles.languageButton}
         onClick={handleToggle}
-        aria-label="Select language"
+        aria-label={`${t("common.selectLanguage")}: ${currentLanguage.nativeName}`}
         aria-expanded={isOpen}
+        aria-haspopup="dialog"
+        type="button"
       >
         <Image
           src={currentLanguage.flag}
-          alt={currentLanguage.name}
+          alt=""
           width={29}
           height={29}
           className={styles.flag}

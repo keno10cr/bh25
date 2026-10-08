@@ -32,7 +32,7 @@ export async function generateMetadata({ params }) {
   }));
 
   return {
-    title: `${activity.name} | Blessed House Activities`,
+    title: activity.name,
     description:
       description ||
       "Things to do near Blessed House in Puerto Viejo, Costa Rica.",

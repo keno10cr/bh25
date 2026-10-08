@@ -2,7 +2,8 @@ import { getFooterSettings } from "@/lib/sanity/content";
 import BusinessCard from "./business-card";
 
 export const metadata = {
-  title: "Blessed House | Digital Business Card",
+  title: { absolute: "Blessed House | Digital Business Card" },
+  alternates: { canonical: "/bc" },
   description:
     "Contact Blessed House Villas in Puerto Viejo, Costa Rica. Call, WhatsApp, email, directions, and socials in one place.",
   openGraph: {
