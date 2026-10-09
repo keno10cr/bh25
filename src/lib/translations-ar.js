@@ -513,6 +513,7 @@ export const arTranslations = {
     contactInfo: "معلومات التواصل",
     socialMedia: "وسائل التواصل",
     copyright: "جميع الحقوق محفوظة.",
+    ictCertified: "معتمدون من ICT",
     legal: "قانوني",
     parkingFee: "تكلفة إضافية لشحن المركبات. يرجى الاستفسار."
   },

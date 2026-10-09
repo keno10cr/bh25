@@ -1,7 +1,6 @@
 .section {
-  padding: 0 1.5rem 4rem;
-  margin-bottom: -4rem;
-  padding-bottom: 8rem;
+  /* 18px offset + 40px blur needs room before the ICT logo below. */
+  padding: 0 1.5rem 4.75rem;
   background: #f9f7f4;
 }
 

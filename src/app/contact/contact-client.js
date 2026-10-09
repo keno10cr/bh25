@@ -3,6 +3,7 @@ import { useRef } from "react";
 import ContactForm from "@/components/contact-form";
 import ContactInfo from "@/components/contact-info";
 import GroupsCta from "@/components/groups-cta";
+import { IctBadgeBand } from "@/components/ict-badge";
 import CmsText from "@/components/cms-text";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
@@ -70,6 +71,7 @@ export default function ContactClient({ copy, footer, groupsPromo }) {
       </div>
 
       <GroupsCta copy={groupsPromo} spaced />
+      <IctBadgeBand />
     </>
   );
 }

@@ -518,6 +518,7 @@ export const translations = {
       contactInfo: "Contact Info",
       socialMedia: "Social Media",
       copyright: "All rights reserved.",
+      ictCertified: "Certified by the ICT",
       legal: "Legal",
       parkingFee: "Additional cost for vehicle charging. Please inquire."
     },
@@ -1297,6 +1298,7 @@ export const translations = {
       contactInfo: "Información de Contacto",
       socialMedia: "Redes Sociales",
       copyright: "Todos los derechos reservados.",
+      ictCertified: "Certificados por el ICT",
       legal: "Legal",
       parkingFee: "Costo adicional p/carga vehicular. Consultas por favor."
     },
@@ -2048,6 +2050,7 @@ export const translations = {
       contactInfo: "Kontaktinformationen",
       socialMedia: "Soziale Medien",
       copyright: "Alle Rechte vorbehalten.",
+      ictCertified: "Zertifiziert durch das ICT",
       legal: "Rechtliches",
       parkingFee: "Zusätzliche Kosten für Fahrzeugaufladung. Bitte anfragen."
     },
@@ -2733,6 +2736,7 @@ export const translations = {
       contactInfo: "Contactgegevens",
       socialMedia: "Sociale Media",
       copyright: "Alle rechten voorbehouden.",
+      ictCertified: "Gecertificeerd door het ICT",
       legal: "Juridisch",
       parkingFee: "Extra kosten voor voertuigopladen. Vraag alstublieft."
     },
@@ -3418,6 +3422,7 @@ export const translations = {
       contactInfo: "Informations de Contact",
       socialMedia: "Réseaux Sociaux",
       copyright: "Tous droits réservés.",
+      ictCertified: "Certifiés par l'ICT",
       legal: "Mentions légales",
       parkingFee: "Coût supplémentaire pour la recharge des véhicules. Veuillez vous renseigner."
     },
@@ -4103,6 +4108,7 @@ export const translations = {
       contactInfo: "連絡先情報",
       socialMedia: "ソーシャルメディア",
       copyright: "全著作権所有。",
+      ictCertified: "ICT認証",
       legal: "法的情報",
       parkingFee: "車両充電の追加費用。お問い合わせください。"
     },
@@ -4529,6 +4535,7 @@ export const translations = {
       contactInfo: "Informações de Contato",
       socialMedia: "Redes Sociais",
       copyright: "Todos os direitos reservados.",
+      ictCertified: "Certificados pelo ICT",
       legal: "Aviso legal",
       parkingFee: "Custo adicional para carga de veículos. Por favor, consulte."
     },

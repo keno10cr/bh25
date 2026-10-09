@@ -17,6 +17,7 @@ import {
   PVG_CAPACITY_SPECS_DEFAULTS,
   PVG_PAGE_DEFAULTS,
 } from "@/data/pvg-defaults";
+import { IctBadgeBand } from "@/components/ict-badge";
 import styles from "./pvg.module.css";
 
 const ActivitiesMap = dynamic(() => import("@/components/activities-map"), {
@@ -1091,6 +1092,8 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
           </div>
         </div>
       </section>
+
+      <IctBadgeBand plain />
 
       {activeImage ? (
         <div

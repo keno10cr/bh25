@@ -7,6 +7,7 @@ import LocationSection from "@/components/location-section";
 import ActivityPreview from "@/components/activity-preview";
 import ReviewsSection from "@/components/reviews-section";
 import GroupsCta from "@/components/groups-cta";
+import { IctBadgeBand } from "@/components/ict-badge";
 import {
   getAboutPageSettings,
   getGroupsPromo,
@@ -83,6 +84,7 @@ export default async function Home() {
       <ActivityPreview copy={home} />
       <ReviewsSection reviews={reviews} copy={home} />
       <GroupsCta copy={groupsPromo} />
+      <IctBadgeBand />
     </main>
   );
 }
