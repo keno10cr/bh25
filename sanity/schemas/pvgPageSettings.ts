@@ -323,7 +323,7 @@ export const pvgPageSettings = defineType({
           name: "alt",
           title: "Alt text",
           type: "string",
-          description: "Example: Floribel Fadel smiling at the Blessed House reception.",
+          description: "Example: Floribel Fadell smiling at the Blessed House reception.",
         }),
       ],
     }),
@@ -341,7 +341,7 @@ export const pvgPageSettings = defineType({
       title: "Host name",
       type: "string",
       group: "inquiry",
-      description: "Example: Floribel Fadel",
+      description: "Example: Floribel Fadell",
     }),
     ...localizedField({
       name: "hostRole",

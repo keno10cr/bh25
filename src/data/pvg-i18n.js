@@ -62,7 +62,7 @@ export const PVG_I18N = {
     attendeeUnit: "guests",
     hostQuote:
       "At Blessed House, groups find a quiet place to reconnect with nature and with each other. It would be an honor to welcome yours.",
-    hostName: "Floribel Fadel",
+    hostName: "Floribel Fadell",
     hostRole: "Owner of Blessed House",
     petsTitle: "Pets are welcome at Blessed House.",
     petsNote:
@@ -145,7 +145,7 @@ export const PVG_I18N = {
     attendeeUnit: "personas",
     hostQuote:
       "En Blessed House, los grupos encuentran un lugar tranquilo para reconectar con la naturaleza y entre sí. Sería un honor recibir al suyo.",
-    hostName: "Floribel Fadel",
+    hostName: "Floribel Fadell",
     hostRole: "Propietaria de Blessed House",
     petsTitle: "Las mascotas son bienvenidas en Blessed House.",
     petsNote:
@@ -228,7 +228,7 @@ export const PVG_I18N = {
     attendeeUnit: "Gäste",
     hostQuote:
       "Im Blessed House finden Gruppen einen ruhigen Ort, um wieder Verbindung zur Natur und zueinander zu finden. Es wäre mir eine Ehre, Ihre Gruppe willkommen zu heißen.",
-    hostName: "Floribel Fadel",
+    hostName: "Floribel Fadell",
     hostRole: "Inhaberin von Blessed House",
     petsTitle: "Haustiere sind in Blessed House willkommen.",
     petsNote:
@@ -311,7 +311,7 @@ export const PVG_I18N = {
     attendeeUnit: "gasten",
     hostQuote:
       "Bij Blessed House vinden groepen een rustige plek om opnieuw verbinding te maken met de natuur en met elkaar. Het zou een eer zijn om uw groep te verwelkomen.",
-    hostName: "Floribel Fadel",
+    hostName: "Floribel Fadell",
     hostRole: "Eigenaar van Blessed House",
     petsTitle: "Huisdieren zijn welkom in Blessed House.",
     petsNote:
@@ -394,7 +394,7 @@ export const PVG_I18N = {
     attendeeUnit: "personnes",
     hostQuote:
       "À Blessed House, les groupes trouvent un lieu paisible pour se reconnecter à la nature et les uns aux autres. Ce serait un honneur d'accueillir le vôtre.",
-    hostName: "Floribel Fadel",
+    hostName: "Floribel Fadell",
     hostRole: "Propriétaire de Blessed House",
     petsTitle: "Les animaux sont les bienvenus à Blessed House.",
     petsNote:
@@ -477,7 +477,7 @@ export const PVG_I18N = {
     attendeeUnit: "名",
     hostQuote:
       "Blessed Houseは、グループが自然と、そしてお互いとつながり直せる静かな場所です。皆さまをお迎えできれば光栄です。",
-    hostName: "Floribel Fadel",
+    hostName: "Floribel Fadell",
     hostRole: "Blessed House オーナー",
     petsTitle: "Blessed Houseではペットを歓迎しています。",
     petsNote:
@@ -560,7 +560,7 @@ export const PVG_I18N = {
     attendeeUnit: "pessoas",
     hostQuote:
       "Na Blessed House, os grupos encontram um lugar tranquilo para se reconectar com a natureza e uns com os outros. Seria uma honra receber o seu.",
-    hostName: "Floribel Fadel",
+    hostName: "Floribel Fadell",
     hostRole: "Proprietária da Blessed House",
     petsTitle: "Animais de estimação são bem vindos na Blessed House.",
     petsNote:
@@ -643,7 +643,7 @@ export const PVG_I18N = {
     attendeeUnit: "شخصاً",
     hostQuote:
       "في Blessed House تجد المجموعات مكانًا هادئًا للتواصل من جديد مع الطبيعة ومع بعضها البعض. سيكون من دواعي سروري استقبال مجموعتكم.",
-    hostName: "Floribel Fadel",
+    hostName: "Floribel Fadell",
     hostRole: "مالكة Blessed House",
     petsTitle: "الحيوانات الأليفة مرحب بها في Blessed House.",
     petsNote:

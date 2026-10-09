@@ -42,10 +42,10 @@ export const PVG_PAGE_DEFAULTS = {
   contactNameLabel: "Your Name",
   emailLabel: "Contact email",
   hostImage: "/FloribelFadelBH.jpg",
-  hostImageAlt: "Floribel Fadel smiling at the Blessed House reception",
+  hostImageAlt: "Floribel Fadell smiling at the Blessed House reception",
   hostQuote:
     "At Blessed House, groups find a quiet place to reconnect with nature and with each other. It would be an honor to welcome yours.",
-  hostName: "Floribel Fadel",
+  hostName: "Floribel Fadell",
   hostRole: "Owner of Blessed House",
   promoEyebrow: "Groups of 20 to 45",
   promoTitle: "Bring your whole group to Blessed House",
