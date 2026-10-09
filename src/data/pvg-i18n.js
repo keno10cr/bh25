@@ -63,7 +63,7 @@ export const PVG_I18N = {
     hostQuote:
       "At Blessed House, groups find a quiet place to reconnect with nature and with each other. It would be an honor to welcome yours.",
     hostName: "Floribel Fadell",
-    hostRole: "Owner of Blessed House",
+    hostRole: "Co-owner & Host",
     petsTitle: "Pets are welcome at Blessed House.",
     petsNote:
       "Please review our house rules before you bring them, and keep in mind that pets are not allowed inside national parks such as Cahuita.",
@@ -146,7 +146,7 @@ export const PVG_I18N = {
     hostQuote:
       "En Blessed House, los grupos encuentran un lugar tranquilo para reconectar con la naturaleza y entre sí. Sería un honor recibir al suyo.",
     hostName: "Floribel Fadell",
-    hostRole: "Propietaria de Blessed House",
+    hostRole: "Copropietaria y anfitriona",
     petsTitle: "Las mascotas son bienvenidas en Blessed House.",
     petsNote:
       "Revise nuestras reglas de la casa antes de traerlas y tenga en cuenta que no se permiten mascotas dentro de parques nacionales como Cahuita.",
@@ -229,7 +229,7 @@ export const PVG_I18N = {
     hostQuote:
       "Im Blessed House finden Gruppen einen ruhigen Ort, um wieder Verbindung zur Natur und zueinander zu finden. Es wäre mir eine Ehre, Ihre Gruppe willkommen zu heißen.",
     hostName: "Floribel Fadell",
-    hostRole: "Inhaberin von Blessed House",
+    hostRole: "Mitinhaberin und Gastgeberin",
     petsTitle: "Haustiere sind in Blessed House willkommen.",
     petsNote:
       "Bitte lesen Sie vorher unsere Hausregeln und beachten Sie, dass Haustiere in Nationalparks wie Cahuita nicht erlaubt sind.",
@@ -312,7 +312,7 @@ export const PVG_I18N = {
     hostQuote:
       "Bij Blessed House vinden groepen een rustige plek om opnieuw verbinding te maken met de natuur en met elkaar. Het zou een eer zijn om uw groep te verwelkomen.",
     hostName: "Floribel Fadell",
-    hostRole: "Eigenaar van Blessed House",
+    hostRole: "Mede-eigenaar en gastvrouw",
     petsTitle: "Huisdieren zijn welkom in Blessed House.",
     petsNote:
       "Lees vooraf onze huisregels en houd er rekening mee dat huisdieren niet zijn toegestaan in nationale parken zoals Cahuita.",
@@ -395,7 +395,7 @@ export const PVG_I18N = {
     hostQuote:
       "À Blessed House, les groupes trouvent un lieu paisible pour se reconnecter à la nature et les uns aux autres. Ce serait un honneur d'accueillir le vôtre.",
     hostName: "Floribel Fadell",
-    hostRole: "Propriétaire de Blessed House",
+    hostRole: "Copropriétaire et hôtesse",
     petsTitle: "Les animaux sont les bienvenus à Blessed House.",
     petsNote:
       "Consultez notre règlement intérieur avant de venir et sachez que les animaux ne sont pas admis dans les parcs nationaux comme Cahuita.",
@@ -478,7 +478,7 @@ export const PVG_I18N = {
     hostQuote:
       "Blessed Houseは、グループが自然と、そしてお互いとつながり直せる静かな場所です。皆さまをお迎えできれば光栄です。",
     hostName: "Floribel Fadell",
-    hostRole: "Blessed House オーナー",
+    hostRole: "共同オーナー兼ホスト",
     petsTitle: "Blessed Houseではペットを歓迎しています。",
     petsNote:
       "ご来訪前にハウスルールをご確認ください。なお、カウイタなどの国立公園ではペットの入場はできません。",
@@ -561,7 +561,7 @@ export const PVG_I18N = {
     hostQuote:
       "Na Blessed House, os grupos encontram um lugar tranquilo para se reconectar com a natureza e uns com os outros. Seria uma honra receber o seu.",
     hostName: "Floribel Fadell",
-    hostRole: "Proprietária da Blessed House",
+    hostRole: "Coproprietária e anfitriã",
     petsTitle: "Animais de estimação são bem vindos na Blessed House.",
     petsNote:
       "Leia nossas regras da casa antes da viagem e lembre que animais não são permitidos em parques nacionais como Cahuita.",
@@ -644,7 +644,7 @@ export const PVG_I18N = {
     hostQuote:
       "في Blessed House تجد المجموعات مكانًا هادئًا للتواصل من جديد مع الطبيعة ومع بعضها البعض. سيكون من دواعي سروري استقبال مجموعتكم.",
     hostName: "Floribel Fadell",
-    hostRole: "مالكة Blessed House",
+    hostRole: "مالكة مشاركة ومضيفة",
     petsTitle: "الحيوانات الأليفة مرحب بها في Blessed House.",
     petsNote:
       "يرجى مراجعة قواعد المنزل قبل إحضارها، مع العلم أنها غير مسموحة داخل المحميات الوطنية مثل Cahuita.",

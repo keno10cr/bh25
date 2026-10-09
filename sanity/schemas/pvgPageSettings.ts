@@ -348,7 +348,7 @@ export const pvgPageSettings = defineType({
       title: "Host role",
       type: "string",
       group: "inquiry",
-      description: "Example: Owner of Blessed House",
+      description: "Example: Co-owner & Host",
     }),
 
     defineField({

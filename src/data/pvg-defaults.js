@@ -46,7 +46,7 @@ export const PVG_PAGE_DEFAULTS = {
   hostQuote:
     "At Blessed House, groups find a quiet place to reconnect with nature and with each other. It would be an honor to welcome yours.",
   hostName: "Floribel Fadell",
-  hostRole: "Owner of Blessed House",
+  hostRole: "Co-owner & Host",
   promoEyebrow: "Groups of 20 to 45",
   promoTitle: "Bring your whole group to Blessed House",
   promoBody:
