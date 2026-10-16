@@ -1,9 +1,9 @@
-import { createClient } from "@sanity/client";
+import { createClient } from "next-sanity";
 import {
   sanityApiVersion,
   sanityDataset,
   sanityProjectId,
-} from "../../../sanity/env.js";
+} from "../../../sanity/env";
 
 /**
  * True when this bearer is accepted by the Blessed House Sanity project.

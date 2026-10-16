@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useClient } from "sanity";
 import { useToast } from "@sanity/ui/toast";
-import { TranslateIcon } from "@sanity/icons/Translate";
 import { CAPTION_LOCALE_FIELDS } from "../../src/lib/caption-locales";
 import {
   buildCaptionPatch,
@@ -85,7 +84,6 @@ export function TranslateCaptionsAction(props) {
 
   return {
     label: busy ? "Translating…" : "Translate Captions",
-    icon: TranslateIcon,
     disabled: busy || !props.ready || !target?._id,
     title: "Translate English photo captions that are new, missing, or changed",
     onHandle: () => {
