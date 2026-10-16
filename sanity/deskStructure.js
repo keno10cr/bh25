@@ -28,7 +28,15 @@ const HIDDEN_FROM_DEFAULT = [
   "blockedDate",
   "stayBooking",
   "systemSettings",
+  "groupQuote",
 ];
+
+function quoteList(S, title, filter) {
+  return S.documentTypeList("groupQuote")
+    .title(title)
+    .filter(filter)
+    .defaultOrdering([{ field: "createdAt", direction: "desc" }]);
+}
 
 function formList(S, title, filter) {
   return S.documentTypeList("formSubmission")
@@ -206,6 +214,37 @@ export const deskStructure = (S) =>
                     `_type == "formSubmission" && formType == "groupInquiry"`
                   )
                 ),
+            ])
+        ),
+
+      S.listItem()
+        .title("Group quotes")
+        .id("group-quotes")
+        .child(
+          S.list()
+            .title("Group quotes (/bhgr)")
+            .items([
+              S.listItem()
+                .title("All (newest first)")
+                .child(quoteList(S, "All group quotes", `_type == "groupQuote"`)),
+              S.divider(),
+              S.listItem()
+                .title("Sent")
+                .child(
+                  quoteList(
+                    S,
+                    "Sent",
+                    `_type == "groupQuote" && (status == "sent" || !defined(status))`
+                  )
+                ),
+              S.listItem()
+                .title("Accepted")
+                .child(
+                  quoteList(S, "Accepted", `_type == "groupQuote" && status == "accepted"`)
+                ),
+              S.listItem()
+                .title("Lost")
+                .child(quoteList(S, "Lost", `_type == "groupQuote" && status == "lost"`)),
             ])
         ),
 

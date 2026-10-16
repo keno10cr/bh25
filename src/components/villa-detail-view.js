@@ -286,14 +286,14 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
           ) : (
             <div className={styles.fallbackCard}>
               <p>
-                Booking calendar is preparing for this villa. You can still send an
-                inquiry.
+                Booking calendar is preparing for this villa. Contact us and we will
+                help you plan your stay.
               </p>
               <Link
                 className={styles.book}
                 href={`/contact?subject=booking&villa=${villa.id || ""}`}
               >
-                Inquire
+                Contact us
               </Link>
             </div>
           )}
@@ -302,7 +302,9 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
 
       <VillaGalleryModal
         villa={villa}
-        images={gallery.length ? gallery : [heroFallback].filter(Boolean)}
+        images={
+          gallery.length ? gallery : [property?.heroImage || villa.image].filter(Boolean)
+        }
         captions={captions}
         startIndex={modalIndex}
         isOpen={isModalOpen}

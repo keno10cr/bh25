@@ -6,7 +6,7 @@ import { createSanityServerClient } from "@/lib/sanity/client";
 export const runtime = "nodejs";
 
 const NOTIFY_TO = [
-  "blessedhousecr@gmail.com",
+  "contact@blessedhouse.info",
   "kervinbb95@gmail.com",
   "keno10cr@gmail.com",
 ];

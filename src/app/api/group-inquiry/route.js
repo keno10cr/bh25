@@ -132,7 +132,7 @@ export async function POST(request) {
     await resend.emails.send({
       from: "Blessed House Villas <noreply@blessedhouse.info>",
       to: [
-        "blessedhousecr@gmail.com",
+        "contact@blessedhouse.info",
         "kervinbb95@gmail.com",
         "keno10cr@gmail.com",
       ],

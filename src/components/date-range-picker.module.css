@@ -152,6 +152,16 @@
   color: #fff;
 }
 
+.dayUnavailable {
+  color: #b23b3b;
+  text-decoration: line-through;
+}
+
+.dayEdge.dayUnavailable {
+  background: #b23b3b;
+  color: #fff;
+}
+
 .modalFooter {
   display: flex;
   justify-content: space-between;

@@ -74,10 +74,10 @@ export default function ContactInfo({ copy, footer }) {
                     <h3>{t("contactPage.contactInfo.email")}</h3>
                     <p>
                         <a
-                            href={`mailto:${footer?.email?.value || "blessedhousecr@gmail.com"}`}
+                            href={`mailto:${footer?.email?.value || "contact@blessedhouse.info"}`}
                             className={styles.contactLink}
                         >
-                            {footer?.email?.value || "blessedhousecr@gmail.com"}
+                            {footer?.email?.value || "contact@blessedhouse.info"}
                         </a>
                     </p>
                 </div>

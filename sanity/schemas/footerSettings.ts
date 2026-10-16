@@ -35,7 +35,7 @@ export const footerSettings = defineType({
       name: "email",
       title: "Email",
       type: "string",
-      description: "Public contact email. Example: blessedhousecr@gmail.com",
+      description: "Public contact email. Example: contact@blessedhouse.info",
       validation: (Rule) => Rule.required().email(),
     }),
     defineField({

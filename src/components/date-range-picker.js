@@ -186,6 +186,7 @@ function CalendarMonth({
   onDayClick,
   locale,
   weekdays,
+  unavailable,
 }) {
   const cells = buildMonthCells(year, monthIndex);
   return (
@@ -217,6 +218,7 @@ function CalendarMonth({
                 disabled ? styles.dayDisabled : "",
                 inRange ? styles.dayInRange : "",
                 isStart || isEnd ? styles.dayEdge : "",
+                unavailable?.has(iso) ? styles.dayUnavailable : "",
               ]
                 .filter(Boolean)
                 .join(" ")}
@@ -244,11 +246,16 @@ export default function DateRangePicker({
   onClear,
   minIso: minIsoProp,
   error,
+  unavailableDates,
 }) {
   const { language } = useLanguage();
   const copy = copyFor(language);
   const locale = localeFor(language);
   const weekdays = useMemo(() => weekdayLabels(locale), [locale]);
+  const unavailable = useMemo(
+    () => (unavailableDates?.length ? new Set(unavailableDates) : null),
+    [unavailableDates]
+  );
   const minIso = minIsoProp || tomorrowIsoDate();
   const [open, setOpen] = useState(false);
   const [draftIn, setDraftIn] = useState(checkIn || "");
@@ -330,6 +337,7 @@ export default function DateRangePicker({
                 onDayClick={handleDayClick}
                 locale={locale}
                 weekdays={weekdays}
+                unavailable={unavailable}
               />
               <CalendarMonth
                 year={nextMonth.year}
@@ -340,6 +348,7 @@ export default function DateRangePicker({
                 onDayClick={handleDayClick}
                 locale={locale}
                 weekdays={weekdays}
+                unavailable={unavailable}
               />
             </div>
             <div className={styles.modalFooter}>

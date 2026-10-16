@@ -115,6 +115,32 @@
   min-width: 0;
 }
 
+.guestFieldLocked {
+  opacity: 0.72;
+}
+
+.guestFieldLocked strong {
+  font-weight: 500;
+  color: #667066;
+}
+
+.guestLockHint {
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  opacity: 0.88;
+}
+
+.guestLiveTotal {
+  margin: 0.45rem 0 0;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  background: var(--color-success-light, #e7f1eb);
+  color: var(--color-primary, #0a4c3a);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
 .guestPanel {
   position: absolute;
   left: 0;
@@ -190,8 +216,13 @@
   margin: 0 0 0.75rem;
 }
 
-.primaryBtn,
-.secondaryBtn {
+.warning a {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.primaryBtn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -223,13 +254,6 @@
   font-size: 0.8rem;
   font-style: italic;
   opacity: 0.85;
-}
-
-.secondaryBtn {
-  margin-top: 0.55rem;
-  background: transparent;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.55);
 }
 
 .trust {

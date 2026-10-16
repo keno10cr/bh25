@@ -1,8 +1,62 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import MapLockButton from "@/components/map-lock-button";
+import { useLanguage } from "@/contexts/LanguageContext";
 import styles from "./activities-map.module.css";
+
+const COORDS_COPY = {
+  en: {
+    copy: "Copy coordinates",
+    copied: "Coordinates copied. Paste them into Google Maps or your GPS app.",
+  },
+  es: {
+    copy: "Copiar coordenadas",
+    copied: "Coordenadas copiadas. Péguelas en Google Maps o en su app de GPS.",
+  },
+  de: {
+    copy: "Koordinaten kopieren",
+    copied: "Koordinaten kopiert. Fügen Sie sie in Google Maps oder Ihre GPS App ein.",
+  },
+  nl: {
+    copy: "Coördinaten kopiëren",
+    copied: "Coördinaten gekopieerd. Plak ze in Google Maps of je GPS app.",
+  },
+  fr: {
+    copy: "Copier les coordonnées",
+    copied: "Coordonnées copiées. Vous pouvez les coller dans Google Maps ou votre app GPS.",
+  },
+  ja: {
+    copy: "座標をコピー",
+    copied: "座標をコピーしました。Google マップや GPS アプリに貼り付けてください。",
+  },
+  pt: {
+    copy: "Copiar coordenadas",
+    copied: "Coordenadas copiadas. Cole no Google Maps ou no seu app de GPS.",
+  },
+  ar: {
+    copy: "نسخ الإحداثيات",
+    copied: "تم نسخ الإحداثيات. الصقها في خرائط Google أو تطبيق GPS.",
+  },
+};
+
+async function writeClipboard(text) {
+  if (navigator.clipboard?.writeText && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const field = document.createElement("textarea");
+  field.value = text;
+  field.setAttribute("readonly", "");
+  field.style.position = "fixed";
+  field.style.opacity = "0";
+  document.body.appendChild(field);
+  field.select();
+  const ok = document.execCommand("copy");
+  field.remove();
+  if (!ok) throw new Error("Copy failed");
+}
 
 const GESTURE_HANDLERS = [
   "dragPan",
@@ -118,7 +172,10 @@ export default function ActivitiesMap({
   const selectedSlugRef = useRef(selectedSlug);
   const prevSlugRef = useRef("");
   const lockedRef = useRef(true);
+  const { language } = useLanguage();
+  const coordsCopy = COORDS_COPY[language] || COORDS_COPY.en;
   const [coordsCopied, setCoordsCopied] = useState(false);
+  const copiedTimerRef = useRef(null);
   const [locked, setLocked] = useState(true);
   const [activeViewId, setActiveViewId] = useState(initialViewId);
 
@@ -150,13 +207,16 @@ export default function ActivitiesMap({
   const copyCoordinates = async () => {
     if (!coordsText) return;
     try {
-      await navigator.clipboard.writeText(coordsText);
+      await writeClipboard(coordsText);
       setCoordsCopied(true);
-      window.setTimeout(() => setCoordsCopied(false), 1600);
+      window.clearTimeout(copiedTimerRef.current);
+      copiedTimerRef.current = window.setTimeout(() => setCoordsCopied(false), 2600);
     } catch {
       setCoordsCopied(false);
     }
   };
+
+  useEffect(() => () => window.clearTimeout(copiedTimerRef.current), []);
 
   activitiesRef.current = activities;
   onSelectRef.current = onSelect;
@@ -196,12 +256,8 @@ export default function ActivitiesMap({
       });
       applyLock(map, lockedRef.current);
       map.addControl(
-        new maplibre.NavigationControl({ visualizePitch: false }),
+        new maplibre.NavigationControl({ showCompass: false }),
         "top-right"
-      );
-      map.addControl(
-        new maplibre.AttributionControl({ compact: true }),
-        "bottom-left"
       );
       mapRef.current = map;
 
@@ -387,6 +443,62 @@ export default function ActivitiesMap({
           onToggle={() => setLocked((value) => !value)}
         />
       </div>
+      {coordsText ? (
+        <div className={styles.coordsBar}>
+          <span className={styles.coordsRow}>
+            <span className={styles.coordsText}>{coordsText}</span>
+            <button
+              type="button"
+              className={styles.copyCoordsBtn}
+              onClick={copyCoordinates}
+              aria-label={coordsCopy.copy}
+              title={coordsCopy.copy}
+            >
+              {coordsCopied ? (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M5 12.5l4.5 4.5L19 7.5"
+                    stroke="currentColor"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              ) : (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect
+                    x="9"
+                    y="9"
+                    width="11"
+                    height="11"
+                    rx="2"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M5 15V5a2 2 0 0 1 2-2h10"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              )}
+            </button>
+          </span>
+        </div>
+      ) : null}
+      {typeof document !== "undefined"
+        ? createPortal(
+            <div
+              className={`${styles.toast} ${coordsCopied ? styles.toastVisible : ""}`}
+              role="status"
+              aria-live="polite"
+            >
+              {coordsCopied ? coordsCopy.copied : ""}
+            </div>,
+            document.body
+          )
+        : null}
       {showLegend || views.length > 0 ? (
         <div className={styles.legend}>
           {views.length > 0 ? (
@@ -417,46 +529,6 @@ export default function ActivitiesMap({
               {item.title}
             </button>
           ))}
-          {coordsText ? (
-            <span className={styles.coordsRow}>
-              <span className={styles.coordsText}>{coordsText}</span>
-              <button
-                type="button"
-                className={styles.copyCoordsBtn}
-                onClick={copyCoordinates}
-                aria-label="Copy coordinates"
-                title={coordsCopied ? "Copied" : "Copy coordinates"}
-              >
-                {coordsCopied ? (
-                  "Copied"
-                ) : (
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <rect
-                      x="9"
-                      y="9"
-                      width="11"
-                      height="11"
-                      rx="2"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                    <path
-                      d="M5 15V5a2 2 0 0 1 2-2h10"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                )}
-              </button>
-            </span>
-          ) : null}
         </div>
       ) : null}
     </div>

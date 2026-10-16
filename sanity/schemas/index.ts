@@ -10,6 +10,7 @@ import { familyBlog } from "./familyBlog";
 import { footerSettings } from "./footerSettings";
 import { formSubmission } from "./formSubmission";
 import { galleryPageSettings } from "./galleryPageSettings";
+import { groupQuote } from "./groupQuote";
 import { homePageSettings } from "./homePageSettings";
 import { legendItem } from "./legendItem";
 import { location } from "./location";
@@ -33,6 +34,7 @@ export const schemaTypes = [
   blockedDate,
   stayBooking,
   systemSettings,
+  groupQuote,
   // Existing marketing / content
   activity,
   villa,

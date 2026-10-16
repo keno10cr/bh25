@@ -155,6 +155,7 @@ export default function PropertyBookingSidebar({
   const [minIso, setMinIso] = useState(() => tomorrowIsoDate());
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [guestOpen, setGuestOpen] = useState(false);
+  const [openGuestsAfterDates, setOpenGuestsAfterDates] = useState(false);
   const [visibleMonth, setVisibleMonth] = useState(() => {
     const d = new Date();
     return { year: d.getFullYear(), month: d.getMonth() };
@@ -257,6 +258,7 @@ export default function PropertyBookingSidebar({
   }, [checkIn, checkOut]);
 
   const nights = nightIsos.length;
+  const hasDates = nights > 0;
 
   const stayPricing = useMemo(() => {
     if (!nights) return null;
@@ -310,10 +312,10 @@ export default function PropertyBookingSidebar({
   });
 
   const reserveHref = `/checkout?${bookingQuery}`;
-  const inquireParams = new URLSearchParams(bookingQuery);
-  if (villaNumericId) inquireParams.set("villa", String(villaNumericId));
-  inquireParams.set("subject", "booking");
-  const inquireHref = `/contact?${inquireParams.toString()}`;
+  const contactParams = new URLSearchParams(bookingQuery);
+  if (villaNumericId) contactParams.set("villa", String(villaNumericId));
+  contactParams.set("subject", "booking");
+  const contactHref = `/contact?${contactParams.toString()}`;
 
   const reviewCount = reviews.length;
   const avgRating =
@@ -335,14 +337,10 @@ export default function PropertyBookingSidebar({
   }, [visibleMonth]);
 
   const handleDayClick = (iso) => {
-    if (!checkIn || (checkIn && checkOut)) {
+    if (!checkIn || (checkIn && checkOut) || iso <= checkIn) {
       setCheckIn(iso);
       setCheckOut("");
-      return;
-    }
-    if (iso <= checkIn) {
-      setCheckIn(iso);
-      setCheckOut("");
+      setGuestOpen(false);
       return;
     }
     const nightsInRange = occupiedNightsFromStay(checkIn, iso);
@@ -422,7 +420,7 @@ export default function PropertyBookingSidebar({
               ? `. Extra guests ${money(extraFee)} / person / night.`
               : "."}{" "}
             Minimum stay {minimumNights} night{minimumNights === 1 ? "" : "s"} for
-            Reserve.
+            booking requests.
           </p>
         )}
 
@@ -448,13 +446,28 @@ export default function PropertyBookingSidebar({
         <div className={styles.guestWrap}>
           <button
             type="button"
-            className={styles.guestField}
-            onClick={() => setGuestOpen((open) => !open)}
+            className={`${styles.guestField} ${hasDates ? "" : styles.guestFieldLocked}`}
+            aria-describedby={hasDates ? undefined : "guest-dates-first"}
+            onClick={() => {
+              if (!hasDates) {
+                setOpenGuestsAfterDates(true);
+                setCalendarOpen(true);
+                return;
+              }
+              setGuestOpen((open) => !open);
+            }}
           >
             <span>Guests</span>
-            <strong>{formatGuestSelectionSummary(guests)}</strong>
+            <strong>
+              {hasDates ? formatGuestSelectionSummary(guests) : "Select dates first"}
+            </strong>
           </button>
-          {guestOpen ? (
+          {!hasDates ? (
+            <p id="guest-dates-first" className={styles.guestLockHint}>
+              Choose your dates first, then set guests so the price is exact.
+            </p>
+          ) : null}
+          {guestOpen && hasDates ? (
             <div className={styles.guestPanel}>
               {[
                 { key: "adults", label: "Adults" },
@@ -482,6 +495,16 @@ export default function PropertyBookingSidebar({
                   </div>
                 </div>
               ))}
+              {stayPricing ? (
+                <p className={styles.guestLiveTotal} aria-live="polite">
+                  {money(stayPricing.total)} for {nights} night{nights === 1 ? "" : "s"}
+                  {stayPricing.extraGuest
+                    ? ` (includes ${stayPricing.extraGuest.extraGuests} extra guest${
+                        stayPricing.extraGuest.extraGuests === 1 ? "" : "s"
+                      })`
+                    : ""}
+                </p>
+              ) : null}
               <div className={styles.guestFooter}>
                 <p className={styles.guestCap}>Up to {guestsMax} guests</p>
                 <button
@@ -498,14 +521,14 @@ export default function PropertyBookingSidebar({
 
         {nights > 0 && !meetsMinimum ? (
           <p className={styles.warning}>
-            Minimum stay is {minimumNights} nights. You can still Inquire for a
-            shorter stay.
+            Minimum stay is {minimumNights} nights.{" "}
+            <Link href={contactHref}>Contact us</Link> for shorter stays.
           </p>
         ) : null}
 
         {canReserve ? (
           <Link className={styles.primaryBtn} href={reserveHref}>
-            Reserve
+            Request Booking
           </Link>
         ) : (
           <button
@@ -519,12 +542,10 @@ export default function PropertyBookingSidebar({
         )}
 
         {canReserve ? (
-          <p className={styles.noCharge}>You will not be charged yet</p>
+          <p className={styles.noCharge}>
+            Our team confirms availability before any payment
+          </p>
         ) : null}
-
-        <Link className={styles.secondaryBtn} href={inquireHref}>
-          Inquire
-        </Link>
       </div>
 
       <ul className={styles.trust}>
@@ -551,7 +572,13 @@ export default function PropertyBookingSidebar({
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
               <h3>Select dates</h3>
-              <button type="button" onClick={() => setCalendarOpen(false)}>
+              <button
+                type="button"
+                onClick={() => {
+                  setCalendarOpen(false);
+                  setOpenGuestsAfterDates(false);
+                }}
+              >
                 Close
               </button>
             </div>
@@ -583,7 +610,11 @@ export default function PropertyBookingSidebar({
                 type="button"
                 className={styles.confirmDates}
                 disabled={!checkOut}
-                onClick={() => setCalendarOpen(false)}
+                onClick={() => {
+                  setCalendarOpen(false);
+                  if (openGuestsAfterDates) setGuestOpen(true);
+                  setOpenGuestsAfterDates(false);
+                }}
               >
                 Confirm
               </button>

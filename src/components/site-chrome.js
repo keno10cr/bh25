@@ -12,7 +12,11 @@ export default function SiteChrome({ children, nav, footer }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const isAdmin = pathname?.startsWith("/admin");
-  const isProposalTool = pathname === "/ccen" || pathname === "/cces";
+  const isProposalTool =
+    pathname === "/ccen" ||
+    pathname === "/cces" ||
+    pathname === "/bhgr" ||
+    pathname === "/tool-access";
   const isBusinessCard = pathname === "/bc" || pathname === "/t";
   const hideChrome = isAdmin || isProposalTool || isBusinessCard;
 

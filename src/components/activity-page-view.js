@@ -168,6 +168,7 @@ export default function ActivityPageView({ activity, legendItems = [] }) {
             ]}
             legendItems={mapLegend}
             selectedSlug={activity.slug}
+            showCoordinates={activity.coordinates}
             fitToPins={false}
             showLegend={false}
           />

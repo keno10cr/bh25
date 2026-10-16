@@ -130,22 +130,54 @@
   outline: none;
 }
 
+.coordsBar {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
 .coordsRow {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  margin-left: auto;
-  padding: 0.2rem 0.35rem 0.2rem 0.55rem;
+  gap: 0.45rem;
+  padding: 0.25rem 0.35rem 0.25rem 0.75rem;
   border-radius: 999px;
   border: 1px solid #d7e0d8;
   background: #f7faf8;
 }
 
 .coordsText {
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #5c655e;
   font-variant-numeric: tabular-nums;
+  user-select: all;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  z-index: 1000;
+  max-width: min(92vw, 420px);
+  padding: 0.7rem 1.1rem;
+  border-radius: 12px;
+  background: var(--color-primary, #0a4c3a);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 12px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toastVisible {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 .copyCoordsBtn {
@@ -157,8 +189,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.15rem;
-  border-radius: 6px;
+  padding: 0.3rem;
+  border-radius: 999px;
   font-size: 0.72rem;
   font-weight: 700;
   font-family: inherit;
