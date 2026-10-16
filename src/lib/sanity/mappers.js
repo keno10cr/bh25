@@ -117,12 +117,29 @@ export function mapActivity(raw, fallback = null) {
   };
 }
 
+function galleryItemUrl(item) {
+  if (!item) return "";
+  if (typeof item === "string") return item;
+  return item.url || "";
+}
+
 export function mapVilla(raw, fallback = null) {
   if (!raw && !fallback) return null;
   const base = fallback || {};
-  const gallery = Array.isArray(raw?.gallery)
+  const galleryItems = Array.isArray(raw?.gallery)
     ? raw.gallery.filter(Boolean)
+    : null;
+  const gallery = galleryItems
+    ? galleryItems.map(galleryItemUrl).filter(Boolean)
     : base.galleryImages || base.gallery || [];
+  const galleryFiles = galleryItems
+    ? galleryItems
+        .filter((item) => item && typeof item === "object" && item.url)
+        .map((item) => ({
+          url: item.url,
+          filename: item.filename || "",
+        }))
+    : base.galleryFiles || [];
 
   return {
     ...base,
@@ -136,6 +153,7 @@ export function mapVilla(raw, fallback = null) {
     amenities: raw?.amenities?.length ? raw.amenities : base.amenities,
     gallery,
     galleryImages: gallery.length ? gallery : base.galleryImages,
+    galleryFiles,
     image: gallery[0] || base.image,
     description: raw?.description
       ? portableTextToPlain(raw.description)

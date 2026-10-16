@@ -1,5 +1,38 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
-import { i18nFieldset, localizedField } from "./i18n";
+import { i18nFieldset, localizedField, TRANSLATION_LOCALES } from "./i18n";
+
+function galleryImageTextFields() {
+  return [
+    defineField({
+      name: "alt",
+      title: "Alt text",
+      type: "string",
+      description:
+        "Accessibility description in English. Guests do not see this under the photo. Example: Upstairs bathroom in Villa 3.",
+    }),
+    defineField({
+      name: "caption",
+      title: "Caption",
+      type: "string",
+      description:
+        "The line guests see under this photo when they open it. Write it in English, then choose Translate Captions next to Publish. Spanish, German, Dutch, French, Japanese, Portuguese, and Arabic are filled from this line. Example: Second-floor balcony at Villa 3.",
+    }),
+    ...TRANSLATION_LOCALES.map((locale) =>
+      defineField({
+        name: `caption${locale.code}`,
+        title: `Caption (${locale.title})`,
+        type: "string",
+        hidden: true,
+      })
+    ),
+    defineField({
+      name: "captionTranslatedFrom",
+      title: "Caption translation source",
+      type: "string",
+      hidden: true,
+    }),
+  ];
+}
 
 const LISTING_TAG_CATALOG_QUERY = `*[_type == "systemSettings"][0].listingTagCatalog[]{tagId}`;
 
@@ -479,21 +512,27 @@ export const property = defineType({
       type: "array",
       group: "media",
       description:
-        "Extra villa photos for the swipe gallery. Use the SAME wide shape as the hero: about 2400 × 1350 pixels (16:9 landscape). Keep every photo landscape so the gallery looks neat and nothing important gets cut off. After upload, drag the hotspot onto the most important part of the photo.",
+        "Extra villa photos for the swipe gallery. Use the SAME wide shape as the hero: about 2400 × 1350 pixels (16:9 landscape). Keep every photo landscape so the gallery looks neat and nothing important gets cut off. After upload, drag the hotspot onto the most important part of the photo, then add an English caption. That caption is the line under the photo when a guest opens it.",
       of: [
-        {
+        defineArrayMember({
           type: "image",
           options: { hotspot: true },
-          fields: [
-            defineField({
-              name: "alt",
-              title: "Alt text",
-              type: "string",
-              description:
-                "Describe the photo in one short sentence. Example: King bed with garden view.",
-            }),
-          ],
-        },
+          fields: galleryImageTextFields(),
+          preview: {
+            select: {
+              caption: "caption",
+              alt: "alt",
+              media: "asset",
+            },
+            prepare({ caption, alt, media }) {
+              return {
+                title: caption || alt || "Untitled photo",
+                subtitle: caption && alt && caption !== alt ? alt : undefined,
+                media,
+              };
+            },
+          },
+        }),
       ],
     }),
     defineField({

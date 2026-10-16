@@ -27,6 +27,7 @@ import {
 } from "@/lib/propertyPricing";
 import { occupiedNightsFromStay } from "@/lib/availabilityDates";
 import { useTranslation } from "@/lib/translations";
+import { galleryImageUrl } from "@/lib/villa-gallery";
 import styles from "./checkout.module.css";
 
 function interpolate(template, values = {}) {
@@ -256,7 +257,7 @@ export default function CheckoutClient({
   const money = (amount) => formatMoney(amount, priceSummary.currency);
   const heroSrc =
     property.heroImage ||
-    (Array.isArray(property.gallery) && property.gallery[0]) ||
+    galleryImageUrl(Array.isArray(property.gallery) ? property.gallery[0] : "") ||
     "";
 
   return (

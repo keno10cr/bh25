@@ -1,5 +1,6 @@
 import {
   getPropertyArrangements,
+  getPropertyGalleries,
   getVillas,
   getVillasPageSettings,
 } from "@/lib/sanity/content";
@@ -15,14 +16,16 @@ export const metadata = {
 };
 
 export default async function VillasPage() {
-  const [villas, copy, arrangements] = await Promise.all([
+  const [villas, copy, arrangements, galleries] = await Promise.all([
     getVillas(),
     getVillasPageSettings(),
     getPropertyArrangements(),
+    getPropertyGalleries(),
   ]);
   const withRooms = villas.map((villa) => ({
     ...villa,
     houseArrangements: arrangements[villa.slug] || [],
+    cmsGallery: galleries[villa.slug] || [],
   }));
   return <VillasClient villas={withRooms} copy={copy} />;
 }

@@ -6,6 +6,7 @@ import {
   getVillaReviews,
   getVillaSlugs,
 } from "@/lib/sanity/content";
+import { galleryImageUrl } from "@/lib/villa-gallery";
 import { SITE_NAME, SITE_URL } from "@/lib/siteMetadata";
 
 export const revalidate = 60;
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }) {
 
   const image =
     property?.heroImage ||
-    property?.gallery?.[0] ||
+    galleryImageUrl(property?.gallery?.[0]) ||
     villa.image ||
     villa.galleryImages?.[0];
   const pageUrl = `${SITE_URL}/villas/${villa.slug}`;

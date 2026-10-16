@@ -19,7 +19,7 @@ export default function VillaCard({ villa, layout = "stacked", reverse = false }
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
   const gallery = mergeVillaGallery(villa);
-  const captions = gallery.map((src) => villaImageCaption(src, villa, t));
+  const captions = gallery.map((src) => villaImageCaption(src, villa, t, language));
   const bookHref = villa.slug
     ? `/villas/${villa.slug}`
     : `/contact?subject=booking&villa=${villa.id || ""}`;

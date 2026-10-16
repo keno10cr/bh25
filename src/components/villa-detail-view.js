@@ -45,7 +45,9 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
   const fact =
     villa.translationKey && t(`villas.${villa.translationKey}.informativeFact`);
   const gallery = mergeVillaGallery(villa, property);
-  const captions = gallery.map((src) => villaImageCaption(src, villa, t));
+  const captions = gallery.map((src) =>
+    villaImageCaption(src, villa, t, language, property)
+  );
   const mapIndex = gallery.findIndex((src) => isPropertyMapSrc(src));
   const amenitySource =
     property?.amenities?.length > 0 ? property.amenities : villa.amenities;

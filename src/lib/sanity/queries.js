@@ -137,7 +137,10 @@ export const villasQuery = `*[_type == "villa"] | order(name asc) {
   bedrooms,
   bathrooms,
   amenities,
-  "gallery": gallery[].asset->url,
+  "gallery": gallery[]{
+    "url": asset->url,
+    "filename": asset->originalFilename
+  },
   description,
   bookingUrl
 }`;
@@ -150,7 +153,10 @@ export const villaBySlugQuery = `*[_type == "villa" && slug.current == $slug][0]
   bedrooms,
   bathrooms,
   amenities,
-  "gallery": gallery[].asset->url,
+  "gallery": gallery[]{
+    "url": asset->url,
+    "filename": asset->originalFilename
+  },
   description,
   bookingUrl
 }`;
@@ -424,7 +430,20 @@ export const propertyBySlugQuery = `*[_type == "property" && slug.current == $sl
   amenities,
   shortDescription,
   "heroImage": heroImage.asset->url,
-  "gallery": gallery[].asset->url,
+  "gallery": gallery[]{
+    _key,
+    alt,
+    caption,
+    captionEs,
+    captionDe,
+    captionNl,
+    captionFr,
+    captionJa,
+    captionPt,
+    captionAr,
+    "url": asset->url,
+    "filename": asset->originalFilename
+  },
   seasonalPricing[]{
     titleEn,
     startDate,
@@ -460,3 +479,21 @@ export const propertyBySlugQuery = `*[_type == "property" && slug.current == $sl
 }`;
 
 export const propertySlugsQuery = `*[_type == "property" && listed != false && defined(slug.current) && !(_id in path("drafts.**"))].slug.current`;
+
+export const propertyGalleriesQuery = `*[_type == "property" && defined(slug.current) && !(_id in path("drafts.**"))]{
+  "slug": slug.current,
+  "gallery": gallery[]{
+    _key,
+    alt,
+    caption,
+    captionEs,
+    captionDe,
+    captionNl,
+    captionFr,
+    captionJa,
+    captionPt,
+    captionAr,
+    "url": asset->url,
+    "filename": asset->originalFilename
+  }
+}`;

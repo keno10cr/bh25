@@ -19,6 +19,7 @@
     "seed:properties": "node --env-file=.env.local scripts/seed-properties.js",
     "translate:cms": "sanity exec scripts/fill-cms-translations.js --with-user-token",
     "translate:blog": "sanity exec scripts/fill-blog-translations.js --with-user-token",
+    "translate:captions": "node --env-file=.env.local scripts/fill-property-captions.js",
     "i18n:export": "sanity exec scripts/export-translations.js --with-user-token",
     "i18n:import": "sanity exec scripts/import-translations.js --with-user-token",
     "webhook:blog": "node --env-file=.env.local scripts/setup-blog-webhook.mjs",

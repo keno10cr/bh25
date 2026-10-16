@@ -21,6 +21,7 @@ import {
   publishedGuestExperiencesQuery,
   propertyArrangementsQuery,
   propertyBySlugQuery,
+  propertyGalleriesQuery,
   villaBySlugQuery,
   villaSlugsQuery,
   villasPageSettingsQuery,
@@ -168,6 +169,17 @@ export async function getPropertyArrangements() {
   for (const row of Array.isArray(rows) ? rows : []) {
     if (row?.slug && Array.isArray(row.houseArrangements)) {
       bySlug[row.slug] = row.houseArrangements;
+    }
+  }
+  return bySlug;
+}
+
+export async function getPropertyGalleries() {
+  const rows = await sanityFetch(propertyGalleriesQuery);
+  const bySlug = {};
+  for (const row of Array.isArray(rows) ? rows : []) {
+    if (row?.slug && Array.isArray(row.gallery)) {
+      bySlug[row.slug] = row.gallery.filter((item) => item?.url);
     }
   }
   return bySlug;

@@ -1,3 +1,5 @@
+import { CAPTION_LOCALE_FIELDS } from "./caption-locales.js";
+
 export const PROPERTY_MAP_SRC = "/villas/general/map.jpg";
 
 export const SHARED_VILLA_IMAGES = [
@@ -76,47 +78,136 @@ export function isPropertyMapSrc(src) {
   return sharedImageKind(src) === "map";
 }
 
+const SHARED_FILENAMES = {
+  "charger.jpg": "charger",
+  "junglepool.jpg": "junglepool",
+  "map.jpg": "map",
+  "pool.jpg": "pool",
+};
+
 function galleryHasSharedKind(urls, kind) {
-  if (urls.some((src) => sharedImageKind(src) === kind)) return true;
+  if (urls.some((src) => imageKind(src) === kind)) return true;
   if (kind !== "junglepool") return false;
   return ["charger", "map", "pool"].every((other) =>
-    urls.some((src) => sharedImageKind(src) === other)
+    urls.some((src) => imageKind(src) === other)
   );
+}
+
+export function galleryImageUrl(image) {
+  if (!image) return "";
+  if (typeof image === "string") return image;
+  return image.url || image.src || "";
+}
+
+export function galleryImageFilename(image) {
+  if (!image) return "";
+  if (typeof image === "string") return fileKey(image);
+  const named = image.filename || image.originalFilename || "";
+  if (named) return fileKey(named);
+  return fileKey(image.url || "");
+}
+
+function imageKind(src, filename = "") {
+  return (
+    sharedImageKind(src) ||
+    sharedImageKind(filename) ||
+    SHARED_FILENAMES[fileKey(filename)] ||
+    SHARED_FILENAMES[fileKey(src)] ||
+    null
+  );
+}
+
+export function cmsGalleryItems(villa, property = null) {
+  const fromProperty = Array.isArray(property?.gallery) ? property.gallery : [];
+  const fromVilla = Array.isArray(villa?.cmsGallery) ? villa.cmsGallery : [];
+  const source = fromProperty.length ? fromProperty : fromVilla;
+  return source
+    .map((item) => {
+      if (!item) return null;
+      if (typeof item === "string") return { url: item };
+      if (!item.url) return null;
+      return item;
+    })
+    .filter(Boolean);
+}
+
+function filenameForSrc(src, villa) {
+  const files = Array.isArray(villa?.galleryFiles) ? villa.galleryFiles : [];
+  const hit = files.find((item) => item?.url === src);
+  if (hit?.filename) return fileKey(hit.filename);
+  return fileKey(src);
 }
 
 export function mergeVillaGallery(villa, property = null) {
   const seen = new Set();
   const out = [];
 
-  const add = (src) => {
+  const add = (src, filename = "") => {
     if (!src) return;
-    const kind = sharedImageKind(src);
-    const key = kind || fileKey(src);
+    const kind = imageKind(src, filename);
+    const name = fileKey(filename);
+    const key = kind || name || fileKey(src);
     if (!key || seen.has(key)) return;
+    if (kind && seen.has(kind)) return;
+    if (name && seen.has(name)) return;
     seen.add(key);
+    if (kind) seen.add(kind);
+    if (name) seen.add(name);
     out.push(src);
   };
 
-  const villaGallery = (villa?.galleryImages || villa?.gallery || []).filter(Boolean);
-  villaGallery.forEach(add);
+  const cms = cmsGalleryItems(villa, property);
+  const villaGallery = (villa?.galleryImages || villa?.gallery || [])
+    .map(galleryImageUrl)
+    .filter(Boolean);
 
-  if (out.length < 3) {
-    (property?.gallery || []).forEach(add);
-    add(property?.heroImage);
-    add(villa?.image);
+  if (cms.length) {
+    cms.forEach((item) => add(item.url, galleryImageFilename(item)));
+    villaGallery.forEach((src) => add(src, filenameForSrc(src, villa)));
+  } else {
+    villaGallery.forEach((src) => add(src));
+    if (out.length < 3) {
+      (property?.gallery || []).forEach((item) =>
+        add(galleryImageUrl(item), galleryImageFilename(item))
+      );
+      add(property?.heroImage);
+      add(villa?.image);
+    }
   }
 
   SHARED_VILLA_IMAGES.forEach((src) => {
     const kind = sharedImageKind(src);
-    if (kind && galleryHasSharedKind(out, kind)) return;
+    if (kind && (seen.has(kind) || galleryHasSharedKind(out, kind))) return;
     add(src);
   });
 
   return out;
 }
 
-export function villaImageCaption(src, villa, t) {
-  const kind = sharedImageKind(src);
+function customCaption(src, villa, property, language) {
+  const images = cmsGalleryItems(villa, property);
+  if (!images.length) return "";
+  const direct = images.find((item) => item.url === src);
+  const filename = direct
+    ? galleryImageFilename(direct)
+    : filenameForSrc(src, villa);
+  const image =
+    direct ||
+    images.find((item) => galleryImageFilename(item) && galleryImageFilename(item) === filename);
+  if (!image) return "";
+  const lang = String(language || "en").toLowerCase();
+  if (lang !== "en") {
+    const field = CAPTION_LOCALE_FIELDS[lang];
+    const local = field ? String(image[field] || "").trim() : "";
+    if (local) return local;
+  }
+  return String(image.caption || "").trim();
+}
+
+export function villaImageCaption(src, villa, t, language = "en", property = null) {
+  const custom = customCaption(src, villa, property, language);
+  if (custom) return custom;
+  const kind = imageKind(src, filenameForSrc(src, villa));
   if (kind === "charger") return t("villas.gallery.charger");
   if (kind === "junglepool") return t("villas.gallery.junglePool");
   if (kind === "map") return t("villas.gallery.propertyMap");
