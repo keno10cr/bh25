@@ -51,6 +51,8 @@ export const QUOTE_COPY = {
       `${nights} night stay approved (standard ${min} night minimum removed).`,
     originalPrice: "Original price",
     defaultDiscountLabel: "Group discount",
+    stayDiscount: (kind, percent) =>
+      `${kind === "monthly" ? "Monthly" : "Weekly"} stay discount (${percent}%)`,
     off: (amount) => `${amount} off`,
     accommodation: "Accommodation",
     addOnsTitle: "Meals and services",
@@ -113,6 +115,8 @@ export const QUOTE_COPY = {
       `Excepción especial: Mínimo de ${plural(min, "noche", "noches")} omitido para esta estadía.`,
     originalPrice: "Precio original",
     defaultDiscountLabel: "Descuento grupal",
+    stayDiscount: (kind, percent) =>
+      `Descuento por estadía ${kind === "monthly" ? "mensual" : "semanal"} (${percent}%)`,
     off: (amount) => `${amount} desc.`,
     accommodation: "Hospedaje",
     addOnsTitle: "Comidas y servicios",

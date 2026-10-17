@@ -46,6 +46,14 @@ function buildFields(body) {
     ),
     total: num(body.total),
     subtotal: num(body.subtotal),
+    stayDiscounts: list(body.stayDiscounts, 4).map((line, index) =>
+      withoutEmpty({
+        _key: `stay${index}`,
+        _type: "quotedStayDiscount",
+        title: text(line?.title),
+        amount: num(line?.amount),
+      })
+    ),
     discountLabel: text(body.discountLabel),
     discountAmount: num(body.discountAmount),
     addOnsTotal: num(body.addOnsTotal),
@@ -99,7 +107,7 @@ export async function POST(request) {
   const now = new Date().toISOString();
   const id = `groupQuote-${body.quoteNumber}`;
   const fields = buildFields(body);
-  for (const key of ["villas", "addOns", "fees"]) {
+  for (const key of ["villas", "addOns", "fees", "stayDiscounts"]) {
     if (!fields[key]?.length) fields[key] = [];
   }
 

@@ -95,8 +95,31 @@ export const groupQuote = defineType({
 
     money("total", "Total"),
     money("subtotal", "Accommodation before discount"),
-    defineField({ name: "discountLabel", title: "Discount", type: "string", readOnly, group: "pricing" }),
-    money("discountAmount", "Discount amount"),
+    defineField({
+      name: "stayDiscounts",
+      title: "Weekly or monthly discounts",
+      type: "array",
+      readOnly,
+      group: "pricing",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "quotedStayDiscount",
+          fields: [
+            defineField({ name: "title", title: "Discount", type: "string" }),
+            defineField({ name: "amount", title: "Amount (USD)", type: "number" }),
+          ],
+          preview: {
+            select: { title: "title", amount: "amount" },
+            prepare({ title, amount }) {
+              return { title, subtitle: `$${amount} off` };
+            },
+          },
+        }),
+      ],
+    }),
+    defineField({ name: "discountLabel", title: "Group discount", type: "string", readOnly, group: "pricing" }),
+    money("discountAmount", "Group discount amount"),
     money("addOnsTotal", "Meals and services total"),
     defineField({
       name: "addOns",

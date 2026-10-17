@@ -20,6 +20,20 @@ import {
 
 export const STANDARD_RATE_LABEL = "Standard rate";
 
+export const STAY_DISCOUNT_MIN_NIGHTS = { weekly: 7, monthly: 28 };
+
+/** Monthly replaces weekly, so a villa only ever gets one stay length discount. */
+export function resolveStayDiscount(nights, stayDiscounts = {}) {
+  for (const kind of ["monthly", "weekly"]) {
+    const option = stayDiscounts[kind];
+    const percent = Math.min(100, Number(option?.percent) || 0);
+    if (option?.enabled && percent > 0 && nights >= STAY_DISCOUNT_MIN_NIGHTS[kind]) {
+      return { kind, percent };
+    }
+  }
+  return null;
+}
+
 export function roundMoney(value) {
   return Math.round((Number(value || 0) + Number.EPSILON) * 100) / 100;
 }
@@ -124,11 +138,14 @@ export function buildAddOnLines(addOns = []) {
 
 /**
  * selections: [{ property, checkIn, checkOut, guests }]
- * discount: { type: "percent" | "fixed", value } applies to villa rates only.
+ * stayDiscounts: { weekly: { enabled, percent }, monthly: { enabled, percent } } per villa.
+ * discount: { type: "percent" | "fixed", value } group discount, applied after stay discounts.
+ * Both apply to villa rates only.
  * excludedFeeIds: checkout fees from System Settings left off this quote.
  */
 export function buildGroupQuote({
   selections = [],
+  stayDiscounts = {},
   discount,
   addOns = [],
   excludedFeeIds = [],
@@ -138,9 +155,15 @@ export function buildGroupQuote({
   const rows = selections.map((selection) => {
     const { property } = selection;
     const quote = quoteVillaStay(selection);
+    const stayRule = quote ? resolveStayDiscount(quote.nights, stayDiscounts) : null;
+    const stayDiscount = stayRule
+      ? { ...stayRule, amount: roundMoney((quote.subtotal * stayRule.percent) / 100) }
+      : null;
     return {
       ...selection,
       quote,
+      stayDiscount,
+      afterStayDiscount: roundMoney((quote?.subtotal ?? 0) - (stayDiscount?.amount ?? 0)),
       baseGuests: resolveBaseGuestCount(property),
       minimumNights: resolveMinimumNights(property),
       unavailableNights: unavailableNightsInStay(
@@ -153,11 +176,33 @@ export function buildGroupQuote({
   const subtotal = roundMoney(
     rows.reduce((sum, row) => sum + (row.quote?.subtotal ?? 0), 0)
   );
-  const discountAmount = resolveDiscountAmount(subtotal, discount);
-  const discountShares = allocateProportionally(
-    rows.map((row) => row.quote?.subtotal ?? 0),
-    discountAmount
+  const stayTotals = new Map();
+  rows.forEach((row) => {
+    if (!row.stayDiscount) return;
+    const key = `${row.stayDiscount.kind}-${row.stayDiscount.percent}`;
+    const existing = stayTotals.get(key);
+    if (existing) existing.amount = roundMoney(existing.amount + row.stayDiscount.amount);
+    else stayTotals.set(key, { ...row.stayDiscount });
+  });
+  const stayDiscountLines = Array.from(stayTotals.values()).sort(
+    (a, b) => STAY_DISCOUNT_MIN_NIGHTS[a.kind] - STAY_DISCOUNT_MIN_NIGHTS[b.kind]
   );
+  const stayDiscountTotal = roundMoney(
+    stayDiscountLines.reduce((sum, line) => sum + line.amount, 0)
+  );
+
+  const groupDiscountAmount = resolveDiscountAmount(
+    roundMoney(subtotal - stayDiscountTotal),
+    discount
+  );
+  const groupShares = allocateProportionally(
+    rows.map((row) => row.afterStayDiscount),
+    groupDiscountAmount
+  );
+  const discountShares = rows.map((row, index) =>
+    roundMoney((row.stayDiscount?.amount ?? 0) + groupShares[index])
+  );
+  const discountAmount = roundMoney(stayDiscountTotal + groupDiscountAmount);
 
   const excluded = new Set(excludedFeeIds);
   const feeConfigs = normalizeCheckoutFees(settings).filter(
@@ -197,6 +242,9 @@ export function buildGroupQuote({
   return {
     rows,
     subtotal,
+    stayDiscountLines,
+    stayDiscountTotal,
+    groupDiscountAmount,
     discountAmount,
     netSubtotal,
     feeLines,

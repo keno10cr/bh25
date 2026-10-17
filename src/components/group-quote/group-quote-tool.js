@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { formatStayDate } from "@/lib/checkout";
 import { occupiedNightsFromStay } from "@/lib/availabilityDates";
 import {
+  STAY_DISCOUNT_MIN_NIGHTS,
   buildAddOnLines,
   buildGroupQuote,
   unavailableNightsInStay,
@@ -190,6 +191,10 @@ export default function GroupQuoteTool({
     value: "",
     label: "Group discount",
   });
+  const [stayDiscounts, setStayDiscounts] = useState({
+    weekly: { enabled: false, percent: "15" },
+    monthly: { enabled: false, percent: "30" },
+  });
   const [priceDisplay, setPriceDisplay] = useState("original");
   const [rateDetail, setRateDetail] = useState("itemized");
   const [showExceptions, setShowExceptions] = useState(true);
@@ -306,14 +311,19 @@ export default function GroupQuoteTool({
     () =>
       buildGroupQuote({
         selections,
+        stayDiscounts,
         discount: discountUsd,
         addOns: addOnLines,
         excludedFeeIds,
         includeTax,
         settings,
       }),
-    [selections, discountUsd, addOnLines, excludedFeeIds, includeTax, settings]
+    [selections, stayDiscounts, discountUsd, addOnLines, excludedFeeIds, includeTax, settings]
   );
+
+  const updateStayDiscount = (kind, patch) => {
+    setStayDiscounts((prev) => ({ ...prev, [kind]: { ...prev[kind], ...patch } }));
+  };
 
   const checkoutFees = useMemo(() => normalizeCheckoutFees(settings), [settings]);
   const toggleFee = (feeId, on) => {
@@ -400,10 +410,12 @@ export default function GroupQuoteTool({
   };
   const showDiscount = priceDisplay === "original" && quote.discountAmount > 0;
   const discountTitle = `${discount.label.trim() || t.defaultDiscountLabel}${
-    discount.type === "percent" && quote.discountAmount > 0
+    discount.type === "percent" && quote.groupDiscountAmount > 0
       ? ` (${Number(discount.value)}%)`
       : ""
   }`;
+  const stayDiscountTitle = (line, language = lang) =>
+    QUOTE_COPY[language].stayDiscount(line.kind, line.percent);
 
   const sharedDates =
     pricedRows.length > 0 &&
@@ -504,8 +516,12 @@ export default function GroupQuoteTool({
       })),
       total: quote.total,
       subtotal: quote.subtotal,
-      discountLabel: quote.discountAmount > 0 ? discountTitle : "",
-      discountAmount: quote.discountAmount,
+      discountLabel: quote.groupDiscountAmount > 0 ? discountTitle : "",
+      discountAmount: quote.groupDiscountAmount,
+      stayDiscounts: quote.stayDiscountLines.map((line) => ({
+        title: stayDiscountTitle(line, "en"),
+        amount: line.amount,
+      })),
       addOnsTotal: quote.addOnsTotal,
       addOns: quote.addOnLines.map((line) => ({
         name: line.name || t.addOnFallback[line.category],
@@ -797,6 +813,12 @@ export default function GroupQuoteTool({
                                 <span>{fmt(line.subtotal)}</span>
                               </li>
                             ))}
+                            {row.stayDiscount ? (
+                              <li className={styles.lineDiscount}>
+                                <span>{stayDiscountTitle(row.stayDiscount, "en")}</span>
+                                <span>−{fmt(row.stayDiscount.amount)}</span>
+                              </li>
+                            ) : null}
                           </ul>
                         ) : null}
 
@@ -965,7 +987,60 @@ export default function GroupQuoteTool({
           </section>
 
           <section className={styles.card}>
-            <h2>Discount</h2>
+            <h2>Discounts</h2>
+            <div className={styles.stayDiscounts}>
+              {[
+                ["weekly", "Weekly discount", `Villas staying ${STAY_DISCOUNT_MIN_NIGHTS.weekly} nights or more.`],
+                [
+                  "monthly",
+                  "Monthly discount",
+                  `Villas staying ${STAY_DISCOUNT_MIN_NIGHTS.monthly} nights or more. Replaces the weekly discount.`,
+                ],
+              ].map(([kind, label, hint]) => {
+                const option = stayDiscounts[kind];
+                const applied = quote.rows.filter((row) => row.stayDiscount?.kind === kind).length;
+                return (
+                  <div
+                    key={kind}
+                    className={`${styles.stayOption} ${option.enabled ? styles.stayOptionOn : ""}`}
+                  >
+                    <div className={styles.stayOptionHead}>
+                      <label className={styles.check}>
+                        <input
+                          type="checkbox"
+                          checked={option.enabled}
+                          onChange={(event) =>
+                            updateStayDiscount(kind, { enabled: event.target.checked })
+                          }
+                        />
+                        <span>{label}</span>
+                      </label>
+                      <label className={styles.stayPercent}>
+                        <input
+                          type="number"
+                          min={0}
+                          max={100}
+                          step={1}
+                          value={option.percent}
+                          aria-label={`${label} percent`}
+                          onChange={(event) =>
+                            updateStayDiscount(kind, { percent: event.target.value })
+                          }
+                        />
+                        <span>%</span>
+                      </label>
+                    </div>
+                    <small className={styles.optionHint}>
+                      {hint}
+                      {option.enabled && applied > 0
+                        ? ` Applied to ${plural(applied, "villa")} in this quote.`
+                        : ""}
+                    </small>
+                  </div>
+                );
+              })}
+            </div>
+            <h3 className={styles.subhead}>Group discount</h3>
             <div className={styles.grid3}>
               <div className={styles.field}>
                 <span>Type</span>
@@ -1007,6 +1082,9 @@ export default function GroupQuoteTool({
                 />
               </label>
             </div>
+            <p className={styles.hint}>
+              The group discount comes off after any weekly or monthly discount.
+            </p>
           </section>
 
           <section className={styles.card}>
@@ -1224,10 +1302,16 @@ export default function GroupQuoteTool({
                 <dt>Accommodation</dt>
                 <dd>{fmt(quote.subtotal)}</dd>
               </div>
-              {quote.discountAmount > 0 ? (
+              {quote.stayDiscountLines.map((line) => (
+                <div key={`${line.kind}-${line.percent}`} className={styles.discountLine}>
+                  <dt>{stayDiscountTitle(line, "en")}</dt>
+                  <dd>{fmt(line.amount)} off</dd>
+                </div>
+              ))}
+              {quote.groupDiscountAmount > 0 ? (
                 <div className={styles.discountLine}>
                   <dt>{discountTitle}</dt>
-                  <dd>{fmt(quote.discountAmount)} off</dd>
+                  <dd>{fmt(quote.groupDiscountAmount)} off</dd>
                 </div>
               ) : null}
               {quote.addOnsTotal > 0 ? (
@@ -1357,7 +1441,8 @@ export default function GroupQuoteTool({
             {pricedRows.map((row) => {
               const lines = priceDisplay === "net" ? row.netLines : row.quote.lines;
               const villaTotal =
-                priceDisplay === "net" ? row.netSubtotal : row.quote.subtotal;
+                priceDisplay === "net" ? row.netSubtotal : row.afterStayDiscount;
+              const villaStayDiscount = priceDisplay === "net" ? null : row.stayDiscount;
               const exceptions = villaExceptions(row);
               return (
                 <div key={row.property.id} className={styles.docBlock}>
@@ -1393,6 +1478,12 @@ export default function GroupQuoteTool({
                             ))}
                           </tbody>
                         </table>
+                      ) : null}
+                      {villaStayDiscount ? (
+                        <p className={styles.docVillaDiscount}>
+                          <span>{stayDiscountTitle(villaStayDiscount)}</span>
+                          <span>{t.off(docFmt(villaStayDiscount.amount))}</span>
+                        </p>
                       ) : null}
                       <p className={styles.docVillaTotal}>
                         <span>{t.villaTotal}</span>
@@ -1449,10 +1540,18 @@ export default function GroupQuoteTool({
                         <span>{t.originalPrice}</span>
                         <span>{docFmt(quote.subtotal)}</span>
                       </p>
-                      <p className={styles.docDiscount}>
-                        <span>{discountTitle}</span>
-                        <span>{t.off(docFmt(quote.discountAmount))}</span>
-                      </p>
+                      {quote.stayDiscountLines.map((line) => (
+                        <p key={`${line.kind}-${line.percent}`} className={styles.docDiscount}>
+                          <span>{stayDiscountTitle(line)}</span>
+                          <span>{t.off(docFmt(line.amount))}</span>
+                        </p>
+                      ))}
+                      {quote.groupDiscountAmount > 0 ? (
+                        <p className={styles.docDiscount}>
+                          <span>{discountTitle}</span>
+                          <span>{t.off(docFmt(quote.groupDiscountAmount))}</span>
+                        </p>
+                      ) : null}
                     </>
                   ) : null}
                   {pricedRows.length > 0 &&
