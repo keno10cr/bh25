@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
 import { createSanityReadClient } from "@/lib/sanity/client";
-import {
-  occupiedNightsFromStay,
-  toIsoDateList,
-  tomorrowIsoDate,
-} from "@/lib/availabilityDates";
+import { toIsoDateList, tomorrowIsoDate } from "@/lib/availabilityDates";
+import { ensureAirbnbCalendarsFresh } from "@/lib/ical/syncAirbnb";
+import { loadPropertyCalendar } from "@/lib/inventory";
 import {
   getDefaultPublishedNightly,
   sumHouseArrangementCapacity,
@@ -33,23 +31,7 @@ const PROPERTY_QUERY = `
 }
 `;
 
-const BLOCKED_DATES_QUERY = `
-*[_type == "blockedDate" && property._ref == $propertyId && !(_id in path("drafts.**"))]{
-  startDate,
-  endDate
-}
-`;
-
-/** Paid bookings occupy nights; pending does not block until webhook confirms. */
-const PAID_BOOKINGS_QUERY = `
-*[_type == "stayBooking"
-  && property._ref == $propertyId
-  && paymentStatus == "paid"
-  && !(_id in path("drafts.**"))]{
-  checkIn,
-  checkOut
-}
-`;
+export const dynamic = "force-dynamic";
 
 export async function GET(_request, context) {
   try {
@@ -64,12 +46,9 @@ export async function GET(_request, context) {
       return NextResponse.json({ error: "Property not found" }, { status: 404 });
     }
 
-    const [blockedDocs, paidBookings] = await Promise.all([
-      client.fetch(BLOCKED_DATES_QUERY, { propertyId: property._id }),
-      client.fetch(PAID_BOOKINGS_QUERY, { propertyId: property._id }),
-    ]);
+    await ensureAirbnbCalendarsFresh({ propertyId: property._id });
+    const calendar = await loadPropertyCalendar(client, property._id);
 
-    const disabledDateSet = new Set();
     const pricingMap = {};
 
     (property.seasonalPricing || []).forEach((season) => {
@@ -81,23 +60,10 @@ export async function GET(_request, context) {
       });
     });
 
-    (blockedDocs || []).forEach((blocked) => {
-      if (!blocked?.startDate || !blocked?.endDate) return;
-      toIsoDateList(blocked.startDate, blocked.endDate).forEach((dateKey) => {
-        disabledDateSet.add(dateKey);
-      });
-    });
-
-    (paidBookings || []).forEach((booking) => {
-      occupiedNightsFromStay(booking.checkIn, booking.checkOut).forEach((dateKey) => {
-        disabledDateSet.add(dateKey);
-      });
-    });
-
     const guestsMax = sumHouseArrangementCapacity(property.houseArrangements);
 
     return NextResponse.json({
-      disabledDates: Array.from(disabledDateSet).sort(),
+      disabledDates: Array.from(calendar.disabledNights).sort(),
       pricingMap,
       defaultNightlyRate: getDefaultPublishedNightly(property),
       minimumNights: property.minimumNights ?? null,

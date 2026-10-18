@@ -25,7 +25,10 @@ import {
   resolveExtraGuestFeePerNight,
   resolveMinimumNights,
 } from "@/lib/propertyPricing";
-import { occupiedNightsFromStay } from "@/lib/availabilityDates";
+import {
+  DATES_UNAVAILABLE_MESSAGE,
+  occupiedNightsFromStay,
+} from "@/lib/availabilityDates";
 import { useTranslation } from "@/lib/translations";
 import { galleryImageUrl } from "@/lib/villa-gallery";
 import { villaName } from "@/lib/localized";
@@ -67,6 +70,7 @@ export default function CheckoutClient({
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [datesUnavailable, setDatesUnavailable] = useState(false);
   const [confirmationCode, setConfirmationCode] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [firstName, setFirstName] = useState("");
@@ -92,6 +96,28 @@ export default function CheckoutClient({
     [initialCheckIn, initialCheckOut]
   );
   const nights = nightIsos.length;
+
+  useEffect(() => {
+    if (!property?.slug || nightIsos.length === 0) return undefined;
+    let cancelled = false;
+    (async () => {
+      try {
+        const response = await fetch(`/api/availability/${property.slug}`);
+        if (!response.ok) return;
+        const data = await response.json();
+        const blocked = new Set(data.disabledDates || []);
+        const hit = nightIsos.some((iso) => blocked.has(iso));
+        if (cancelled) return;
+        setDatesUnavailable(hit);
+        if (hit) setSubmitError(DATES_UNAVAILABLE_MESSAGE);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [property?.slug, nightIsos]);
   const guestSummary = formatGuestSelectionSummary(guests);
   const minimumNights = resolveMinimumNights(property);
   const belowMinimumStay = nights > 0 && nights < minimumNights;
@@ -172,7 +198,7 @@ export default function CheckoutClient({
       router.push(propertyHref);
       return;
     }
-    if (belowMinimumStay) return;
+    if (belowMinimumStay || datesUnavailable) return;
     if (currentStep === 1) {
       if (!isGuestInfoValid) return;
       setCurrentStep(2);
@@ -251,11 +277,13 @@ export default function CheckoutClient({
     ? false
     : submitting
       ? true
-      : belowMinimumStay
+      : datesUnavailable
         ? true
-        : currentStep === 1
-          ? !isGuestInfoValid
-          : !termsAccepted;
+        : belowMinimumStay
+          ? true
+          : currentStep === 1
+            ? !isGuestInfoValid
+            : !termsAccepted;
 
   const primaryLabel = success
     ? t("checkout.ok")

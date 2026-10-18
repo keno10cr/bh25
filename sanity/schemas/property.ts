@@ -1,4 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+import { WebsiteIcalUrlInput } from "../components/WebsiteIcalUrlInput";
 import { i18nFieldset, localizedField, TRANSLATION_LOCALES } from "./i18n";
 
 function galleryImageTextFields() {
@@ -50,6 +51,7 @@ export const property = defineType({
     { name: "rules", title: "House rules" },
     { name: "media", title: "Media" },
     { name: "map", title: "Map" },
+    { name: "calendar", title: "Calendar" },
   ],
   fields: [
     defineField({
@@ -578,6 +580,49 @@ export const property = defineType({
       description:
         "When on, this unit appears in availability and booking flows. Turn off to hide without deleting. Example: off during renovation.",
       initialValue: true,
+    }),
+    defineField({
+      name: "airbnbIcalUrl",
+      title: "Airbnb iCal import URL",
+      type: "url",
+      group: "calendar",
+      description:
+        "Paste the Airbnb export link for this villa. In Airbnb open the listing calendar, then Availability, then Export calendar. The link ends in .ics and includes a private token, so use only this villa's link. Example: https://www.airbnb.com/calendar/ical/12345678.ics?s=secret. Imported nights refresh about every 20 minutes and show as unavailable on the website and in group quotes.",
+      validation: (Rule) =>
+        Rule.uri({ scheme: ["https"] }).custom((value) => {
+          if (!value) return true;
+          try {
+            const url = new URL(value);
+            const host = url.hostname.toLowerCase();
+            if (host !== "airbnb.com" && !host.endsWith(".airbnb.com")) {
+              return "Use the Airbnb export link from airbnb.com.";
+            }
+            if (!url.pathname.toLowerCase().includes(".ics")) {
+              return "Paste the .ics calendar export link.";
+            }
+            return true;
+          } catch {
+            return "Enter a valid Airbnb .ics link.";
+          }
+        }),
+    }),
+    defineField({
+      name: "websiteIcalUrl",
+      title: "Website iCal export URL",
+      type: "string",
+      group: "calendar",
+      readOnly: true,
+      description:
+        "Read only. Copy this link into Airbnb under Import calendar. It lists paid website bookings and manual blocked dates for this villa. Publish the villa before Airbnb fetches it.",
+      components: { input: WebsiteIcalUrlInput },
+    }),
+    defineField({
+      name: "airbnbIcalSyncedAt",
+      title: "Airbnb calendar last synced",
+      type: "datetime",
+      group: "calendar",
+      readOnly: true,
+      hidden: true,
     }),
   ],
   preview: {

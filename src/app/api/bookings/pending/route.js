@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { DATES_UNAVAILABLE_MESSAGE } from "@/lib/availabilityDates";
+import { ensureAirbnbCalendarsFresh } from "@/lib/ical/syncAirbnb";
+import { conflictingNights, loadPropertyCalendar } from "@/lib/inventory";
 import { createPendingStayBooking } from "@/lib/stayBooking";
-import { createSanityServerClient } from "@/lib/sanity/client";
+import { createSanityReadClient, createSanityServerClient } from "@/lib/sanity/client";
 
 export const runtime = "nodejs";
 
@@ -134,6 +137,21 @@ export async function POST(request) {
     return NextResponse.json(
       { error: "Missing required booking fields." },
       { status: 400 }
+    );
+  }
+
+  try {
+    await ensureAirbnbCalendarsFresh({ propertyId });
+    const calendar = await loadPropertyCalendar(createSanityReadClient(), propertyId);
+    const conflicts = conflictingNights(checkIn, checkOut, calendar.disabledNights);
+    if (conflicts.length) {
+      return NextResponse.json({ error: DATES_UNAVAILABLE_MESSAGE }, { status: 409 });
+    }
+  } catch (error) {
+    console.error("[bookings/pending] availability check failed", error);
+    return NextResponse.json(
+      { error: "Could not confirm those dates. Please try again." },
+      { status: 503 }
     );
   }
 

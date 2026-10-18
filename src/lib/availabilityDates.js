@@ -25,6 +25,23 @@ export function formatIsoDate(date) {
   return `${y}-${m}-${d}`;
 }
 
+export function todayIsoDate() {
+  const now = new Date();
+  return formatIsoDate(
+    new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
+  );
+}
+
+/** Shift a YYYY-MM-DD date by a number of UTC days. */
+export function addIsoDays(iso, days) {
+  const date = parseIsoDate(iso);
+  if (!date || !Number.isInteger(days)) return null;
+  return formatIsoDate(addUtcDays(date, days));
+}
+
+export const DATES_UNAVAILABLE_MESSAGE =
+  "Those dates are unavailable. Choose different nights.";
+
 export function addUtcDays(date, days) {
   const next = new Date(date.getTime());
   next.setUTCDate(next.getUTCDate() + days);

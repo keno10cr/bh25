@@ -9,6 +9,7 @@ import {
   withExtraGuestStayFee,
 } from "@/lib/bookingPricing";
 import {
+  DATES_UNAVAILABLE_MESSAGE,
   occupiedNightsFromStay,
   tomorrowIsoDate,
 } from "@/lib/availabilityDates";
@@ -367,8 +368,12 @@ export default function PropertyBookingSidebar({
   }, [stayPricing, inColones, crcBaseRate, cleaningFeeUsd, nights, stayDiscounts]);
 
   const meetsMinimum = nights > 0 && nights >= minimumNights;
+  const stayHitsBlockedNight =
+    nightIsos.length > 0 && nightIsos.some((iso) => disabledDates.has(iso));
   const canReserve =
-    Boolean(checkIn && checkOut && guests.adults > 0 && meetsMinimum && stayPricing);
+    Boolean(checkIn && checkOut && guests.adults > 0 && meetsMinimum && stayPricing) &&
+    !stayHitsBlockedNight &&
+    !loadingAvailability;
 
   const quotePayload = stayPricing
     ? {
@@ -620,6 +625,10 @@ export default function PropertyBookingSidebar({
             </div>
           ) : null}
         </div>
+
+        {stayHitsBlockedNight ? (
+          <p className={styles.warning}>{DATES_UNAVAILABLE_MESSAGE}</p>
+        ) : null}
 
         {nights > 0 && !meetsMinimum ? (
           <p className={styles.warning}>

@@ -9,6 +9,7 @@ import {
   toIsoDateList,
   tomorrowIsoDate,
 } from "@/lib/availabilityDates";
+import { ensureAirbnbCalendarsFresh } from "@/lib/ical/syncAirbnb";
 import { sumHouseArrangementCapacity } from "@/lib/propertyPricing";
 
 export const metadata = {
@@ -63,6 +64,7 @@ function photoUrl(image, width, height) {
 }
 
 async function loadGroupQuoteData() {
+  await ensureAirbnbCalendarsFresh();
   const client = createSanityReadClient();
   const from = tomorrowIsoDate();
   const [properties, calendar, settings, footer] = await Promise.all([
