@@ -19,6 +19,7 @@ const PROPERTY_QUERY = `
   minimumNights,
   baseGuestCount,
   extraGuestFeePerNight,
+  cleaningFee,
   seasonalPricing[]{
     startDate,
     endDate,
@@ -102,6 +103,7 @@ export async function GET(_request, context) {
       minimumNights: property.minimumNights ?? null,
       baseGuestCount: property.baseGuestCount ?? null,
       extraGuestFeePerNight: property.extraGuestFeePerNight ?? null,
+      cleaningFee: property.cleaningFee ?? null,
       guestsMax: guestsMax || null,
       minCheckInDate: tomorrowIsoDate(),
     });

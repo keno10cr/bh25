@@ -56,3 +56,19 @@ export async function getUsdToCrcRate() {
 
   return null;
 }
+
+/** Base rate for colón prices: the fixed rate from System Settings when set, else the live rate. */
+export async function getCrcBaseRate(settings) {
+  const fixed = Number(settings?.crcBaseRate);
+  if (Number.isFinite(fixed) && fixed > 0) {
+    return {
+      rate: fixed,
+      source: "Fixed base rate (System Settings)",
+      sourceEs: "tipo de cambio base fijo (System Settings)",
+      date: null,
+      fixed: true,
+    };
+  }
+  const live = await getUsdToCrcRate();
+  return live ? { ...live, fixed: false } : null;
+}

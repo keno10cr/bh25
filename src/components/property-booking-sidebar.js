@@ -25,7 +25,17 @@ import {
   resolveExtraGuestFeePerNight,
   resolveMinimumNights,
 } from "@/lib/propertyPricing";
+import { formatCrc, usdToCrc } from "@/lib/currency";
+import {
+  resolveLengthOfStayDiscount,
+  stayDiscountAmount,
+  stayDiscountLabel,
+  stayDiscountPercents,
+} from "@/lib/stayDiscounts";
+import { useLanguage } from "@/contexts/LanguageContext";
 import styles from "./property-booking-sidebar.module.css";
+
+const CURRENCY_STORAGE_KEY = "blessedhouse-currency";
 
 const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const MONTHS = [
@@ -131,7 +141,7 @@ function CalendarMonth({
   );
 }
 
-function money(amount) {
+function usdMoney(amount) {
   return `$${Number(amount || 0).toLocaleString("en-US", {
     maximumFractionDigits: 0,
   })}`;
@@ -141,7 +151,30 @@ export default function PropertyBookingSidebar({
   property,
   reviews = [],
   villaNumericId,
+  crcBaseRate = null,
+  stayDiscounts = null,
 }) {
+  const { language } = useLanguage();
+  const [chosenCurrency, setChosenCurrency] = useState(null);
+  const canShowColones = Number(crcBaseRate) > 0;
+  const currency =
+    canShowColones && (chosenCurrency || (language === "es" ? "CRC" : "USD")) === "CRC"
+      ? "CRC"
+      : "USD";
+  const inColones = currency === "CRC";
+  const money = inColones ? formatCrc : usdMoney;
+  const toDisplay = (usd) => (inColones ? usdToCrc(usd, crcBaseRate) : usd);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem(CURRENCY_STORAGE_KEY);
+    if (saved === "USD" || saved === "CRC") setChosenCurrency(saved);
+  }, []);
+
+  const chooseCurrency = (next) => {
+    setChosenCurrency(next);
+    window.localStorage.setItem(CURRENCY_STORAGE_KEY, next);
+  };
+
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState({ adults: 2, children: 0, pets: 0 });
@@ -152,6 +185,7 @@ export default function PropertyBookingSidebar({
   const [liveBaseGuestCount, setLiveBaseGuestCount] = useState(null);
   const [liveExtraGuestFee, setLiveExtraGuestFee] = useState(null);
   const [liveMinimumNights, setLiveMinimumNights] = useState(null);
+  const [liveCleaningFee, setLiveCleaningFee] = useState(null);
   const [minIso, setMinIso] = useState(() => tomorrowIsoDate());
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [guestOpen, setGuestOpen] = useState(false);
@@ -226,6 +260,9 @@ export default function PropertyBookingSidebar({
         if (typeof data.minimumNights === "number" && data.minimumNights >= 1) {
           setLiveMinimumNights(data.minimumNights);
         }
+        if (typeof data.cleaningFee === "number" && data.cleaningFee >= 0) {
+          setLiveCleaningFee(data.cleaningFee);
+        }
         if (typeof data.guestsMax === "number" && data.guestsMax > 0) {
           setGuests((prev) =>
             clampGuestSelection(
@@ -286,6 +323,48 @@ export default function PropertyBookingSidebar({
     guests,
     pricingProperty,
   ]);
+
+  const cleaningFeeUsd = Math.max(
+    0,
+    Number(liveCleaningFee ?? property?.cleaningFee) || 0
+  );
+
+  /** Colón prices convert each unit rate first, so every line matches the published ₡ rates. */
+  const displayPricing = useMemo(() => {
+    if (!stayPricing) return null;
+    const convert = (usd) => (inColones ? usdToCrc(usd, crcBaseRate) : usd);
+    const lines = stayPricing.lines.map((line) => {
+      const rate = convert(line.rate);
+      return { ...line, rate, subtotal: inColones ? rate * line.count : line.subtotal };
+    });
+    const extra = stayPricing.extraGuest;
+    const extraGuest = extra
+      ? {
+          ...extra,
+          feePerNight: convert(extra.feePerNight),
+          subtotal: inColones
+            ? convert(extra.feePerNight) * extra.extraGuests * extra.nights
+            : extra.subtotal,
+        }
+      : null;
+    const nightlyTotal = lines.reduce((sum, line) => sum + line.subtotal, 0);
+    const accommodation = nightlyTotal + (extraGuest?.subtotal ?? 0);
+    const stayRule = resolveLengthOfStayDiscount(nights, stayDiscountPercents(stayDiscounts));
+    const stayDiscount = stayRule
+      ? {
+          ...stayRule,
+          amount: stayDiscountAmount(accommodation, stayRule.percent, inColones ? 0 : 2),
+        }
+      : null;
+    const cleaningFee = convert(cleaningFeeUsd);
+    return {
+      lines,
+      extraGuest,
+      stayDiscount,
+      cleaningFee,
+      total: accommodation - (stayDiscount?.amount ?? 0) + cleaningFee,
+    };
+  }, [stayPricing, inColones, crcBaseRate, cleaningFeeUsd, nights, stayDiscounts]);
 
   const meetsMinimum = nights > 0 && nights >= minimumNights;
   const canReserve =
@@ -360,6 +439,14 @@ export default function PropertyBookingSidebar({
     });
   };
 
+  const discountPercents = stayDiscountPercents(stayDiscounts);
+  const stayDiscountParts = [
+    discountPercents.weekly > 0 ? `${discountPercents.weekly}% off 7+ nights` : "",
+    discountPercents.monthly > 0 ? `${discountPercents.monthly}% off 28+ nights` : "",
+  ].filter(Boolean);
+  const stayDiscountHint = stayDiscountParts.length
+    ? `${stayDiscountParts.join(", ")}. `
+    : "";
   const baseIncluded = resolveBaseGuestCount(pricingProperty);
   const extraFee = resolveExtraGuestFeePerNight(pricingProperty);
 
@@ -368,20 +455,22 @@ export default function PropertyBookingSidebar({
       <div className={styles.card}>
         <p className={styles.preheader}>
           {checkIn && checkOut
-            ? "This price includes all fees except tax and service fee (shown at checkout)"
+            ? cleaningFeeUsd > 0
+              ? "This price includes the cleaning fee. Tax is added at checkout."
+              : "This price includes all fees except tax (shown at checkout)"
             : "Select dates to see pricing"}
         </p>
 
         <div className={styles.priceRow}>
           <div>
-            {stayPricing ? (
+            {displayPricing ? (
               <>
-                <span className={styles.price}>{money(stayPricing.total)}</span>
+                <span className={styles.price}>{money(displayPricing.total)}</span>
                 <span className={styles.priceMeta}> for {nights} nights</span>
               </>
             ) : (
               <>
-                <span className={styles.price}>{money(publishedRate)}</span>
+                <span className={styles.price}>{money(toDisplay(publishedRate))}</span>
                 <span className={styles.priceMeta}> / night</span>
               </>
             )}
@@ -397,28 +486,41 @@ export default function PropertyBookingSidebar({
           ) : null}
         </div>
 
-        {stayPricing ? (
+        {displayPricing ? (
           <div className={styles.breakdown}>
-            {stayPricing.lines.map((line) => (
+            {displayPricing.lines.map((line) => (
               <div key={`${line.label}-${line.rate}`}>
                 {line.count} × {line.label} · {money(line.rate)} / night:{" "}
                 {money(line.subtotal)}
               </div>
             ))}
-            {stayPricing.extraGuest ? (
+            {displayPricing.extraGuest ? (
               <div>
-                Extra guest fee ({stayPricing.extraGuest.extraGuests} extra ×{" "}
-                {money(stayPricing.extraGuest.feePerNight)}/night): +
-                {money(stayPricing.extraGuest.subtotal)}
+                Extra guest fee ({displayPricing.extraGuest.extraGuests} extra ×{" "}
+                {money(displayPricing.extraGuest.feePerNight)}/night): +
+                {money(displayPricing.extraGuest.subtotal)}
               </div>
+            ) : null}
+            {displayPricing.stayDiscount ? (
+              <div className={styles.discountLine}>
+                {stayDiscountLabel(displayPricing.stayDiscount)}: −
+                {money(displayPricing.stayDiscount.amount)}
+              </div>
+            ) : null}
+            {displayPricing.cleaningFee > 0 ? (
+              <div>Cleaning fee (once per stay): +{money(displayPricing.cleaningFee)}</div>
             ) : null}
           </div>
         ) : (
           <p className={styles.hint}>
             Rate includes {baseIncluded} guest{baseIncluded === 1 ? "" : "s"}
             {extraFee > 0
-              ? `. Extra guests ${money(extraFee)} / person / night.`
+              ? `. Extra guests ${money(toDisplay(extraFee))} / person / night.`
               : "."}{" "}
+            {cleaningFeeUsd > 0
+              ? `Cleaning fee ${money(toDisplay(cleaningFeeUsd))} per stay. `
+              : ""}
+            {stayDiscountHint}
             Minimum stay {minimumNights} night{minimumNights === 1 ? "" : "s"} for
             booking requests.
           </p>
@@ -495,12 +597,12 @@ export default function PropertyBookingSidebar({
                   </div>
                 </div>
               ))}
-              {stayPricing ? (
+              {displayPricing ? (
                 <p className={styles.guestLiveTotal} aria-live="polite">
-                  {money(stayPricing.total)} for {nights} night{nights === 1 ? "" : "s"}
-                  {stayPricing.extraGuest
-                    ? ` (includes ${stayPricing.extraGuest.extraGuests} extra guest${
-                        stayPricing.extraGuest.extraGuests === 1 ? "" : "s"
+                  {money(displayPricing.total)} for {nights} night{nights === 1 ? "" : "s"}
+                  {displayPricing.extraGuest
+                    ? ` (includes ${displayPricing.extraGuest.extraGuests} extra guest${
+                        displayPricing.extraGuest.extraGuests === 1 ? "" : "s"
                       })`
                     : ""}
                 </p>
@@ -540,6 +642,33 @@ export default function PropertyBookingSidebar({
             {checkIn && checkOut ? "Check availability" : "Check availability"}
           </button>
         )}
+
+        {canShowColones ? (
+          <div className={styles.currencyToggle}>
+            <div role="radiogroup" aria-label="Currency" className={styles.currencyOptions}>
+              {[
+                { value: "USD", label: "USD ($)" },
+                { value: "CRC", label: "CRC (₡)" },
+              ].map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={currency === option.value}
+                  className={currency === option.value ? styles.currencyActive : ""}
+                  onClick={() => chooseCurrency(option.value)}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+            {inColones ? (
+              <p className={styles.currencyNote}>
+                Colones are for reference. Payment is processed in USD at checkout.
+              </p>
+            ) : null}
+          </div>
+        ) : null}
 
         {canReserve ? (
           <p className={styles.noCharge}>

@@ -37,7 +37,8 @@ export const AIRBNB_HOST_URL = "https://www.airbnb.com/users/show/549621434";
 export const STATIC_VILLAS = [
   {
     id: 3,
-    name: "Villa #3 Baula Turtle",
+    name: "Villa #3 Tortuga Baula",
+    nameEn: "Villa #3 Leatherback Turtle",
     slug: "villa-3-baula-turtle",
     translationKey: "villa3",
     bedrooms: 4,
@@ -52,6 +53,7 @@ export const STATIC_VILLAS = [
   {
     id: 4,
     name: "Villa #4 Colibrí",
+    nameEn: "Villa #4 Hummingbird",
     slug: "villa-4-colibri",
     translationKey: "villa4",
     bedrooms: 1,
@@ -66,6 +68,7 @@ export const STATIC_VILLAS = [
   {
     id: 5,
     name: "Villa #5 Jaguar",
+    nameEn: "Villa #5 Jaguar",
     slug: "villa-5-jaguar",
     translationKey: "villa5",
     bedrooms: 3,
@@ -80,6 +83,7 @@ export const STATIC_VILLAS = [
   {
     id: 6,
     name: "Villa #6 Rana Roja",
+    nameEn: "Villa #6 Red Frog",
     slug: "villa-6-rana-roja",
     translationKey: "villa6",
     bedrooms: 1,
@@ -94,6 +98,7 @@ export const STATIC_VILLAS = [
   {
     id: 7,
     name: "Villa #7 Rana Verde",
+    nameEn: "Villa #7 Green Frog",
     slug: "villa-7-rana-verde",
     translationKey: "villa7",
     bedrooms: 2,
@@ -107,7 +112,8 @@ export const STATIC_VILLAS = [
   },
   {
     id: 8,
-    name: "Villa #8 Oso peresozo",
+    name: "Villa #8 Oso Perezoso",
+    nameEn: "Villa #8 Sloth",
     slug: "villa-8-oso-peresozo",
     translationKey: "villa8",
     bedrooms: 1,
@@ -122,6 +128,7 @@ export const STATIC_VILLAS = [
   {
     id: 9,
     name: "Villa #9 Mono Cariblanco",
+    nameEn: "Villa #9 Capuchin Monkey",
     slug: "villa-9-mono-cariblanco",
     translationKey: "villa9",
     bedrooms: 1,
@@ -136,6 +143,7 @@ export const STATIC_VILLAS = [
   {
     id: 10,
     name: "Villa #10 Mono Ardilla",
+    nameEn: "Villa #10 Squirrel Monkey",
     slug: "villa-10-mono-ardilla",
     translationKey: "villa10",
     bedrooms: 1,
@@ -150,6 +158,7 @@ export const STATIC_VILLAS = [
   {
     id: 11,
     name: "Villa #11 Lapa Roja",
+    nameEn: "Villa #11 Scarlet Macaw",
     slug: "villa-11-lapa-roja",
     translationKey: "villa11",
     bedrooms: 2,
@@ -164,6 +173,7 @@ export const STATIC_VILLAS = [
   {
     id: 12,
     name: "Villa #12 Mariposa Morpho",
+    nameEn: "Villa #12 Blue Morpho Butterfly",
     slug: "villa-12-mariposa-morpho",
     translationKey: "villa12",
     bedrooms: 2,

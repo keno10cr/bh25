@@ -14,9 +14,23 @@ import {
   getDefaultPublishedNightly,
   resolveBaseGuestCount,
   resolveExtraGuestFeePerNight,
+  resolveMinimumNights,
 } from "@/lib/propertyPricing";
 import { PROPOSAL_COPY } from "@/components/proposal-generator/copy";
-import { normalizeCheckoutFees, resolveFeeTitle } from "@/lib/checkoutFees";
+import {
+  CLEANING_FEE_ID,
+  normalizeCheckoutFees,
+  resolveFeeTitle,
+} from "@/lib/checkoutFees";
+import {
+  convertAmount,
+  crcRate,
+  formatCrc,
+  propertyInCrc,
+  usdToCrc,
+} from "@/lib/currency";
+import { villaName } from "@/lib/localized";
+import { resolveLengthOfStayDiscount, stayDiscountPercents } from "@/lib/stayDiscounts";
 import { ADD_ON_PRESETS, QUOTE_COPY } from "./copy";
 import styles from "./group-quote-tool.module.css";
 
@@ -56,15 +70,11 @@ function money(amount, currency = "USD", lang = "en") {
   }
 }
 
-const CRC_FORMAT = new Intl.NumberFormat("es-CR", {
-  style: "currency",
-  currency: "CRC",
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-});
-
-function colones(amount) {
-  return CRC_FORMAT.format(Number.isFinite(amount) ? amount : 0);
+function rateLabel(rate) {
+  return `₡${Number(rate || 0).toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
 }
 
 function parseRate(value) {
@@ -191,10 +201,11 @@ export default function GroupQuoteTool({
     value: "",
     label: "Group discount",
   });
-  const [stayDiscounts, setStayDiscounts] = useState({
-    weekly: { enabled: false, percent: "15" },
-    monthly: { enabled: false, percent: "30" },
-  });
+  const sitePercents = useMemo(() => stayDiscountPercents(settings), [settings]);
+  const [stayDiscounts, setStayDiscounts] = useState(() => ({
+    weekly: { enabled: sitePercents.weekly > 0, percent: String(sitePercents.weekly || 15) },
+    monthly: { enabled: sitePercents.monthly > 0, percent: String(sitePercents.monthly || 30) },
+  }));
   const [priceDisplay, setPriceDisplay] = useState("original");
   const [rateDetail, setRateDetail] = useState("itemized");
   const [showExceptions, setShowExceptions] = useState(true);
@@ -250,22 +261,35 @@ export default function GroupQuoteTool({
   const defaultUnits = (item) =>
     item.category === "meal" ? groupNights.length || 1 : 1;
 
-  const addOnLines = useMemo(
-    () =>
-      buildAddOnLines(
-        addOns.map((item) => {
-          const price = Number(item.price) || 0;
-          return {
-            id: item.id,
-            category: item.category,
-            name: item.name.trim(),
-            unitPriceUsd:
-              item.currency === "CRC" ? (activeRate ? price / activeRate : 0) : price,
-            people: item.people ?? groupSize,
-            units: item.units ?? defaultUnits(item),
-          };
-        })
-      ),
+  /** Add on prices in the quote currency. Dollar prices become rounded colón list prices. */
+  const addOnLinesIn = (target) =>
+    buildAddOnLines(
+      addOns.map((item) => {
+        const price = Number(item.price) || 0;
+        let unitPrice = price;
+        if (item.currency !== target) {
+          if (!activeRate) unitPrice = 0;
+          else if (target === "CRC") unitPrice = usdToCrc(price, activeRate);
+          else unitPrice = convertAmount(price, "CRC", "USD", activeRate);
+        }
+        return {
+          id: item.id,
+          category: item.category,
+          name: item.name.trim(),
+          unitPriceUsd: unitPrice,
+          people: item.people ?? groupSize,
+          units: item.units ?? defaultUnits(item),
+        };
+      })
+    );
+  const addOnLinesUsd = useMemo(
+    () => addOnLinesIn("USD"),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [addOns, activeRate, groupSize, groupNights.length]
+  );
+  const addOnLinesCrc = useMemo(
+    () => addOnLinesIn("CRC"),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [addOns, activeRate, groupSize, groupNights.length]
   );
 
@@ -298,34 +322,85 @@ export default function GroupQuoteTool({
   const rateIsLive =
     Boolean(exchangeRate?.rate) && activeRate === exchangeRate.rate;
 
-  const discountUsd = useMemo(() => {
-    if (discount.type !== "fixed" || !inColones) return discount;
+  /** A fixed discount is typed in the display currency; the other quote gets it converted. */
+  const discountIn = (target) => {
+    if (discount.type !== "fixed" || displayCurrency === target) return discount;
     const value = Number(discount.value);
     return {
       ...discount,
-      value: activeRate && Number.isFinite(value) ? value / activeRate : 0,
+      value:
+        activeRate && Number.isFinite(value)
+          ? convertAmount(value, displayCurrency, target, activeRate)
+          : 0,
     };
-  }, [discount, inColones, activeRate]);
+  };
 
-  const quote = useMemo(
+  const quoteUsd = useMemo(
     () =>
       buildGroupQuote({
         selections,
         stayDiscounts,
-        discount: discountUsd,
-        addOns: addOnLines,
+        discount: discountIn("USD"),
+        addOns: addOnLinesUsd,
         excludedFeeIds,
         includeTax,
         settings,
       }),
-    [selections, stayDiscounts, discountUsd, addOnLines, excludedFeeIds, includeTax, settings]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selections, stayDiscounts, discount, displayCurrency, activeRate, addOnLinesUsd, excludedFeeIds, includeTax, settings]
   );
+
+  /** Same quote run on colón list prices, so every colón line adds up exactly. */
+  const quoteCrc = useMemo(
+    () =>
+      activeRate
+        ? buildGroupQuote({
+            selections: selections.map((selection) => ({
+              ...selection,
+              property: propertyInCrc(selection.property, activeRate),
+            })),
+            stayDiscounts,
+            discount: discountIn("CRC"),
+            addOns: addOnLinesCrc,
+            excludedFeeIds,
+            includeTax,
+            settings,
+          })
+        : null,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selections, stayDiscounts, discount, displayCurrency, activeRate, addOnLinesCrc, excludedFeeIds, includeTax, settings]
+  );
+
+  const quote = inColones && quoteCrc ? quoteCrc : quoteUsd;
+
+  /** Villas whose stay discount here is lower than what the same stay gets online. */
+  const belowWebsiteRate = quoteUsd.rows
+    .filter((row) => {
+      if (!row.quote) return false;
+      const site = resolveLengthOfStayDiscount(row.quote.nights, sitePercents);
+      return site && (row.stayDiscount?.percent ?? 0) < site.percent;
+    })
+    .map((row) => row.property.name);
 
   const updateStayDiscount = (kind, patch) => {
     setStayDiscounts((prev) => ({ ...prev, [kind]: { ...prev[kind], ...patch } }));
   };
 
-  const checkoutFees = useMemo(() => normalizeCheckoutFees(settings), [settings]);
+  const hasFlatCleaning = villas.some((villa) => Number(villa.cleaningFee) > 0);
+  const checkoutFees = useMemo(() => {
+    const catalog = normalizeCheckoutFees(settings);
+    if (!hasFlatCleaning) return catalog;
+    return [
+      {
+        feeId: CLEANING_FEE_ID,
+        titleEn: "Cleaning fee",
+        titleEs: "Tarifa de limpieza",
+        feeType: "flat",
+        perVilla: true,
+      },
+      ...catalog.filter((fee) => fee.feeId !== CLEANING_FEE_ID),
+    ];
+  }, [settings, hasFlatCleaning]);
   const toggleFee = (feeId, on) => {
     setExcludedFeeIds((prev) =>
       on ? prev.filter((id) => id !== feeId) : [...prev, feeId]
@@ -336,12 +411,14 @@ export default function GroupQuoteTool({
 
   const pricedRows = quote.rows.filter((row) => row.quote);
   const hasContent = pricedRows.length > 0 || quote.addOnLines.length > 0;
-  const currency = pricedRows[0]?.property.currency || settings.currency || "USD";
-  const fmt = (usd, language = "en") =>
-    inColones && activeRate
-      ? colones(usd * activeRate)
-      : money(usd, currency, language);
-  const docFmt = (usd) => fmt(usd, lang);
+  const currency = "USD";
+  const fmt = (amount, language = "en") =>
+    inColones && quoteCrc ? formatCrc(amount) : money(amount, currency, language);
+  const docFmt = (amount) => fmt(amount, lang);
+  /** A USD list price from Sanity, shown in the display currency. */
+  const fmtPrice = (usd) =>
+    inColones && activeRate ? formatCrc(usdToCrc(usd, activeRate)) : money(usd, currency);
+  const bufferedRate = crcRate(activeRate);
 
   const t = QUOTE_COPY[lang];
   const leftOff = [
@@ -400,10 +477,10 @@ export default function GroupQuoteTool({
     if (next === displayCurrency) return;
     const value = Number(discount.value);
     if (discount.type === "fixed" && activeRate && Number.isFinite(value) && value > 0) {
-      const converted = next === "CRC" ? value * activeRate : value / activeRate;
+      const converted = convertAmount(value, displayCurrency, next, activeRate);
       setDiscount((prev) => ({
         ...prev,
-        value: String(Math.round(converted * 100) / 100),
+        value: String(next === "CRC" ? Math.round(converted) : Math.round(converted * 100) / 100),
       }));
     }
     setDisplayCurrency(next);
@@ -416,6 +493,29 @@ export default function GroupQuoteTool({
   }`;
   const stayDiscountTitle = (line, language = lang) =>
     QUOTE_COPY[language].stayDiscount(line.kind, line.percent);
+  const summaryRows = (q) => [
+    { key: "accommodation", label: "Accommodation", amount: q.subtotal },
+    ...q.stayDiscountLines.map((line) => ({
+      key: `stay-${line.kind}-${line.percent}`,
+      label: stayDiscountTitle(line, "en"),
+      amount: line.amount,
+      discount: true,
+    })),
+    ...(q.groupDiscountAmount > 0
+      ? [{ key: "group", label: discountTitle, amount: q.groupDiscountAmount, discount: true }]
+      : []),
+    ...(q.addOnsTotal > 0
+      ? [{ key: "addons", label: "Meals and services", amount: q.addOnsTotal }]
+      : []),
+    ...q.feeLines.map((line) => ({
+      key: `fee-${line.feeId}`,
+      label: withFeeRate(line.titleEn, line),
+      amount: line.subtotal,
+    })),
+    ...(q.taxes > 0
+      ? [{ key: "tax", label: `${taxTitle} (${q.taxRate}%)`, amount: q.taxes }]
+      : []),
+  ];
 
   const sharedDates =
     pricedRows.length > 0 &&
@@ -495,6 +595,7 @@ export default function GroupQuoteTool({
   };
 
   const logQuote = () => {
+    const quote = quoteUsd;
     const payload = {
       quoteNumber,
       groupName: client.groupName,
@@ -505,7 +606,7 @@ export default function GroupQuoteTool({
       totalGuests: quote.totalGuests,
       validUntil,
       quoteNotes: client.notes,
-      villas: pricedRows.map((row) => ({
+      villas: quote.rows.filter((row) => row.quote).map((row) => ({
         name: row.property.name,
         guests: row.guests,
         checkIn: row.checkIn,
@@ -605,6 +706,11 @@ export default function GroupQuoteTool({
           className={styles.toolbarLogo}
         />
       </header>
+
+      <p className={styles.syncBanner} role="note">
+        <strong>Note:</strong> External calendar syncs (Airbnb) take 2 to 4 hours to
+        update. Always double check live Airbnb status for tight same day bookings.
+      </p>
 
       <div className={styles.layout}>
         <div className={styles.controls}>
@@ -741,10 +847,14 @@ export default function GroupQuoteTool({
                       <span className={styles.villaInfo}>
                         <strong>{villa.name}</strong>
                         <span>
-                          Sleeps {villa.guestsMax} · {fmt(getDefaultPublishedNightly(villa))} / night for {base}
+                          Sleeps {villa.guestsMax} · {fmtPrice(getDefaultPublishedNightly(villa))} / night for {base}
                           {extraFee > 0
-                            ? ` · ${fmt(extraFee)} per extra guest`
+                            ? ` · ${fmtPrice(extraFee)} per extra guest`
                             : ""}
+                          {Number(villa.cleaningFee) > 0
+                            ? ` · ${fmtPrice(villa.cleaningFee)} cleaning`
+                            : ""}
+                          {` · ${resolveMinimumNights(villa)} night min`}
                         </span>
                       </span>
                       {conflicts.length > 0 ? (
@@ -819,6 +929,14 @@ export default function GroupQuoteTool({
                                 <span>−{fmt(row.stayDiscount.amount)}</span>
                               </li>
                             ) : null}
+                            {(row.feeLines || [])
+                              .filter((line) => line.feeType === "flat")
+                              .map((line) => (
+                                <li key={line.feeId}>
+                                  <span>{line.titleEn} (once per stay)</span>
+                                  <span>{fmt(line.subtotal)}</span>
+                                </li>
+                              ))}
                           </ul>
                         ) : null}
 
@@ -896,7 +1014,7 @@ export default function GroupQuoteTool({
                   <span />
                 </div>
                 {addOns.map((item, index) => {
-                  const line = addOnLines[index];
+                  const line = (inColones && quoteCrc ? addOnLinesCrc : addOnLinesUsd)[index];
                   return (
                     <div key={item.id} className={styles.addOnRow}>
                       <div className={styles.addOnName}>
@@ -980,8 +1098,8 @@ export default function GroupQuoteTool({
             <p className={styles.hint}>
               Line total is unit price × people × days or units. The discount applies to
               villa rates only.
-              {hasColonAddOns && !inColones && activeRate
-                ? ` Colón prices convert at ${colones(activeRate)} per USD.`
+              {bufferedRate
+                ? ` Prices in the other currency convert at ${rateLabel(bufferedRate)} per USD (base rate plus 12%).`
                 : ""}
             </p>
           </section>
@@ -990,11 +1108,15 @@ export default function GroupQuoteTool({
             <h2>Discounts</h2>
             <div className={styles.stayDiscounts}>
               {[
-                ["weekly", "Weekly discount", `Villas staying ${STAY_DISCOUNT_MIN_NIGHTS.weekly} nights or more.`],
+                [
+                  "weekly",
+                  "Weekly discount",
+                  `Automatic for villas staying ${STAY_DISCOUNT_MIN_NIGHTS.weekly} to ${STAY_DISCOUNT_MIN_NIGHTS.monthly - 1} nights, same as the website.`,
+                ],
                 [
                   "monthly",
                   "Monthly discount",
-                  `Villas staying ${STAY_DISCOUNT_MIN_NIGHTS.monthly} nights or more. Replaces the weekly discount.`,
+                  `Automatic for villas staying ${STAY_DISCOUNT_MIN_NIGHTS.monthly} nights or more. Replaces the weekly discount.`,
                 ],
               ].map(([kind, label, hint]) => {
                 const option = stayDiscounts[kind];
@@ -1040,6 +1162,16 @@ export default function GroupQuoteTool({
                 );
               })}
             </div>
+            {belowWebsiteRate.length > 0 ? (
+              <p className={styles.warn}>
+                {belowWebsiteRate.length === 1
+                  ? `${belowWebsiteRate[0]} gets`
+                  : `${plural(belowWebsiteRate.length, "villa")} get`}{" "}
+                less than the website discount ({sitePercents.weekly}% for 7+ nights,{" "}
+                {sitePercents.monthly}% for 28+ nights), so the client could find a lower
+                price booking online.
+              </p>
+            ) : null}
             <h3 className={styles.subhead}>Group discount</h3>
             <div className={styles.grid3}>
               <div className={styles.field}>
@@ -1091,7 +1223,7 @@ export default function GroupQuoteTool({
             <h2>Currency</h2>
             <div className={styles.grid3}>
               <div className={styles.field}>
-                <span>Show prices in</span>
+                <span>PDF prices in</span>
                 <Segmented
                   label="Quote currency"
                   value={displayCurrency}
@@ -1103,7 +1235,7 @@ export default function GroupQuoteTool({
                 />
               </div>
               <label className={styles.field}>
-                <span>Exchange rate (CRC per USD)</span>
+                <span>Base exchange rate (CRC per USD)</span>
                 <input
                   type="number"
                   min={1}
@@ -1119,16 +1251,18 @@ export default function GroupQuoteTool({
                   className={styles.linkButton}
                   onClick={() => setRateInput(String(exchangeRate.rate))}
                 >
-                  Reset to live rate
+                  Reset to {exchangeRate.fixed ? "Sanity" : "live"} rate
                 </button>
               ) : null}
             </div>
             <p className={styles.hint}>
               {exchangeRate?.rate
-                ? `Live: ${colones(exchangeRate.rate)} per USD, ${exchangeRate.source}${
+                ? `${exchangeRate.fixed ? "Fixed in System Settings" : "Live"}: ${rateLabel(
+                    exchangeRate.rate
+                  )} per USD${exchangeRate.fixed ? "" : `, ${exchangeRate.source}`}${
                     exchangeRate.date ? `, ${formatStayDate(exchangeRate.date)}` : ""
-                  }. Prices stay in USD in Sanity and are converted only for this quote.`
-                : "The live rate could not be loaded. Enter the rate manually to quote in colones."}
+                  }. Colón prices are USD × base rate × 1.12, rounded to the nearest ₡1,000, the same as the website.`
+                : "The rate could not be loaded. Enter a base rate to show colones."}
             </p>
             {rateMissing ? (
               <p className={styles.warn}>Enter an exchange rate to show colones.</p>
@@ -1257,9 +1391,11 @@ export default function GroupQuoteTool({
                   <span>
                     Add {withFeeRate(fee.titleEn, fee)}
                     <small className={styles.optionHint}>
-                      {fee.feeType === "percentage"
-                        ? `Same ${fee.amount}% charged on online bookings, on villa rates after discount.`
-                        : "Same fee charged on online bookings."}
+                      {fee.perVilla
+                        ? "Flat fee set per villa in Sanity, charged once per stay. Same as online bookings."
+                        : fee.feeType === "percentage"
+                          ? `Same ${fee.amount}% charged on online bookings, on villa rates after discount.`
+                          : "Same fee charged on online bookings."}
                     </small>
                   </span>
                 </label>
@@ -1298,53 +1434,48 @@ export default function GroupQuoteTool({
                 <dt>Guests</dt>
                 <dd>{quote.totalGuests}</dd>
               </div>
-              <div>
-                <dt>Accommodation</dt>
-                <dd>{fmt(quote.subtotal)}</dd>
-              </div>
-              {quote.stayDiscountLines.map((line) => (
-                <div key={`${line.kind}-${line.percent}`} className={styles.discountLine}>
-                  <dt>{stayDiscountTitle(line, "en")}</dt>
-                  <dd>{fmt(line.amount)} off</dd>
-                </div>
-              ))}
-              {quote.groupDiscountAmount > 0 ? (
-                <div className={styles.discountLine}>
-                  <dt>{discountTitle}</dt>
-                  <dd>{fmt(quote.groupDiscountAmount)} off</dd>
-                </div>
-              ) : null}
-              {quote.addOnsTotal > 0 ? (
-                <div>
-                  <dt>Meals and services</dt>
-                  <dd>{fmt(quote.addOnsTotal)}</dd>
-                </div>
-              ) : null}
-              {quote.feeLines.map((line) => (
-                <div key={line.feeId}>
-                  <dt>{withFeeRate(line.titleEn, line)}</dt>
-                  <dd>{fmt(line.subtotal)}</dd>
-                </div>
-              ))}
-              {quote.taxes > 0 ? (
-                <div>
-                  <dt>
-                    {taxTitle} ({quote.taxRate}%)
-                  </dt>
-                  <dd>{fmt(quote.taxes)}</dd>
-                </div>
-              ) : null}
-              <div className={styles.totalLine}>
-                <dt>Total</dt>
-                <dd>{fmt(quote.total)}</dd>
-              </div>
-              {inColones && activeRate ? (
-                <div className={styles.rateLine}>
-                  <dt>In USD at {colones(activeRate)}</dt>
-                  <dd>{money(quote.total, currency)}</dd>
-                </div>
-              ) : null}
             </dl>
+            <table className={styles.dualTable}>
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <span className={styles.srOnly}>Item</span>
+                  </th>
+                  <th scope="col">USD</th>
+                  {quoteCrc ? <th scope="col">CRC</th> : null}
+                </tr>
+              </thead>
+              <tbody>
+                {summaryRows(quoteUsd).map((item) => {
+                  const crcItem = quoteCrc
+                    ? summaryRows(quoteCrc).find((other) => other.key === item.key)
+                    : null;
+                  const cell = (amount, format) =>
+                    item.discount ? `−${format(amount)}` : format(amount);
+                  return (
+                    <tr
+                      key={item.key}
+                      className={item.discount ? styles.dualDiscount : undefined}
+                    >
+                      <th scope="row">{item.label}</th>
+                      <td>{cell(item.amount, (v) => money(v, currency))}</td>
+                      {quoteCrc ? (
+                        <td>{crcItem ? cell(crcItem.amount, formatCrc) : ""}</td>
+                      ) : null}
+                    </tr>
+                  );
+                })}
+                <tr className={styles.dualTotal}>
+                  <th scope="row">Total</th>
+                  <td>{money(quoteUsd.total, currency)}</td>
+                  {quoteCrc ? <td>{formatCrc(quoteCrc.total)}</td> : null}
+                </tr>
+              </tbody>
+            </table>
+            <p className={styles.hint}>
+              The PDF uses {inColones && quoteCrc ? "colones" : "dollars"}. Payment is
+              always charged in USD.
+            </p>
             {selectedCount > 0 && pricedRows.length < selectedCount ? (
               <p className={styles.note}>
                 {plural(selectedCount - pricedRows.length, "villa")} still need dates.
@@ -1458,7 +1589,7 @@ export default function GroupQuoteTool({
                       <div className={styles.docVillaPhoto} />
                     )}
                     <div className={styles.docVillaBody}>
-                      <h3>{row.property.name}</h3>
+                      <h3>{villaName(row.property, lang)}</h3>
                       <p className={styles.docVillaMeta}>
                         {t.sleeps(row.property.guestsMax, row.guests)}
                       </p>
@@ -1541,7 +1672,10 @@ export default function GroupQuoteTool({
                         <span>{docFmt(quote.subtotal)}</span>
                       </p>
                       {quote.stayDiscountLines.map((line) => (
-                        <p key={`${line.kind}-${line.percent}`} className={styles.docDiscount}>
+                        <p
+                          key={`${line.kind}-${line.percent}`}
+                          className={`${styles.docDiscount} ${styles.docStayDiscount}`}
+                        >
                           <span>{stayDiscountTitle(line)}</span>
                           <span>{t.off(docFmt(line.amount))}</span>
                         </p>
@@ -1590,14 +1724,7 @@ export default function GroupQuoteTool({
                     <span>{docFmt(quote.total)}</span>
                   </p>
                   <p className={styles.docFine}>
-                    {inColones && activeRate
-                      ? t.pricesInColones(
-                          colones(activeRate),
-                          rateIsLive
-                            ? t.rateSource(exchangeRate, docDate(exchangeRate.date))
-                            : ""
-                        )
-                      : t.pricesIn(currency)}
+                    {inColones && quoteCrc ? t.pricesInColones : t.pricesIn(currency)}
                     {leftOff.length > 0 ? t.notIncluded(leftOff) : ""}
                   </p>
                 </section>

@@ -152,6 +152,28 @@ export const stayBooking = defineType({
             "Total extra guest charges for the stay. Example: 160 for 2 extra guests × $40 × 2 nights.",
         }),
         defineField({
+          name: "stayDiscount",
+          title: "Length of stay discount",
+          type: "object",
+          description:
+            "Weekly (7+ nights) or monthly (28+ nights) discount taken off nightly rates and extra guest fees. Example: weekly, 15%, 126.",
+          fields: [
+            defineField({
+              name: "kind",
+              title: "Kind",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Weekly", value: "weekly" },
+                  { title: "Monthly", value: "monthly" },
+                ],
+              },
+            }),
+            defineField({ name: "percent", title: "Percent", type: "number" }),
+            defineField({ name: "amount", title: "Amount", type: "number" }),
+          ],
+        }),
+        defineField({
           name: "feeLines",
           title: "Fee line items",
           type: "array",

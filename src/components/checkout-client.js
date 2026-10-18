@@ -28,6 +28,8 @@ import {
 import { occupiedNightsFromStay } from "@/lib/availabilityDates";
 import { useTranslation } from "@/lib/translations";
 import { galleryImageUrl } from "@/lib/villa-gallery";
+import { villaName } from "@/lib/localized";
+import { stayDiscountLabel } from "@/lib/stayDiscounts";
 import styles from "./checkout.module.css";
 
 function interpolate(template, values = {}) {
@@ -60,6 +62,7 @@ export default function CheckoutClient({
   const router = useRouter();
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const propertyName = villaName(property, language);
   const [currentStep, setCurrentStep] = useState(1);
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -129,6 +132,7 @@ export default function CheckoutClient({
       subtotalOverride,
       taxRate: settings.taxRate,
       settings,
+      property,
     });
   }, [extraGuestFee, initialQuote, nights, property, settings]);
 
@@ -187,6 +191,13 @@ export default function CheckoutClient({
       currency: priceSummary.currency,
       nightlySubtotal: nightlyPortion,
       extraGuestFees: extraGuestFee?.subtotal ?? 0,
+      stayDiscount: priceSummary.stayDiscount
+        ? {
+            kind: priceSummary.stayDiscount.kind,
+            percent: priceSummary.stayDiscount.percent,
+            amount: priceSummary.stayDiscount.amount,
+          }
+        : undefined,
       feeLines: (priceSummary.feeLines || []).map((line) => ({
         feeId: line.feeId,
         title: resolveFeeTitle(line, language),
@@ -324,7 +335,7 @@ export default function CheckoutClient({
                   </div>
                 ) : null}
                 <div className={styles.successRow}>
-                  <span>{property.name}</span>
+                  <span>{propertyName}</span>
                   <strong>{money(priceSummary.total)}</strong>
                 </div>
                 <div className={styles.successRow}>
@@ -506,11 +517,11 @@ export default function CheckoutClient({
               {heroSrc ? (
                 <div className={styles.propertyImageWrap}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={heroSrc} alt={property.name} />
+                  <img src={heroSrc} alt={propertyName} />
                 </div>
               ) : null}
               <div className={styles.propertyCopy}>
-                <h2 className={styles.propertyTitle}>{property.name}</h2>
+                <h2 className={styles.propertyTitle}>{propertyName}</h2>
                 {locationLabel ? (
                   <p className={styles.propertyLocation}>{locationLabel}</p>
                 ) : null}
@@ -565,6 +576,12 @@ export default function CheckoutClient({
                     })}
                   </span>
                   <span>{money(extraGuestFee.subtotal)}</span>
+                </div>
+              ) : null}
+              {priceSummary.stayDiscount ? (
+                <div className={`${styles.priceLine} ${styles.priceLineDiscount}`}>
+                  <span>{stayDiscountLabel(priceSummary.stayDiscount, language)}</span>
+                  <span>−{money(priceSummary.stayDiscount.amount)}</span>
                 </div>
               ) : null}
               {(priceSummary.feeLines || []).map((fee) => (

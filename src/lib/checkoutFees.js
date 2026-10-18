@@ -50,6 +50,36 @@ export function normalizeCheckoutFees(settings = {}) {
   return [];
 }
 
+export const CLEANING_FEE_ID = "cleaning-fee";
+
+const CLEANING_FEE_TITLES = {
+  titleEn: "Cleaning fee",
+  titleEs: "Tarifa de limpieza",
+  titleDe: "Reinigungsgebühr",
+  titleNl: "Schoonmaakkosten",
+  titleFr: "Frais de ménage",
+  titleJa: "清掃料金",
+  titlePt: "Taxa de limpeza",
+  titleAr: "رسوم التنظيف",
+};
+
+/** Catalog fees for one villa. A flat villa cleaning fee replaces the catalog cleaning fee row. */
+export function resolvePropertyFees(settings = {}, property = null) {
+  const fees = normalizeCheckoutFees(settings);
+  const cleaningFee = Number(property?.cleaningFee);
+  if (!Number.isFinite(cleaningFee) || cleaningFee <= 0) return fees;
+  return [
+    {
+      ...CLEANING_FEE_TITLES,
+      feeId: CLEANING_FEE_ID,
+      feeType: "flat",
+      amount: cleaningFee,
+      application: "perStay",
+    },
+    ...fees.filter((fee) => fee.feeId !== CLEANING_FEE_ID),
+  ];
+}
+
 export function resolveFeeTitle(fee, language = "en") {
   if (!fee) return "Fee";
   if (language === "en") return fee.titleEn || "Fee";

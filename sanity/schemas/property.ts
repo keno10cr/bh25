@@ -52,14 +52,22 @@ export const property = defineType({
     { name: "map", title: "Map" },
   ],
   fields: [
-    ...localizedField({
+    defineField({
       name: "name",
-      title: "Name",
+      title: "Name (Spanish)",
       type: "string",
       group: "basics",
       description:
-        "Public listing name shown on cards and the detail page. Example: Villa 8 or Airport Suite 1.",
+        "Main listing name, written in Spanish. Spanish visitors see this one. Example: Villa #8 Oso Perezoso.",
       validation: (Rule) => Rule.required().min(2),
+    }),
+    defineField({
+      name: "nameEn",
+      title: "Name (English)",
+      type: "string",
+      group: "basics",
+      description:
+        "English version of the name. Shown in English and every other language. Leave empty to use the Spanish name. Example: Villa #8 Sloth.",
     }),
     defineField({
       name: "slug",
@@ -278,6 +286,15 @@ export const property = defineType({
       group: "pricing",
       description:
         "USD (or property currency) charged per extra adult/child above the base count, per night. Example: 40. Leave empty or 0 for no extra guest charges.",
+      validation: (Rule) => Rule.min(0),
+    }),
+    defineField({
+      name: "cleaningFee",
+      title: "Cleaning fee (USD, flat per stay)",
+      type: "number",
+      group: "pricing",
+      description:
+        "Charged once per booking, whatever the number of nights. Replaces the cleaning fee percentage in System Settings for this villa. Colones are calculated automatically. Example: 75.",
       validation: (Rule) => Rule.min(0),
     }),
     defineField({

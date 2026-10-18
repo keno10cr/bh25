@@ -2,7 +2,7 @@ import GroupQuoteTool from "@/components/group-quote/group-quote-tool";
 import { createSanityReadClient } from "@/lib/sanity/client";
 import { urlForImage } from "@/lib/sanity/image";
 import { getSystemSettings } from "@/lib/systemSettingsData";
-import { getUsdToCrcRate } from "@/lib/exchangeRate";
+import { getCrcBaseRate } from "@/lib/exchangeRate";
 import { getFooterSettings } from "@/lib/sanity/content";
 import {
   occupiedNightsFromStay,
@@ -22,6 +22,7 @@ export const dynamic = "force-dynamic";
 const PROPERTIES_QUERY = `*[_type == "property" && listed != false && defined(slug.current) && !(_id in path("drafts.**"))]{
   _id,
   name,
+  nameEn,
   "slug": slug.current,
   priceMin,
   priceMax,
@@ -29,6 +30,7 @@ const PROPERTIES_QUERY = `*[_type == "property" && listed != false && defined(sl
   minimumNights,
   baseGuestCount,
   extraGuestFeePerNight,
+  cleaningFee,
   seasonalPricing[]{ titleEn, startDate, endDate, price },
   houseArrangements[]{ quantity, roomType->{ capacity } },
   heroImage{ asset, hotspot, crop, alt },
@@ -63,13 +65,13 @@ function photoUrl(image, width, height) {
 async function loadGroupQuoteData() {
   const client = createSanityReadClient();
   const from = tomorrowIsoDate();
-  const [properties, calendar, settings, exchangeRate, footer] = await Promise.all([
+  const [properties, calendar, settings, footer] = await Promise.all([
     client.fetch(PROPERTIES_QUERY),
     client.fetch(BLOCKED_QUERY, { from }),
     getSystemSettings(),
-    getUsdToCrcRate(),
     getFooterSettings(),
   ]);
+  const exchangeRate = await getCrcBaseRate(settings);
 
   const unavailable = new Map();
   const mark = (propertyId, dates) => {
@@ -94,12 +96,14 @@ async function loadGroupQuoteData() {
         id: p._id,
         slug: p.slug,
         name: p.name,
+        nameEn: p.nameEn || "",
         priceMin: p.priceMin,
         priceMax: p.priceMax,
         currency: p.currency || "USD",
         minimumNights: p.minimumNights,
         baseGuestCount: p.baseGuestCount,
         extraGuestFeePerNight: p.extraGuestFeePerNight,
+        cleaningFee: typeof p.cleaningFee === "number" ? p.cleaningFee : null,
         seasonalPricing: p.seasonalPricing || [],
         guestsMax,
         capacity: guestsMax,

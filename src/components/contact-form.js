@@ -7,6 +7,7 @@ import { useTranslation } from "@/lib/translations";
 import { trackContactFormSubmitted } from "@/lib/posthog";
 import CmsText from "@/components/cms-text";
 import { resolveCopy } from "@/lib/cms-field";
+import { villaName } from "@/lib/localized";
 import {
   CONTACT_VILLAS,
   CONTACT_ACTIVITIES,
@@ -497,7 +498,7 @@ export default function ContactForm({ copy }) {
                   </option>
                   {CONTACT_VILLAS.map((villa) => (
                     <option key={villa.id} value={villa.id}>
-                      {villa.name} ({peopleLabel}: {villa.maxPeople})
+                      {villaName(villa, language)} ({peopleLabel}: {villa.maxPeople})
                     </option>
                   ))}
                 </select>

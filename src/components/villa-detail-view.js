@@ -13,6 +13,7 @@ import PropertyBookingSidebar from "@/components/property-booking-sidebar";
 import ReviewsMarquee from "@/components/reviews-marquee";
 import { AmenityIcon } from "@/components/amenity-icon";
 import { buildRoomRows } from "@/lib/house-arrangements";
+import { villaName } from "@/lib/localized";
 import { villaImageCaption, mergeVillaGallery, isPropertyMapSrc } from "@/lib/villa-gallery";
 import {
   resolveBaseGuestCount,
@@ -26,9 +27,19 @@ import {
 } from "@/lib/houseRules";
 import styles from "./villa-detail.module.css";
 
-export default function VillaDetailView({ villa, property = null, reviews = [] }) {
+export default function VillaDetailView({
+  villa: rawVilla,
+  property = null,
+  reviews = [],
+  crcBaseRate = null,
+  stayDiscounts = null,
+}) {
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const villa = {
+    ...rawVilla,
+    name: villaName(property?.name ? property : rawVilla, language),
+  };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
@@ -88,7 +99,7 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
       <div className={styles.hero}>
         <ImageCarousel
           images={gallery.length ? gallery : [property?.heroImage || villa.image].filter(Boolean)}
-          alt={property?.name || villa.name}
+          alt={villa.name}
           onImageClick={openGallery}
           parallax
         />
@@ -105,7 +116,7 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
             ) : null}
             <h1>
               <CmsText fromCms={Boolean(property?.name) || villa.nameFromCms}>
-                {property?.name || villa.name}
+                {villa.name}
               </CmsText>
             </h1>
             <div className={styles.badges}>
@@ -282,6 +293,8 @@ export default function VillaDetailView({ villa, property = null, reviews = [] }
               property={property}
               reviews={reviews}
               villaNumericId={villa.id}
+              crcBaseRate={crcBaseRate}
+              stayDiscounts={stayDiscounts}
             />
           ) : (
             <div className={styles.fallbackCard}>

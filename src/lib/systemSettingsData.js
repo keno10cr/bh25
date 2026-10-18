@@ -1,4 +1,13 @@
 import { sanityFetch } from "@/lib/sanity/fetch";
+import { stayDiscountPercents } from "@/lib/stayDiscounts";
+
+function stayDiscountPercentsAsSettings(doc) {
+  const percents = stayDiscountPercents(doc || {});
+  return {
+    weeklyDiscountPercent: percents.weekly,
+    monthlyDiscountPercent: percents.monthly,
+  };
+}
 
 const SYSTEM_SETTINGS_QUERY = `*[_type == "systemSettings" && !(_id in path("drafts.**"))][0]{
   taxRate,
@@ -8,7 +17,10 @@ const SYSTEM_SETTINGS_QUERY = `*[_type == "systemSettings" && !(_id in path("dra
   paymentProviders,
   checkoutFeeCatalog,
   serviceFeeRate,
-  serviceFeeLabelEn
+  serviceFeeLabelEn,
+  crcBaseRate,
+  weeklyDiscountPercent,
+  monthlyDiscountPercent
 }`;
 
 export async function getSystemSettings() {
@@ -25,7 +37,12 @@ export async function getSystemSettings() {
       ? doc.checkoutFeeCatalog
       : [],
     serviceFeeRate:
-      typeof doc?.serviceFeeRate === "number" ? doc.serviceFeeRate : 9,
+      typeof doc?.serviceFeeRate === "number" ? doc.serviceFeeRate : null,
     serviceFeeLabelEn: doc?.serviceFeeLabelEn || "Service fee",
+    crcBaseRate:
+      typeof doc?.crcBaseRate === "number" && doc.crcBaseRate > 0
+        ? doc.crcBaseRate
+        : null,
+    ...stayDiscountPercentsAsSettings(doc),
   };
 }

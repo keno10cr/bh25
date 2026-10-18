@@ -144,7 +144,8 @@ export function mapVilla(raw, fallback = null) {
   return {
     ...base,
     id: raw?._id || base.id,
-    name: raw?.name || base.name,
+    name: raw?.propertyNames?.name || raw?.name || base.name,
+    nameEn: raw?.propertyNames?.nameEn || base.nameEn || "",
     slug: raw?.slug || base.slug,
     maxPeople: raw?.capacity ?? base.maxPeople ?? base.capacity,
     capacity: raw?.capacity ?? base.capacity ?? base.maxPeople,

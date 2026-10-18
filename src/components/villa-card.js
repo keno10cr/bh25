@@ -11,11 +11,13 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import { trackAirbnbRedirectClicked } from "@/lib/posthog";
 import { resolvePetsMax } from "@/lib/houseRules";
+import { villaName } from "@/lib/localized";
 import styles from "./villa-card.module.css";
 
-export default function VillaCard({ villa, layout = "stacked", reverse = false }) {
+export default function VillaCard({ villa: rawVilla, layout = "stacked", reverse = false }) {
   const { language } = useLanguage();
   const t = useTranslation(language);
+  const villa = { ...rawVilla, name: villaName(rawVilla, language) };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
   const gallery = mergeVillaGallery(villa);
@@ -34,7 +36,7 @@ export default function VillaCard({ villa, layout = "stacked", reverse = false }
     // Keep analytics event name for continuity; destination is now native booking.
     trackAirbnbRedirectClicked({
       villa_id: villa.id,
-      villa_name: villa.name,
+      villa_name: rawVilla.name,
       destination_url: bookHref,
     });
   };

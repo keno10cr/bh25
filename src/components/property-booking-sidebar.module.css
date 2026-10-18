@@ -71,6 +71,11 @@
   margin-top: 0.25rem;
 }
 
+.breakdown .discountLine {
+  color: #9be7a5;
+  font-weight: 600;
+}
+
 .fields {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -246,6 +251,46 @@
 .primaryBtn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.currencyToggle {
+  margin-top: 0.6rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+}
+
+.currencyOptions {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.currencyOptions button {
+  border: none;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.currencyOptions .currencyActive {
+  background: #fff;
+  color: var(--color-primary, #0a4c3a);
+  opacity: 1;
+}
+
+.currencyNote {
+  margin: 0;
+  font-size: 0.74rem;
+  text-align: center;
+  opacity: 0.8;
 }
 
 .noCharge {

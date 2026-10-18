@@ -1,8 +1,13 @@
 import {
   calculateCheckoutFeeLines,
-  normalizeCheckoutFees,
+  resolvePropertyFees,
   sumFeeLineSubtotals,
 } from "./checkoutFees";
+import {
+  resolveLengthOfStayDiscount,
+  stayDiscountAmount,
+  stayDiscountPercents,
+} from "./stayDiscounts";
 
 export {
   getLocalizedHouseRules,
@@ -22,6 +27,7 @@ export function buildCheckoutPriceSummary({
   subtotalOverride,
   taxRate = 0,
   settings,
+  property = null,
 }) {
   const safeNights = Number.isFinite(nights) ? Math.max(0, Math.floor(nights)) : 0;
   const safeNightlyRate = Number.isFinite(nightlyRate) ? Math.max(0, nightlyRate) : 0;
@@ -30,23 +36,34 @@ export function buildCheckoutPriceSummary({
       ? roundCurrency(Math.max(0, subtotalOverride))
       : roundCurrency(safeNightlyRate * safeNights);
 
-  const feeConfigs = normalizeCheckoutFees(settings || {});
+  const stayRule = resolveLengthOfStayDiscount(
+    safeNights,
+    stayDiscountPercents(settings || {})
+  );
+  const stayDiscount = stayRule
+    ? { ...stayRule, amount: stayDiscountAmount(subtotal, stayRule.percent) }
+    : null;
+  const discountedSubtotal = roundCurrency(subtotal - (stayDiscount?.amount ?? 0));
+
+  const feeConfigs = resolvePropertyFees(settings || {}, property);
 
   const feeLines = calculateCheckoutFeeLines(feeConfigs, {
-    staySubtotal: subtotal,
+    staySubtotal: discountedSubtotal,
     nights: safeNights,
   });
   const feesTotal = sumFeeLineSubtotals(feeLines);
   const taxes = roundCurrency(
-    ((subtotal + feesTotal) * Math.max(0, taxRate)) / 100
+    ((discountedSubtotal + feesTotal) * Math.max(0, taxRate)) / 100
   );
-  const total = roundCurrency(subtotal + feesTotal + taxes);
+  const total = roundCurrency(discountedSubtotal + feesTotal + taxes);
 
   return {
     currency,
     nights: safeNights,
     nightlyRate: safeNightlyRate,
     subtotal,
+    stayDiscount,
+    discountedSubtotal,
     feeLines,
     feesTotal,
     fees: feesTotal,

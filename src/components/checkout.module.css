@@ -379,6 +379,11 @@
   color: #535353;
 }
 
+.priceLineDiscount span:last-child {
+  color: var(--color-success-text, #28b430);
+  font-weight: 600;
+}
+
 .priceTotal {
   margin-top: 0.35rem;
   padding-top: 0.55rem;

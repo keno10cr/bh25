@@ -5,6 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import CmsText from "@/components/cms-text";
 import { resolveCopy } from "@/lib/cms-field";
+import { villaName } from "@/lib/localized";
 import { HOME_FEATURED_ITEMS } from "@/data/page-defaults";
 import styles from "./featured-villas.module.css";
 
@@ -60,7 +61,7 @@ export default function FeaturedVillas({ copy, villas = [] }) {
 
     return {
       ...featured,
-      name: featured.name || cmsVilla?.name,
+      name: cmsVilla ? villaName(cmsVilla, language) : featured.name,
       image: featured.image || cmsVilla?.image,
       nameFromCms: featured.nameFromCms || Boolean(cmsVilla?.nameFromCms),
       teaser: teaserResolved.value,

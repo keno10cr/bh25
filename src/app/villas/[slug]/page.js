@@ -7,6 +7,9 @@ import {
   getVillaSlugs,
 } from "@/lib/sanity/content";
 import { galleryImageUrl } from "@/lib/villa-gallery";
+import { villaName } from "@/lib/localized";
+import { getSystemSettings } from "@/lib/systemSettingsData";
+import { getCrcBaseRate } from "@/lib/exchangeRate";
 import { SITE_NAME, SITE_URL } from "@/lib/siteMetadata";
 
 export const revalidate = 60;
@@ -39,24 +42,25 @@ export async function generateMetadata({ params }) {
     villa.image ||
     villa.galleryImages?.[0];
   const pageUrl = `${SITE_URL}/villas/${villa.slug}`;
+  const name = villaName(property?.name ? property : villa, "en");
 
   return {
-    title: villa.name,
+    title: name,
     description,
     alternates: { canonical: pageUrl },
     openGraph: {
       type: "website",
       url: pageUrl,
       siteName: SITE_NAME,
-      title: `${villa.name} | ${SITE_NAME}`,
+      title: `${name} | ${SITE_NAME}`,
       description,
       images: image
-        ? [{ url: image, alt: villa.name }]
+        ? [{ url: image, alt: name }]
         : undefined,
     },
     twitter: {
       card: "summary_large_image",
-      title: `${villa.name} | ${SITE_NAME}`,
+      title: `${name} | ${SITE_NAME}`,
       description,
       images: image ? [image] : undefined,
     },
@@ -67,16 +71,19 @@ export default async function VillaPage({ params }) {
   const { slug } = await params;
   const villa = await getVillaBySlug(slug);
   if (!villa) notFound();
-  const [reviews, property] = await Promise.all([
+  const [reviews, property, settings] = await Promise.all([
     getVillaReviews(slug),
     getPropertyBySlug(slug),
+    getSystemSettings(),
   ]);
+  const crcBase = await getCrcBaseRate(settings);
 
   const siteUrl = SITE_URL;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",
-    name: villa.name,
+    name: villaName(property?.name ? property : villa, "en"),
+    alternateName: property?.name || villa.name,
     description: villa.description,
     url: `${siteUrl}/villas/${villa.slug}`,
     image: villa.image,
@@ -99,7 +106,16 @@ export default async function VillaPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <VillaDetailView villa={villa} property={property} reviews={reviews} />
+      <VillaDetailView
+        villa={villa}
+        property={property}
+        reviews={reviews}
+        crcBaseRate={crcBase?.rate ?? null}
+        stayDiscounts={{
+          weeklyDiscountPercent: settings.weeklyDiscountPercent,
+          monthlyDiscountPercent: settings.monthlyDiscountPercent,
+        }}
+      />
     </>
   );
 }

@@ -69,10 +69,7 @@ export const QUOTE_COPY = {
     taxLabel: (settings) => settings.taxLabelEn || "Tax",
     total: "Total",
     pricesIn: (currency) => `All prices in ${currency}.`,
-    pricesInColones: (rate, source) =>
-      `All prices in Costa Rican colones (CRC), converted at ${rate} per USD${source ? ` (${source})` : ""}.`,
-    rateSource: (exchangeRate, date) =>
-      [exchangeRate.source, date].filter(Boolean).join(", "),
+    pricesInColones: "All prices in Costa Rican colones (CRC).",
     notIncluded: (items) =>
       ` ${joinList(
         items.map((item, i) => (i === 0 ? item : item.charAt(0).toLowerCase() + item.slice(1))),
@@ -133,10 +130,7 @@ export const QUOTE_COPY = {
     taxLabel: () => "IVA",
     total: "Total",
     pricesIn: (currency) => `Todos los precios en ${currency}.`,
-    pricesInColones: (rate, source) =>
-      `Todos los precios en colones costarricenses (CRC), convertidos a ${rate} por USD${source ? ` (${source})` : ""}.`,
-    rateSource: (exchangeRate, date) =>
-      [exchangeRate.sourceEs || exchangeRate.source, date].filter(Boolean).join(", "),
+    pricesInColones: "Todos los precios en colones costarricenses (CRC).",
     notIncluded: (items) =>
       ` No incluye ${joinList(
         items.map((item) => (item === "IVA" ? item : item.charAt(0).toLowerCase() + item.slice(1))),

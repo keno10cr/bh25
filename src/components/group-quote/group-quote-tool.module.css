@@ -718,32 +718,79 @@
 }
 
 .docVillaDiscount span:last-child {
-  color: #b86e00;
+  color: var(--color-success-text, #28b430);
   font-weight: 600;
   white-space: nowrap;
 }
 
-.summaryList .totalLine {
+.dualTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 0.6rem;
+  font-size: 0.86rem;
+}
+
+.dualTable th,
+.dualTable td {
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed var(--color-border);
+  vertical-align: top;
+}
+
+.dualTable thead th {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-neutral-muted);
+  text-align: right;
+}
+
+.dualTable tbody th {
+  text-align: left;
+  font-weight: 400;
+  color: var(--color-neutral-muted);
+  padding-right: 0.5rem;
+}
+
+.dualTable td {
+  text-align: right;
+  font-weight: 600;
+  white-space: nowrap;
+  padding-left: 0.75rem;
+}
+
+.dualDiscount td {
+  color: #b86e00;
+}
+
+.dualTotal th,
+.dualTotal td {
   border-bottom: none;
   padding-top: 0.65rem;
-  font-size: 1.1rem;
-}
-
-.totalLine dt,
-.totalLine dd {
-  color: var(--color-primary);
+  font-size: 1.02rem;
   font-weight: 700;
+  color: var(--color-primary);
 }
 
-.summaryList .rateLine {
-  border-bottom: none;
-  padding-top: 0;
-  font-size: 0.8rem;
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
-.rateLine dd {
-  font-weight: 500;
-  color: var(--color-neutral-muted);
+.syncBanner {
+  max-width: 1240px;
+  margin: 0 auto 1.25rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #f0c36d;
+  background: #fff6e0;
+  color: #6b4a00;
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 
 .download {
@@ -1070,6 +1117,10 @@
 .docDiscount span:last-child {
   color: #b86e00;
   font-weight: 600;
+}
+
+.docStayDiscount span:last-child {
+  color: var(--color-success-text, #28b430);
 }
 
 .docTotals .docGrandTotal {

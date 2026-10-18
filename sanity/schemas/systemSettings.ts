@@ -21,7 +21,7 @@ export const systemSettings = defineType({
       title: "Checkout fee catalog",
       type: "array",
       description:
-        "Guest facing fees applied during checkout. Each row becomes a line item on the summary and booking record. Example: Cleaning fee at 9% per stay, or Resort fee at $25 per night.",
+        "Guest facing fees applied during checkout. Each row becomes a line item on the summary and booking record. Example: Resort fee at $25 per night. Cleaning fees are set per villa (Property, Pricing tab) and replace any row with Fee ID cleaning-fee.",
       of: [
         {
           type: "object",
@@ -166,6 +166,32 @@ export const systemSettings = defineType({
         layout: "radio",
       },
       initialValue: "USD",
+    }),
+    defineField({
+      name: "weeklyDiscountPercent",
+      title: "Weekly stay discount (%)",
+      type: "number",
+      description:
+        "Applied automatically to stays of 7 to 27 nights, on accommodation only (not cleaning fee or tax). Website, checkout and group quotes. Enter 0 to turn off. Example: 15.",
+      initialValue: 15,
+      validation: (Rule) => Rule.min(0).max(100),
+    }),
+    defineField({
+      name: "monthlyDiscountPercent",
+      title: "Monthly stay discount (%)",
+      type: "number",
+      description:
+        "Applied automatically to stays of 28 nights or more, instead of the weekly discount. Enter 0 to turn off. Example: 30.",
+      initialValue: 30,
+      validation: (Rule) => Rule.min(0).max(100),
+    }),
+    defineField({
+      name: "crcBaseRate",
+      title: "Base exchange rate (CRC per USD)",
+      type: "number",
+      description:
+        "Optional. Colón prices are USD × this rate × 1.12, rounded to the nearest ₡1,000. Leave empty to use the live BCCR selling rate. Example: 456.",
+      validation: (Rule) => Rule.min(100).max(2000),
     }),
     defineField({
       name: "paymentsEnabled",

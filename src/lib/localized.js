@@ -16,6 +16,13 @@ export function localizedField(doc, field, language = "en") {
   return doc[`${field}${suffix}`] || doc[field] || "";
 }
 
+/** Villa names are written in Spanish; every other language shows the English name. */
+export function villaName(item, language = "en") {
+  if (!item) return "";
+  if (language === "es") return item.name || item.nameEn || "";
+  return item.nameEn || item.name || "";
+}
+
 export function localizedOnly(doc, field, language = "en") {
   if (!doc || !language || language === "en") return "";
   const suffix = LOCALE_SUFFIX[language];

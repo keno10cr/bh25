@@ -7,7 +7,7 @@ import { buildStayPricing, computeExtraGuestStayFee } from "./bookingPricing";
 import { occupiedNightsFromStay, toIsoDateList } from "./availabilityDates";
 import {
   calculateCheckoutFeeLines,
-  normalizeCheckoutFees,
+  resolvePropertyFees,
   sumFeeLineSubtotals,
 } from "./checkoutFees";
 import {
@@ -17,21 +17,18 @@ import {
   resolveExtraGuestFeePerNight,
   resolveMinimumNights,
 } from "./propertyPricing";
+import { STAY_DISCOUNT_MIN_NIGHTS, resolveLengthOfStayDiscount } from "./stayDiscounts";
 
 export const STANDARD_RATE_LABEL = "Standard rate";
 
-export const STAY_DISCOUNT_MIN_NIGHTS = { weekly: 7, monthly: 28 };
+export { STAY_DISCOUNT_MIN_NIGHTS };
 
 /** Monthly replaces weekly, so a villa only ever gets one stay length discount. */
 export function resolveStayDiscount(nights, stayDiscounts = {}) {
-  for (const kind of ["monthly", "weekly"]) {
-    const option = stayDiscounts[kind];
-    const percent = Math.min(100, Number(option?.percent) || 0);
-    if (option?.enabled && percent > 0 && nights >= STAY_DISCOUNT_MIN_NIGHTS[kind]) {
-      return { kind, percent };
-    }
-  }
-  return null;
+  return resolveLengthOfStayDiscount(nights, {
+    weekly: stayDiscounts.weekly?.enabled ? stayDiscounts.weekly.percent : 0,
+    monthly: stayDiscounts.monthly?.enabled ? stayDiscounts.monthly.percent : 0,
+  });
 }
 
 export function roundMoney(value) {
@@ -141,7 +138,7 @@ export function buildAddOnLines(addOns = []) {
  * stayDiscounts: { weekly: { enabled, percent }, monthly: { enabled, percent } } per villa.
  * discount: { type: "percent" | "fixed", value } group discount, applied after stay discounts.
  * Both apply to villa rates only.
- * excludedFeeIds: checkout fees from System Settings left off this quote.
+ * excludedFeeIds: checkout fees (villa cleaning fee or System Settings rows) left off this quote.
  */
 export function buildGroupQuote({
   selections = [],
@@ -205,9 +202,6 @@ export function buildGroupQuote({
   const discountAmount = roundMoney(stayDiscountTotal + groupDiscountAmount);
 
   const excluded = new Set(excludedFeeIds);
-  const feeConfigs = normalizeCheckoutFees(settings).filter(
-    (fee) => !excluded.has(fee.feeId)
-  );
   const feeTotals = new Map();
 
   rows.forEach((row, index) => {
@@ -216,6 +210,9 @@ export function buildGroupQuote({
     row.netSubtotal = roundMoney((row.quote?.subtotal ?? 0) - share);
     row.netLines = netLinesFor(row.quote?.lines ?? [], share);
 
+    const feeConfigs = resolvePropertyFees(settings, row.property).filter(
+      (fee) => !excluded.has(fee.feeId)
+    );
     if (!row.quote || feeConfigs.length === 0) {
       row.feeLines = [];
       return;
