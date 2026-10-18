@@ -288,7 +288,9 @@ function withTimeout(job) {
 
 /**
  * Pull Airbnb calendars into blockedDate documents.
- * Page loads wait up to 20 seconds. Cron passes force and waits for the full run.
+ * Runs on demand: /bhgr, the availability API and booking requests refresh any
+ * villa whose last sync is older than AIRBNB_SYNC_TTL_MS, waiting up to 20 seconds.
+ * The manual /api/cron/ical-sync endpoint passes force and waits for the full run.
  * A failed fetch keeps the previous Airbnb blocks.
  */
 export function ensureAirbnbCalendarsFresh(options = {}) {
