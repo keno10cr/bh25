@@ -258,6 +258,29 @@
   box-shadow: 0 4px 14px rgba(10, 76, 58, 0.08);
 }
 
+.villaRowBooked {
+  border-color: #c0392b;
+  background: #fffafa;
+}
+
+.bookedAlert {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid #f1b8b2;
+  border-left: 4px solid #c0392b;
+  border-radius: 10px;
+  background: #fdecea;
+  color: #8a1c1c;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.bookedAlert strong {
+  font-size: 0.9rem;
+}
+
 .villaHead {
   display: flex;
   align-items: center;

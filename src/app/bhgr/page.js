@@ -32,7 +32,7 @@ const PROPERTIES_QUERY = `*[_type == "property" && listed != false && defined(sl
   baseGuestCount,
   extraGuestFeePerNight,
   cleaningFee,
-  seasonalPricing[]{ titleEn, startDate, endDate, price },
+  seasonalPricing[]{ titleEn, titleEs, startDate, endDate, price },
   houseArrangements[]{ quantity, roomType->{ capacity } },
   heroImage{ asset, hotspot, crop, alt },
   "firstGalleryImage": gallery[0]{ asset, hotspot, crop, alt }

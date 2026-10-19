@@ -29,7 +29,6 @@ import {
   propertyInCrc,
   usdToCrc,
 } from "@/lib/currency";
-import { villaName } from "@/lib/localized";
 import { resolveLengthOfStayDiscount, stayDiscountPercents } from "@/lib/stayDiscounts";
 import { ADD_ON_PRESETS, QUOTE_COPY } from "./copy";
 import styles from "./group-quote-tool.module.css";
@@ -233,21 +232,44 @@ export default function GroupQuoteTool({
     [checkIn, checkOut]
   );
 
-  const selections = useMemo(
+  const allSelections = useMemo(
     () =>
       villas
         .filter((villa) => selected[villa.id])
         .map((villa) => {
           const pick = selected[villa.id];
+          const stayIn = pick.customDates ? pick.checkIn : checkIn;
+          const stayOut = pick.customDates ? pick.checkOut : checkOut;
+          const conflicts = unavailableNightsInStay(
+            occupiedNightsFromStay(stayIn, stayOut),
+            villa.unavailableDates
+          );
           return {
             property: villa,
             guests: pick.guests,
             customDates: pick.customDates,
-            checkIn: pick.customDates ? pick.checkIn : checkIn,
-            checkOut: pick.customDates ? pick.checkOut : checkOut,
+            checkIn: stayIn,
+            checkOut: stayOut,
+            conflicts,
+            quoteAnyway:
+              conflicts.length > 0 && pick.quoteAnywayFor === conflicts.join(","),
           };
         }),
     [villas, selected, checkIn, checkOut]
+  );
+  /**
+   * Booked villas stay out of every total and the PDF. The override is tied to the
+   * exact blocked nights, so changing dates drops the villa out again.
+   */
+  const selections = useMemo(
+    () =>
+      allSelections.filter(
+        (selection) => selection.conflicts.length === 0 || selection.quoteAnyway
+      ),
+    [allSelections]
+  );
+  const bookedOut = allSelections.filter(
+    (selection) => selection.conflicts.length > 0 && !selection.quoteAnyway
   );
 
   const activeRate = parseRate(rateInput);
@@ -421,10 +443,12 @@ export default function GroupQuoteTool({
   const bufferedRate = crcRate(activeRate);
 
   const t = QUOTE_COPY[lang];
+  const feeTitle = (fee) =>
+    fee.feeId === CLEANING_FEE_ID ? t.cleaningFee : resolveFeeTitle(fee, lang);
   const leftOff = [
     ...checkoutFees
       .filter((fee) => excludedFeeIds.includes(fee.feeId))
-      .map((fee) => resolveFeeTitle(fee, lang)),
+      .map(feeTitle),
     ...(includeTax || taxRate === 0 ? [] : [t.taxLabel(settings)]),
   ];
   const villaExceptions = (row) => {
@@ -691,8 +715,6 @@ export default function GroupQuoteTool({
     }
   };
 
-  const selectedCount = Object.keys(selected).length;
-
   return (
     <div className={styles.page}>
       <header className={styles.toolbar}>
@@ -821,12 +843,16 @@ export default function GroupQuoteTool({
                 );
                 const base = resolveBaseGuestCount(villa);
                 const extraFee = resolveExtraGuestFeePerNight(villa);
-                const conflicts = row ? row.unavailableNights : groupConflicts;
+                const selection = allSelections.find((s) => s.property.id === villa.id);
+                const conflicts = selection ? selection.conflicts : groupConflicts;
+                const leftOut = Boolean(selection) && conflicts.length > 0 && !selection.quoteAnyway;
 
                 return (
                   <li
                     key={villa.id}
-                    className={`${styles.villaRow} ${pick ? styles.villaRowOn : ""}`}
+                    className={`${styles.villaRow} ${pick ? styles.villaRowOn : ""} ${
+                      pick && conflicts.length > 0 ? styles.villaRowBooked : ""
+                    }`}
                   >
                     <label className={styles.villaHead}>
                       <input
@@ -859,7 +885,7 @@ export default function GroupQuoteTool({
                       </span>
                       {conflicts.length > 0 ? (
                         <span className={styles.badgeWarn}>
-                          Unavailable {plural(conflicts.length, "night")}
+                          ⚠️ Booked {plural(conflicts.length, "night")}
                         </span>
                       ) : groupNights.length > 0 || row?.quote ? (
                         <span className={styles.badgeOk}>Available</span>
@@ -891,7 +917,9 @@ export default function GroupQuoteTool({
                             Different dates
                           </label>
                           <div className={styles.villaTotal}>
-                            {row?.quote ? (
+                            {leftOut ? (
+                              <span className={styles.warn}>Not quoted</span>
+                            ) : row?.quote ? (
                               <>
                                 <strong>{fmt(row.quote.subtotal)}</strong>
                                 <span>{plural(row.quote.nights, "night")}</span>
@@ -940,12 +968,31 @@ export default function GroupQuoteTool({
                           </ul>
                         ) : null}
 
-                        {row?.unavailableNights.length > 0 ? (
-                          <p className={styles.warn}>
-                            Booked or blocked on{" "}
-                            {row.unavailableNights.slice(0, 6).map(shortDate).join(", ")}
-                            {row.unavailableNights.length > 6 ? " and more" : ""}.
-                          </p>
+                        {conflicts.length > 0 ? (
+                          <div className={styles.bookedAlert} role="alert">
+                            <strong>⚠️ Booked/Unavailable for selected dates</strong>
+                            <span>
+                              Blocked on {conflicts.slice(0, 6).map(shortDate).join(", ")}
+                              {conflicts.length > 6 ? " and more" : ""}.{" "}
+                              {leftOut
+                                ? "Left out of the quote total and the PDF."
+                                : "Included in the quote and PDF anyway."}
+                            </span>
+                            <label className={styles.check}>
+                              <input
+                                type="checkbox"
+                                checked={!leftOut}
+                                onChange={(event) =>
+                                  updatePick(villa.id, {
+                                    quoteAnywayFor: event.target.checked
+                                      ? conflicts.join(",")
+                                      : "",
+                                  })
+                                }
+                              />
+                              Quote anyway (I confirmed these nights are free)
+                            </label>
+                          </div>
                         ) : null}
                         {row?.quote && row.quote.nights < row.minimumNights ? (
                           <p className={styles.note}>
@@ -1428,7 +1475,7 @@ export default function GroupQuoteTool({
             <dl className={styles.summaryList}>
               <div>
                 <dt>Villas</dt>
-                <dd>{selectedCount}</dd>
+                <dd>{selections.length}</dd>
               </div>
               <div>
                 <dt>Guests</dt>
@@ -1476,9 +1523,15 @@ export default function GroupQuoteTool({
               The PDF uses {inColones && quoteCrc ? "colones" : "dollars"}. Payment is
               always charged in USD.
             </p>
-            {selectedCount > 0 && pricedRows.length < selectedCount ? (
+            {bookedOut.length > 0 ? (
+              <p className={styles.warn}>
+                ⚠️ Left out because booked:{" "}
+                {bookedOut.map((selection) => selection.property.name).join(", ")}.
+              </p>
+            ) : null}
+            {pricedRows.length < selections.length ? (
               <p className={styles.note}>
-                {plural(selectedCount - pricedRows.length, "villa")} still need dates.
+                {plural(selections.length - pricedRows.length, "villa")} still need dates.
               </p>
             ) : null}
             {downloadError ? <p className={styles.warn}>{downloadError}</p> : null}
@@ -1589,7 +1642,7 @@ export default function GroupQuoteTool({
                       <div className={styles.docVillaPhoto} />
                     )}
                     <div className={styles.docVillaBody}>
-                      <h3>{villaName(row.property, lang)}</h3>
+                      <h3>{row.property.name}</h3>
                       <p className={styles.docVillaMeta}>
                         {t.sleeps(row.property.guestsMax, row.guests)}
                       </p>
@@ -1705,7 +1758,7 @@ export default function GroupQuoteTool({
                     <>
                       {quote.feeLines.map((line) => (
                         <p key={line.feeId}>
-                          <span>{withFeeRate(resolveFeeTitle(line, lang), line)}</span>
+                          <span>{withFeeRate(feeTitle(line), line)}</span>
                           <span>{docFmt(line.subtotal)}</span>
                         </p>
                       ))}

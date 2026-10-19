@@ -66,10 +66,12 @@ export const QUOTE_COPY = {
         time: "time",
         times: "times",
       }),
+    cleaningFee: "Cleaning fee",
     taxLabel: (settings) => settings.taxLabelEn || "Tax",
     total: "Total",
     pricesIn: (currency) => `All prices in ${currency}.`,
-    pricesInColones: "All prices in Costa Rican colones (CRC).",
+    pricesInColones:
+      "All prices are quoted in Costa Rican colones (CRC). These colón amounts stay fixed while this quote is valid.",
     notIncluded: (items) =>
       ` ${joinList(
         items.map((item, i) => (i === 0 ? item : item.charAt(0).toLowerCase() + item.slice(1))),
@@ -127,13 +129,15 @@ export const QUOTE_COPY = {
         time: "vez",
         times: "veces",
       }),
-    taxLabel: () => "IVA",
+    cleaningFee: "Tarifa de limpieza",
+    taxLabel: () => "Impuestos",
     total: "Total",
     pricesIn: (currency) => `Todos los precios en ${currency}.`,
-    pricesInColones: "Todos los precios en colones costarricenses (CRC).",
+    pricesInColones:
+      "Todos los precios están cotizados en colones costarricenses (CRC). Estos montos en colones se mantienen fijos durante la vigencia de esta cotización.",
     notIncluded: (items) =>
       ` No incluye ${joinList(
-        items.map((item) => (item === "IVA" ? item : item.charAt(0).toLowerCase() + item.slice(1))),
+        items.map((item) => item.charAt(0).toLowerCase() + item.slice(1)),
         "ni"
       )}.`,
     notes: "Notas",
