@@ -1,6 +1,12 @@
 export const TOOL_COOKIE = "bh_tool_session";
 export const TOOL_SESSION_MAX_AGE = 60 * 60 * 24 * 30;
-export const TOOL_PATHS = ["/bhgr", "/ccen", "/cces"];
+export const TOOL_PATHS = ["/tools", "/bhgr", "/ccen", "/cces"];
+
+/** True for the standalone tools and anything under the /tools dashboard. */
+export function isToolPath(pathname) {
+  if (typeof pathname !== "string") return false;
+  return TOOL_PATHS.includes(pathname) || /^\/tools\/[a-z0-9-]+$/.test(pathname);
+}
 
 const encoder = new TextEncoder();
 

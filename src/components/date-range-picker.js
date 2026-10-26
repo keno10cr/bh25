@@ -187,6 +187,7 @@ function CalendarMonth({
   locale,
   weekdays,
   unavailable,
+  partial,
 }) {
   const cells = buildMonthCells(year, monthIndex);
   return (
@@ -219,6 +220,9 @@ function CalendarMonth({
                 inRange ? styles.dayInRange : "",
                 isStart || isEnd ? styles.dayEdge : "",
                 unavailable?.has(iso) ? styles.dayUnavailable : "",
+                !unavailable?.has(iso) && partial?.has(iso)
+                  ? styles.dayPartial
+                  : "",
               ]
                 .filter(Boolean)
                 .join(" ")}
@@ -247,6 +251,8 @@ export default function DateRangePicker({
   minIso: minIsoProp,
   error,
   unavailableDates,
+  partialDates,
+  legend,
 }) {
   const { language } = useLanguage();
   const copy = copyFor(language);
@@ -255,6 +261,10 @@ export default function DateRangePicker({
   const unavailable = useMemo(
     () => (unavailableDates?.length ? new Set(unavailableDates) : null),
     [unavailableDates]
+  );
+  const partial = useMemo(
+    () => (partialDates?.length ? new Set(partialDates) : null),
+    [partialDates]
   );
   const minIso = minIsoProp || tomorrowIsoDate();
   const [open, setOpen] = useState(false);
@@ -338,6 +348,7 @@ export default function DateRangePicker({
                 locale={locale}
                 weekdays={weekdays}
                 unavailable={unavailable}
+                partial={partial}
               />
               <CalendarMonth
                 year={nextMonth.year}
@@ -349,8 +360,25 @@ export default function DateRangePicker({
                 locale={locale}
                 weekdays={weekdays}
                 unavailable={unavailable}
+                partial={partial}
               />
             </div>
+            {legend ? (
+              <ul className={styles.legend}>
+                {legend.partial ? (
+                  <li>
+                    <span className={`${styles.legendSwatch} ${styles.legendPartial}`} />
+                    {legend.partial}
+                  </li>
+                ) : null}
+                {legend.full ? (
+                  <li>
+                    <span className={`${styles.legendSwatch} ${styles.legendFull}`} />
+                    {legend.full}
+                  </li>
+                ) : null}
+              </ul>
+            ) : null}
             <div className={styles.modalFooter}>
               <button
                 type="button"

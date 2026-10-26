@@ -39,6 +39,8 @@ export const PVG_PAGE_DEFAULTS = {
     "Pick up to 3 preferred ranges. Add another after you confirm the current one.",
   optionLabel: "Option",
   addRangeLabel: "Add another date range",
+  calendarPartialLabel: "Some villas booked",
+  calendarFullLabel: "Fully booked",
   contactNameLabel: "Your Name",
   emailLabel: "Contact email",
   hostImage: "/FloribelFadelBH.jpg",

@@ -162,8 +162,22 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
   const [marqueeDragging, setMarqueeDragging] = useState(false);
   const [capacityVisible, setCapacityVisible] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(null);
+  const [estateCalendar, setEstateCalendar] = useState(null);
 
   modalOpenRef.current = activeImageIndex !== null;
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/pvg/availability")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (!cancelled && data && !data.error) setEstateCalendar(data);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const lang = String(searchParams.get("lang") || "").toLowerCase();
@@ -967,6 +981,17 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
                           }`}
                           checkIn={range.checkIn}
                           checkOut={range.checkOut}
+                          minIso={estateCalendar?.minDate}
+                          unavailableDates={estateCalendar?.fullDates}
+                          partialDates={estateCalendar?.partialDates}
+                          legend={
+                            estateCalendar
+                              ? {
+                                  partial: pageText("calendarPartialLabel"),
+                                  full: pageText("calendarFullLabel"),
+                                }
+                              : null
+                          }
                           onChange={(next) => updateRange(index, next)}
                           onClear={
                             index === 0 && rangeCount === 1

@@ -3,6 +3,7 @@ import { STATIC_BLOG_POSTS } from "@/data/blog";
 import { socialCopyFor } from "@/data/blog-social";
 
 const SOCIAL_POST_QUERY = `*[_type in ["blog", "familyBlog"] && slug.current == $slug][0]{
+  "source": _type,
   title,
   socialTitle,
   "socialHook": coalesce(socialHook, excerpt),
@@ -48,6 +49,7 @@ export function toSocialPost(raw, fallback = SOCIAL_SAMPLE_POST) {
   const socialHook =
     source.socialHook || source.description || curated.socialHook;
   return {
+    source: source.source || "blog",
     title: socialTitle || source.title || fallback.title,
     editorialTitle: source.title || fallback.title,
     socialTitle,

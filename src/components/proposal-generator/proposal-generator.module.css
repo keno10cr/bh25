@@ -87,6 +87,93 @@
   border-color: var(--color-primary);
 }
 
+.optionField {
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
+}
+
+.optionField legend {
+  padding: 0;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.optionHint {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--color-neutral-muted);
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+}
+
+.segment {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.92rem;
+  background: #fff;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.segment input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segmentActive {
+  border-color: var(--color-primary);
+  background: var(--color-success-light);
+  box-shadow: inset 0 0 0 1px var(--color-primary);
+}
+
+.segment:focus-within {
+  outline: 2px solid rgba(10, 76, 58, 0.22);
+}
+
+.segmentCountry {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-neutral-muted);
+}
+
+.checkRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  padding: 0.6rem 0;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.check input {
+  width: 1.05rem;
+  height: 1.05rem;
+  accent-color: var(--color-primary);
+}
+
 .error {
   font-style: normal;
   font-weight: 500;
@@ -230,14 +317,17 @@
 
 .keepTogether,
 .serviceCard,
-.localItem {
+.localItem,
+.closing,
+.docFooter {
   break-inside: avoid;
   page-break-inside: avoid;
 }
 
 .serviceCard {
   display: grid;
-  grid-template-columns: 180px 1fr;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  align-items: start;
   gap: 0.9rem 1.1rem;
   margin-top: 0.85rem;
   padding: 0.75rem;
@@ -248,7 +338,7 @@
 
 .serviceImage {
   width: 100%;
-  height: 132px;
+  height: 240px;
   object-fit: cover;
   border-radius: 8px;
   display: block;
@@ -304,8 +394,8 @@
 
 .localGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.65rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem 1rem;
   margin-top: 0.75rem;
 }
 
@@ -315,15 +405,19 @@
 
 .localItem img {
   width: 100%;
-  height: 88px;
+  height: 160px;
   object-fit: cover;
   border-radius: 8px;
   display: block;
 }
 
+.viewAllWrap {
+  margin: 0.85rem 0 0 !important;
+}
+
 .localItem p {
   margin: 0.35rem 0 0;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-weight: 600;
   line-height: 1.25;
   color: var(--color-primary);
@@ -372,8 +466,43 @@
   text-underline-offset: 2px;
 }
 
-.docFooter {
+.closing {
   margin-top: auto;
+}
+
+.closingBody {
+  padding: 0 2.5rem 1.5rem;
+}
+
+.exporting {
+  margin: 0;
+  max-width: 900px;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/*
+ * html2pdf leaves the first few pixels of a pushed block on the previous page.
+ * Padding plus an equal negative margin keeps that strip blank without moving content.
+ */
+.exporting .keepTogether,
+.exporting .closing,
+.exporting .cardSlot {
+  padding-top: 10px;
+  margin-top: -10px;
+}
+
+.exporting .localGrid.keepTogether {
+  margin-top: calc(0.75rem - 10px);
+}
+
+.cardSlot {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.docFooter {
   text-align: center;
   padding: 1.75rem 2rem 2rem;
   background: #f7f9f7;
@@ -417,6 +546,10 @@
 
   .docBody {
     padding: 1.75rem 1.4rem 1.25rem;
+  }
+
+  .closingBody {
+    padding: 0 1.4rem 1.25rem;
   }
 
   .docHeroCopy {
@@ -533,17 +666,26 @@
   .serviceCard,
   .localItem,
   .docHero,
+  .closing,
   .docFooter {
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
   .serviceCard {
-    grid-template-columns: 150px 1fr;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+
+  .serviceImage {
+    height: 210px;
   }
 
   .localGrid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .closingBody {
+    padding: 0 0 0.75rem;
   }
 
   .block h2 {

@@ -26,12 +26,18 @@ importers:
       '@vercel/analytics':
         specifier: ^2.0.1
         version: 2.0.1(next@16.0.7(@babel/core@7.29.7)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
+      fast-png:
+        specifier: ^6.4.0
+        version: 6.4.0
       html2pdf.js:
         specifier: ^0.14.0
         version: 0.14.0
       ical-generator:
         specifier: ^11.1.2
         version: 11.1.2(@types/node@26.2.0)
+      jpeg-js:
+        specifier: ^0.4.4
+        version: 0.4.4
       maplibre-gl:
         specifier: ^6.4.1
         version: 6.4.1
@@ -2407,8 +2413,8 @@ packages:
       react-dom: ^19.2
       styled-components: ^6.1
 
-  '@sanity/ui@5.0.0-alpha.15':
-    resolution: {integrity: sha512-Cf4/Txv1qCHT/YtULyvZsUWZm+AfxkdlBABifnutPqOULlP4ZOvq4md1WliJefQyB27q+hQ2vOr1jaDaromYtw==}
+  '@sanity/ui@5.0.0-alpha.17':
+    resolution: {integrity: sha512-2p93/slbx1oYfakV5ysbxCQ5iGogOmNXq8MySbpldXLdxxQrqHbXyiJOgGoTTFjelPqZuW9RlhT838NkHPZbyA==}
     engines: {node: '>=20.19 <22 || >=22.12'}
     hasBin: true
     peerDependencies:
@@ -3843,6 +3849,9 @@ packages:
   jiti@2.7.0:
     resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
     hasBin: true
+
+  jpeg-js@0.4.4:
+    resolution: {integrity: sha512-WZzeDOEtTOBK4Mdsar0IqEU5sMr3vSV2RqkAIzUEV2BHnUfKGyswWFPFwK5EeDo93K3FohSHbLAjj0s1Wzd+dg==}
 
   js-base64@3.9.3:
     resolution: {integrity: sha512-uwYQp+VJ38FVvtim6qNbit6e9uT6dwWQ4Y1+H9TxhW5hcHjpHwoxlR0nMpqUmIFOmu4VqMxwdJA88gIVuZJQ/g==}
@@ -8169,7 +8178,7 @@ snapshots:
       styled-components: 6.5.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       use-effect-event: 2.0.3(react@19.2.0)
 
-  '@sanity/ui@5.0.0-alpha.15(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@sanity/ui@5.0.0-alpha.17(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@sanity-labs/design-tokens': 0.0.2-alpha.7
       '@sanity/icons': 5.2.1(react@19.2.0)
@@ -9599,6 +9608,8 @@ snapshots:
 
   jiti@2.7.0: {}
 
+  jpeg-js@0.4.4: {}
+
   js-base64@3.9.3: {}
 
   js-tokens@4.0.0: {}
@@ -10595,7 +10606,7 @@ snapshots:
       speakingurl: 14.0.1
       styled-components: 6.5.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       swr: 2.5.1(react@19.2.0)
-      ui5: '@sanity/ui@5.0.0-alpha.15(react-dom@19.2.0(react@19.2.0))(react@19.2.0)'
+      ui5: '@sanity/ui@5.0.0-alpha.17(react-dom@19.2.0(react@19.2.0))(react@19.2.0)'
       urlpattern-polyfill: 10.1.0
       use-device-pixel-ratio: 1.1.2(react@19.2.0)
       use-effect-event: 2.0.3(react@19.2.0)

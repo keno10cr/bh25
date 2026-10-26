@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { ImageResponse } from "next/og";
 import { getSocialPlatform, SOCIAL_SHARED_PHOTO } from "./platforms";
+import { pngToJpeg } from "./encode-jpeg";
 
 export const SOCIAL_COLORS = {
   green: "#0a4c3a",
@@ -456,10 +457,17 @@ export async function renderSocialPost({ platformKey, post, imageUrl }) {
     }
   );
 
-  pngResponse.headers.set("Access-Control-Allow-Origin", "*");
-  pngResponse.headers.set(
-    "Content-Disposition",
-    `inline; filename="bh-${platform.key}-${post.slug || "sample"}.png"`
-  );
-  return pngResponse;
+  const png = new Uint8Array(await pngResponse.arrayBuffer());
+  const { bytes, quality } = pngToJpeg(png);
+
+  return new Response(bytes, {
+    status: 200,
+    headers: {
+      "Content-Type": "image/jpeg",
+      "Content-Length": String(bytes.length),
+      "Access-Control-Allow-Origin": "*",
+      "Content-Disposition": `inline; filename="bh-${platform.key}-${post.slug || "sample"}.jpg"`,
+      "X-Social-Jpeg-Quality": String(quality),
+    },
+  });
 }

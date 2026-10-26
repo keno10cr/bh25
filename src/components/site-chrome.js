@@ -16,7 +16,9 @@ export default function SiteChrome({ children, nav, footer }) {
     pathname === "/ccen" ||
     pathname === "/cces" ||
     pathname === "/bhgr" ||
-    pathname === "/tool-access";
+    pathname === "/tool-access" ||
+    pathname === "/tools" ||
+    pathname?.startsWith("/tools/");
   const isBusinessCard = pathname === "/bc" || pathname === "/t";
   const hideChrome = isAdmin || isProposalTool || isBusinessCard;
 

@@ -153,6 +153,7 @@
 }
 
 .dayUnavailable {
+  background: #f6dcdc;
   color: #b23b3b;
   text-decoration: line-through;
 }
@@ -160,6 +161,54 @@
 .dayEdge.dayUnavailable {
   background: #b23b3b;
   color: #fff;
+}
+
+.dayPartial {
+  background: #fbefd5;
+  color: #8a5a00;
+}
+
+.dayInRange.dayPartial {
+  background: #f6e2b5;
+}
+
+.dayEdge.dayPartial {
+  background: #c98a12;
+  color: #fff;
+}
+
+.legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--color-neutral-muted);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.legendSwatch {
+  display: inline-block;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 999px;
+}
+
+.legendPartial {
+  background: #fbefd5;
+  border: 1px solid #c98a12;
+}
+
+.legendFull {
+  background: #f6dcdc;
+  border: 1px solid #b23b3b;
 }
 
 .modalFooter {

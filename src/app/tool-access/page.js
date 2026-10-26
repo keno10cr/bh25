@@ -1,5 +1,5 @@
 import ToolAccessGate from "@/components/tool-access-gate";
-import { TOOL_PATHS, isToolGateConfigured } from "@/lib/toolAuth";
+import { isToolGateConfigured, isToolPath } from "@/lib/toolAuth";
 
 export const metadata = {
   title: { absolute: "Team access" },
@@ -10,11 +10,12 @@ export const dynamic = "force-dynamic";
 
 export default async function ToolAccessPage({ searchParams }) {
   const { next } = await searchParams;
-  const target = TOOL_PATHS.includes(next) ? next : "/bhgr";
+  const target = isToolPath(next) ? next : "/tools";
+  const spanish = target === "/cces" || target === "/tools/cces";
   return (
     <ToolAccessGate
       next={target}
-      language={target === "/cces" ? "es" : "en"}
+      language={spanish ? "es" : "en"}
       configured={isToolGateConfigured()}
     />
   );

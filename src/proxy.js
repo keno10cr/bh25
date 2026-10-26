@@ -11,5 +11,5 @@ export async function proxy(request) {
 }
 
 export const config = {
-  matcher: ["/bhgr", "/ccen", "/cces"],
+  matcher: ["/bhgr", "/ccen", "/cces", "/tools", "/tools/:path*"],
 };

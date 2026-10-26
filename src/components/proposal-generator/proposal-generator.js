@@ -12,6 +12,17 @@ const EMPTY = {
   note: "",
 };
 
+const DEFAULT_PHONES = [
+  { label: "+506 8926 2630", tel: "+50689262630" },
+  { label: "+1 (754) 610 4710", tel: "+17546104710" },
+];
+
+function phoneCountry(tel, locale) {
+  if (tel.startsWith("+506")) return "Costa Rica";
+  if (tel.startsWith("+1")) return locale === "es" ? "Estados Unidos" : "United States";
+  return locale === "es" ? "Teléfono" : "Phone";
+}
+
 function safeFilename(value) {
   return String(value || "proposal")
     .trim()
@@ -101,7 +112,9 @@ function ServiceSection({ title, items }) {
         <ServiceCard activity={first} />
       </div>
       {rest.map((activity) => (
-        <ServiceCard key={activity.slug || activity.id} activity={activity} />
+        <div key={activity.slug || activity.id} className={styles.cardSlot}>
+          <ServiceCard activity={activity} />
+        </div>
       ))}
     </section>
   );
@@ -110,9 +123,18 @@ function ServiceSection({ title, items }) {
 export default function ProposalGenerator({
   locale = "en",
   activities = [],
+  phones: phonesProp = [],
 }) {
   const copy = PROPOSAL_COPY[locale] || PROPOSAL_COPY.en;
   const documentRef = useRef(null);
+  const phones = phonesProp.length ? phonesProp : DEFAULT_PHONES;
+  const [phoneTel, setPhoneTel] = useState(
+    () => (phones.find((phone) => phone.tel.startsWith("+1")) || phones[0]).tel
+  );
+  const selectedPhone =
+    phones.find((phone) => phone.tel === phoneTel) || phones[0];
+  const [includeTransport, setIncludeTransport] = useState(true);
+  const [includeMeals, setIncludeMeals] = useState(true);
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
   const [downloading, setDownloading] = useState(false);
@@ -134,7 +156,12 @@ export default function ProposalGenerator({
     () => splitProposalActivities(localized),
     [localized]
   );
-  const localPreview = local.slice(0, 8);
+  const localRows = useMemo(() => {
+    const preview = local.slice(0, 8);
+    const rows = [];
+    for (let i = 0; i < preview.length; i += 2) rows.push(preview.slice(i, i + 2));
+    return rows;
+  }, [local]);
 
   const documentTitle = useMemo(
     () => `${copy.titlePrefix} ${organization}`,
@@ -177,6 +204,8 @@ export default function ProposalGenerator({
 
     setDownloading(true);
     setDownloadError("");
+    const node = documentRef.current;
+    node.classList.add(styles.exporting);
 
     try {
       const html2pdf = (await import("html2pdf.js")).default;
@@ -196,14 +225,18 @@ export default function ProposalGenerator({
             logging: false,
           },
           jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-          pagebreak: { mode: ["css", "legacy"] },
+          pagebreak: {
+            mode: ["css", "legacy"],
+            avoid: [`.${styles.closing}`, `.${styles.cardSlot}`],
+          },
         })
-        .from(documentRef.current)
+        .from(node)
         .save();
     } catch (error) {
       console.error("PDF download failed:", error);
       setDownloadError(copy.downloadError);
     } finally {
+      node.classList.remove(styles.exporting);
       setDownloading(false);
     }
   };
@@ -257,6 +290,56 @@ export default function ProposalGenerator({
                 placeholder={copy.notePlaceholder}
               />
             </label>
+
+            <fieldset className={styles.optionField}>
+              <legend>{copy.phoneLabel}</legend>
+              <div className={styles.segmented} role="radiogroup">
+                {phones.map((phone) => (
+                  <label
+                    key={phone.tel}
+                    className={`${styles.segment} ${
+                      phone.tel === selectedPhone.tel ? styles.segmentActive : ""
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="proposalPhone"
+                      value={phone.tel}
+                      checked={phone.tel === selectedPhone.tel}
+                      onChange={() => setPhoneTel(phone.tel)}
+                    />
+                    <span className={styles.segmentCountry}>
+                      {phoneCountry(phone.tel, locale)}
+                    </span>
+                    <span>{phone.label}</span>
+                  </label>
+                ))}
+              </div>
+              <small className={styles.optionHint}>{copy.phoneHint}</small>
+            </fieldset>
+
+            <fieldset className={styles.optionField}>
+              <legend>{copy.sectionsLabel}</legend>
+              <div className={styles.checkRow}>
+                <label className={styles.check}>
+                  <input
+                    type="checkbox"
+                    checked={includeTransport}
+                    onChange={(event) => setIncludeTransport(event.target.checked)}
+                  />
+                  <span>{copy.transportTitle}</span>
+                </label>
+                <label className={styles.check}>
+                  <input
+                    type="checkbox"
+                    checked={includeMeals}
+                    onChange={(event) => setIncludeMeals(event.target.checked)}
+                  />
+                  <span>{copy.mealsTitle}</span>
+                </label>
+              </div>
+              <small className={styles.optionHint}>{copy.sectionsHint}</small>
+            </fieldset>
           </div>
 
           {downloadError ? (
@@ -311,76 +394,108 @@ export default function ProposalGenerator({
             <p>{copy.includesBody}</p>
           </section>
 
-          <ServiceSection title={copy.transportTitle} items={transport} />
-          <ServiceSection title={copy.mealsTitle} items={meals} />
-
-          {localPreview.length > 0 ? (
-            <section className={`${styles.block} ${styles.keepTogether}`}>
-              <h2>{copy.localTitle}</h2>
-              <div className={styles.localGrid}>
-                {localPreview.map((activity) => (
-                  <article
-                    key={activity.slug || activity.id}
-                    className={styles.localItem}
-                  >
-                    {activity.image ? (
-                      <img
-                        src={activity.image}
-                        alt={activity.imageAlt || activity.displayTitle}
-                      />
-                    ) : null}
-                    <p>{activity.displayTitle}</p>
-                  </article>
-                ))}
-              </div>
-            </section>
+          {includeTransport ? (
+            <ServiceSection title={copy.transportTitle} items={transport} />
+          ) : null}
+          {includeMeals ? (
+            <ServiceSection title={copy.mealsTitle} items={meals} />
           ) : null}
 
-          <section className={`${styles.block} ${styles.keepTogether}`}>
-            <h2>{copy.focusTitle}</h2>
-            <p>{note}</p>
-          </section>
-
-          <section className={`${styles.block} ${styles.nextBlock}`}>
-            <h2>{copy.nextTitle}</h2>
-            <p>{copy.nextBody}</p>
-            <p className={styles.nextLinkWrap}>
-              <a
-                href={copy.nextLinkHref}
-                className={styles.nextLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {copy.nextLinkLabel}
-              </a>
-            </p>
-            <p className={styles.contactLine}>
-              <strong>{copy.contactName}</strong>
-              <br />
-              {copy.contactPhone}
-              <br />
-              {copy.contactEmail}
-            </p>
-          </section>
+          {localRows.length > 0 ? (
+            <section className={styles.block}>
+              {localRows.map((row, index) => {
+                const grid = (
+                  <div
+                    key={row.map((activity) => activity.slug || activity.id).join("|")}
+                    className={`${styles.localGrid} ${styles.keepTogether}`}
+                  >
+                    {row.map((activity) => (
+                      <article
+                        key={activity.slug || activity.id}
+                        className={styles.localItem}
+                      >
+                        {activity.image ? (
+                          <img
+                            src={activity.image}
+                            alt={activity.imageAlt || activity.displayTitle}
+                          />
+                        ) : null}
+                        <p>{activity.displayTitle}</p>
+                      </article>
+                    ))}
+                  </div>
+                );
+                return index === 0 ? (
+                  <div key="first" className={styles.keepTogether}>
+                    <h2>{copy.localTitle}</h2>
+                    {grid}
+                  </div>
+                ) : (
+                  grid
+                );
+              })}
+              <p className={styles.viewAllWrap}>
+                <a
+                  href={copy.viewAllActivitiesHref}
+                  className={styles.nextLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {copy.viewAllActivitiesLabel}
+                </a>
+              </p>
+            </section>
+          ) : null}
         </div>
 
-        <footer className={styles.docFooter}>
-          <img
-            src="/blessedhouse_logo25.png"
-            alt={copy.brandLine}
-            className={styles.footerLogo}
-          />
-          <p className={styles.footerBrand}>{copy.brandLine}</p>
-          <p className={styles.footerMeta}>
-            <a href="https://www.blessedhouse.info">{copy.contactWeb}</a>
-          </p>
-          <p className={styles.footerMeta}>
-            {copy.contactPhone}
-            <span className={styles.footerDot}>·</span>
-            {copy.contactEmail}
-          </p>
-          <p className={styles.footerMeta}>{copy.contactLocation}</p>
-        </footer>
+        <div className={styles.closing}>
+          <div className={styles.closingBody}>
+            <section className={styles.block}>
+              <h2>{copy.focusTitle}</h2>
+              <p>{note}</p>
+            </section>
+
+            <section className={`${styles.block} ${styles.nextBlock}`}>
+              <h2>{copy.nextTitle}</h2>
+              <p>{copy.nextBody}</p>
+              <p className={styles.nextLinkWrap}>
+                <a
+                  href={copy.nextLinkHref}
+                  className={styles.nextLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {copy.nextLinkLabel}
+                </a>
+              </p>
+              <p className={styles.contactLine}>
+                <strong>{copy.contactName}</strong>
+                <br />
+                {selectedPhone.label}
+                <br />
+                {copy.contactEmail}
+              </p>
+            </section>
+          </div>
+
+          <footer className={styles.docFooter}>
+            <img
+              src="/blessedhouse_logo25.png"
+              alt={copy.brandLine}
+              className={styles.footerLogo}
+            />
+            <p className={styles.footerBrand}>{copy.brandLine}</p>
+            <p className={styles.footerMeta}>
+              <a href="https://www.blessedhouse.info">{copy.contactWeb}</a>
+            </p>
+            <p className={styles.footerMeta}>
+              {selectedPhone.label}
+              <span className={styles.footerDot}>·</span>
+              {copy.contactEmail}
+            </p>
+            <p className={styles.footerMeta}>{copy.contactLocation}</p>
+          </footer>
+        </div>
       </article>
     </div>
   );

@@ -55,6 +55,8 @@ export const PVG_I18N = {
     datesHint:
       "Pick up to 3 preferred ranges. Add another after you confirm the current one.",
     addRangeLabel: "Add another date range",
+    calendarPartialLabel: "Some villas booked",
+    calendarFullLabel: "Fully booked",
     contactNameLabel: "Your Name",
     emailLabel: "Contact email",
     optionLabel: "Option",
@@ -138,6 +140,8 @@ export const PVG_I18N = {
     datesHint:
       "Elija hasta 3 rangos preferidos. Agregue otro después de confirmar el actual.",
     addRangeLabel: "Agregar otro rango de fechas",
+    calendarPartialLabel: "Algunas villas reservadas",
+    calendarFullLabel: "Totalmente reservado",
     contactNameLabel: "Su nombre",
     emailLabel: "Correo de contacto",
     optionLabel: "Opción",
@@ -221,6 +225,8 @@ export const PVG_I18N = {
     datesHint:
       "Wählen Sie bis zu 3 bevorzugte Zeiträume. Fügen Sie einen weiteren hinzu, nachdem der aktuelle bestätigt ist.",
     addRangeLabel: "Weiteren Zeitraum hinzufügen",
+    calendarPartialLabel: "Einige Villen gebucht",
+    calendarFullLabel: "Ausgebucht",
     contactNameLabel: "Ihr Name",
     emailLabel: "Kontakt E Mail",
     optionLabel: "Option",
@@ -304,6 +310,8 @@ export const PVG_I18N = {
     datesHint:
       "Kies tot 3 voorkeursperiodes. Voeg een volgende toe nadat de huidige is bevestigd.",
     addRangeLabel: "Nog een datumbereik toevoegen",
+    calendarPartialLabel: "Enkele villa’s geboekt",
+    calendarFullLabel: "Volgeboekt",
     contactNameLabel: "Uw naam",
     emailLabel: "Contact e mail",
     optionLabel: "Optie",
@@ -387,6 +395,8 @@ export const PVG_I18N = {
     datesHint:
       "Choisissez jusqu’à 3 plages préférées. Ajoutez en une autre après avoir confirmé la plage actuelle.",
     addRangeLabel: "Ajouter une autre plage de dates",
+    calendarPartialLabel: "Certaines villas réservées",
+    calendarFullLabel: "Complet",
     contactNameLabel: "Votre nom",
     emailLabel: "E mail de contact",
     optionLabel: "Option",
@@ -470,6 +480,8 @@ export const PVG_I18N = {
     datesHint:
       "希望期間は最大3つまで。現在の期間を確定してから次を追加できます。",
     addRangeLabel: "別の日程を追加",
+    calendarPartialLabel: "一部のヴィラが予約済み",
+    calendarFullLabel: "満室",
     contactNameLabel: "お名前",
     emailLabel: "連絡用メール",
     optionLabel: "候補",
@@ -553,6 +565,8 @@ export const PVG_I18N = {
     datesHint:
       "Escolha até 3 períodos preferidos. Adicione outro depois de confirmar o atual.",
     addRangeLabel: "Adicionar outro período",
+    calendarPartialLabel: "Algumas villas reservadas",
+    calendarFullLabel: "Lotado",
     contactNameLabel: "Seu nome",
     emailLabel: "E mail de contato",
     optionLabel: "Opção",
@@ -636,6 +650,8 @@ export const PVG_I18N = {
     datesHint:
       "اختاروا حتى 3 فترات مفضلة. أضيفوا فترة أخرى بعد تأكيد الفترة الحالية.",
     addRangeLabel: "إضافة فترة أخرى",
+    calendarPartialLabel: "بعض الفيلات محجوزة",
+    calendarFullLabel: "محجوز بالكامل",
     contactNameLabel: "اسمكم",
     emailLabel: "البريد الإلكتروني للتواصل",
     optionLabel: "خيار",
