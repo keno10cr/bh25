@@ -805,6 +805,7 @@ export const arTranslations = {
     nightPlural: "ليالٍ",
     extraGuestFee: "رسوم نزيل إضافي ({count} × {rate} / ليلة)",
     total: "الإجمالي",
+    cleaningIncludedNote: "التنظيف مشمول في إقامتكم. تُضاف الضرائب فقط بشكل منفصل.",
     exploreTitle: "استكشفوا Blessed House",
     exploreSubtitle:
       "بينما نراجع طلبكم، اكتشفوا المزيد مما ينتظركم.",

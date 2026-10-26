@@ -798,6 +798,7 @@ export const translations = {
       nightPlural: "nights",
       extraGuestFee: "Extra guest fee ({count} × {rate} / night)",
       total: "Total",
+      cleaningIncludedNote: "Cleaning is included in your stay. Only taxes are added separately.",
       exploreTitle: "Explore Blessed House",
       exploreSubtitle:
         "While we review your request, discover more of what awaits you.",
@@ -1571,6 +1572,7 @@ export const translations = {
       nightPlural: "noches",
       extraGuestFee: "Cargo por huésped extra ({count} × {rate} / noche)",
       total: "Total",
+      cleaningIncludedNote: "La limpieza está incluida en tu estadía. Solo los impuestos se suman por separado.",
       exploreTitle: "Explora Blessed House",
       exploreSubtitle:
         "Mientras revisamos tu solicitud, descubre más de lo que te espera.",

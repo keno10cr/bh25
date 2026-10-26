@@ -460,9 +460,7 @@ export default function PropertyBookingSidebar({
       <div className={styles.card}>
         <p className={styles.preheader}>
           {checkIn && checkOut
-            ? cleaningFeeUsd > 0
-              ? "This price includes the cleaning fee. Tax is added at checkout."
-              : "This price includes all fees except tax (shown at checkout)"
+            ? "This price includes all fees except tax (shown at checkout)"
             : "Select dates to see pricing"}
         </p>
 
@@ -472,6 +470,9 @@ export default function PropertyBookingSidebar({
               <>
                 <span className={styles.price}>{money(displayPricing.total)}</span>
                 <span className={styles.priceMeta}> for {nights} nights</span>
+                {displayPricing.cleaningFee > 0 ? (
+                  <span className={styles.priceNote}>Includes cleaning fee.</span>
+                ) : null}
               </>
             ) : (
               <>
@@ -512,9 +513,6 @@ export default function PropertyBookingSidebar({
                 {money(displayPricing.stayDiscount.amount)}
               </div>
             ) : null}
-            {displayPricing.cleaningFee > 0 ? (
-              <div>Cleaning fee (once per stay): +{money(displayPricing.cleaningFee)}</div>
-            ) : null}
           </div>
         ) : (
           <p className={styles.hint}>
@@ -522,9 +520,7 @@ export default function PropertyBookingSidebar({
             {extraFee > 0
               ? `. Extra guests ${money(toDisplay(extraFee))} / person / night.`
               : "."}{" "}
-            {cleaningFeeUsd > 0
-              ? `Cleaning fee ${money(toDisplay(cleaningFeeUsd))} per stay. `
-              : ""}
+            {cleaningFeeUsd > 0 ? "Cleaning is included in your stay total. " : ""}
             {stayDiscountHint}
             Minimum stay {minimumNights} night{minimumNights === 1 ? "" : "s"} for
             booking requests.

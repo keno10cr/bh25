@@ -6,6 +6,7 @@
 import { buildStayPricing, computeExtraGuestStayFee } from "./bookingPricing";
 import { occupiedNightsFromStay, toIsoDateList } from "./availabilityDates";
 import {
+  CLEANING_FEE_ID,
   calculateCheckoutFeeLines,
   resolvePropertyFees,
   sumFeeLineSubtotals,
@@ -252,6 +253,42 @@ export function buildGroupQuote({
     taxes,
     total: roundMoney(netSubtotal + feesTotal + taxes) + addOnsTotal,
     totalGuests: rows.reduce((sum, row) => sum + (row.guests || 0), 0),
+  };
+}
+
+/**
+ * Guest facing view of a quote: each villa's cleaning fee is added into that
+ * villa's stay total instead of being listed as its own fee line.
+ * Taxes and the grand total are unchanged.
+ */
+export function foldCleaningFee(quote) {
+  const cleaningOf = (feeLines = []) =>
+    roundMoney(
+      feeLines
+        .filter((line) => line.feeId === CLEANING_FEE_ID)
+        .reduce((sum, line) => sum + line.subtotal, 0)
+    );
+  const rows = quote.rows.map((row) => {
+    const cleaning = cleaningOf(row.feeLines);
+    if (!cleaning) return { ...row, cleaningIncluded: 0 };
+    return {
+      ...row,
+      cleaningIncluded: cleaning,
+      netSubtotal: roundMoney(row.netSubtotal + cleaning),
+      afterStayDiscount: roundMoney(row.afterStayDiscount + cleaning),
+      feeLines: row.feeLines.filter((line) => line.feeId !== CLEANING_FEE_ID),
+    };
+  });
+  const cleaning = cleaningOf(quote.feeLines);
+  if (!cleaning) return { ...quote, rows, cleaningIncluded: 0 };
+  return {
+    ...quote,
+    rows,
+    cleaningIncluded: cleaning,
+    subtotal: roundMoney(quote.subtotal + cleaning),
+    netSubtotal: roundMoney(quote.netSubtotal + cleaning),
+    feeLines: quote.feeLines.filter((line) => line.feeId !== CLEANING_FEE_ID),
+    feesTotal: roundMoney(quote.feesTotal - cleaning),
   };
 }
 

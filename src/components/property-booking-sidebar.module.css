@@ -47,6 +47,13 @@
   opacity: 0.9;
 }
 
+.priceNote {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+
 .rating {
   font-size: 0.9rem;
   white-space: normal;

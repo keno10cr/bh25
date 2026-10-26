@@ -7,6 +7,8 @@ import {
   STAY_DISCOUNT_MIN_NIGHTS,
   buildAddOnLines,
   buildGroupQuote,
+  foldCleaningFee,
+  roundMoney,
   unavailableNightsInStay,
 } from "@/lib/groupQuote";
 import DateRangePicker from "@/components/date-range-picker";
@@ -394,6 +396,8 @@ export default function GroupQuoteTool({
   );
 
   const quote = inColones && quoteCrc ? quoteCrc : quoteUsd;
+  const docQuote = useMemo(() => foldCleaningFee(quote), [quote]);
+  const docRows = docQuote.rows.filter((row) => row.quote);
 
   /** Villas whose stay discount here is lower than what the same stay gets online. */
   const belowWebsiteRate = quoteUsd.rows
@@ -619,7 +623,7 @@ export default function GroupQuoteTool({
   };
 
   const logQuote = () => {
-    const quote = quoteUsd;
+    const quote = foldCleaningFee(quoteUsd);
     const payload = {
       quoteNumber,
       groupName: client.groupName,
@@ -636,7 +640,7 @@ export default function GroupQuoteTool({
         checkIn: row.checkIn,
         checkOut: row.checkOut,
         nights: row.quote.nights,
-        subtotal: row.quote.subtotal,
+        subtotal: roundMoney(row.quote.subtotal + row.cleaningIncluded),
         exceptions: villaExceptions(row),
       })),
       total: quote.total,
@@ -1622,7 +1626,7 @@ export default function GroupQuoteTool({
               <p className={styles.docEmpty}>{t.empty}</p>
             )}
 
-            {pricedRows.map((row) => {
+            {docRows.map((row) => {
               const lines = priceDisplay === "net" ? row.netLines : row.quote.lines;
               const villaTotal =
                 priceDisplay === "net" ? row.netSubtotal : row.afterStayDiscount;
@@ -1689,13 +1693,13 @@ export default function GroupQuoteTool({
               );
             })}
 
-            {quote.addOnLines.length > 0 ? (
+            {docQuote.addOnLines.length > 0 ? (
               <div className={styles.docBlock}>
                 <section className={styles.docAddOns}>
                   <h3>{t.addOnsTitle}</h3>
                   <table className={styles.docLines}>
                     <tbody>
-                      {quote.addOnLines.map((line) => (
+                      {docQuote.addOnLines.map((line) => (
                         <tr key={line.id}>
                           <td>{line.name || t.addOnFallback[line.category]}</td>
                           <td>
@@ -1722,9 +1726,9 @@ export default function GroupQuoteTool({
                     <>
                       <p>
                         <span>{t.originalPrice}</span>
-                        <span>{docFmt(quote.subtotal)}</span>
+                        <span>{docFmt(docQuote.subtotal)}</span>
                       </p>
-                      {quote.stayDiscountLines.map((line) => (
+                      {docQuote.stayDiscountLines.map((line) => (
                         <p
                           key={`${line.kind}-${line.percent}`}
                           className={`${styles.docDiscount} ${styles.docStayDiscount}`}
@@ -1733,51 +1737,54 @@ export default function GroupQuoteTool({
                           <span>{t.off(docFmt(line.amount))}</span>
                         </p>
                       ))}
-                      {quote.groupDiscountAmount > 0 ? (
+                      {docQuote.groupDiscountAmount > 0 ? (
                         <p className={styles.docDiscount}>
                           <span>{discountTitle}</span>
-                          <span>{t.off(docFmt(quote.groupDiscountAmount))}</span>
+                          <span>{t.off(docFmt(docQuote.groupDiscountAmount))}</span>
                         </p>
                       ) : null}
                     </>
                   ) : null}
-                  {pricedRows.length > 0 &&
-                  (quote.addOnLines.length > 0 || quote.feeLines.length > 0 || quote.taxes > 0) ? (
+                  {docRows.length > 0 &&
+                  (docQuote.addOnLines.length > 0 ||
+                    docQuote.feeLines.length > 0 ||
+                    docQuote.taxes > 0) ? (
                     <p>
                       <span>{t.accommodation}</span>
-                      <span>{docFmt(quote.netSubtotal)}</span>
+                      <span>{docFmt(docQuote.netSubtotal)}</span>
                     </p>
                   ) : null}
-                  {quote.addOnLines.length > 0 ? (
+                  {docQuote.addOnLines.length > 0 ? (
                     <p>
                       <span>{t.addOnsTitle}</span>
-                      <span>{docFmt(quote.addOnsTotal)}</span>
+                      <span>{docFmt(docQuote.addOnsTotal)}</span>
                     </p>
                   ) : null}
-                  {quote.feeLines.length > 0 || quote.taxes > 0 ? (
+                  {docQuote.feeLines.length > 0 || docQuote.taxes > 0 ? (
                     <>
-                      {quote.feeLines.map((line) => (
+                      {docQuote.feeLines.map((line) => (
                         <p key={line.feeId}>
                           <span>{withFeeRate(feeTitle(line), line)}</span>
                           <span>{docFmt(line.subtotal)}</span>
                         </p>
                       ))}
-                      {quote.taxes > 0 ? (
+                      {docQuote.taxes > 0 ? (
                         <p>
                           <span>
-                            {t.taxLabel(settings)} ({quote.taxRate}%)
+                            {t.taxLabel(settings)} ({docQuote.taxRate}%)
                           </span>
-                          <span>{docFmt(quote.taxes)}</span>
+                          <span>{docFmt(docQuote.taxes)}</span>
                         </p>
                       ) : null}
                     </>
                   ) : null}
                   <p className={styles.docGrandTotal}>
                     <span>{t.total}</span>
-                    <span>{docFmt(quote.total)}</span>
+                    <span>{docFmt(docQuote.total)}</span>
                   </p>
                   <p className={styles.docFine}>
                     {inColones && quoteCrc ? t.pricesInColones : t.pricesIn(currency)}
+                    {docQuote.cleaningIncluded > 0 ? t.includesCleaning : ""}
                     {leftOff.length > 0 ? t.notIncluded(leftOff) : ""}
                   </p>
                 </section>

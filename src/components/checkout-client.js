@@ -11,7 +11,7 @@ import {
   formatStayDate,
   getOrderedHouseRuleCards,
 } from "@/lib/checkout";
-import { resolveFeeTitle } from "@/lib/checkoutFees";
+import { CLEANING_FEE_ID, resolveFeeTitle } from "@/lib/checkoutFees";
 import {
   clampGuestSelection,
   formatGuestSelectionSummary,
@@ -161,6 +161,15 @@ export default function CheckoutClient({
       property,
     });
   }, [extraGuestFee, initialQuote, nights, property, settings]);
+
+  const allFeeLines = priceSummary.feeLines || [];
+  const cleaningIncluded = allFeeLines
+    .filter((fee) => fee.feeId === CLEANING_FEE_ID)
+    .reduce((sum, fee) => sum + fee.subtotal, 0);
+  const visibleFeeLines = allFeeLines.filter((fee) => fee.feeId !== CLEANING_FEE_ID);
+  const stayLineAmount =
+    (extraGuestFee ? priceSummary.subtotal - extraGuestFee.subtotal : priceSummary.subtotal) +
+    cleaningIncluded;
 
   const houseRuleCards = useMemo(
     () => getOrderedHouseRuleCards(property, t),
@@ -587,13 +596,7 @@ export default function CheckoutClient({
                       })`
                     : ""}
                 </span>
-                <span>
-                  {money(
-                    extraGuestFee
-                      ? priceSummary.subtotal - extraGuestFee.subtotal
-                      : priceSummary.subtotal
-                  )}
-                </span>
+                <span>{money(stayLineAmount)}</span>
               </div>
               {extraGuestFee ? (
                 <div className={styles.priceLine}>
@@ -612,7 +615,7 @@ export default function CheckoutClient({
                   <span>−{money(priceSummary.stayDiscount.amount)}</span>
                 </div>
               ) : null}
-              {(priceSummary.feeLines || []).map((fee) => (
+              {visibleFeeLines.map((fee) => (
                 <div key={fee.feeId || fee.titleEn} className={styles.priceLine}>
                   <span>{formatFeeLineLabel(fee, language, money)}</span>
                   <span>{money(fee.subtotal)}</span>
@@ -628,6 +631,9 @@ export default function CheckoutClient({
                 <span>{t("checkout.total")}</span>
                 <strong>{money(priceSummary.total)}</strong>
               </div>
+              {cleaningIncluded > 0 ? (
+                <p className={styles.priceNote}>{t("checkout.cleaningIncludedNote")}</p>
+              ) : null}
             </div>
           </div>
         </aside>

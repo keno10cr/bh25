@@ -392,6 +392,12 @@
   font-size: 1rem;
 }
 
+.priceNote {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #6b6b6b;
+}
+
 .successSummary {
   display: grid;
   gap: 0.7rem;
