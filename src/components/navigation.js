@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import LanguageSwitcher from "./language-switcher";
 import LanguageSwitcherPayments from "./language-switcher-payments";
@@ -45,6 +46,7 @@ export default function Navigation({ nav }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const menuOpenRef = useRef(false);
 
   const brandName = nav?.brandName?.value || NAV_SETTINGS_DEFAULTS.brandName;
@@ -54,6 +56,10 @@ export default function Navigation({ nav }) {
       : NAV_SETTINGS_DEFAULTS.links;
 
   menuOpenRef.current = isOpen || isClosing;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!isPvgPage) {
@@ -110,7 +116,13 @@ export default function Navigation({ nav }) {
     handleToggle();
   };
 
+  const closeMenu = () => {
+    if (!isOpen || isClosing) return;
+    handleToggle();
+  };
+
   return (
+    <>
     <nav
       className={`${styles.navbar} ${
         isPvgPage && navHidden ? styles.navbarHidden : ""
@@ -191,5 +203,19 @@ export default function Navigation({ nav }) {
         </div>
       </div>
     </nav>
+    {mounted && (isOpen || isClosing)
+      ? createPortal(
+          <button
+            type="button"
+            className={`${styles.menuOverlay} ${
+              isClosing ? styles.menuOverlayClosing : ""
+            }`}
+            aria-label={t("a11y.close")}
+            onClick={closeMenu}
+          />,
+          document.body
+        )
+      : null}
+    </>
   );
 }

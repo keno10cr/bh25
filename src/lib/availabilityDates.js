@@ -79,3 +79,15 @@ export function tomorrowIsoDate() {
   );
   return formatIsoDate(addUtcDays(utc, 1));
 }
+
+/** Calendar day at the villas. Public booking stays on tomorrowIsoDate. */
+export function costaRicaTodayIsoDate(now = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Costa_Rica",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(now);
+  const value = (type) => parts.find((part) => part.type === type)?.value;
+  return `${value("year")}-${value("month")}-${value("day")}`;
+}

@@ -3,7 +3,7 @@ import { urlForImage } from "./sanity/image";
 import { getSystemSettings } from "./systemSettingsData";
 import { getCrcBaseRate } from "./exchangeRate";
 import { getFooterSettings } from "./sanity/content";
-import { tomorrowIsoDate } from "./availabilityDates";
+import { costaRicaTodayIsoDate } from "./availabilityDates";
 import { ensureAirbnbCalendarsFresh } from "./ical/syncAirbnb";
 import { sumHouseArrangementCapacity } from "./propertyPricing";
 import { loadUnavailableNightsByVilla } from "./estateAvailability";
@@ -45,7 +45,8 @@ function photoUrl(image, width, height) {
 export async function loadGroupQuoteData() {
   await ensureAirbnbCalendarsFresh();
   const client = createSanityReadClient();
-  const from = tomorrowIsoDate();
+  // Admins can quote a same-day arrival. Public calendars stay on tomorrow.
+  const from = costaRicaTodayIsoDate();
   const [properties, unavailable, settings, footer] = await Promise.all([
     client.fetch(PROPERTIES_QUERY),
     loadUnavailableNightsByVilla(client, from),
