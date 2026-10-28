@@ -2,13 +2,23 @@
 
 import { useMemo, useRef, useState } from "react";
 import { translations } from "@/lib/translations";
-import { splitProposalActivities } from "@/lib/activity-groups";
 import { PROPOSAL_COPY } from "./copy";
+import {
+  activityKey,
+  applyMealCopy,
+  applyTransportCopy,
+  defaultSelectedKeys,
+  formatGroupSize,
+  mealHeadcount,
+  parseGroupCount,
+  partitionProposalActivities,
+} from "./model";
 import styles from "./proposal-generator.module.css";
 
 const EMPTY = {
   organization: "",
-  pax: "30",
+  groupMin: "",
+  groupMax: "30",
   note: "",
 };
 
@@ -30,6 +40,11 @@ function safeFilename(value) {
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-")
     .slice(0, 60) || "proposal";
+}
+
+function backgroundImage(src) {
+  const safe = String(src).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  return `url("${safe}")`;
 }
 
 function localizeActivity(activity, locale) {
@@ -69,16 +84,26 @@ function localizeActivity(activity, locale) {
   };
 }
 
+function CoverImage({ src, alt, className }) {
+  if (!src) return null;
+  return (
+    <div
+      className={className}
+      role="img"
+      aria-label={alt || undefined}
+      style={{ backgroundImage: backgroundImage(src) }}
+    />
+  );
+}
+
 function ServiceCard({ activity }) {
   return (
     <article className={styles.serviceCard}>
-      {activity.image ? (
-        <img
-          src={activity.image}
-          alt={activity.imageAlt || activity.displayTitle}
-          className={styles.serviceImage}
-        />
-      ) : null}
+      <CoverImage
+        src={activity.image}
+        alt={activity.imageAlt || activity.displayTitle}
+        className={styles.serviceImage}
+      />
       <div className={styles.serviceBody}>
         <h3>{activity.displayTitle}</h3>
         {activity.displayDescription ? (
@@ -112,7 +137,7 @@ function ServiceSection({ title, items }) {
         <ServiceCard activity={first} />
       </div>
       {rest.map((activity) => (
-        <div key={activity.slug || activity.id} className={styles.cardSlot}>
+        <div key={activityKey(activity)} className={styles.cardSlot}>
           <ServiceCard activity={activity} />
         </div>
       ))}
@@ -133,8 +158,9 @@ export default function ProposalGenerator({
   );
   const selectedPhone =
     phones.find((phone) => phone.tel === phoneTel) || phones[0];
-  const [includeTransport, setIncludeTransport] = useState(true);
-  const [includeMeals, setIncludeMeals] = useState(true);
+  const [selectedKeys, setSelectedKeys] = useState(() =>
+    defaultSelectedKeys(activities)
+  );
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
   const [downloading, setDownloading] = useState(false);
@@ -143,25 +169,49 @@ export default function ProposalGenerator({
   const organization =
     form.organization.trim() || copy.defaults.organization;
   const note = form.note.trim() || copy.defaults.note;
-  const paxNumber = Number(form.pax);
-  const paxValid =
-    Number.isFinite(paxNumber) && paxNumber >= 20 && paxNumber <= 45;
-  const pax = paxValid ? String(Math.round(paxNumber)) : "30";
+  const minParsed = parseGroupCount(form.groupMin);
+  const maxParsed = parseGroupCount(form.groupMax);
+  const minCount = minParsed.invalid ? null : minParsed.value;
+  const maxCount = maxParsed.invalid ? null : maxParsed.value;
+  const sizeLabel = formatGroupSize(minCount, maxCount, copy.guestUnit);
+  const mealsFor = mealHeadcount(minCount, maxCount);
 
   const localized = useMemo(
     () => activities.map((activity) => localizeActivity(activity, locale)),
     [activities, locale]
   );
-  const { transport, meals, local } = useMemo(
-    () => splitProposalActivities(localized),
-    [localized]
+  const selected = useMemo(
+    () => localized.filter((activity) => selectedKeys.includes(activityKey(activity))),
+    [localized, selectedKeys]
+  );
+  const pickerGroups = useMemo(() => {
+    const groups = partitionProposalActivities(localized);
+    return [
+      { id: "transport", label: copy.transportTitle, items: groups.transport },
+      { id: "meals", label: copy.mealsTitle, items: groups.meals },
+      { id: "local", label: copy.localTitle, items: groups.local },
+    ].filter((group) => group.items.length > 0);
+  }, [localized, copy.transportTitle, copy.mealsTitle, copy.localTitle]);
+  const transport = useMemo(
+    () =>
+      partitionProposalActivities(selected).transport.map((activity) =>
+        applyTransportCopy(activity, copy)
+      ),
+    [selected, copy]
+  );
+  const meals = useMemo(
+    () =>
+      partitionProposalActivities(selected).meals.map((activity) =>
+        applyMealCopy(activity, mealsFor, copy)
+      ),
+    [selected, mealsFor, copy]
   );
   const localRows = useMemo(() => {
-    const preview = local.slice(0, 8);
+    const local = partitionProposalActivities(selected).local;
     const rows = [];
-    for (let i = 0; i < preview.length; i += 2) rows.push(preview.slice(i, i + 2));
+    for (let i = 0; i < local.length; i += 2) rows.push(local.slice(i, i + 2));
     return rows;
-  }, [local]);
+  }, [selected]);
 
   const documentTitle = useMemo(
     () => `${copy.titlePrefix} ${organization}`,
@@ -171,7 +221,24 @@ export default function ProposalGenerator({
   const handleChange = (event) => {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
+    setErrors((prev) => ({ ...prev, [name]: "", groupSize: "" }));
+    setDownloadError("");
+  };
+
+  const toggleActivity = (key) => {
+    setSelectedKeys((prev) =>
+      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]
+    );
+    setDownloadError("");
+  };
+
+  const selectAllActivities = () => {
+    setSelectedKeys(localized.map(activityKey).filter(Boolean));
+    setDownloadError("");
+  };
+
+  const clearActivities = () => {
+    setSelectedKeys([]);
     setDownloadError("");
   };
 
@@ -183,16 +250,10 @@ export default function ProposalGenerator({
           ? "Ingrese el nombre de la organización."
           : "Enter the organization name.";
     }
-    if (!form.pax) {
-      next.pax =
-        locale === "es"
-          ? "Ingrese la cantidad de personas."
-          : "Enter estimated pax.";
-    } else if (!paxValid) {
-      next.pax =
-        locale === "es"
-          ? "Use un número entre 20 y 45."
-          : "Use a number between 20 and 45.";
+    if (minParsed.invalid || maxParsed.invalid) {
+      next.groupSize = copy.groupSizeInvalid;
+    } else if (!minCount && !maxCount) {
+      next.groupSize = copy.groupSizeRequired;
     }
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -252,7 +313,7 @@ export default function ProposalGenerator({
           </div>
 
           <div className={styles.formGrid}>
-            <label className={styles.field}>
+            <label className={`${styles.field} ${styles.fieldWide}`}>
               <span>{copy.organizationLabel}</span>
               <input
                 name="organization"
@@ -265,20 +326,40 @@ export default function ProposalGenerator({
               ) : null}
             </label>
 
-            <label className={styles.field}>
-              <span>{copy.paxLabel}</span>
-              <input
-                name="pax"
-                type="number"
-                min={20}
-                max={45}
-                value={form.pax}
-                onChange={handleChange}
-              />
-              {errors.pax ? (
-                <em className={styles.error}>{errors.pax}</em>
+            <fieldset className={`${styles.optionField} ${styles.fieldWide}`}>
+              <legend>{copy.groupSizeLabel}</legend>
+              <div className={styles.sizeRow}>
+                <label>
+                  <span>{copy.groupMinLabel}</span>
+                  <input
+                    name="groupMin"
+                    type="number"
+                    min={1}
+                    max={999}
+                    inputMode="numeric"
+                    value={form.groupMin}
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  <span>{copy.groupMaxLabel}</span>
+                  <input
+                    name="groupMax"
+                    type="number"
+                    min={1}
+                    max={999}
+                    inputMode="numeric"
+                    value={form.groupMax}
+                    onChange={handleChange}
+                    placeholder="45"
+                  />
+                </label>
+              </div>
+              <small className={styles.optionHint}>{copy.groupSizeHint}</small>
+              {errors.groupSize ? (
+                <em className={styles.error}>{errors.groupSize}</em>
               ) : null}
-            </label>
+            </fieldset>
 
             <label className={`${styles.field} ${styles.fieldWide}`}>
               <span>{copy.noteLabel}</span>
@@ -291,7 +372,7 @@ export default function ProposalGenerator({
               />
             </label>
 
-            <fieldset className={styles.optionField}>
+            <fieldset className={`${styles.optionField} ${styles.fieldWide}`}>
               <legend>{copy.phoneLabel}</legend>
               <div className={styles.segmented} role="radiogroup">
                 {phones.map((phone) => (
@@ -318,27 +399,44 @@ export default function ProposalGenerator({
               <small className={styles.optionHint}>{copy.phoneHint}</small>
             </fieldset>
 
-            <fieldset className={styles.optionField}>
-              <legend>{copy.sectionsLabel}</legend>
-              <div className={styles.checkRow}>
-                <label className={styles.check}>
-                  <input
-                    type="checkbox"
-                    checked={includeTransport}
-                    onChange={(event) => setIncludeTransport(event.target.checked)}
-                  />
-                  <span>{copy.transportTitle}</span>
-                </label>
-                <label className={styles.check}>
-                  <input
-                    type="checkbox"
-                    checked={includeMeals}
-                    onChange={(event) => setIncludeMeals(event.target.checked)}
-                  />
-                  <span>{copy.mealsTitle}</span>
-                </label>
+            <fieldset className={`${styles.optionField} ${styles.fieldWide}`}>
+              <legend>{copy.activitiesLabel}</legend>
+              <div className={styles.pickerHeader}>
+                <small className={styles.optionHint}>{copy.activitiesHint}</small>
+                <div className={styles.pickerActions}>
+                  <button type="button" onClick={selectAllActivities}>
+                    {copy.selectAll}
+                  </button>
+                  <button type="button" onClick={clearActivities}>
+                    {copy.selectNone}
+                  </button>
+                </div>
               </div>
-              <small className={styles.optionHint}>{copy.sectionsHint}</small>
+              <div className={styles.picker}>
+                {pickerGroups.map((group) => (
+                  <div key={group.id} className={styles.pickerGroup}>
+                    <p className={styles.pickerGroupTitle}>{group.label}</p>
+                    {group.items.map((activity) => {
+                      const key = activityKey(activity);
+                      return (
+                        <label key={key} className={styles.pickerItem}>
+                          <input
+                            type="checkbox"
+                            checked={selectedKeys.includes(key)}
+                            onChange={() => toggleActivity(key)}
+                          />
+                          <span>{activity.displayTitle || key}</span>
+                          {activity.category ? (
+                            <span className={styles.pickerMeta}>
+                              {activity.category}
+                            </span>
+                          ) : null}
+                        </label>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
             </fieldset>
           </div>
 
@@ -382,7 +480,9 @@ export default function ProposalGenerator({
 
         <div className={styles.docBody}>
           <h1 className={styles.docTitle}>{documentTitle}</h1>
-          <p className={styles.capacity}>{copy.capacity(pax)}</p>
+          <p className={styles.capacity}>
+            {sizeLabel ? copy.capacity(sizeLabel) : copy.capacity("—")}
+          </p>
 
           <section className={`${styles.block} ${styles.keepTogether}`}>
             <h2>{copy.valueTitle}</h2>
@@ -394,10 +494,10 @@ export default function ProposalGenerator({
             <p>{copy.includesBody}</p>
           </section>
 
-          {includeTransport ? (
+          {transport.length > 0 ? (
             <ServiceSection title={copy.transportTitle} items={transport} />
           ) : null}
-          {includeMeals ? (
+          {meals.length > 0 ? (
             <ServiceSection title={copy.mealsTitle} items={meals} />
           ) : null}
 
@@ -406,20 +506,19 @@ export default function ProposalGenerator({
               {localRows.map((row, index) => {
                 const grid = (
                   <div
-                    key={row.map((activity) => activity.slug || activity.id).join("|")}
+                    key={row.map((activity) => activityKey(activity)).join("|")}
                     className={`${styles.localGrid} ${styles.keepTogether}`}
                   >
                     {row.map((activity) => (
                       <article
-                        key={activity.slug || activity.id}
+                        key={activityKey(activity)}
                         className={styles.localItem}
                       >
-                        {activity.image ? (
-                          <img
-                            src={activity.image}
-                            alt={activity.imageAlt || activity.displayTitle}
-                          />
-                        ) : null}
+                        <CoverImage
+                          src={activity.image}
+                          alt={activity.imageAlt || activity.displayTitle}
+                          className={styles.localImage}
+                        />
                         <p>{activity.displayTitle}</p>
                       </article>
                     ))}
@@ -456,25 +555,29 @@ export default function ProposalGenerator({
             </section>
 
             <section className={`${styles.block} ${styles.nextBlock}`}>
-              <h2>{copy.nextTitle}</h2>
-              <p>{copy.nextBody}</p>
-              <p className={styles.nextLinkWrap}>
-                <a
-                  href={copy.nextLinkHref}
-                  className={styles.nextLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {copy.nextLinkLabel}
-                </a>
-              </p>
-              <p className={styles.contactLine}>
-                <strong>{copy.contactName}</strong>
-                <br />
-                {selectedPhone.label}
-                <br />
-                {copy.contactEmail}
-              </p>
+              <div className={styles.nextRow}>
+                <div className={styles.nextCopy}>
+                  <h2>{copy.nextTitle}</h2>
+                  <p>{copy.nextBody}</p>
+                  <p className={styles.contactLine}>
+                    <strong>{copy.contactName}</strong>
+                    <br />
+                    {selectedPhone.label}
+                    <br />
+                    {copy.contactEmail}
+                  </p>
+                </div>
+                <div className={styles.nextAction}>
+                  <a
+                    href={copy.nextLinkHref}
+                    className={styles.nextButton}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {copy.nextLinkLabel}
+                  </a>
+                </div>
+              </div>
             </section>
           </div>
 

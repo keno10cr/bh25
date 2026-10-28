@@ -65,7 +65,8 @@
 }
 
 .field input,
-.field textarea {
+.field textarea,
+.sizeRow input {
   width: 100%;
   border: 1px solid var(--color-panel-border);
   border-radius: 8px;
@@ -82,9 +83,27 @@
 }
 
 .field input:focus,
-.field textarea:focus {
+.field textarea:focus,
+.sizeRow input:focus {
   outline: 2px solid rgba(10, 76, 58, 0.22);
   border-color: var(--color-primary);
+}
+
+.sizeRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.sizeRow label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-neutral-muted);
 }
 
 .optionField {
@@ -153,25 +172,86 @@
   color: var(--color-neutral-muted);
 }
 
-.checkRow {
+.pickerHeader {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
-  padding: 0.6rem 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin: 0.15rem 0 0.55rem;
 }
 
-.check {
-  display: inline-flex;
+.pickerHeader .optionHint {
+  margin-top: 0;
+  flex: 1;
+}
+
+.pickerActions {
+  display: flex;
+  gap: 0.85rem;
+}
+
+.pickerActions button {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--color-primary);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.picker {
+  max-height: 320px;
+  overflow: auto;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.pickerGroup + .pickerGroup {
+  border-top: 1px solid var(--color-border);
+}
+
+.pickerGroupTitle {
+  margin: 0;
+  padding: 0.65rem 0.85rem 0.15rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-neutral-muted);
+}
+
+.pickerItem {
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.95rem;
+  gap: 0.55rem;
+  padding: 0.38rem 0.85rem;
+  font-size: 0.92rem;
+  font-weight: 500;
   cursor: pointer;
 }
 
-.check input {
+.pickerItem:hover {
+  background: #f6f8f6;
+}
+
+.pickerItem input {
   width: 1.05rem;
   height: 1.05rem;
   accent-color: var(--color-primary);
+  flex: none;
+}
+
+.pickerMeta {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-neutral-muted);
 }
 
 .error {
@@ -336,12 +416,21 @@
   background: #fbfcfb;
 }
 
+/*
+ * html2canvas (used by the PDF export) ignores object-fit and stretches <img>
+ * into the box, which squishes shuttle and breakfast photos sideways.
+ * A 16:9 frame plus background-size: cover keeps the bitmap proportional.
+ */
 .serviceImage {
   width: 100%;
-  height: 240px;
-  object-fit: cover;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: #e7eee9;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   border-radius: 8px;
-  display: block;
 }
 
 .serviceBody h3 {
@@ -403,12 +492,15 @@
   margin: 0;
 }
 
-.localItem img {
+.localImage {
   width: 100%;
   height: 160px;
-  object-fit: cover;
+  overflow: hidden;
+  background-color: #e7eee9;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   border-radius: 8px;
-  display: block;
 }
 
 .viewAllWrap {
@@ -424,8 +516,54 @@
 }
 
 .nextBlock {
-  padding-top: 0.35rem;
+  padding-top: 0.85rem;
   border-top: 1px solid var(--color-border);
+}
+
+.nextRow {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+  gap: 0.75rem 1.25rem;
+  align-items: start;
+}
+
+.nextCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.nextCopy h2,
+.nextCopy p {
+  margin: 0;
+}
+
+.nextAction {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.nextButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 0.85rem 0.75rem;
+}
+
+.nextButton:hover {
+  background: #0d5a44;
 }
 
 .contactLine {
@@ -459,6 +597,10 @@
   margin: 0.7rem 0 0 !important;
 }
 
+.nextCopy .contactLine {
+  margin-top: 0.2rem !important;
+}
+
 .nextLink {
   color: var(--color-primary);
   font-weight: 700;
@@ -475,11 +617,34 @@
 }
 
 .exporting {
+  width: 900px;
   margin: 0;
   max-width: 900px;
   border: none;
   border-radius: 0;
   box-shadow: none;
+}
+
+.exporting .docBody {
+  padding: 2.4rem 2.5rem 1.5rem;
+}
+
+.exporting .closingBody {
+  padding: 0 2.5rem 1.5rem;
+}
+
+.exporting .serviceCard {
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+}
+
+.exporting .serviceImage {
+  height: auto;
+  aspect-ratio: 16 / 9;
+  padding-top: 0;
+}
+
+.exporting .nextRow {
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
 }
 
 /*
@@ -566,8 +731,8 @@
     grid-template-columns: 1fr;
   }
 
-  .serviceImage {
-    height: 160px;
+  .nextRow {
+    grid-template-columns: 1fr;
   }
 
   .localGrid {
@@ -677,7 +842,12 @@
   }
 
   .serviceImage {
-    height: 210px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .nextRow {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
   }
 
   .localGrid {

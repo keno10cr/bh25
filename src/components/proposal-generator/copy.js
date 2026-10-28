@@ -4,13 +4,27 @@ export const PROPOSAL_COPY = {
     panelTitle: "Proposal control panel",
     panelHint: "Fill the fields, review the document below, then download the PDF.",
     organizationLabel: "Organization Name",
-    paxLabel: "Estimated Pax (20 to 45)",
+    groupSizeLabel: "Estimated Group Size",
+    groupMinLabel: "MIN Group Size",
+    groupMaxLabel: "MAX Group Size",
+    groupSizeHint:
+      "Suggested maximum is 45. Enter both numbers for a range, or only one for a fixed size.",
+    groupSizeRequired: "Enter a minimum, a maximum, or both.",
+    groupSizeInvalid: "Use a whole number from 1 to 999.",
+    guestUnit: "guests",
     noteLabel: "Custom Note / Specific Focus",
     notePlaceholder: "e.g. leadership reset, sports camp, corporate retreat",
     phoneLabel: "Phone on the PDF",
     phoneHint: "Number the group sees for calls or WhatsApp.",
-    sectionsLabel: "Optional services",
-    sectionsHint: "Untick a service to leave it out of this proposal.",
+    activitiesLabel: "Activities on the flyer",
+    activitiesHint:
+      "Choose which activities appear. Shuttle and meals use the large cards. Everything else appears in the activity grid.",
+    selectAll: "Select all",
+    selectNone: "Clear",
+    perVan: "9 passengers per van",
+    perVanNote:
+      "Each van seats 9 passengers. We add vans when the group needs more.",
+    mealQuantity: (count) => `Prepared for ${count} guests.`,
     generateButton: "Download PDF Proposal",
     generatingButton: "Preparing PDF...",
     downloadError: "Could not create the PDF. Please try again.",
@@ -19,8 +33,8 @@ export const PROPOSAL_COPY = {
       note: "Leadership reset, team alignment, and private group focus.",
     },
     titlePrefix: "Private Estate Buyout Proposal for",
-    capacity: (pax) =>
-      `Exclusive access to Villas Blessed House for ${pax} guests.`,
+    capacity: (sizeLabel) =>
+      `Exclusive access to Villas Blessed House for ${sizeLabel}.`,
     valueTitle: "What We Offer",
     valueBody:
       "Complete property isolation in Puerto Viejo, Costa Rica. Dedicated spaces for team alignment, privacy, and full compound buyout.",
@@ -35,7 +49,7 @@ export const PROPOSAL_COPY = {
     focusTitle: "Group focus",
     nextTitle: "Next step",
     nextBody:
-      "Review the group invitation and request preferred dates at blessedhouse.info/pvg, or contact Floribel Fadel to confirm the itinerary.",
+      "Review the group invitation and request preferred dates, or contact Floribel Fadel to confirm the itinerary.",
     nextLinkLabel: "Open Puerto Viejo Groups",
     nextLinkHref: "https://www.blessedhouse.info/pvg",
     contactName: "Floribel Fadel",
@@ -51,14 +65,28 @@ export const PROPOSAL_COPY = {
     panelHint:
       "Complete los campos, revise el documento abajo y descargue el PDF.",
     organizationLabel: "Nombre de la Organización",
-    paxLabel: "Personas estimadas (20 a 45)",
+    groupSizeLabel: "Tamaño estimado del grupo",
+    groupMinLabel: "Mínimo del grupo",
+    groupMaxLabel: "Máximo del grupo",
+    groupSizeHint:
+      "El máximo sugerido es 45. Ingrese ambos números para un rango, o solo uno para un tamaño fijo.",
+    groupSizeRequired: "Ingrese un mínimo, un máximo, o ambos.",
+    groupSizeInvalid: "Use un número entero del 1 al 999.",
+    guestUnit: "personas",
     noteLabel: "Nota personalizada / Enfoque específico",
     notePlaceholder:
       "ej. reinicio de liderazgo, campamento deportivo, retiro corporativo",
     phoneLabel: "Teléfono en el PDF",
     phoneHint: "Número que el grupo verá para llamadas o WhatsApp.",
-    sectionsLabel: "Servicios opcionales",
-    sectionsHint: "Desmarque un servicio para dejarlo fuera de esta propuesta.",
+    activitiesLabel: "Actividades en el folleto",
+    activitiesHint:
+      "Elija las actividades que aparecen. El traslado y las comidas usan las tarjetas grandes. El resto aparece en la cuadrícula.",
+    selectAll: "Seleccionar todas",
+    selectNone: "Quitar todas",
+    perVan: "9 pasajeros por van",
+    perVanNote:
+      "Cada van lleva 9 pasajeros. Agregamos vans si el grupo necesita más.",
+    mealQuantity: (count) => `Preparado para ${count} personas.`,
     generateButton: "Descargar Propuesta PDF",
     generatingButton: "Preparando PDF...",
     downloadError: "No se pudo crear el PDF. Intente de nuevo.",
@@ -67,8 +95,8 @@ export const PROPOSAL_COPY = {
       note: "Reinicio de liderazgo, alineación de equipo y enfoque privado del grupo.",
     },
     titlePrefix: "Propuesta de Alquiler Exclusivo de Propiedad para",
-    capacity: (pax) =>
-      `Uso exclusivo de Villas Blessed House para ${pax} personas.`,
+    capacity: (sizeLabel) =>
+      `Uso exclusivo de Villas Blessed House para ${sizeLabel}.`,
     valueTitle: "Lo que ofrecemos",
     valueBody:
       "Privacidad total de la propiedad en Puerto Viejo, Costa Rica. Espacios privados diseñados para el enfoque de su grupo, reuniones y convivencia sin otros huéspedes en la propiedad.",
@@ -83,7 +111,7 @@ export const PROPOSAL_COPY = {
     focusTitle: "Enfoque del grupo",
     nextTitle: "Siguiente paso",
     nextBody:
-      "Revise la invitación para grupos y solicite fechas en blessedhouse.info/pvg?lang=es, o contacte a Floribel Fadel para confirmar el itinerario.",
+      "Revise la invitación para grupos y solicite fechas, o contacte a Floribel Fadel para confirmar el itinerario.",
     nextLinkLabel: "Abrir Puerto Viejo Groups",
     nextLinkHref: "https://www.blessedhouse.info/pvg?lang=es",
     contactName: "Floribel Fadel",
