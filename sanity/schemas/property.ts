@@ -570,7 +570,7 @@ export const property = defineType({
       type: "geopoint",
       group: "map",
       description:
-        "Exact map pin for this unit. Example: drag the marker onto the Blessed House site. Shared coordinates across units are fine.",
+        "Exact map pin for this villa. Right-click a location on Google Maps to copy latitude and longitude numbers. Paste the first number into Latitude and the second into Longitude. The same pin can be used for more than one villa.",
     }),
     defineField({
       name: "listed",

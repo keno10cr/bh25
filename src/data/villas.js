@@ -58,7 +58,7 @@ export const STATIC_VILLAS = [
     translationKey: "villa4",
     bedrooms: 1,
     bathrooms: 1,
-    maxPeople: 4,
+    maxPeople: 3,
     amenities: ["wifi", "kitchen", "parking", "hotWater", "sharedPool"],
     bedInfo: "bedInfo1",
     image: "/villas/4/4a.jpg",

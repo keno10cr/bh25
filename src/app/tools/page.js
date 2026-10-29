@@ -1,4 +1,5 @@
 import Link from "next/link";
+import EmailNote from "@/components/tools/email-note";
 import { STUDIO_LINK, TOOL_ITEMS } from "@/components/tools/tool-list";
 import styles from "@/components/tools/tools.module.css";
 
@@ -9,6 +10,14 @@ export const metadata = {
 
 const LEAD_LIST = "Company Connections (Churches Sep 2026)";
 const OUTREACH_EMAIL = "contact@blessedhouse.info";
+const INVITE_EMAIL =
+  "Hello, we are contacting you because we want to invite you to our beautiful lush green paradise in the Caribbean coast of Costa Rica, where you will find out what Pura Vida really means and will get to enjoy nature in our villas. For us it would be an honor to host your family or group of friends; this was the intention of this place and we want to welcome you.";
+
+const EMAIL_SAMPLES = [
+  { label: "Churches", text: INVITE_EMAIL },
+  { label: "Private companies", text: INVITE_EMAIL },
+  { label: "Sports clubs", text: INVITE_EMAIL },
+];
 
 const STEPS = [
   {
@@ -23,6 +32,7 @@ const STEPS = [
         date ranges.
       </>
     ),
+    emails: EMAIL_SAMPLES,
   },
   {
     title: "Track and follow up",
@@ -71,7 +81,24 @@ export default function ToolsHomePage() {
           <li key={step.title} className={styles.step}>
             <span className={styles.stepNumber}>Step {index + 1}</span>
             <h3>{step.title}</h3>
-            <p>{step.body}</p>
+            <div className={styles.stepBody}>
+              <p>{step.body}</p>
+              {step.emails ? (
+                <div className={styles.emailNotes}>
+                  <p className={styles.emailNotesLead}>
+                    Sample emails you can copy into Gmail. The wording is the same
+                    for churches, companies, and sports clubs.
+                  </p>
+                  {step.emails.map((email) => (
+                    <EmailNote
+                      key={email.label}
+                      label={email.label}
+                      text={email.text}
+                    />
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </li>
         ))}
       </ol>

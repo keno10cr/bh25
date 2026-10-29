@@ -609,6 +609,7 @@ export const translations = {
       filters: {
         all: "All",
         twoPeople: "2 People",
+        threePeople: "3 People",
         fourPeople: "4 People",
         sixPlusPeople: "6+ People"
       },
@@ -1390,6 +1391,7 @@ export const translations = {
       filters: {
         all: "Todas",
         twoPeople: "2 Personas",
+        threePeople: "3 Personas",
         fourPeople: "4 Personas",
         sixPlusPeople: "6+ Personas"
       },
@@ -2092,6 +2094,7 @@ export const translations = {
       filters: {
         all: "Alle",
         twoPeople: "2 Personen",
+        threePeople: "3 Personen",
         fourPeople: "4 Personen",
         sixPlusPeople: "6+ Personen"
       },
@@ -2778,6 +2781,7 @@ export const translations = {
       filters: {
         all: "Alle",
         twoPeople: "2 Personen",
+        threePeople: "3 Personen",
         fourPeople: "4 Personen",
         sixPlusPeople: "6+ Personen"
       },
@@ -3464,6 +3468,7 @@ export const translations = {
       filters: {
         all: "Toutes",
         twoPeople: "2 Personnes",
+        threePeople: "3 Personnes",
         fourPeople: "4 Personnes",
         sixPlusPeople: "6+ Personnes"
       },
@@ -4150,6 +4155,7 @@ export const translations = {
       filters: {
         all: "すべて",
         twoPeople: "2人",
+        threePeople: "3人",
         fourPeople: "4人",
         sixPlusPeople: "6人以上"
       },
@@ -4420,6 +4426,7 @@ export const translations = {
       filters: {
         all: "Todas",
         twoPeople: "2 Pessoas",
+        threePeople: "3 Pessoas",
         fourPeople: "4 Pessoas",
         sixPlusPeople: "6+ Pessoas"
       },

@@ -142,26 +142,23 @@ export default function VillasClient({ villas: cmsVillas = [], copy }) {
   const filterOptions = [
     { value: "all", label: t("villas.filters.all") },
     { value: "2", label: t("villas.filters.twoPeople") },
+    { value: "3", label: t("villas.filters.threePeople") },
     { value: "4", label: t("villas.filters.fourPeople") },
     { value: "6+", label: t("villas.filters.sixPlusPeople") },
   ];
 
   const getFilterValue = (maxPeople) => {
-    if (maxPeople <= 2) return "2";
-    if (maxPeople <= 4) return "4";
+    const people = Number(maxPeople);
+    if (people <= 2) return "2";
+    if (people === 3) return "3";
+    if (people <= 4) return "4";
     return "6+";
   };
 
   const filteredVillas =
     selectedFilter === "all"
       ? villas
-      : villas.filter((villa) => {
-          const filterValue = getFilterValue(villa.maxPeople);
-          if (selectedFilter === "6+") {
-            return filterValue === "6+";
-          }
-          return filterValue === selectedFilter;
-        });
+      : villas.filter((villa) => getFilterValue(villa.maxPeople) === selectedFilter);
 
   return (
     <div className={styles.container}>

@@ -604,6 +604,7 @@ export const arTranslations = {
     filters: {
       all: "الكل",
       twoPeople: "شخصان",
+      threePeople: "3 أشخاص",
       fourPeople: "4 أشخاص",
       sixPlusPeople: "6 أشخاص أو أكثر"
     },

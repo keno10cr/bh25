@@ -25,7 +25,7 @@ function whatsIncludedFields() {
       type: "array",
       of: [whatsIncludedMember],
       description:
-        "Add 3 to 6 key features included in this activity. These appear as pills on the activity page.",
+        "Add 3 to 6 things that are included, such as a guide or transport. These show as short labels on the activity page.",
     }),
     ...TRANSLATION_LOCALES.map((locale) =>
       defineField({
@@ -49,12 +49,15 @@ export const activity = defineType({
       name: "title",
       title: "Title",
       type: "string",
+      description: "The name guests see. Example: Morena Clara Chocolate Tour.",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
+      description:
+        "The URL-friendly version of the name, usually lowercase with hyphens, e.g., 'morena-clara-chocolate-tour'. Click Generate to fill this from the title. This becomes the page address after /activities/.",
       options: { source: "title", maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
@@ -63,7 +66,8 @@ export const activity = defineType({
       title: "Legend items",
       type: "array",
       of: [{ type: "reference", to: [{ type: "legendItem" }] }],
-      description: "An activity can belong to more than one legend group.",
+      description:
+        "Choose the map groups this activity belongs to, such as Beaches, Tours, or Dining. You can pick more than one.",
       validation: (Rule) => Rule.min(1).unique(),
     }),
     defineField({
@@ -72,7 +76,7 @@ export const activity = defineType({
       type: "boolean",
       initialValue: false,
       description:
-        "If on, this activity is hidden from the public /activities catalog and only shown on Puerto Viejo Groups (/pvg) and the internal proposal generators (/ccen, /cces).",
+        "Turn this on to hide the activity from the public Activities page. It still shows on the Puerto Viejo Groups page and the internal proposal tools.",
     }),
     defineField({
       name: "category",
@@ -84,6 +88,7 @@ export const activity = defineType({
       name: "difficulty",
       title: "Difficulty",
       type: "string",
+      description: "How hard this is for a typical guest. Easy, Moderate, or Challenging.",
       options: {
         list: [
           { title: "Easy", value: "Easy" },
@@ -93,14 +98,27 @@ export const activity = defineType({
         layout: "radio",
       },
     }),
-    ...localizedField({ name: "duration", title: "Duration", type: "string" }),
-    ...localizedField({ name: "groupSize", title: "Group size", type: "string" }),
+    ...localizedField({
+      name: "duration",
+      title: "Duration",
+      type: "string",
+      description:
+        "How long the activity takes. Write a short phrase guests can understand.",
+      placeholder: "Example: 2 hours or Half day",
+    }),
+    ...localizedField({
+      name: "groupSize",
+      title: "Group size",
+      type: "string",
+      description: "How many people can join. Example: 2 to 8 people.",
+      placeholder: "Example: 2 to 8 people",
+    }),
     defineField({
       name: "coordinates",
       title: "Coordinates",
       type: "geopoint",
       description:
-        "Map pin and pickup / drop-off coordinates. Leave empty to hide this pin.",
+        "Map pin for this place or pickup point. Right-click a location on Google Maps to copy latitude and longitude numbers. Paste the first number into Latitude and the second into Longitude. Leave this empty to hide the pin.",
     }),
     defineField({
       name: "image",
@@ -115,7 +133,7 @@ export const activity = defineType({
           title: "Alt text",
           type: "string",
           description:
-            "Describe the photo for accessibility and SEO. If empty, the site uses the activity title. Example: Green boat on turquoise water near Punta Mona, Costa Rica.",
+            "A short description of the photo for people who cannot see it, and for search. If you leave this empty, the site uses the activity title. Example: Green boat on turquoise water near Punta Mona, Costa Rica.",
         }),
       ],
     }),
@@ -123,6 +141,8 @@ export const activity = defineType({
       name: "description",
       title: "Description",
       type: "blockContent",
+      description:
+        "Tell guests what they will do, where they will go, and anything they should bring. Write this in English.",
     }),
     ...whatsIncludedFields(),
     defineField({
@@ -141,7 +161,7 @@ export const activity = defineType({
               title: "Alt text",
               type: "string",
               description:
-                "Describe the photo for accessibility and SEO. Example: Wooden trail through Cahuita National Park canopy.",
+                "A short description of this photo for people who cannot see it. Example: Wooden trail through Cahuita National Park canopy.",
             }),
           ],
         },

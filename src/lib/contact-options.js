@@ -3,7 +3,7 @@ import { STATIC_ACTIVITIES } from "@/data/activities";
 /** Lightweight villa list for contact form selection */
 export const CONTACT_VILLAS = [
   { id: 3, name: "Villa #3 Tortuga Baula", nameEn: "Villa #3 Leatherback Turtle", maxPeople: 10, slug: "villa-3-baula-turtle" },
-  { id: 4, name: "Villa #4 Colibrí", nameEn: "Villa #4 Hummingbird", maxPeople: 4, slug: "villa-4-colibri" },
+  { id: 4, name: "Villa #4 Colibrí", nameEn: "Villa #4 Hummingbird", maxPeople: 3, slug: "villa-4-colibri" },
   { id: 5, name: "Villa #5 Jaguar", nameEn: "Villa #5 Jaguar", maxPeople: 7, slug: "villa-5-jaguar" },
   { id: 6, name: "Villa #6 Rana Roja", nameEn: "Villa #6 Red Frog", maxPeople: 2, slug: "villa-6-rana-roja" },
   { id: 7, name: "Villa #7 Rana Verde", nameEn: "Villa #7 Green Frog", maxPeople: 6, slug: "villa-7-rana-verde" },
