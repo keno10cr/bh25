@@ -5,6 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import CmsText from "@/components/cms-text";
 import { resolveCopy } from "@/lib/cms-field";
+import { WELCOME_VIDEO_SRC } from "@/lib/welcome-video";
 import styles from "./welcome-section.module.css";
 
 export default function WelcomeSection({ copy }) {
@@ -39,7 +40,7 @@ export default function WelcomeSection({ copy }) {
           <div className={styles.videoContainer}>
             <div className={styles.videoWrapper}>
               <iframe
-                src="https://www.youtube.com/embed/nwga2GnnoMM?autoplay=1&mute=1&loop=1&playlist=nwga2GnnoMM&playsinline=1&rel=0&modestbranding=1"
+                src={WELCOME_VIDEO_SRC}
                 title="Welcome to Blessed House"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen

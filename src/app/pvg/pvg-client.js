@@ -18,6 +18,7 @@ import {
   PVG_PAGE_DEFAULTS,
 } from "@/data/pvg-defaults";
 import { IctBadgeBand } from "@/components/ict-badge";
+import { WELCOME_VIDEO_SRC } from "@/lib/welcome-video";
 import styles from "./pvg.module.css";
 
 const ActivitiesMap = dynamic(() => import("@/components/activities-map"), {
@@ -771,6 +772,16 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
           capacityVisible ? styles.capacityVisible : ""
         }`}
       >
+        <div className={styles.capacityVideo}>
+          <div className={styles.capacityVideoFrame}>
+            <iframe
+              src={WELCOME_VIDEO_SRC}
+              title={t("welcome.title")}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+        </div>
         <div className={styles.container}>
           <div className={styles.capacityGrid}>
             <h2 className={styles.capacityTitle}>{capacityTitle}</h2>

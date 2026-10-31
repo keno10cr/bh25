@@ -52,18 +52,32 @@ export function partitionProposalActivities(activities) {
   return { transport, meals, local };
 }
 
-function replacePassengerPhrase(text, phrase) {
-  return String(text || "")
-    .replace(/up to\s+9\s+passengers/gi, phrase)
-    .replace(/hasta\s+9\s+pasajeros/gi, phrase);
+const SEAT_PHRASES = [
+  [/seats up to\s+9\s+passengers/gi, "has 11 seats"],
+  [/up to\s+9\s+passengers/gi, "11 seats"],
+  [/9\s+passengers per van/gi, "11 seats per van"],
+  [/\b9\s+passengers\b/gi, "11 seats"],
+  [/lleva hasta\s+9\s+pasajeros/gi, "tiene 11 asientos"],
+  [/hasta\s+9\s+pasajeros/gi, "11 asientos"],
+  [/9\s+pasajeros por van/gi, "11 asientos por van"],
+  [/\b9\s+pasajeros\b/gi, "11 asientos"],
+];
+
+function rewriteSeats(text) {
+  return SEAT_PHRASES.reduce(
+    (value, [pattern, replacement]) => value.replace(pattern, replacement),
+    String(text || "")
+  );
 }
 
-function ensurePerVan(text, phrase) {
-  let next = replacePassengerPhrase(text, phrase);
-  if (next.toLowerCase().includes(phrase.toLowerCase())) return next;
-  next = next.replace(/\b9\s+passengers\b/i, phrase);
-  next = next.replace(/\b9\s+pasajeros\b/i, phrase);
-  return next;
+function ensurePerVan(text, copy) {
+  const next = rewriteSeats(text);
+  const markers = ["11 seats", "11 asientos", copy.perVan];
+  if (markers.some((marker) => next.toLowerCase().includes(marker.toLowerCase()))) {
+    return next;
+  }
+  const note = copy.perVanNote;
+  return next.trim() ? `${next.trim()} ${note}` : note;
 }
 
 function isAirportShuttle(activity) {
@@ -73,29 +87,27 @@ function isAirportShuttle(activity) {
 
 export function applyTransportCopy(activity, copy) {
   if (!isAirportShuttle(activity)) return activity;
-  const phrase = copy.perVan;
-  let description = ensurePerVan(activity.displayDescription, phrase);
-  if (!description.toLowerCase().includes(phrase.toLowerCase())) {
-    const note = copy.perVanNote;
-    description = description.trim() ? `${description.trim()} ${note}` : note;
-  }
   return {
     ...activity,
-    displayGroupSize: phrase,
-    displayDescription: description,
+    displayGroupSize: copy.perVan,
+    displayDescription: ensurePerVan(activity.displayDescription, copy),
     displayIncluded: (activity.displayIncluded || []).map((item) =>
-      ensurePerVan(item, phrase)
+      rewriteSeats(item)
     ),
   };
 }
 
 export function applyMealCopy(activity, count, copy) {
-  if (!count) return activity;
+  const titled = {
+    ...activity,
+    displayTitle: copy.mealsCardTitle || activity.displayTitle,
+  };
+  if (!count) return titled;
   const label = `${count} ${copy.guestUnit}`;
   const sentence = copy.mealQuantity(count);
   const description = String(activity.displayDescription || "").trim();
   return {
-    ...activity,
+    ...titled,
     displayGroupSize: label,
     displayDescription: description ? `${sentence} ${description}` : sentence,
   };

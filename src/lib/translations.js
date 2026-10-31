@@ -124,7 +124,8 @@ export const translations = {
         Unlimited: "Unlimited",
         "2-4 people": "2 to 4 people",
         Any: "Any",
-        "Up to 9 passengers": "Up to 9 passengers",
+        "Up to 9 passengers": "11 seats",
+        "11 seats": "11 seats",
         "20 to 45 guests": "20 to 45 guests"
       },
       prices: {
@@ -381,17 +382,17 @@ export const translations = {
       airportShuttle: {
         name: "Private Airport Shuttle",
         description: "Private van transfer between the airport and Blessed House",
-        fullDescription: "Our private Hyundai Staria van seats up to 9 passengers, with air conditioning and room for luggage. We pick up your group at SJO or Limón airport and drive you straight to the villas.",
+        fullDescription: "Our private Hyundai Staria van has 11 seats, with air conditioning and room for luggage. We pick up your group at SJO or Limón airport and drive you straight to the villas.",
         highlights: [
-          "Private van, up to 9 passengers",
+          "Private van, 11 seats",
           "SJO or Limón airport pickup",
           "Air conditioning and luggage space"
         ]
       },
       groupMeals: {
-        name: "Private Group Meals & Breakfast",
-        description: "Daily breakfast and custom catering on the property",
-        fullDescription: "We serve daily breakfast and custom group meals on the property, so your team can eat together without leaving the villas. Menus adapt to dietary needs.",
+        name: "Private Group Breakfast or Meals",
+        description: "Breakfast, meals, or both, on the property",
+        fullDescription: "Choose breakfast, meals, or both. We prepare them on the property, so your team can eat together without leaving the villas. Menus adapt to dietary needs.",
         highlights: [
           "Daily breakfast on property",
           "Custom group catering",
@@ -519,6 +520,8 @@ export const translations = {
       socialMedia: "Social Media",
       copyright: "All rights reserved.",
       ictCertified: "Certified by the ICT",
+      ictTooltip:
+        "For a hotel in Costa Rica to be certified or recognized by the Costa Rican Tourism Institute (ICT), it means the business meets official national standards for legal compliance, quality, or environmental sustainability.",
       legal: "Legal",
       parkingFee: "Additional cost for vehicle charging. Please inquire."
     },
@@ -933,7 +936,8 @@ export const translations = {
         Unlimited: "Ilimitado",
         "2-4 people": "2-4 personas",
         Any: "Cualquiera",
-        "Up to 9 passengers": "Hasta 9 pasajeros",
+        "Up to 9 passengers": "11 asientos",
+        "11 seats": "11 asientos",
         "20 to 45 guests": "20 a 45 personas"
       },
       prices: {
@@ -1179,17 +1183,17 @@ export const translations = {
       airportShuttle: {
         name: "Traslado privado al aeropuerto",
         description: "Traslado privado en van entre el aeropuerto y Blessed House",
-        fullDescription: "Nuestra van privada Hyundai Staria lleva hasta 9 pasajeros, con aire acondicionado y espacio para maletas. Recogemos a su grupo en el aeropuerto SJO o en Limón y lo llevamos directo a las villas.",
+        fullDescription: "Nuestra van privada Hyundai Staria tiene 11 asientos, con aire acondicionado y espacio para maletas. Recogemos a su grupo en el aeropuerto SJO o en Limón y lo llevamos directo a las villas.",
         highlights: [
-          "Van privada, hasta 9 pasajeros",
+          "Van privada, 11 asientos",
           "Recogida en SJO o Limón",
           "Aire acondicionado y maletas"
         ]
       },
       groupMeals: {
-        name: "Desayuno y comidas privadas para grupos",
-        description: "Desayuno diario y catering a medida en la propiedad",
-        fullDescription: "Servimos desayuno diario y comidas a medida en la propiedad, para que su equipo coma junto sin salir de las villas. Los menús se adaptan a necesidades alimentarias.",
+        name: "Desayuno o comidas privadas para grupos",
+        description: "Desayuno, comidas, o ambos, en la propiedad",
+        fullDescription: "Puede elegir desayuno, comidas, o ambos. Los preparamos en la propiedad, para que su equipo coma junto sin salir de las villas. Los menús se adaptan a necesidades alimentarias.",
         highlights: [
           "Desayuno diario en la propiedad",
           "Catering a medida para el grupo",
@@ -1301,6 +1305,8 @@ export const translations = {
       socialMedia: "Redes Sociales",
       copyright: "Todos los derechos reservados.",
       ictCertified: "Certificados por el ICT",
+      ictTooltip:
+        "Para que un hotel en Costa Rica esté certificado o reconocido por el Instituto Costarricense de Turismo (ICT), significa que el negocio cumple los estándares nacionales oficiales de cumplimiento legal, calidad o sostenibilidad ambiental.",
       legal: "Legal",
       parkingFee: "Costo adicional p/carga vehicular. Consultas por favor."
     },
@@ -1718,7 +1724,8 @@ export const translations = {
         "Half day - Full day": "Halber Tag - Ganzer Tag"
       },
       groupSizes: {
-        "Up to 9 passengers": "Bis zu 9 Fahrgäste",
+        "Up to 9 passengers": "11 Sitze",
+        "11 seats": "11 Sitze",
         "20 to 45 guests": "20 bis 45 Gäste",
         "10": "10",
         "Up to 45 people": "Bis zu 45 Personen",
@@ -1933,17 +1940,17 @@ export const translations = {
       airportShuttle: {
         name: "Privater Flughafentransfer",
         description: "Privater Van Transfer zwischen Flughafen und Blessed House",
-        fullDescription: "Unser privater Hyundai Staria Van bietet Platz für bis zu 9 Passagiere, mit Klimaanlage und Gepäckraum. Wir holen Ihre Gruppe am Flughafen SJO oder Limón ab und bringen Sie direkt zu den Villen.",
+        fullDescription: "Unser privater Hyundai Staria Van hat 11 Sitze, mit Klimaanlage und Gepäckraum. Wir holen Ihre Gruppe am Flughafen SJO oder Limón ab und bringen Sie direkt zu den Villen.",
         highlights: [
-          "Privater Van, bis 9 Passagiere",
+          "Privater Van, 11 Sitze",
           "Abholung SJO oder Limón",
           "Klimaanlage und Gepäckraum"
         ]
       },
       groupMeals: {
-        name: "Privates Gruppenfrühstück und Mahlzeiten",
-        description: "Tägliches Frühstück und Catering auf dem Gelände",
-        fullDescription: "Wir servieren tägliches Frühstück und Gruppenmahlzeiten auf dem Gelände, damit Ihr Team gemeinsam essen kann, ohne die Villen zu verlassen. Menüs richten sich nach Ernährungswünschen.",
+        name: "Privates Gruppenfrühstück oder Mahlzeiten",
+        description: "Frühstück, Mahlzeiten oder beides auf dem Gelände",
+        fullDescription: "Wählen Sie Frühstück, Mahlzeiten oder beides. Wir bereiten sie auf dem Gelände zu, damit Ihr Team gemeinsam essen kann, ohne die Villen zu verlassen. Die Menüs richten sich nach Ernährungswünschen.",
         highlights: [
           "Tägliches Frühstück vor Ort",
           "Catering für die Gruppe",
@@ -2055,6 +2062,8 @@ export const translations = {
       socialMedia: "Soziale Medien",
       copyright: "Alle Rechte vorbehalten.",
       ictCertified: "Zertifiziert durch das ICT",
+      ictTooltip:
+        "Wenn ein Hotel in Costa Rica vom Instituto Costarricense de Turismo (ICT) zertifiziert oder anerkannt ist, erfüllt der Betrieb die offiziellen nationalen Standards für gesetzliche Vorgaben, Qualität oder ökologische Nachhaltigkeit.",
       legal: "Rechtliches",
       parkingFee: "Zusätzliche Kosten für Fahrzeugaufladung. Bitte anfragen."
     },
@@ -2405,7 +2414,8 @@ export const translations = {
         "Half day - Full day": "Halve dag - Hele dag"
       },
       groupSizes: {
-        "Up to 9 passengers": "Tot 9 passagiers",
+        "Up to 9 passengers": "11 zitplaatsen",
+        "11 seats": "11 zitplaatsen",
         "20 to 45 guests": "20 tot 45 gasten",
         "10": "10",
         "Up to 45 people": "Tot 45 personen",
@@ -2620,17 +2630,17 @@ export const translations = {
       airportShuttle: {
         name: "Privé luchthaventransfer",
         description: "Privé busjestransfer tussen luchthaven en Blessed House",
-        fullDescription: "Ons privé Hyundai Staria busje biedt plaats aan maximaal 9 passagiers, met airconditioning en bagageruimte. We halen je groep op bij luchthaven SJO of Limón en rijden direct naar de villa's.",
+        fullDescription: "Ons privé Hyundai Staria busje heeft 11 zitplaatsen, met airconditioning en bagageruimte. We halen je groep op bij luchthaven SJO of Limón en rijden direct naar de villa's.",
         highlights: [
-          "Privé busje, tot 9 passagiers",
+          "Privé busje, 11 zitplaatsen",
           "Ophalen bij SJO of Limón",
           "Airconditioning en bagageruimte"
         ]
       },
       groupMeals: {
-        name: "Privé groepsontbijt en maaltijden",
-        description: "Dagelijks ontbijt en catering op het terrein",
-        fullDescription: "We serveren dagelijks ontbijt en groepsmaaltijden op het terrein, zodat je team samen kan eten zonder de villa's te verlaten. Menu's passen zich aan dieetwensen aan.",
+        name: "Privé groepsontbijt of maaltijden",
+        description: "Ontbijt, maaltijden of allebei op het terrein",
+        fullDescription: "Kies ontbijt, maaltijden of allebei. We bereiden ze op het terrein, zodat je team samen kan eten zonder de villa's te verlaten. Menu's passen zich aan dieetwensen aan.",
         highlights: [
           "Dagelijks ontbijt op locatie",
           "Groepscatering",
@@ -2742,6 +2752,8 @@ export const translations = {
       socialMedia: "Sociale Media",
       copyright: "Alle rechten voorbehouden.",
       ictCertified: "Gecertificeerd door het ICT",
+      ictTooltip:
+        "Als een hotel in Costa Rica is gecertificeerd of erkend door het Instituto Costarricense de Turismo (ICT), voldoet het bedrijf aan de officiële nationale normen voor wettelijke naleving, kwaliteit of ecologische duurzaamheid.",
       legal: "Juridisch",
       parkingFee: "Extra kosten voor voertuigopladen. Vraag alstublieft."
     },
@@ -3092,7 +3104,8 @@ export const translations = {
         "Half day - Full day": "Demi-journée - Journée complète"
       },
       groupSizes: {
-        "Up to 9 passengers": "Jusqu’à 9 passagers",
+        "Up to 9 passengers": "11 sièges",
+        "11 seats": "11 sièges",
         "20 to 45 guests": "20 à 45 personnes",
         "10": "10",
         "Up to 45 people": "Jusqu'à 45 personnes",
@@ -3307,17 +3320,17 @@ export const translations = {
       airportShuttle: {
         name: "Navette privée aéroport",
         description: "Transfert privé en van entre l'aéroport et Blessed House",
-        fullDescription: "Notre van privé Hyundai Staria accueille jusqu'à 9 passagers, avec climatisation et espace bagages. Nous récupérons votre groupe à l'aéroport SJO ou Limón et vous conduisons directement aux villas.",
+        fullDescription: "Notre van privé Hyundai Staria a 11 sièges, avec climatisation et espace bagages. Nous récupérons votre groupe à l'aéroport SJO ou Limón et vous conduisons directement aux villas.",
         highlights: [
-          "Van privé, jusqu'à 9 passagers",
+          "Van privé, 11 sièges",
           "Prise en charge SJO ou Limón",
           "Climatisation et bagages"
         ]
       },
       groupMeals: {
-        name: "Petit déjeuner et repas privés pour groupes",
-        description: "Petit déjeuner quotidien et traiteur sur place",
-        fullDescription: "Nous servons le petit déjeuner chaque jour et des repas de groupe sur place, pour que votre équipe mange ensemble sans quitter les villas. Les menus s'adaptent aux régimes alimentaires.",
+        name: "Petit-déjeuner ou repas privés pour groupes",
+        description: "Petit-déjeuner, repas, ou les deux, sur place",
+        fullDescription: "Choisissez le petit-déjeuner, les repas, ou les deux. Nous les préparons sur place, pour que votre équipe mange ensemble sans quitter les villas. Les menus s'adaptent aux régimes alimentaires.",
         highlights: [
           "Petit déjeuner quotidien sur place",
           "Traiteur de groupe",
@@ -3429,6 +3442,8 @@ export const translations = {
       socialMedia: "Réseaux Sociaux",
       copyright: "Tous droits réservés.",
       ictCertified: "Certifiés par l'ICT",
+      ictTooltip:
+        "Lorsqu'un hôtel au Costa Rica est certifié ou reconnu par l'Institut costaricien du tourisme (ICT), l'établissement respecte les normes nationales officielles de conformité légale, de qualité ou de durabilité environnementale.",
       legal: "Mentions légales",
       parkingFee: "Coût supplémentaire pour la recharge des véhicules. Veuillez vous renseigner."
     },
@@ -3779,7 +3794,8 @@ export const translations = {
         "Half day - Full day": "半日 - 終日"
       },
       groupSizes: {
-        "Up to 9 passengers": "最大9名",
+        "Up to 9 passengers": "11席",
+        "11 seats": "11席",
         "20 to 45 guests": "20〜45名",
         "10": "10",
         "Up to 45 people": "最大45人",
@@ -3994,17 +4010,17 @@ export const translations = {
       airportShuttle: {
         name: "プライベート空港送迎",
         description: "空港とBlessed Houseを結ぶ専用バン送迎",
-        fullDescription: "専用のHyundai Stariaバンは最大9名まで乗車でき、エアコンと荷物スペースを備えています。SJOまたはリモン空港でグループをお迎えし、ヴィラまで直接お送りします。",
+        fullDescription: "専用のHyundai Stariaバンは11席で、エアコンと荷物スペースを備えています。SJOまたはリモン空港でグループをお迎えし、ヴィラまで直接お送りします。",
         highlights: [
-          "専用バン、最大9名",
+          "専用バン、11席",
           "SJOまたはリモン空港でお迎え",
           "エアコンと荷物スペース"
         ]
       },
       groupMeals: {
-        name: "グループ専用の朝食と食事",
-        description: "施設内での毎日の朝食とケータリング",
-        fullDescription: "施設内で毎日の朝食とグループ向けの食事をご用意し、ヴィラを出ずにチーム全員で食事ができます。食事制限にも対応します。",
+        name: "グループ専用の朝食または食事",
+        description: "施設内での朝食、食事、またはその両方",
+        fullDescription: "朝食、食事、またはその両方からお選びいただけます。施設内でご用意するので、ヴィラを出ずにチーム全員で食事ができます。食事制限にも対応します。",
         highlights: [
           "施設内の毎日の朝食",
           "グループケータリング",
@@ -4116,6 +4132,8 @@ export const translations = {
       socialMedia: "ソーシャルメディア",
       copyright: "全著作権所有。",
       ictCertified: "ICT認証",
+      ictTooltip:
+        "コスタリカのホテルがコスタリカ観光局（ICT）の認証または認定を受けることは、法令順守、品質、または環境持続可能性について国の公式基準を満たしていることを意味します。",
       legal: "法的情報",
       parkingFee: "車両充電の追加費用。お問い合わせください。"
     },
@@ -4545,6 +4563,8 @@ export const translations = {
       socialMedia: "Redes Sociais",
       copyright: "Todos os direitos reservados.",
       ictCertified: "Certificados pelo ICT",
+      ictTooltip:
+        "Para um hotel na Costa Rica ser certificado ou reconhecido pelo Instituto Costarriquenho de Turismo (ICT), o negócio atende aos padrões nacionais oficiais de conformidade legal, qualidade ou sustentabilidade ambiental.",
       legal: "Aviso legal",
       parkingFee: "Custo adicional para carga de veículos. Por favor, consulte."
     },
@@ -4594,7 +4614,8 @@ export const translations = {
         "Half day - Full day": "Meio dia - Dia inteiro"
       },
       groupSizes: {
-        "Up to 9 passengers": "Até 9 passageiros",
+        "Up to 9 passengers": "11 assentos",
+        "11 seats": "11 assentos",
         "20 to 45 guests": "20 a 45 hóspedes",
         "10": "10",
         "Up to 45 people": "Até 45 pessoas",
@@ -4809,17 +4830,17 @@ export const translations = {
       airportShuttle: {
         name: "Transfer privado ao aeroporto",
         description: "Transfer privado de van entre o aeroporto e a Blessed House",
-        fullDescription: "Nossa van privada Hyundai Staria leva até 9 passageiros, com ar condicionado e espaço para bagagem. Buscamos seu grupo no aeroporto SJO ou Limón e levamos direto às villas.",
+        fullDescription: "Nossa van privada Hyundai Staria tem 11 assentos, com ar condicionado e espaço para bagagem. Buscamos seu grupo no aeroporto SJO ou Limón e levamos direto às villas.",
         highlights: [
-          "Van privada, até 9 passageiros",
+          "Van privada, 11 assentos",
           "Busca em SJO ou Limón",
           "Ar condicionado e bagagem"
         ]
       },
       groupMeals: {
-        name: "Café da manhã e refeições privadas para grupos",
-        description: "Café da manhã diário e catering na propriedade",
-        fullDescription: "Servimos café da manhã diário e refeições para o grupo na propriedade, para sua equipe comer junta sem sair das villas. Os cardápios se adaptam a restrições alimentares.",
+        name: "Café da manhã ou refeições privadas para grupos",
+        description: "Café da manhã, refeições ou ambos na propriedade",
+        fullDescription: "Escolha café da manhã, refeições, ou ambos. Preparamos na propriedade, para sua equipe comer junta sem sair das villas. Os cardápios se adaptam a restrições alimentares.",
         highlights: [
           "Café da manhã diário na propriedade",
           "Catering para o grupo",

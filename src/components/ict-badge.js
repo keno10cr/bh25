@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
@@ -47,14 +47,38 @@ export default function IctBadge() {
   const { language } = useLanguage();
   const t = useTranslation(language);
   const { ref, visible } = useFadeUp();
+  const tipId = useId();
+  const [open, setOpen] = useState(false);
   const caption = t("footer.ictCertified");
+  const tooltip = t("footer.ictTooltip");
+
+  const onKeyDown = (event) => {
+    if (event.key === "Escape") {
+      setOpen(false);
+      return;
+    }
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      setOpen((value) => !value);
+    }
+  };
 
   return (
     <div
       ref={ref}
-      className={[styles.badge, visible ? styles.visible : ""]
+      role="button"
+      tabIndex={0}
+      aria-expanded={open}
+      aria-describedby={tipId}
+      className={[
+        styles.badge,
+        visible ? styles.visible : "",
+        open ? styles.open : "",
+      ]
         .filter(Boolean)
         .join(" ")}
+      onClick={() => setOpen((value) => !value)}
+      onKeyDown={onKeyDown}
     >
       <Image
         src={LOGO.src}
@@ -64,6 +88,9 @@ export default function IctBadge() {
         className={styles.logo}
       />
       <p className={styles.caption}>{caption}</p>
+      <p className={styles.tooltip} id={tipId} role="tooltip">
+        {tooltip}
+      </p>
     </div>
   );
 }

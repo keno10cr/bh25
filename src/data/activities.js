@@ -278,7 +278,7 @@ export const STATIC_ACTIVITIES = [
     duration: "Airport transfer",
     priceKey: "contactUs",
     difficulty: "Easy",
-    groupSize: "Up to 9 passengers",
+    groupSize: "11 seats",
     image: "/activities/all/stariaShuttle.jpg",
     imageAlt:
       "Silver Hyundai Staria passenger van on the rainforest driveway at Blessed House",

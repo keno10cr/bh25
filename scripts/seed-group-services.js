@@ -29,7 +29,7 @@ const SERVICES = [
     groupOnly: false,
     difficulty: "Easy",
     duration: "Airport transfer",
-    groupSize: "Up to 9 passengers",
+    groupSize: "11 seats",
     imagePath: "activities/all/stariaShuttle.jpg",
     imageAlt:
       "Silver Hyundai Staria passenger van on the rainforest driveway at Blessed House",
@@ -122,6 +122,7 @@ function localizedCopy(service) {
     title: en.name || service.slug,
     description: toBlocks(en.fullDescription || en.description, service.slug),
     whatsIncluded: toWhatsIncludedItems(en.highlights, service.slug),
+    groupSize: service.groupSize,
   };
   for (const { lang, suffix } of LOCALES) {
     const page = translations[lang]?.activitiesPage || {};

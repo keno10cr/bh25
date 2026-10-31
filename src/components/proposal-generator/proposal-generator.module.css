@@ -295,7 +295,8 @@
 }
 
 .document {
-  max-width: 900px;
+  /* Matches the PDF content box: A4 width minus the 10mm side margins. */
+  max-width: 190mm;
   margin: 0.5rem auto 2.5rem;
   background: #fff;
   border: 1px solid var(--color-border);
@@ -332,6 +333,7 @@
 .docHeroCopy {
   position: absolute;
   left: 2rem;
+  right: 1.5rem;
   bottom: 1.35rem;
   display: flex;
   align-items: center;
@@ -340,8 +342,9 @@
 }
 
 .docHeroLogo {
-  width: 64px;
+  width: 128px;
   height: auto;
+  flex-shrink: 0;
   object-fit: contain;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
 }
@@ -353,7 +356,8 @@
 }
 
 .docBody {
-  padding: 2.4rem 2.5rem 1.5rem;
+  --doc-pad: 2.5rem;
+  padding: 2.4rem var(--doc-pad) 1.5rem;
   flex: 1 1 auto;
 }
 
@@ -362,6 +366,11 @@
   font-size: clamp(1.55rem, 3vw, 2rem);
   line-height: 1.15;
   color: var(--color-primary);
+}
+
+.docTitleLead,
+.docTitleName {
+  display: block;
 }
 
 .capacity {
@@ -395,6 +404,29 @@
   color: #2a2a2a;
 }
 
+.offerBand {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.85rem 1.35rem;
+  align-items: start;
+  margin: 0 calc(var(--doc-pad) * -1) 1.25rem;
+  padding: 1.05rem var(--doc-pad);
+  background: var(--color-accent);
+  color: var(--color-neutral-dark);
+}
+
+.offerBand h2 {
+  color: #000;
+}
+
+.offerBand p {
+  color: var(--color-neutral-dark);
+}
+
+.offerBand .block {
+  margin-bottom: 0;
+}
+
 .keepTogether,
 .serviceCard,
 .localItem,
@@ -406,7 +438,7 @@
 
 .serviceCard {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: start;
   gap: 0.9rem 1.1rem;
   margin-top: 0.85rem;
@@ -504,7 +536,27 @@
 }
 
 .viewAllWrap {
-  margin: 0.85rem 0 0 !important;
+  margin: 1rem 0 0 !important;
+  text-align: center;
+}
+
+.viewAllButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.35rem;
+  border-radius: 8px;
+  background: var(--color-accent);
+  color: var(--color-neutral-dark);
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+}
+
+.viewAllButton:hover {
+  filter: brightness(0.96);
 }
 
 .localItem p {
@@ -520,36 +572,28 @@
   border-top: 1px solid var(--color-border);
 }
 
-.nextRow {
+.closingGrid {
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
-  gap: 0.75rem 1.25rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem 1.5rem;
   align-items: start;
 }
 
-.nextCopy {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
+.closingCopy {
   min-width: 0;
-}
-
-.nextCopy h2,
-.nextCopy p {
-  margin: 0;
 }
 
 .nextAction {
   display: flex;
-  justify-content: flex-end;
-  min-width: 0;
+  justify-content: center;
+  margin-top: 0.85rem;
 }
 
 .nextButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
   background: var(--color-primary);
   color: #fff;
@@ -559,7 +603,51 @@
   text-align: center;
   text-decoration: none;
   border-radius: 8px;
-  padding: 0.85rem 0.75rem;
+  padding: 0.85rem 1.15rem;
+}
+
+.hostColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  text-align: center;
+}
+
+.hostPhoto {
+  width: min(220px, 100%);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background-color: #e7eee9;
+  background-position: 52% 30%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 12px;
+}
+
+.hostName {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.hostRole {
+  margin: 0.15rem 0 0.7rem;
+  color: var(--color-neutral-muted);
+}
+
+.hostContact {
+  margin: 0.2rem 0 0;
+  line-height: 1.4;
+}
+
+.hostPhoto + .hostContact {
+  margin-top: 0.7rem;
+}
+
+.hostContact a {
+  color: inherit;
+  text-decoration: none;
 }
 
 .nextButton:hover {
@@ -617,24 +705,29 @@
 }
 
 .exporting {
-  width: 900px;
+  /* html2pdf sizes its capture box to the A4 content width. A fixed pixel
+     width wider than that box was clipped on the right. */
+  width: 100%;
+  max-width: none;
   margin: 0;
-  max-width: 900px;
+  overflow: visible;
   border: none;
   border-radius: 0;
   box-shadow: none;
 }
 
 .exporting .docBody {
-  padding: 2.4rem 2.5rem 1.5rem;
+  --doc-pad: 2.5rem;
+  padding: 2.4rem var(--doc-pad) 1.5rem;
 }
 
 .exporting .closingBody {
   padding: 0 2.5rem 1.5rem;
 }
 
-.exporting .serviceCard {
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+.exporting .serviceCard,
+.exporting .offerBand {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .exporting .serviceImage {
@@ -643,8 +736,8 @@
   padding-top: 0;
 }
 
-.exporting .nextRow {
-  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+.exporting .closingGrid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 /*
@@ -710,7 +803,8 @@
   }
 
   .docBody {
-    padding: 1.75rem 1.4rem 1.25rem;
+    --doc-pad: 1.4rem;
+    padding: 1.75rem var(--doc-pad) 1.25rem;
   }
 
   .closingBody {
@@ -727,11 +821,12 @@
     min-height: auto;
   }
 
-  .serviceCard {
+  .serviceCard,
+  .offerBand {
     grid-template-columns: 1fr;
   }
 
-  .nextRow {
+  .closingGrid {
     grid-template-columns: 1fr;
   }
 
@@ -802,7 +897,8 @@
   }
 
   .docBody {
-    padding: 1.15rem 0 0.75rem;
+    --doc-pad: 0rem;
+    padding: 1.15rem var(--doc-pad) 0.75rem;
   }
 
   .docTitle {
@@ -837,8 +933,9 @@
     page-break-inside: avoid;
   }
 
-  .serviceCard {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  .serviceCard,
+  .offerBand {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 
   .serviceImage {
@@ -846,8 +943,8 @@
     aspect-ratio: 16 / 9;
   }
 
-  .nextRow {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+  .closingGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 
   .localGrid {
