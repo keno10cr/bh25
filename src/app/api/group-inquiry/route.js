@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import {
+  buildGroupInquiryEmail,
+  groupPhoneIssue,
+  preferredLanguageCode,
+} from "@/lib/group-inquiry";
 import { createSanityServerClient } from "@/lib/sanity/client";
 
 const escapeHtml = (value) =>
@@ -46,17 +51,11 @@ async function saveGroupSubmission(payload) {
     submittedAt: new Date().toISOString(),
     name: String(payload.contactName || "").trim(),
     email: String(payload.email || "").trim(),
-    message: [
-      `Organization: ${payload.organizationName}`,
-      `Attendees: ${payload.attendees}`,
-      `Target dates:\n${payload.dateRangesText}`,
-    ].join("\n"),
+    phone: String(payload.phone || "").trim(),
+    language: payload.languageCode,
+    message: payload.details,
     subject: "Group Estate Buyout",
-    meta: [
-      `Organization: ${payload.organizationName}`,
-      `Attendees: ${payload.attendees}`,
-      `Target dates:\n${payload.dateRangesText}`,
-    ].join("\n"),
+    meta: payload.details,
   });
 }
 
@@ -87,6 +86,9 @@ export async function POST(request) {
     dateRanges: rawRanges,
     contactName,
     email,
+    phone,
+    notes,
+    language,
     website,
   } = payload || {};
 
@@ -96,9 +98,25 @@ export async function POST(request) {
 
   const dateRanges = normalizeDateRanges(rawRanges);
 
-  if (!organizationName || !attendees || !contactName || !email) {
+  const phoneIssue = groupPhoneIssue(phone);
+  if (!organizationName || !attendees || !contactName || !email || phoneIssue === "required") {
     return NextResponse.json(
       { error: "Missing required fields." },
+      { status: 400 }
+    );
+  }
+
+  if (phoneIssue === "invalid") {
+    return NextResponse.json(
+      { error: "Enter a valid phone number." },
+      { status: 400 }
+    );
+  }
+
+  const groupNotes = String(notes || "").trim();
+  if (groupNotes.length > 2000) {
+    return NextResponse.json(
+      { error: "Group notes are too long." },
       { status: 400 }
     );
   }
@@ -126,6 +144,29 @@ export async function POST(request) {
     )
     .join("");
 
+  const languageCode = preferredLanguageCode(language);
+  const inquiryEmail = buildGroupInquiryEmail({
+    organizationName,
+    attendeeLabel,
+    dateRangesHtml,
+    dateRangesText,
+    contactName,
+    email,
+    phone: String(phone).trim(),
+    language: languageCode,
+    notes: groupNotes,
+  });
+  const details = [
+    `Group / Organization: ${organizationName}`,
+    `Attendees: ${attendeeLabel}`,
+    `Target dates:\n${dateRangesText}`,
+    `Phone / WhatsApp: ${String(phone).trim()}`,
+    `Preferred Language: ${inquiryEmail.languageLabel}`,
+    groupNotes ? `Group Notes:\n${groupNotes}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+
   const resend = new Resend(apiKey);
 
   try {
@@ -138,38 +179,17 @@ export async function POST(request) {
       ],
       reply_to: email,
       subject: `Group Buyout Inquiry: ${String(organizationName).trim()}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1a1a1a;">
-          <h2 style="color: #0a4c3a;">New group estate inquiry from /pvg</h2>
-          <p><strong>Organization:</strong> ${escapeHtml(organizationName)}</p>
-          <p><strong>Estimated attendees:</strong> ${escapeHtml(attendeeLabel)}</p>
-          <p><strong>Target dates:</strong></p>
-          <ul>${dateRangesHtml}</ul>
-          <hr style="border: none; border-top: 1px solid #e5e5dc; margin: 20px 0;" />
-          <p><strong>Contact name:</strong> ${escapeHtml(contactName)}</p>
-          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-        </div>
-      `,
-      text: `
-New group estate inquiry from /pvg
-
-Organization: ${organizationName}
-Estimated attendees: ${attendeeLabel}
-Target dates:
-${dateRangesText}
-
-Contact name: ${contactName}
-Email: ${email}
-      `,
+      html: inquiryEmail.html,
+      text: inquiryEmail.text,
     });
 
     try {
       await saveGroupSubmission({
-        organizationName,
-        attendees: attendeeLabel,
-        dateRangesText,
         contactName,
         email,
+        phone: String(phone).trim(),
+        languageCode,
+        details,
       });
     } catch (storeError) {
       console.error("Group inquiry email sent but Sanity store failed:", storeError);

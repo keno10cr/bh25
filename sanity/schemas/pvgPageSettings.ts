@@ -255,7 +255,7 @@ export const pvgPageSettings = defineType({
     }),
     ...localizedField({
       name: "organizationLabel",
-      title: "Field 1: Organization label",
+      title: "Field 1: Group / Organization label",
       type: "string",
       group: "inquiry",
     }),

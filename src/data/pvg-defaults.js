@@ -31,7 +31,8 @@ export const PVG_PAGE_DEFAULTS = {
   inquirySubmittingLabel: "Sending...",
   inquirySuccessMessage:
     "Thank you. Your request is in. We will follow up by email shortly.",
-  organizationLabel: "Organization Name",
+  organizationLabel: "Group / Organization Name",
+  organizationPlaceholder: "e.g., Jiménez Family, Grace Church",
   attendeesLabel: "Estimated attendees",
   attendeeUnit: "guests",
   datesLabel: "Target dates",
@@ -43,6 +44,12 @@ export const PVG_PAGE_DEFAULTS = {
   calendarFullLabel: "Fully booked",
   contactNameLabel: "Your Name",
   emailLabel: "Contact email",
+  phoneLabel: "Phone / WhatsApp",
+  phoneRequired: "Phone / WhatsApp is required.",
+  phoneInvalid: "Use numbers, spaces, +, -, and parentheses only.",
+  notesLabel: "Tell us a bit about your group (optional)",
+  notesPlaceholder:
+    "e.g., 25 people total split into 5 family units, bringing kids/grandparents, looking for a weekend retreat",
   hostImage: "/FloribelFadelBH.jpg",
   hostImageAlt: "Floribel Fadell smiling at the Blessed House reception",
   hostQuote:

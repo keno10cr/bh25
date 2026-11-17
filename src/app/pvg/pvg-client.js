@@ -18,6 +18,7 @@ import {
   PVG_PAGE_DEFAULTS,
 } from "@/data/pvg-defaults";
 import { IctBadgeBand } from "@/components/ict-badge";
+import { groupPhoneIssue } from "@/lib/group-inquiry";
 import { WELCOME_VIDEO_SRC } from "@/lib/welcome-video";
 import styles from "./pvg.module.css";
 
@@ -30,6 +31,8 @@ const EMPTY_FORM = {
   attendees: "",
   contactName: "",
   email: "",
+  phone: "",
+  notes: "",
   website: "",
 };
 
@@ -400,31 +403,37 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
   const validate = () => {
     const next = {};
     if (!formData.organizationName.trim()) {
-      next.organizationName = "Organization name is required.";
+      next.organizationName = t("pvg.organizationRequired");
     }
     if (!ATTENDEE_RANGE_IDS.includes(formData.attendees)) {
-      next.attendees = "Choose your group size.";
+      next.attendees = t("pvg.attendeesRequired");
     }
 
     const completeRanges = visibleRanges.filter((r) => r.checkIn && r.checkOut);
     if (completeRanges.length === 0) {
-      next.dateRanges = "Select at least one date range.";
+      next.dateRanges = t("pvg.datesRequired");
     } else {
       const incomplete = visibleRanges.some(
         (r) => (r.checkIn && !r.checkOut) || (!r.checkIn && r.checkOut)
       );
       if (incomplete) {
-        next.dateRanges = "Finish each open date range.";
+        next.dateRanges = t("pvg.datesIncomplete");
       }
     }
 
     if (!formData.contactName.trim()) {
-      next.contactName = "Contact name is required.";
+      next.contactName = t("pvg.contactNameRequired");
     }
     if (!formData.email.trim()) {
-      next.email = "Email is required.";
+      next.email = t("pvg.emailRequired");
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      next.email = "Enter a valid email.";
+      next.email = t("pvg.emailInvalid");
+    }
+    const phoneIssue = groupPhoneIssue(formData.phone);
+    if (phoneIssue === "required") {
+      next.phone = t("pvg.phoneRequired");
+    } else if (phoneIssue === "invalid") {
+      next.phone = t("pvg.phoneInvalid");
     }
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -450,11 +459,12 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
         body: JSON.stringify({
           ...formData,
           dateRanges,
+          language,
         }),
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {
-        setFormError(data.error || "Something went wrong. Please try again.");
+        setFormError(data.error || t("pvg.formError"));
         return;
       }
       setSubmitted(true);
@@ -463,7 +473,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
       setRangeCount(1);
       formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch {
-      setFormError("Something went wrong. Please try again.");
+      setFormError(t("pvg.formError"));
     } finally {
       setLoading(false);
     }
@@ -922,6 +932,7 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
                       name="organizationName"
                       value={formData.organizationName}
                       onChange={handleChange}
+                      placeholder={pageText("organizationPlaceholder")}
                       autoComplete="organization"
                       aria-invalid={Boolean(errors.organizationName)}
                     />
@@ -1040,28 +1051,28 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
                     ) : null}
                   </div>
 
-                  <div className={styles.formRow}>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="contactName">
-                        <StepBadge n={4} />
-                        <span>{pageText("contactNameLabel")}</span>
-                        <span className={styles.required}>*</span>
-                      </label>
-                      <input
-                        id="contactName"
-                        name="contactName"
-                        value={formData.contactName}
-                        onChange={handleChange}
-                        autoComplete="name"
-                        aria-invalid={Boolean(errors.contactName)}
-                      />
-                      {errors.contactName ? (
-                        <span className={styles.fieldError}>
-                          {errors.contactName}
-                        </span>
-                      ) : null}
-                    </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="contactName">
+                      <StepBadge n={4} />
+                      <span>{pageText("contactNameLabel")}</span>
+                      <span className={styles.required}>*</span>
+                    </label>
+                    <input
+                      id="contactName"
+                      name="contactName"
+                      value={formData.contactName}
+                      onChange={handleChange}
+                      autoComplete="name"
+                      aria-invalid={Boolean(errors.contactName)}
+                    />
+                    {errors.contactName ? (
+                      <span className={styles.fieldError}>
+                        {errors.contactName}
+                      </span>
+                    ) : null}
+                  </div>
 
+                  <div className={styles.formRow}>
                     <div className={styles.formGroup}>
                       <label htmlFor="email">
                         <StepBadge n={5} />
@@ -1081,6 +1092,43 @@ export default function PvgClient({ mapPin, galleryImages = [], copy = null }) {
                         <span className={styles.fieldError}>{errors.email}</span>
                       ) : null}
                     </div>
+
+                    <div className={styles.formGroup}>
+                      <label htmlFor="phone">
+                        <StepBadge n={6} />
+                        <span>{pageText("phoneLabel")}</span>
+                        <span className={styles.required}>*</span>
+                      </label>
+                      <input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        inputMode="tel"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        autoComplete="tel"
+                        aria-invalid={Boolean(errors.phone)}
+                      />
+                      {errors.phone ? (
+                        <span className={styles.fieldError}>{errors.phone}</span>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="notes">
+                      <StepBadge n={7} />
+                      <span>{pageText("notesLabel")}</span>
+                    </label>
+                    <textarea
+                      id="notes"
+                      name="notes"
+                      rows={4}
+                      maxLength={2000}
+                      value={formData.notes}
+                      onChange={handleChange}
+                      placeholder={pageText("notesPlaceholder")}
+                    />
                   </div>
 
                   <div className={styles.formFooter}>
