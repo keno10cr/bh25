@@ -17,7 +17,7 @@ import {
 } from "@/lib/sanity/content";
 import { SITE_DESCRIPTION, SITE_URL } from "@/lib/siteMetadata";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata = {
   alternates: { canonical: "/" },

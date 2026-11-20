@@ -8,7 +8,7 @@ import {
 } from "@/lib/sanity/content";
 import { SITE_NAME, SITE_URL } from "@/lib/siteMetadata";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const slugs = await getActivitySlugs();

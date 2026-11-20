@@ -1,7 +1,7 @@
 import { getGalleryPageSettings } from "@/lib/sanity/content";
 import GalleryClient from "./gallery-client";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata = {
   title: "Photo Gallery, Villas and Puerto Viejo",

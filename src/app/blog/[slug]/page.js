@@ -4,7 +4,7 @@ import { blogImageAlt } from "@/lib/blog-image-alt";
 import { SITE_NAME, SITE_URL } from "@/lib/siteMetadata";
 import BlogArticle from "./article";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const slugs = await getBlogSlugs();

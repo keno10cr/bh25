@@ -17,7 +17,7 @@ export const metadata = {
   },
 };
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 const TRANSLATION_KEY_BY_SLUG = Object.fromEntries(
   STATIC_ACTIVITIES.filter((item) => item.slug && item.translationKey).map(

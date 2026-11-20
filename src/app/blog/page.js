@@ -1,7 +1,7 @@
 import { getBlogPageSettings, getBlogPosts } from "@/lib/sanity/content";
 import BlogIndex from "./blog-index";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata = {
   title: "Blog, Puerto Viejo Travel Notes",

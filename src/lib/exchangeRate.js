@@ -3,9 +3,11 @@
  * Ministerio de Hacienda. Fallback: open.er-api.com market rate.
  */
 
+import { EXCHANGE_RATE_REVALIDATE_SECONDS } from "@/lib/cache";
+
 const HACIENDA_URL = "https://api.hacienda.go.cr/indicadores/tc/dolar";
 const FALLBACK_URL = "https://open.er-api.com/v6/latest/USD";
-const REVALIDATE_SECONDS = 3600;
+const REVALIDATE_SECONDS = EXCHANGE_RATE_REVALIDATE_SECONDS;
 
 async function fetchJson(url) {
   const response = await fetch(url, {

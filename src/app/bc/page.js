@@ -14,7 +14,7 @@ export const metadata = {
   },
 };
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export default async function BusinessCardPage() {
   const footer = await getFooterSettings();

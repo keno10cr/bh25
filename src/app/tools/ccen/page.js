@@ -3,7 +3,7 @@ import { loadProposalData } from "@/lib/proposalData";
 
 export const metadata = { title: "CCEN English flyer" };
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export default async function ToolsCcenPage() {
   const { activities, phones } = await loadProposalData();

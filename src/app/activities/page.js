@@ -5,7 +5,7 @@ import {
 } from "@/lib/sanity/content";
 import ActivitiesClient from "./activities-client";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata = {
   title: "Things to Do in Puerto Viejo",

@@ -6,7 +6,7 @@ import {
 } from "@/lib/sanity/content";
 import VillasClient from "./villas-client";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata = {
   title: "Villas and Bungalows in Puerto Viejo",

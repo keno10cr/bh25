@@ -1,4 +1,8 @@
 import { NextResponse } from "next/server";
+import {
+  AVAILABILITY_S_MAXAGE_SECONDS,
+  AVAILABILITY_SWR_SECONDS,
+} from "@/lib/cache";
 import { createSanityReadClient } from "@/lib/sanity/client";
 import { toIsoDateList, tomorrowIsoDate } from "@/lib/availabilityDates";
 import { ensureAirbnbCalendarsFresh } from "@/lib/ical/syncAirbnb";
@@ -31,7 +35,13 @@ const PROPERTY_QUERY = `
 }
 `;
 
+/**
+ * Dynamic on purpose: calendar payloads must not enter the ISR page cache.
+ * CDN Cache-Control below absorbs repeat traffic without ISR Write Units.
+ */
 export const dynamic = "force-dynamic";
+
+const AVAILABILITY_CACHE_CONTROL = `public, s-maxage=${AVAILABILITY_S_MAXAGE_SECONDS}, stale-while-revalidate=${AVAILABILITY_SWR_SECONDS}`;
 
 export async function GET(_request, context) {
   try {
@@ -62,17 +72,24 @@ export async function GET(_request, context) {
 
     const guestsMax = sumHouseArrangementCapacity(property.houseArrangements);
 
-    return NextResponse.json({
-      disabledDates: Array.from(calendar.disabledNights).sort(),
-      pricingMap,
-      defaultNightlyRate: getDefaultPublishedNightly(property),
-      minimumNights: property.minimumNights ?? null,
-      baseGuestCount: property.baseGuestCount ?? null,
-      extraGuestFeePerNight: property.extraGuestFeePerNight ?? null,
-      cleaningFee: property.cleaningFee ?? null,
-      guestsMax: guestsMax || null,
-      minCheckInDate: tomorrowIsoDate(),
-    });
+    return NextResponse.json(
+      {
+        disabledDates: Array.from(calendar.disabledNights).sort(),
+        pricingMap,
+        defaultNightlyRate: getDefaultPublishedNightly(property),
+        minimumNights: property.minimumNights ?? null,
+        baseGuestCount: property.baseGuestCount ?? null,
+        extraGuestFeePerNight: property.extraGuestFeePerNight ?? null,
+        cleaningFee: property.cleaningFee ?? null,
+        guestsMax: guestsMax || null,
+        minCheckInDate: tomorrowIsoDate(),
+      },
+      {
+        headers: {
+          "Cache-Control": AVAILABILITY_CACHE_CONTROL,
+        },
+      }
+    );
   } catch (error) {
     console.error("[availability]", error);
     return NextResponse.json(

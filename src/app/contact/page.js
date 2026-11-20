@@ -5,7 +5,7 @@ import {
 } from "@/lib/sanity/content";
 import ContactClient from "./contact-client";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata = {
   title: "Contact and Bookings",
