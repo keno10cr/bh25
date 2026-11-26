@@ -32,6 +32,7 @@ import {
   usdToCrc,
 } from "@/lib/currency";
 import { resolveLengthOfStayDiscount, stayDiscountPercents } from "@/lib/stayDiscounts";
+import { SITE_URL } from "@/lib/siteMetadata";
 import { ADD_ON_PRESETS, QUOTE_COPY } from "./copy";
 import styles from "./group-quote-tool.module.css";
 
@@ -692,7 +693,8 @@ export default function GroupQuoteTool({
       const html2pdf = (await import("html2pdf.js")).default;
       await html2pdf()
         .set({
-          margin: [8, 8, 10, 8],
+          margin: [6, 8, 6, 8],
+          enableLinks: true,
           filename: `${t.filename}-${safeFilename(
             client.groupName,
             lang === "es" ? "grupo" : "group"
@@ -1632,21 +1634,44 @@ export default function GroupQuoteTool({
                 priceDisplay === "net" ? row.netSubtotal : row.afterStayDiscount;
               const villaStayDiscount = priceDisplay === "net" ? null : row.stayDiscount;
               const exceptions = villaExceptions(row);
+              const villaHref = row.property.slug
+                ? `${SITE_URL}/villas/${row.property.slug}`
+                : "";
+              const photo = row.property.photo ? (
+                <img
+                  src={row.property.photo}
+                  alt={row.property.photoAlt}
+                  crossOrigin="anonymous"
+                  className={styles.docVillaPhoto}
+                />
+              ) : (
+                <div className={styles.docVillaPhoto} />
+              );
               return (
                 <div key={row.property.id} className={styles.docBlock}>
                   <section className={styles.docVilla}>
-                    {row.property.photo ? (
-                      <img
-                        src={row.property.photo}
-                        alt={row.property.photoAlt}
-                        crossOrigin="anonymous"
-                        className={styles.docVillaPhoto}
-                      />
+                    {villaHref ? (
+                      <a
+                        href={villaHref}
+                        className={styles.docVillaPhotoLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {photo}
+                      </a>
                     ) : (
-                      <div className={styles.docVillaPhoto} />
+                      photo
                     )}
                     <div className={styles.docVillaBody}>
-                      <h3>{row.property.name}</h3>
+                      <h3>
+                        {villaHref ? (
+                          <a href={villaHref} target="_blank" rel="noopener noreferrer">
+                            {row.property.name}
+                          </a>
+                        ) : (
+                          row.property.name
+                        )}
+                      </h3>
                       <p className={styles.docVillaMeta}>
                         {t.sleeps(row.property.guestsMax, row.guests)}
                       </p>
