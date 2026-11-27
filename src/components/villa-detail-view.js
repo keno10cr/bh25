@@ -25,6 +25,7 @@ import {
   resolvePetsMax,
   toRoman,
 } from "@/lib/houseRules";
+import { trackVillaGalleryOpened } from "@/lib/posthog";
 import styles from "./villa-detail.module.css";
 
 export default function VillaDetailView({
@@ -87,6 +88,12 @@ export default function VillaDetailView({
   const openGallery = (index) => {
     setModalIndex(index);
     setIsModalOpen(true);
+    trackVillaGalleryOpened({
+      villa_id: property?.id || rawVilla?.id || null,
+      villa_slug: property?.slug || rawVilla?.slug || null,
+      villa_name: rawVilla?.name || property?.name || null,
+      image_index: index,
+    });
   };
 
   const arrangements = property?.houseArrangements || [];

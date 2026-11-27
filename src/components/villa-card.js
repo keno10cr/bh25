@@ -9,7 +9,10 @@ import { AmenityIcon, CheckIcon } from "@/components/amenity-icon";
 import { mergeVillaGallery, villaImageCaption } from "@/lib/villa-gallery";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
-import { trackAirbnbRedirectClicked } from "@/lib/posthog";
+import {
+  trackAirbnbRedirectClicked,
+  trackVillaGalleryOpened,
+} from "@/lib/posthog";
 import { resolvePetsMax } from "@/lib/houseRules";
 import { villaName } from "@/lib/localized";
 import styles from "./villa-card.module.css";
@@ -62,6 +65,12 @@ export default function VillaCard({ villa: rawVilla, layout = "stacked", reverse
           onImageClick={(index) => {
             setModalIndex(index);
             setIsModalOpen(true);
+            trackVillaGalleryOpened({
+              villa_id: villa.id,
+              villa_slug: villa.slug || null,
+              villa_name: rawVilla.name,
+              image_index: index,
+            });
           }}
         />
       </div>

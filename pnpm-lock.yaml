@@ -11,6 +11,9 @@ importers:
       '@maptiler/sdk':
         specifier: ^4.1.0
         version: 4.1.0(eslint@10.8.1(jiti@2.7.0))
+      '@microsoft/clarity':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@portabletext/react':
         specifier: ^8.0.0
         version: 8.0.0(react@19.2.0)
@@ -1714,6 +1717,9 @@ packages:
   '@mdn/browser-compat-data@6.1.5':
     resolution: {integrity: sha512-PzdZZzRhcXvKB0begee28n5lvwAcinGKYuLZOVxHAZm+n7y01ddEGfdS1ZXRuVcV+ndG6mSEAE8vgudom5UjYg==}
 
+  '@microsoft/clarity@1.0.2':
+    resolution: {integrity: sha512-9EZYROFpJxEGmQpHvUFqvD3ZJ7QQSqnibYSWmS+1xusoZfG1QQ1/Al9yVBBc11DWMbJrs1pe1hLT273it/skJg==}
+
   '@module-federation/dts-plugin@2.8.2':
     resolution: {integrity: sha512-pwZFW8b2LZTymMMC+o2M9xMXDIQKAHGtCRqj/IkOp0jHRYrKjK9cma9xoUNst8/R3sEn878/i9wgv/43BnCEyg==}
     peerDependencies:
@@ -2164,12 +2170,12 @@ packages:
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
-  '@sanity-labs/design-tokens@0.0.2-alpha.4':
-    resolution: {integrity: sha512-+i7GXix4Akt34VDWgSM1Lpq8Hxf8SH8022uNsDRXSNuAqQMjKVGWLItAyc2TyfWVwWZLhsCF3lj5tdW7cecDxQ==}
+  '@sanity-labs/design-tokens@0.0.2-alpha.12':
+    resolution: {integrity: sha512-SuaCvywAoZ0gbPFKI5B+TinSQaBiVlQlCTDvZOvCFwUioEngkfYxDhIeh1S8fV9lNQ+l3suF8xAlRPEYxyh7nA==}
     engines: {node: '>=20.19 <22 || >=22.12'}
 
-  '@sanity-labs/design-tokens@0.0.2-alpha.7':
-    resolution: {integrity: sha512-gcOmtA4g7JVevk47ZsjTVqGsIbWl9lsXUodu4bpHEhdBYInHPlT5JkWnylmKnoR/tpo2zh6MZgX/Y9B8PUCpkQ==}
+  '@sanity-labs/design-tokens@0.0.2-alpha.4':
+    resolution: {integrity: sha512-+i7GXix4Akt34VDWgSM1Lpq8Hxf8SH8022uNsDRXSNuAqQMjKVGWLItAyc2TyfWVwWZLhsCF3lj5tdW7cecDxQ==}
     engines: {node: '>=20.19 <22 || >=22.12'}
 
   '@sanity-labs/oclif-plugin-skills-flag@0.2.1':
@@ -2413,8 +2419,8 @@ packages:
       react-dom: ^19.2
       styled-components: ^6.1
 
-  '@sanity/ui@5.0.0-alpha.17':
-    resolution: {integrity: sha512-2p93/slbx1oYfakV5ysbxCQ5iGogOmNXq8MySbpldXLdxxQrqHbXyiJOgGoTTFjelPqZuW9RlhT838NkHPZbyA==}
+  '@sanity/ui@5.0.0-alpha.28':
+    resolution: {integrity: sha512-QWdGhu6vIzT5MXcb6nNDihLtZAb8BXiPfM7B5AeEorIW/J3QqNECVBTZRgce+sI8MCM5GdGTRTlRynG+4at+KQ==}
     engines: {node: '>=20.19 <22 || >=22.12'}
     hasBin: true
     peerDependencies:
@@ -7147,6 +7153,8 @@ snapshots:
 
   '@mdn/browser-compat-data@6.1.5': {}
 
+  '@microsoft/clarity@1.0.2': {}
+
   '@module-federation/dts-plugin@2.8.2(typescript@5.7.3)':
     dependencies:
       '@module-federation/error-codes': 2.8.2
@@ -7589,9 +7597,9 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@sanity-labs/design-tokens@0.0.2-alpha.4': {}
+  '@sanity-labs/design-tokens@0.0.2-alpha.12': {}
 
-  '@sanity-labs/design-tokens@0.0.2-alpha.7': {}
+  '@sanity-labs/design-tokens@0.0.2-alpha.4': {}
 
   '@sanity-labs/oclif-plugin-skills-flag@0.2.1(@oclif/core@4.13.5)':
     dependencies:
@@ -8178,9 +8186,9 @@ snapshots:
       styled-components: 6.5.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       use-effect-event: 2.0.3(react@19.2.0)
 
-  '@sanity/ui@5.0.0-alpha.17(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@sanity/ui@5.0.0-alpha.28(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
-      '@sanity-labs/design-tokens': 0.0.2-alpha.7
+      '@sanity-labs/design-tokens': 0.0.2-alpha.12
       '@sanity/icons': 5.2.1(react@19.2.0)
       clsx: 2.1.1
       comment-json: 5.0.0
@@ -10606,7 +10614,7 @@ snapshots:
       speakingurl: 14.0.1
       styled-components: 6.5.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       swr: 2.5.1(react@19.2.0)
-      ui5: '@sanity/ui@5.0.0-alpha.17(react-dom@19.2.0(react@19.2.0))(react@19.2.0)'
+      ui5: '@sanity/ui@5.0.0-alpha.28(react-dom@19.2.0(react@19.2.0))(react@19.2.0)'
       urlpattern-polyfill: 10.1.0
       use-device-pixel-ratio: 1.1.2(react@19.2.0)
       use-effect-event: 2.0.3(react@19.2.0)

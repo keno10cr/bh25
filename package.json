@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@maptiler/sdk": "^4.1.0",
+    "@microsoft/clarity": "^1.0.2",
     "@portabletext/react": "^8.0.0",
     "@sanity/image-url": "^2.1.1",
     "@sanity/ui": "^4.0.3",

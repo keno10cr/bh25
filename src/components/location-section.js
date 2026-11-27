@@ -6,6 +6,7 @@ import { useTranslation } from "@/lib/translations";
 import CmsText from "@/components/cms-text";
 import { resolveCopy } from "@/lib/cms-field";
 import { useSmoothParallax } from "@/lib/parallax-motion";
+import { trackAddressCopied } from "@/lib/posthog";
 import styles from "./location-section.module.css";
 
 const DIRECTIONS_URL =
@@ -65,6 +66,10 @@ export default function LocationSection({ copy }) {
       field.remove();
     }
     setCopied(true);
+    trackAddressCopied({
+      address: mapsQuery.value,
+      current_language: language,
+    });
     clearTimeout(copiedTimerRef.current);
     copiedTimerRef.current = setTimeout(() => setCopied(false), 2000);
   };

@@ -34,6 +34,7 @@ import {
   stayDiscountPercents,
 } from "@/lib/stayDiscounts";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { trackBookingRequestClicked } from "@/lib/posthog";
 import styles from "./property-booking-sidebar.module.css";
 
 const CURRENCY_STORAGE_KEY = "blessedhouse-currency";
@@ -634,7 +635,22 @@ export default function PropertyBookingSidebar({
         ) : null}
 
         {canReserve ? (
-          <Link className={styles.primaryBtn} href={reserveHref}>
+          <Link
+            className={styles.primaryBtn}
+            href={reserveHref}
+            onClick={() =>
+              trackBookingRequestClicked({
+                villa_id: property?.id || null,
+                villa_slug: property?.slug || null,
+                villa_name: property?.name || null,
+                check_in: checkIn,
+                check_out: checkOut,
+                nights,
+                guests: getTotalHumanGuests(guests),
+                currency,
+              })
+            }
+          >
             Request Booking
           </Link>
         ) : (

@@ -33,6 +33,10 @@ import { useTranslation } from "@/lib/translations";
 import { galleryImageUrl } from "@/lib/villa-gallery";
 import { villaName } from "@/lib/localized";
 import { stayDiscountLabel } from "@/lib/stayDiscounts";
+import {
+  trackBookingRequestSubmitted,
+  trackCheckoutStepViewed,
+} from "@/lib/posthog";
 import styles from "./checkout.module.css";
 
 function interpolate(template, values = {}) {
@@ -192,6 +196,21 @@ export default function CheckoutClient({
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentStep, success]);
 
+  useEffect(() => {
+    if (success) return;
+    trackCheckoutStepViewed({
+      step: currentStep,
+      villa_id: property?.id || null,
+      villa_slug: property?.slug || null,
+      villa_name: propertyName,
+      check_in: initialCheckIn,
+      check_out: initialCheckOut,
+      nights,
+    });
+    // Intentionally track when the step changes, not on every prop refresh.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentStep, success]);
+
   const propertyHref = `/villas/${property.slug}`;
 
   const handleBack = () => {
@@ -275,6 +294,16 @@ export default function CheckoutClient({
 
       setConfirmationCode(data.confirmationCode || "");
       setSuccess(true);
+      trackBookingRequestSubmitted({
+        villa_id: property?.id || null,
+        villa_slug: property?.slug || null,
+        villa_name: propertyName,
+        check_in: initialCheckIn,
+        check_out: initialCheckOut,
+        nights,
+        total: priceSummary.total,
+        currency: priceSummary.currency,
+      });
     } catch (error) {
       setSubmitError(error.message || t("checkout.submitError"));
     } finally {

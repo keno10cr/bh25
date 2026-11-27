@@ -109,6 +109,109 @@ export function trackLanguageSwitched({ previous_language, new_language }) {
   });
 }
 
+/** Homepage location section: guest copied the Maps address. */
+export function trackAddressCopied({ address, current_language }) {
+  capturePostHogEvent("address_copied", {
+    address,
+    current_language,
+  });
+}
+
+/** Villa page: guest opened the photo gallery lightbox. */
+export function trackVillaGalleryOpened({
+  villa_id = null,
+  villa_slug = null,
+  villa_name = null,
+  image_index = 0,
+}) {
+  capturePostHogEvent("villa_gallery_opened", {
+    villa_id,
+    villa_slug,
+    villa_name,
+    image_index,
+  });
+}
+
+/** Site gallery page: guest opened a photo. */
+export function trackGalleryImageOpened({
+  image_index,
+  image_label = null,
+  image_key = null,
+}) {
+  capturePostHogEvent("gallery_image_opened", {
+    image_index,
+    image_label,
+    image_key,
+  });
+}
+
+/** Villa booking sidebar: guest clicked Request Booking → checkout. */
+export function trackBookingRequestClicked({
+  villa_id = null,
+  villa_slug = null,
+  villa_name = null,
+  check_in = null,
+  check_out = null,
+  nights = null,
+  guests = null,
+  currency = null,
+}) {
+  capturePostHogEvent("booking_request_clicked", {
+    villa_id,
+    villa_slug,
+    villa_name,
+    check_in,
+    check_out,
+    nights,
+    guests,
+    currency,
+  });
+}
+
+/** Checkout wizard step (1 = guest info, 2 = review / submit). */
+export function trackCheckoutStepViewed({
+  step,
+  villa_id = null,
+  villa_slug = null,
+  villa_name = null,
+  check_in = null,
+  check_out = null,
+  nights = null,
+}) {
+  capturePostHogEvent("checkout_step_viewed", {
+    step,
+    villa_id,
+    villa_slug,
+    villa_name,
+    check_in,
+    check_out,
+    nights,
+  });
+}
+
+/** Checkout: booking request successfully sent to the host. */
+export function trackBookingRequestSubmitted({
+  villa_id = null,
+  villa_slug = null,
+  villa_name = null,
+  check_in = null,
+  check_out = null,
+  nights = null,
+  total = null,
+  currency = null,
+}) {
+  capturePostHogEvent("booking_request_submitted", {
+    villa_id,
+    villa_slug,
+    villa_name,
+    check_in,
+    check_out,
+    nights,
+    total,
+    currency,
+  });
+}
+
 export async function capturePostHogPageview(url) {
   const posthog = await initPostHog();
   if (posthog && typeof posthog.capture === "function") {

@@ -6,6 +6,7 @@ import CmsText from "@/components/cms-text";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/translations";
 import { resolveCopy } from "@/lib/cms-field";
+import { trackGalleryImageOpened } from "@/lib/posthog";
 import styles from "./gallery.module.css";
 
 function galleryLabel(image, t) {
@@ -46,6 +47,12 @@ export default function GalleryClient({ copy }) {
     setCurrentImageIndex(imageIndex);
     setIsModalOpen(true);
     document.body.style.overflow = "hidden";
+    const image = galleryImages[imageIndex];
+    trackGalleryImageOpened({
+      image_index: imageIndex,
+      image_label: galleryLabel(image, t) || null,
+      image_key: image?.translationKey || image?.alt || null,
+    });
   };
 
   const closeModal = () => {
